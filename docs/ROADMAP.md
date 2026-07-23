@@ -79,7 +79,11 @@ requiere trabajo de producto.
   procesadas sin fallos y sin candidatos el día de revisión.
 - **Hecho:** descarte de la familia `sedelectronica.es/board` donde
   `robots.txt` prohíbe `/board`; no se fuerza ni se evita esa restricción.
-- **Pendiente:** ampliar los 24 ayuntamientos restantes por formatos
+- **Hecho:** segunda cohorte municipal basada exclusivamente en las portadas
+  permitidas de 13 sedes `sedelectronica.es`; 37 entradas live, cero fallos y
+  cero candidatos el día de revisión. Las cookies de sesión necesarias para
+  sus redirecciones son efímeras y exclusivas del cliente del radar.
+- **Pendiente:** ampliar los 11 ayuntamientos restantes por formatos
   reutilizables, siempre con evaluación jurídica/técnica y fixture por formato.
 - **Pendiente:** revalidar PCSP: el último smoke recibió una denegación WAF en
   HTML con HTTP 200. El lector la rechaza explícitamente como no-ZIP.
@@ -118,7 +122,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 78/78 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 80/80 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
@@ -146,7 +150,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 78/78 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 80/80 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

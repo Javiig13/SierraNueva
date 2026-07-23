@@ -151,6 +151,38 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Parser_ReadsOnlyTheAllowedMunicipalHomepageNoticeTable()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "municipal-home",
+            Name = "Sede municipal",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.MunicipalNoticeBoard,
+            Format = OpportunityFeedFormat.Html,
+            ItemSelectors = [".AdvertisementBoardHomeListPanel tr"],
+            FixedMunicipality = "Navacerrada",
+            MaxItems = 10
+        };
+        byte[] content = await File.ReadAllBytesAsync(
+            FixturePath("sede-electronica-home.html"));
+
+        IReadOnlyList<OpportunityFeedItem> items = new OpportunityFeedParser().Parse(
+            source,
+            content,
+            new("https://aytonavacerrada.sedelectronica.es/"),
+            FixtureDate);
+
+        Assert.Equal(2, items.Count);
+        Assert.All(
+            items,
+            item => Assert.StartsWith(
+                "https://aytonavacerrada.sedelectronica.es/preview-document/",
+                item.OfficialUrl,
+                StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task Pipeline_FiltersNoisePersistsPrivatelyAndPreservesReview()
     {
         string directory = CreateTempDirectory();
@@ -185,17 +217,29 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(9, first.Run.NewCandidates);
+            Assert.Equal(22, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
+                    "Becerril de la Sierra",
+                    "Cabanillas de la Sierra",
                     "Collado Villalba",
+                    "El Boalo",
+                    "El Escorial",
+                    "Fresnedillas de la Oliva",
                     "Galapagar",
+                    "Hoyo de Manzanares",
+                    "La Cabrera",
                     "Los Molinos",
+                    "Manzanares el Real",
                     "Miraflores de la Sierra",
                     "Moralzarzal",
+                    "Navacerrada",
                     "San Lorenzo de El Escorial",
-                    "Soto del Real"
+                    "Santa María de la Alameda",
+                    "Soto del Real",
+                    "Torrelodones",
+                    "Zarzalejo"
                 ],
                 first.State.Candidates
                     .Select(candidate => candidate.Municipality)
@@ -221,7 +265,7 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(9, second.Run.UpdatedCandidates);
+            Assert.Equal(22, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);

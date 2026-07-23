@@ -138,10 +138,11 @@ tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
-El radar sigue el mismo principio. `config/discovery-sources.json` usa nueve
+El radar sigue el mismo principio. `config/discovery-sources.json` usa 22
 fuentes con fixtures y es completamente offline.
 `config/discovery-sources.live.json` habilita de forma explícita los cuatro
-canales centrales y una primera cohorte de cinco tablones municipales:
+canales centrales y 18 fuentes municipales: cinco tablones `eAdmin` y 13
+portadas públicas de sedes `sedelectronica.es`:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
@@ -340,9 +341,10 @@ sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- El radar cubre cuatro canales centrales y cinco tablones municipales
-  `eAdmin`. Quedan 24 ayuntamientos por evaluar o integrar; algunos portales
-  comunes no se pueden automatizar porque su `robots.txt` bloquea el tablón.
+- El radar cubre cuatro canales centrales y 18 municipios: cinco tablones
+  `eAdmin` y 13 portadas públicas de sedes `sedelectronica.es`. Quedan 11
+  ayuntamientos por evaluar o integrar. Las portadas muestran únicamente los
+  anuncios más recientes y no sustituyen al tablón histórico bloqueado.
 - BOCM dispone de backfill oficial por calendario y sumario XML. PCSP debe
   revalidarse antes de operación porque su WAF devolvió HTML con HTTP 200 en el
   último smoke; el fallo queda aislado y no se intenta evadir.
@@ -358,5 +360,7 @@ decidido el nombre final del repositorio.
 
 SierraNueva se identifica, respeta `robots.txt`, limita frecuencia y tamaño,
 no persiste cookies, no republica HTML completo ni imágenes y no sortea
-protecciones. Que una página sea técnicamente accesible no implica permiso
-para reutilizarla: revisa siempre las condiciones de la fuente.
+protecciones. El radar puede conservar en memoria una cookie pública de sesión
+durante las redirecciones de una sede, pero nunca la escribe en disco. Que una
+página sea técnicamente accesible no implica permiso para reutilizarla: revisa
+siempre las condiciones de la fuente.

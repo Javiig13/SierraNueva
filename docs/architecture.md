@@ -86,11 +86,13 @@ El estado privado conserva dos generaciones atómicas de
 `discover-opportunities` lee un catálogo independiente. La configuración
 predeterminada usa fixtures; el perfil live debe indicarse expresamente. El
 lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom, bloques HTML
-acotados por selector, el calendario/sumario XML de BOCM y tablones `eAdmin`.
+acotados por selector, el calendario/sumario XML de BOCM, tablones `eAdmin` y
+portadas públicas de sedes electrónicas.
 BOCM se recorre por día: la página de calendario descubre el XML oficial de la
 edición y los días sin boletín no producen entradas. Los tablones municipales
 usan una única página, extraen solo enlaces de detalle y fijan un municipio
-validado por configuración.
+validado por configuración. En `sedelectronica.es` solo se consulta la portada
+permitida por `robots.txt`; nunca se accede al tablón `/board` bloqueado.
 
 Una entrada solo se convierte en candidato si contiene un municipio del
 catálogo, una señal administrativa y contexto inmobiliario. Las exclusiones
@@ -137,7 +139,9 @@ preparado para que una fase futura alimente notificaciones.
 - Resolución DNS validada al abrir cada conexión; una respuesta mixta o no
   pública se rechaza y la conexión se fija a una IP ya comprobada.
 - Sin certificados inválidos, cookies persistentes ni ejecución de scripts
-  descargados.
+  descargados. El cliente aislado del radar admite cookies públicas de sesión
+  en memoria para completar redirecciones, sin compartirlas con el crawler ni
+  escribirlas en estado.
 - Límite de redirecciones, respuesta HTML y PDF.
 - JSON con `System.Text.Json`, sin deserialización polimórfica arbitraria.
 - Texto de evidencia reducido y normalizado.

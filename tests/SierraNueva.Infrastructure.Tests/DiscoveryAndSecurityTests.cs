@@ -106,6 +106,23 @@ public sealed class DiscoveryAndSecurityTests
         Assert.NotNull(factory.Create(5).ConnectCallback);
     }
 
+    [Fact]
+    public void DnsSafeHandler_UsesSessionCookiesOnlyWhenRequested()
+    {
+        DnsRebindingSafeHandlerFactory factory = new(new StubDnsResolver(
+            IPAddress.Parse("8.8.8.8")));
+
+        using SocketsHttpHandler defaultHandler = factory.Create(5);
+        using SocketsHttpHandler sessionHandler = factory.Create(
+            5,
+            useSessionCookies: true);
+
+        Assert.False(defaultHandler.UseCookies);
+        Assert.True(sessionHandler.UseCookies);
+        Assert.Empty(defaultHandler.CookieContainer.GetAllCookies());
+        Assert.Empty(sessionHandler.CookieContainer.GetAllCookies());
+    }
+
     private sealed class StubDnsResolver(params IPAddress[] addresses) : IDnsResolver
     {
         public Task<IPAddress[]> GetHostAddressesAsync(

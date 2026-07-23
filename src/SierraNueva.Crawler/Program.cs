@@ -483,7 +483,9 @@ internal static class CrawlerApplication
                     client.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent);
                 })
             .ConfigurePrimaryHttpMessageHandler(provider =>
-                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(5));
+                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(
+                    5,
+                    useSessionCookies: true));
         services.AddSingleton<IClock, SystemClock>();
         services.AddSingleton<OpportunityFeedParser>();
         services.AddSingleton<IOpportunityFeedReader, OpportunityFeedReader>();

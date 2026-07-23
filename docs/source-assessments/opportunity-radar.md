@@ -94,9 +94,40 @@ Formato compartido comprobado en cinco sedes oficiales:
   el 23 de julio de 2026. Cero candidatos es un resultado válido, no evidencia
   de ausencia histórica de oportunidades.
 - No se descargan adjuntos ni certificados y solo se conserva metadata breve.
-- Los tablones `sedelectronica.es/board` evaluados para Miraflores de la Sierra,
-  Manzanares el Real, Becerril de la Sierra y El Boalo se descartaron porque
-  su `robots.txt` prohíbe expresamente `/board`.
+
+## Portadas municipales `sedelectronica.es` — segunda cohorte
+
+La familia prohíbe `/board`, pero su `robots.txt` permite expresamente `/`,
+`/info` e `/info.0`. Se incorporó únicamente la tabla de anuncios recientes de
+la portada pública; no se consulta el tablón bloqueado ni sus adjuntos.
+
+| Municipio | Sede | Entradas el 2026-07-23 |
+|---|---|---:|
+| Becerril de la Sierra | `becerrildelasierra.sedelectronica.es` | 3 |
+| Cabanillas de la Sierra | `cabanillasdelasierra.sedelectronica.es` | 3 |
+| El Boalo | `elboalo.sedelectronica.es` | 3 |
+| El Escorial | `elescorial.sedelectronica.es` | 3 |
+| Fresnedillas de la Oliva | `fresnedillasdelaoliva.sedelectronica.es` | 3 |
+| Hoyo de Manzanares | `hoyodemanzanares.sedelectronica.es` | 3 |
+| La Cabrera | `lacabrera.sedelectronica.es` | 3 |
+| Manzanares el Real | `manzanareselreal.sedelectronica.es` | 3 |
+| Miraflores de la Sierra | `mirafloresdelasierra.sedelectronica.es` | 3 |
+| Navacerrada | `aytonavacerrada.sedelectronica.es` | 3 |
+| Santa María de la Alameda | `santamariadelaalameda.sedelectronica.es` | 2 |
+| Torrelodones | `sede.torrelodones.es/info.0` | 3 |
+| Zarzalejo | `zarzalejo.sedelectronica.es` | 2 |
+
+- Identidad: cada portada se rotula como sede electrónica del ayuntamiento
+  correspondiente y fija un municipio validado contra el catálogo.
+- Formato: tabla HTML `AdvertisementBoardHomeListPanel`; el adaptador conserva
+  título, resumen y enlace de vista previa, con una fixture sintética común.
+- Las redirecciones iniciales requieren una cookie pública `JSESSIONID`. El
+  cliente aislado del radar la mantiene en memoria durante la ejecución; no se
+  persiste, no contiene credenciales y no se comparte con el crawler.
+- Resultado live aislado: 37 entradas, cero fallos y cero candidatos. La
+  ausencia de candidatos ese día no demuestra ausencia histórica.
+- Límite: cada portada solo expone dos o tres anuncios recientes. Es una señal
+  de vigilancia de baja profundidad, no una sustitución del tablón completo.
 
 ## Mitigaciones comunes
 

@@ -22,14 +22,17 @@ public sealed class SystemDnsResolver : IDnsResolver
 
 public sealed class DnsRebindingSafeHandlerFactory(IDnsResolver dnsResolver)
 {
-    public SocketsHttpHandler Create(int maxAutomaticRedirections)
+    public SocketsHttpHandler Create(
+        int maxAutomaticRedirections,
+        bool useSessionCookies = false)
     {
         return new()
         {
             AllowAutoRedirect = true,
             MaxAutomaticRedirections = maxAutomaticRedirections,
             AutomaticDecompression = DecompressionMethods.All,
-            UseCookies = false,
+            UseCookies = useSessionCookies,
+            CookieContainer = new CookieContainer(),
             ConnectTimeout = TimeSpan.FromSeconds(10),
             ConnectCallback = ConnectAsync
         };
