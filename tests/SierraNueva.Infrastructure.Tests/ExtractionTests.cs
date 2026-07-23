@@ -100,6 +100,64 @@ public sealed class ExtractionTests
         Assert.Equal(ConstructionStatus.Completed, promotion.ConstructionStatus);
     }
 
+    [Fact]
+    public async Task DomainSelector_NormalizesMunicipalityAndOverridesGeographicFalsePositive()
+    {
+        string html = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory,
+            "test-data",
+            "source-formats",
+            "exxacon-living-natura.html"));
+        LayeredPromotionExtractor extractor = new();
+        SourceDefinition source = new()
+        {
+            Id = "exxacon-living-natura",
+            SourceKind = SourceKind.OfficialPromoter,
+            StartUrls = ["https://www.exxacon.es/promocion/living-natura/"],
+            AllowedHosts = ["www.exxacon.es"],
+            MunicipalityHints = ["Galapagar"],
+            CustomSelectors = new Dictionary<string, string>
+            {
+                ["name"] = "main h1",
+                ["municipality"] = "#officeLink .elementor-icon-box-title",
+                ["address"] = "#officeLink .elementor-icon-box-title"
+            }
+        };
+        MunicipalityDefinition[] municipalities =
+        [
+            new() { OfficialName = "Guadarrama" },
+            new() { OfficialName = "Galapagar" }
+        ];
+
+        Promotion promotion = Assert.Single(await extractor.ExtractAsync(
+            new FetchedPage(
+                new("https://www.exxacon.es/promocion/living-natura/"),
+                html,
+                "text/html",
+                DateTimeOffset.UtcNow,
+                "fixture"),
+            source,
+            municipalities,
+            CancellationToken.None));
+
+        Assert.Equal("Living Natura, viviendas de obra nueva", promotion.Name);
+        Assert.Equal("Galapagar", promotion.Municipality);
+        Assert.Equal("C. del Almendro, 1-A, 28260, Galapagar (Madrid)", promotion.Address);
+        Assert.Equal(925_000m, promotion.PriceFrom);
+        Assert.Equal(3, promotion.BedroomsMin);
+        Assert.Equal(4, promotion.BedroomsMax);
+        Assert.Equal(256m, promotion.BuiltAreaMinSqm);
+        Assert.Equal(365m, promotion.BuiltAreaMaxSqm);
+        Assert.Null(promotion.PlotAreaMinSqm);
+        Assert.Equal(28, promotion.TotalUnits);
+        Assert.Equal(1, promotion.AvailableUnits);
+        Assert.Equal(CommercialStatus.LastUnits, promotion.CommercialStatus);
+        Assert.Contains(
+            promotion.Evidence,
+            item => item.Field == "municipality" &&
+                    item.Extractor == "DomainSpecificSelectorExtractor");
+    }
+
     private static SourceDefinition CreateSource()
     {
         return new()

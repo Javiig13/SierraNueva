@@ -35,12 +35,15 @@ detrás de interfaces para que puedan sustituirse o probarse sin red.
 ## Flujo de una ejecución
 
 1. La CLI carga y valida ajustes, municipios, procedencia de centroides,
-   fuentes y exclusiones.
+   fuentes y exclusiones. La baseline usa el perfil offline; una ejecución live
+   requiere indicar explícitamente sus dos archivos de configuración.
 2. Cada fuente habilitada aporta URLs configuradas, manuales y de sitemap.
 3. El rastreador valida esquema, host, blocklist y red privada; consulta
    `robots.txt`; aplica espera, tamaño, contenido, reintentos y cancelación.
 4. El HTML se procesa por JSON-LD, metadatos, texto y selectores específicos.
-   PDF y Playwright son capas opcionales.
+   Los valores territoriales obtenidos por selector se normalizan contra el
+   catálogo para evitar falsos positivos de topónimos generales. PDF y
+   Playwright son capas opcionales.
 5. Los candidatos se normalizan y reciben un identificador SHA-256 truncado.
 6. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una
    advertencia.

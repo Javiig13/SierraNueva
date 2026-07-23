@@ -1,0 +1,44 @@
+{
+  "_comment": "Perfil live explícito. No se usa en la baseline offline ni en pruebas automáticas.",
+  "sources": [
+    {
+      "id": "exxacon-living-natura",
+      "name": "EXXACON — Living Natura",
+      "baseUrl": "https://www.exxacon.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.exxacon.es",
+        "exxacon.es"
+      ],
+      "startUrls": [
+        "https://www.exxacon.es/promocion/living-natura/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "municipalityHints": [
+        "Galapagar"
+      ],
+      "includePatterns": [
+        "/promocion/living-natura/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main h1",
+        "municipality": "#officeLink .elementor-icon-box-title",
+        "address": "#officeLink .elementor-icon-box-title"
+      },
+      "notes": "Fuente corporativa oficial revisada el 2026-07-23. Alcance limitado y decisión documentada en docs/source-assessments/exxacon-living-natura.md."
+    }
+  ]
+}

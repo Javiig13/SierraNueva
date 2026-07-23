@@ -117,10 +117,10 @@ SierraNueva.Crawler validate-data
 Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida,
 `3` fallo total o cancelación y `4` datos públicos inválidos.
 
-La configuración incluida habilita únicamente `fixtures-locales`. Por tanto,
-el comando básico no realiza solicitudes externas. Una fuente real solo debe
-habilitarse después de verificar su URL, identidad, aviso legal, términos y
-`robots.txt`.
+La configuración predeterminada habilita únicamente `fixtures-locales`. Por
+tanto, el comando básico no realiza solicitudes externas. El perfil explícito
+`config/sources.live.json` contiene la primera fuente revisada, pero nunca se
+usa en la baseline ni en pruebas automáticas.
 
 ## Configurar fuentes
 
@@ -141,6 +141,23 @@ Para depurar una fuente:
 dotnet run --project src/SierraNueva.Crawler -- crawl `
   --source identificador-de-fuente --max-pages 3 --verbose --dry-run
 ```
+
+La comprobación manual y limitada de Living Natura usa rutas de salida y estado
+aisladas para no tocar el último dataset local válido:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release -- crawl `
+  --config config/appsettings.live.json `
+  --sources config/sources.live.json `
+  --source exxacon-living-natura `
+  --max-pages 1 --no-playwright --no-geocoding --dry-run --verbose `
+  --output tmp/live-source/public --state tmp/live-source/state
+```
+
+La evaluación de identidad, condiciones, `robots.txt`, alcance y mitigaciones
+está en
+[docs/source-assessments/exxacon-living-natura.md](docs/source-assessments/exxacon-living-natura.md).
+Debe repetirse antes de automatizar o ampliar el rastreo.
 
 Playwright es un fallback explícito. Se ejecuta solo si la configuración global
 y la fuente tienen habilitado Playwright y el HTML inicial es insuficiente. No
@@ -255,8 +272,9 @@ sigue funcionando.
 
 ## Límites actuales y siguiente fase
 
-- No hay fuentes live habilitadas de fábrica: evita hacer crawling accidental
-  y mantiene las pruebas deterministas.
+- El perfil predeterminado no tiene fuentes live y mantiene la baseline
+  determinista. El único perfil live es manual, explícito y está limitado a una
+  página.
 - La interpretación de lenguaje comercial es heurística y debe ampliarse con
   fixtures cuando aparezcan formatos nuevos.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no

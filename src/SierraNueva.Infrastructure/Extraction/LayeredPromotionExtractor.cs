@@ -60,7 +60,13 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         foreach (Promotion promotion in promotions)
         {
             EnrichFromText(promotion, pageText, canonicalUri, page.FetchedAtUtc, "TextPatternExtractor");
-            ApplyCustomSelectors(promotion, document, source, canonicalUri, page.FetchedAtUtc);
+            ApplyCustomSelectors(
+                promotion,
+                document,
+                source,
+                municipalities,
+                canonicalUri,
+                page.FetchedAtUtc);
             promotion.BrochureUrls = document.QuerySelectorAll("a[href]")
                 .Select(link => link.GetAttribute("href"))
                 .Where(href => !string.IsNullOrWhiteSpace(href))
@@ -297,6 +303,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         ApplyDecimalRange(
             BuiltAreaRegex(),
             normalized,
+            10m,
+            5_000m,
             (minimum, maximum) =>
             {
                 promotion.BuiltAreaMinSqm ??= minimum;
@@ -305,6 +313,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         ApplyDecimalRange(
             PlotAreaRegex(),
             normalized,
+            20m,
+            10_000m,
             (minimum, maximum) =>
             {
                 promotion.PlotAreaMinSqm ??= minimum;
@@ -373,6 +383,10 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         if (available.Success && int.TryParse(available.Groups["value"].Value, out int availableUnits))
         {
             promotion.AvailableUnits ??= availableUnits;
+        }
+        else if (SingleAvailableUnitRegex().IsMatch(normalized))
+        {
+            promotion.AvailableUnits ??= 1;
         }
 
         Match developer = DeveloperRegex().Match(normalized);
@@ -474,6 +488,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         Promotion promotion,
         IDocument document,
         SourceDefinition source,
+        IReadOnlyList<MunicipalityDefinition> municipalities,
         Uri sourceUrl,
         DateTimeOffset capturedAt)
     {
@@ -494,7 +509,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                     promotion.DeveloperName = TextNormalizer.CleanEvidence(value, 120);
                     break;
                 case "municipality":
-                    promotion.Municipality = TextNormalizer.CleanEvidence(value, 100);
+                    promotion.Municipality =
+                        new MunicipalityCatalog(municipalities).ResolveOfficialName(value) ??
+                        TextNormalizer.CleanEvidence(value, 100);
                     break;
                 case "address":
                     promotion.Address = TextNormalizer.CleanEvidence(value, 180);
@@ -782,6 +799,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static void ApplyDecimalRange(
         Regex regex,
         string text,
+        decimal minimumAllowed,
+        decimal maximumAllowed,
         Action<decimal, decimal?> setter)
     {
         Match match = regex.Match(text);
@@ -792,7 +811,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
 
         decimal? minimum = ParseSpanishDecimal(match.Groups["min"].Value);
         decimal? maximum = ParseSpanishDecimal(match.Groups["max"].Value);
-        if (minimum.HasValue)
+        if (minimum is >= 0 &&
+            minimum >= minimumAllowed &&
+            minimum <= maximumAllowed &&
+            (!maximum.HasValue ||
+             (maximum >= minimumAllowed && maximum <= maximumAllowed)))
         {
             setter(minimum.Value, maximum);
         }
@@ -956,17 +979,17 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PriceRegex();
 
     [GeneratedRegex(
-        @"(?:(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4})(?:[.,]\d+)?\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,4})(?:[.,]\d+)?\s*m(?:²|2))?|(?<min>\d{2,4})(?:[.,]\d+)?\s*m(?:²|2)\s+construid[ao]s?)",
+        @"(?:(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2))?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BuiltAreaRegex();
 
     [GeneratedRegex(
-        @"parcelas?\D{0,35}(?<min>\d{2,5})(?:[.,]\d+)?\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,5})(?:[.,]\d+)?\s*m(?:²|2))?",
+        @"parcelas?\D{0,35}(?<min>\d{2,5}(?:[.,]\d+)?)\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,5}(?:[.,]\d+)?)\s*m(?:²|2))?",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PlotAreaRegex();
 
     [GeneratedRegex(
-        @"(?<min>\d{1,2})(?:\s*(?:a|-)\s*(?<max>\d{1,2}))?\s+dormitorios?",
+        @"(?<min>\d{1,2})(?:\s*(?:a|y|-)\s*(?<max>\d{1,2}))?\s+dormitorios?",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BedroomsRegex();
 
@@ -1018,11 +1041,18 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         RegexOptions.IgnoreCase)]
     private static partial Regex DeliveryRegex();
 
-    [GeneratedRegex(@"(?<value>\d{1,4})\s+viviendas?", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?viviendas?",
+        RegexOptions.IgnoreCase)]
     private static partial Regex UnitsRegex();
 
     [GeneratedRegex(@"(?<value>\d{1,3})\s+(?:viviendas?|unidades?)\s+disponibles?", RegexOptions.IgnoreCase)]
     private static partial Regex AvailableUnitsRegex();
+
+    [GeneratedRegex(
+        @"\b(?:[uú]ltima|[uú]nica)\s+(?:vivienda|villa|chalet)\s+(?:disponible|a\s+la\s+venta)\b",
+        RegexOptions.IgnoreCase)]
+    private static partial Regex SingleAvailableUnitRegex();
 
     [GeneratedRegex(
         @"(?:promueve|promotora|desarrollado\s+por)\s*:?\s*(?<value>[\p{L}\d .,&'-]{2,80}?)(?=\s+(?:obras?|entrega|en\s+venta|promoci[oó]n)|$)",

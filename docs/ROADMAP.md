@@ -36,13 +36,14 @@ requiere trabajo de producto.
 
 ## P2 — Incorporar cobertura real
 
-- **Pendiente:** seleccionar con el propietario una primera fuente oficial.
-- **Pendiente:** revisar aviso legal, condiciones, `robots.txt`, User-Agent y
-  frecuencia antes de activarla.
-- **Pendiente:** dry run limitado, revisión manual de evidencias y creación de
-  fixtures sintéticas/reducidas para sus formatos.
-- **Pendiente:** demostrar una ejecución live permitida sin degradar el último
-  dataset válido.
+- **Hecho:** seleccionada con autorización del propietario la fuente corporativa
+  oficial EXXACON — Living Natura, promoción unifamiliar en Galapagar.
+- **Hecho:** identidad, condiciones, `robots.txt`, User-Agent, acceso y
+  frecuencia revisados y documentados antes de crear el perfil live.
+- **Hecho:** dry run de una página, revisión manual del contrato y fixture
+  sintética reducida para municipio, superficies, dormitorios y disponibilidad.
+- **Hecho:** ejecución live limitada y `validate-data` correctos usando salida y
+  estado aislados, sin modificar `data/public` ni `data/state`.
 - **Pendiente:** ampliar gradualmente cobertura y métricas de calidad.
 
 ## P3 — Preparación operativa local
@@ -81,10 +82,10 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 54/54 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 55/55 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Pendiente | Fase P2 |
+| 5 | Fuente real permitida con Internet | Hecho | EXXACON — Living Natura, perfil manual limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -109,7 +110,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Parcial | vertical local completa; ver P1/P2 |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 54/54 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 55/55 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
