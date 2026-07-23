@@ -7,8 +7,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -3.78333333,
-          40.75416667
+          -3.786895514,
+          40.75317934
         ]
       },
       "properties": {
@@ -18,6 +18,25 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://fixtures.sierranueva.test/encinar-soto"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-240511b0ac4e8a2663a0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.920170778,
+          40.71710553
+        ]
+      },
+      "properties": {
+        "name": "Residencial El Robledal",
+        "municipality": "El Boalo",
+        "priceFrom": 399000,
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://fixtures.sierranueva.test/robledal"
       }
     },
     {
@@ -45,8 +64,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -3.86486485,
-          40.72609812
+          -3.865187,
+          40.72681157
         ]
       },
       "properties": {

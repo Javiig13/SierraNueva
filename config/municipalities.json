@@ -1,12 +1,12 @@
 {
-  "_coordinatesNote": "Solo se incluyen centroides verificados para el dataset de demostración. Los valores nulos evitan publicar coordenadas no verificadas.",
+  "_coordinatesNote": "Los 29 centroides proceden del NGMEP 2026 del IGN en ETRS89, compatible con WGS84 en la península. Consulta municipality-centroids.json para la trazabilidad CC-BY 4.0.",
   "municipalities": [
     {
       "officialName": "Alpedrete",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.65886957,
+      "longitude": -4.023479111,
       "enabled": true,
       "searchTerms": []
     },
@@ -16,8 +16,8 @@
         "Becerril"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.71626362,
+      "longitude": -3.989401413,
       "enabled": true,
       "searchTerms": []
     },
@@ -25,8 +25,8 @@
       "officialName": "Bustarviejo",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.85908309,
+      "longitude": -3.709861585,
       "enabled": true,
       "searchTerms": []
     },
@@ -34,8 +34,8 @@
       "officialName": "Cabanillas de la Sierra",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.81959964,
+      "longitude": -3.625928271,
       "enabled": true,
       "searchTerms": []
     },
@@ -43,8 +43,8 @@
       "officialName": "Cercedilla",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.7416083,
+      "longitude": -4.055287611,
       "enabled": true,
       "searchTerms": []
     },
@@ -52,8 +52,8 @@
       "officialName": "Collado Mediano",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.69365743,
+      "longitude": -4.024391261,
       "enabled": true,
       "searchTerms": []
     },
@@ -66,8 +66,8 @@
         "Villalba Estación",
         "Villalba Pueblo"
       ],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.64579798,
+      "longitude": -3.991592449,
       "enabled": true,
       "searchTerms": []
     },
@@ -80,8 +80,8 @@
         "Cerceda",
         "Mataelpino"
       ],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.71710553,
+      "longitude": -3.920170778,
       "enabled": true,
       "searchTerms": [
         "Cerceda obra nueva",
@@ -92,8 +92,8 @@
       "officialName": "El Escorial",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.58510059,
+      "longitude": -4.129576412,
       "enabled": true,
       "searchTerms": []
     },
@@ -103,8 +103,8 @@
         "Fresnedillas"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.48651273,
+      "longitude": -4.172037839,
       "enabled": true,
       "searchTerms": []
     },
@@ -114,8 +114,8 @@
       "localities": [
         "La Navata"
       ],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.5805253,
+      "longitude": -4.006090877,
       "enabled": true,
       "searchTerms": []
     },
@@ -125,8 +125,8 @@
         "Guadalix"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.78487273,
+      "longitude": -3.692752779,
       "enabled": true,
       "searchTerms": []
     },
@@ -134,8 +134,8 @@
       "officialName": "Guadarrama",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.67252357,
+      "longitude": -4.08879044,
       "enabled": true,
       "searchTerms": []
     },
@@ -145,8 +145,8 @@
         "Hoyo"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.62286422,
+      "longitude": -3.907251019,
       "enabled": true,
       "searchTerms": []
     },
@@ -154,8 +154,8 @@
       "officialName": "La Cabrera",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.86419421,
+      "longitude": -3.615634572,
       "enabled": true,
       "searchTerms": []
     },
@@ -163,8 +163,8 @@
       "officialName": "Los Molinos",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.71480945,
+      "longitude": -4.073654968,
       "enabled": true,
       "searchTerms": []
     },
@@ -174,8 +174,8 @@
         "Manzanares del Real"
       ],
       "localities": [],
-      "latitude": 40.72609812,
-      "longitude": -3.86486485,
+      "latitude": 40.72681157,
+      "longitude": -3.865187,
       "enabled": true,
       "searchTerms": [
         "La Pedriza"
@@ -187,8 +187,8 @@
         "Miraflores"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.8138022,
+      "longitude": -3.766720793,
       "enabled": true,
       "searchTerms": []
     },
@@ -196,8 +196,8 @@
       "officialName": "Moralzarzal",
       "aliases": [],
       "localities": [],
-      "latitude": 40.675,
-      "longitude": -3.96944444,
+      "latitude": 40.67907394,
+      "longitude": -3.971736269,
       "enabled": true,
       "searchTerms": []
     },
@@ -205,8 +205,8 @@
       "officialName": "Navacerrada",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.72896591,
+      "longitude": -4.014591371,
       "enabled": true,
       "searchTerms": []
     },
@@ -214,8 +214,8 @@
       "officialName": "Navalafuente",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.82334194,
+      "longitude": -3.676124515,
       "enabled": true,
       "searchTerms": []
     },
@@ -223,8 +223,8 @@
       "officialName": "Navalagamella",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.46930953,
+      "longitude": -4.122788384,
       "enabled": true,
       "searchTerms": []
     },
@@ -234,8 +234,8 @@
         "Robledo"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.50079633,
+      "longitude": -4.238261978,
       "enabled": true,
       "searchTerms": []
     },
@@ -246,8 +246,8 @@
         "San Lorenzo del Escorial"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.5914354,
+      "longitude": -4.148963237,
       "enabled": true,
       "searchTerms": []
     },
@@ -257,8 +257,8 @@
         "Santa Maria de la Alameda"
       ],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.59570644,
+      "longitude": -4.257917119,
       "enabled": true,
       "searchTerms": []
     },
@@ -268,8 +268,8 @@
         "Soto"
       ],
       "localities": [],
-      "latitude": 40.75416667,
-      "longitude": -3.78333333,
+      "latitude": 40.75317934,
+      "longitude": -3.786895514,
       "enabled": true,
       "searchTerms": []
     },
@@ -279,8 +279,8 @@
       "localities": [
         "La Colonia"
       ],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.5756,
+      "longitude": -3.929300988,
       "enabled": true,
       "searchTerms": []
     },
@@ -288,8 +288,8 @@
       "officialName": "Valdemaqueda",
       "aliases": [],
       "localities": [],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.51115053,
+      "longitude": -4.295726845,
       "enabled": true,
       "searchTerms": []
     },
@@ -299,8 +299,8 @@
       "localities": [
         "Zarzalejo Estación"
       ],
-      "latitude": null,
-      "longitude": null,
+      "latitude": 40.54730901,
+      "longitude": -4.181377779,
       "enabled": true,
       "searchTerms": []
     }

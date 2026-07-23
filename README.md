@@ -153,9 +153,10 @@ municipios iniciales. Se pueden habilitar, deshabilitar o ampliar sin
 recompilar. Los alias permiten resolver, por ejemplo, Cerceda y Mataelpino como
 localidades de El Boalo.
 
-Solo se incluyen centroides cuya procedencia se ha registrado. Los demás
-permanecen como `null`; es preferible no mostrar un punto a inventar una
-coordenada. La trazabilidad está en
+Los 29 municipios incluyen coordenadas procedentes del Nomenclátor Geográfico
+de Municipios y Entidades de Población 2026 del IGN. La fuente publica ETRS89,
+compatible con WGS84 en la península. La trazabilidad, el registro municipal,
+el hash del ZIP original y la atribución están en
 [config/municipality-centroids.json](config/municipality-centroids.json) y
 `validate-config` comprueba automáticamente que ambos archivos coinciden.
 
@@ -235,6 +236,8 @@ válida, corrige la fuente y usa `validate-data` antes de volver a publicar.
 - PdfPig 0.1.15 — Apache-2.0.
 - Leaflet 1.9.4 — BSD-2-Clause.
 - OpenStreetMap — datos © colaboradores de OpenStreetMap; atribución visible.
+- NGMEP 2026 — CC-BY 4.0; obra derivada con atribución visible al Instituto
+  Geográfico Nacional.
 - xUnit, bUnit y coverlet — dependencias de pruebas con licencias permisivas.
 
 Las versiones están centralizadas en `Directory.Packages.props`. Leaflet se
@@ -249,7 +252,6 @@ carga en versión fija; si no está disponible, el listado sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- Los centroides no verificados siguen vacíos.
 - El frontend usa una CDN fija para Leaflet; puede vendorizarse antes de
   publicar.
 - No existen aún `.github/workflows`, Pages, base path de repositorio,

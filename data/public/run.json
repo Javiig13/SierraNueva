@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "runId": "20260723T152251364Z",
-  "startedAtUtc": "2026-07-23T15:22:51.3642899+00:00",
-  "finishedAtUtc": "2026-07-23T15:22:51.6283828+00:00",
-  "durationSeconds": 0.264,
+  "runId": "20260723T153501894Z",
+  "startedAtUtc": "2026-07-23T15:35:01.8945411+00:00",
+  "finishedAtUtc": "2026-07-23T15:35:02.1507529+00:00",
+  "durationSeconds": 0.256,
   "status": "success",
   "crawlerVersion": "1.0.0.0",
   "totalSources": 1,
@@ -20,8 +20,8 @@
   "sourceResults": [
     {
       "sourceId": "fixtures-locales",
-      "startedAtUtc": "2026-07-23T15:22:51.3660654+00:00",
-      "finishedAtUtc": "2026-07-23T15:22:51.5567294+00:00",
+      "startedAtUtc": "2026-07-23T15:35:01.8962798+00:00",
+      "finishedAtUtc": "2026-07-23T15:35:02.0837631+00:00",
       "status": "success",
       "urlsDiscovered": 4,
       "urlsFetched": 4,
@@ -32,8 +32,8 @@
     }
   ],
   "dataFreshness": {
-    "oldestSourceCheckUtc": "2026-07-23T15:22:51.6160745+00:00",
-    "newestSourceCheckUtc": "2026-07-23T15:22:51.6160745+00:00",
+    "oldestSourceCheckUtc": "2026-07-23T15:35:02.1386349+00:00",
+    "newestSourceCheckUtc": "2026-07-23T15:35:02.1386349+00:00",
     "isStale": false,
     "staleAfterHours": 96
   },

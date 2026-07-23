@@ -125,13 +125,32 @@ public sealed class ConfigurationLoader
             return;
         }
 
-        if (catalog.SchemaVersion != "1.0" ||
-            !string.Equals(
+        bool knownReferenceSystem =
+            string.Equals(
                 catalog.CoordinateReferenceSystem,
                 "WGS84",
-                StringComparison.OrdinalIgnoreCase))
+                StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(
+                catalog.CoordinateReferenceSystem,
+                "ETRS89",
+                StringComparison.OrdinalIgnoreCase);
+        if (catalog.SchemaVersion is not ("1.0" or "1.1") ||
+            !knownReferenceSystem)
         {
-            errors.Add("El catálogo de centroides debe usar el contrato 1.0 y WGS84.");
+            errors.Add("El catálogo de centroides debe usar el contrato 1.0/1.1 y WGS84/ETRS89.");
+        }
+
+        if (catalog.SchemaVersion == "1.1" &&
+            (string.IsNullOrWhiteSpace(catalog.DatasetName) ||
+             string.IsNullOrWhiteSpace(catalog.DatasetEdition) ||
+             string.IsNullOrWhiteSpace(catalog.SourceFile) ||
+             catalog.SourceFileSha256.Length != 64 ||
+             !catalog.SourceFileSha256.All(Uri.IsHexDigit) ||
+             !string.Equals(catalog.License, "CC-BY 4.0", StringComparison.OrdinalIgnoreCase) ||
+             string.IsNullOrWhiteSpace(catalog.Attribution)))
+        {
+            errors.Add(
+                "El catálogo 1.1 necesita dataset, edición, fichero, SHA-256, licencia y atribución.");
         }
 
         foreach (IGrouping<string, MunicipalityCentroidSource> duplicate in catalog.Sources
@@ -218,6 +237,14 @@ public sealed class ConfigurationLoader
             {
                 errors.Add(
                     $"La fecha de comprobación de '{source.Municipality}' debe estar en UTC.");
+            }
+
+            if (catalog.SchemaVersion == "1.1" &&
+                (string.IsNullOrWhiteSpace(source.SourceRecordId) ||
+                 string.IsNullOrWhiteSpace(source.CoordinateOrigin)))
+            {
+                errors.Add(
+                    $"La procedencia de '{source.Municipality}' necesita registro y origen de coordenada.");
             }
         }
     }

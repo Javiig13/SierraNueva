@@ -1,3 +1,4 @@
+using System.Globalization;
 using SierraNueva.Contracts;
 using SierraNueva.Infrastructure.Configuration;
 
@@ -93,5 +94,56 @@ public sealed class ConfigurationTests
         Assert.Contains(
             errors,
             error => error.Contains("Municipio duplicado", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public async Task VersionedIgnFixture_MatchesEveryConfiguredMunicipality()
+    {
+        string configDirectory = Path.Combine(AppContext.BaseDirectory, "config");
+        string fixturePath = Path.Combine(
+            AppContext.BaseDirectory,
+            "test-data",
+            "geography",
+            "ign-ngmep-municipalities-madrid-2026.csv");
+        ConfigurationLoader loader = new();
+        IReadOnlyList<MunicipalityDefinition> municipalities =
+            await loader.LoadMunicipalitiesAsync(
+                Path.Combine(configDirectory, "municipalities.json"),
+                CancellationToken.None);
+        MunicipalityCentroidCatalog catalog = await loader.LoadCentroidSourcesAsync(
+            Path.Combine(configDirectory, "municipality-centroids.json"),
+            CancellationToken.None);
+
+        string[] lines = await File.ReadAllLinesAsync(fixturePath);
+        Dictionary<string, string[]> fixture = lines
+            .Skip(1)
+            .Select(line => line.Split(';'))
+            .ToDictionary(fields => fields[1], StringComparer.Ordinal);
+
+        Assert.Equal(29, municipalities.Count);
+        Assert.Equal(municipalities.Count, catalog.Sources.Count);
+        Assert.Equal(municipalities.Count, fixture.Count);
+        Assert.Equal("ETRS89", catalog.CoordinateReferenceSystem);
+        Assert.Equal("CC-BY 4.0", catalog.License);
+        Assert.Equal(
+            "496e3079d3b1844e2827d9dfc328fcd2e629e72c2640b46840daa3711b915116",
+            catalog.SourceFileSha256);
+
+        foreach (MunicipalityDefinition municipality in municipalities)
+        {
+            string[] fields = fixture[municipality.OfficialName];
+            MunicipalityCentroidSource source = Assert.Single(
+                catalog.Sources,
+                item => item.Municipality == municipality.OfficialName);
+            double longitude = double.Parse(fields[2], CultureInfo.InvariantCulture);
+            double latitude = double.Parse(fields[3], CultureInfo.InvariantCulture);
+
+            Assert.Equal(fields[0], source.SourceRecordId);
+            Assert.Equal(fields[4], source.CoordinateOrigin);
+            Assert.Equal(latitude, source.Latitude);
+            Assert.Equal(longitude, source.Longitude);
+            Assert.Equal(latitude, municipality.Latitude);
+            Assert.Equal(longitude, municipality.Longitude);
+        }
     }
 }

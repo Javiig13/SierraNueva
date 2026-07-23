@@ -3,9 +3,7 @@
 Estados usados: **Hecho** significa comprobado en local; **Parcial** significa
 implementado pero sin toda la verificación exigida; **Pendiente acordado**
 corresponde a la infraestructura que el propietario aplazó; **Pendiente**
-requiere trabajo de producto; **Bloqueado por fuente** significa que la
-implementación local está preparada, pero faltan datos externos trazables que
-no pueden obtenerse durante una fase estrictamente offline.
+requiere trabajo de producto.
 
 ## P0 — Entrega portable
 
@@ -32,10 +30,9 @@ no pueden obtenerse durante una fase estrictamente offline.
 - **Hecho:** retirada de ajustes de concurrencia que no gobernaban el pipeline;
   el recorrido secuencial queda explícito.
 - **Hecho:** resolución DNS validada y fijada por conexión frente a rebinding.
-- **Bloqueado por fuente:** 3 de 29 centroides tienen procedencia versionada;
-  los 26 restantes permanecen nulos porque el repositorio no contiene una
-  fuente autorizada para obtenerlos offline. `validate-config` impide publicar
-  un centroide sin procedencia coincidente.
+- **Hecho:** 29 centroides derivados del NGMEP 2026 del IGN, con fixture
+  reducida, licencia CC-BY 4.0, hash del ZIP, registro de origen y validación
+  automática.
 
 ## P2 — Incorporar cobertura real
 
@@ -83,7 +80,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 51/51 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 52/52 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Pendiente | Fase P2 |
@@ -111,7 +108,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Parcial | vertical local completa; ver P1/P2 |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 51/51 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 52/52 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

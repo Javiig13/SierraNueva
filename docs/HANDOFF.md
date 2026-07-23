@@ -52,7 +52,8 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 ### Datos y frontend
 
 - Dataset sintético versionado con cuatro promociones y estado asociado.
-- Tres centroides con procedencia; los no verificados permanecen nulos y
+- Los 29 centroides proceden del NGMEP 2026 del IGN; se conserva una fixture
+  reducida, registro municipal, origen, hash del ZIP y atribución CC-BY 4.0.
   `validate-config` exige coincidencia entre coordenadas y procedencia.
 - SPA en español con estados de carga/error/vacío y avisos de frescura.
 - Filtros completos, ordenaciones y query parameters compartibles.
@@ -77,12 +78,12 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:31 correctos
+Tests Infrastructure:32 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               51/51 correctos
+Total:               52/52 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios y 3 centroides trazables
+validate-config:     1 fuente, 29 municipios y 29 centroides trazables
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
@@ -105,9 +106,6 @@ porque el estado sintético ya está sembrado.
 - No se ha hecho una ejecución extremo a extremo contra una web real permitida.
 - Playwright, Nominatim, ETag/Last-Modified y robots tienen implementación y
   pruebas aisladas, pero no una prueba operacional live.
-- Solo hay tres centroides verificados de 29 municipios. Completar los otros 26
-  exige autorizar una fuente cartográfica o administrativa trazable; no existe
-  esa información en los fixtures ni se consultó Internet.
 - El procesamiento es deliberadamente secuencial. Se retiraron los ajustes de
   concurrencia sin efecto para no prometer paralelismo.
 - `appsettings.Development.json` no se superpone automáticamente: la CLI carga
@@ -132,15 +130,13 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Autorizar una fuente reproducible para completar los 26 centroides que
-   siguen nulos, o mantenerlos explícitamente fuera del alcance.
-3. Incorporar **una** fuente oficial real después de revisar URL, aviso legal,
+2. Incorporar **una** fuente oficial real después de revisar URL, aviso legal,
    términos, robots, límites y selectores; empezar con `--dry-run --max-pages
    3 --verbose`.
-4. Crear fixtures reducidas a partir del comportamiento observado, sin guardar
+3. Crear fixtures reducidas a partir del comportamiento observado, sin guardar
    HTML completo ni contenido no permitido.
-5. Repetir con pocas fuentes y medir calidad antes de añadir concurrencia.
-6. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
+4. Repetir con pocas fuentes y medir calidad antes de añadir concurrencia.
+5. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
    descrita en `docs/ROADMAP.md`.
 
 ## Cómo retomar en otro equipo

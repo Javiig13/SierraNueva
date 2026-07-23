@@ -1,27 +1,273 @@
 {
-  "schemaVersion": "1.0",
-  "coordinateReferenceSystem": "WGS84",
+  "schemaVersion": "1.1",
+  "coordinateReferenceSystem": "ETRS89",
+  "datasetName": "Nomenclátor Geográfico de Municipios y Entidades de Población",
+  "datasetEdition": "2026-03",
+  "sourceFile": "BD_MUNICIPIOS-ENTIDADES.ZIP",
+  "sourceFileSha256": "496e3079d3b1844e2827d9dfc328fcd2e629e72c2640b46840daa3711b915116",
+  "license": "CC-BY 4.0",
+  "attribution": "Obra derivada de NGMEP 2026 CC-BY 4.0 Instituto Geográfico Nacional",
   "sources": [
     {
+      "municipality": "Alpedrete",
+      "sourceRecordId": "28050",
+      "latitude": 40.65886957,
+      "longitude": -4.023479111,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Becerril de la Sierra",
+      "sourceRecordId": "28090",
+      "latitude": 40.71626362,
+      "longitude": -3.989401413,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Bustarviejo",
+      "sourceRecordId": "28140",
+      "latitude": 40.85908309,
+      "longitude": -3.709861585,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Cabanillas de la Sierra",
+      "sourceRecordId": "28145",
+      "latitude": 40.81959964,
+      "longitude": -3.625928271,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Cercedilla",
+      "sourceRecordId": "28190",
+      "latitude": 40.7416083,
+      "longitude": -4.055287611,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Collado Mediano",
+      "sourceRecordId": "28230",
+      "latitude": 40.69365743,
+      "longitude": -4.024391261,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Collado Villalba",
+      "sourceRecordId": "28235",
+      "latitude": 40.64579798,
+      "longitude": -3.991592449,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "El Boalo",
+      "sourceRecordId": "28115",
+      "latitude": 40.71710553,
+      "longitude": -3.920170778,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "El Escorial",
+      "sourceRecordId": "28270",
+      "latitude": 40.58510059,
+      "longitude": -4.129576412,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Fresnedillas de la Oliva",
+      "sourceRecordId": "28280",
+      "latitude": 40.48651273,
+      "longitude": -4.172037839,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Galapagar",
+      "sourceRecordId": "28305",
+      "latitude": 40.5805253,
+      "longitude": -4.006090877,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Guadalix de la Sierra",
+      "sourceRecordId": "28335",
+      "latitude": 40.78487273,
+      "longitude": -3.692752779,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Guadarrama",
+      "sourceRecordId": "28340",
+      "latitude": 40.67252357,
+      "longitude": -4.08879044,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Hoyo de Manzanares",
+      "sourceRecordId": "28360",
+      "latitude": 40.62286422,
+      "longitude": -3.907251019,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "La Cabrera",
+      "sourceRecordId": "28150",
+      "latitude": 40.86419421,
+      "longitude": -3.615634572,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Los Molinos",
+      "sourceRecordId": "28425",
+      "latitude": 40.71480945,
+      "longitude": -4.073654968,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
       "municipality": "Manzanares el Real",
-      "latitude": 40.72609812,
-      "longitude": -3.86486485,
-      "sourceUrl": "https://www.aemet.es/en/eltiempo/prediccion/municipios/horas/tabla/manzanares-el-real-id28082",
-      "checkedAtUtc": "2026-07-23T00:00:00Z"
+      "sourceRecordId": "28400",
+      "latitude": 40.72681157,
+      "longitude": -3.865187,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Miraflores de la Sierra",
+      "sourceRecordId": "28415",
+      "latitude": 40.8138022,
+      "longitude": -3.766720793,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
     },
     {
       "municipality": "Moralzarzal",
-      "latitude": 40.675,
-      "longitude": -3.96944444,
-      "sourceUrl": "https://www.wikidata.org/wiki/Q1646201",
-      "checkedAtUtc": "2026-07-23T00:00:00Z"
+      "sourceRecordId": "28440",
+      "latitude": 40.67907394,
+      "longitude": -3.971736269,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Navacerrada",
+      "sourceRecordId": "28455",
+      "latitude": 40.72896591,
+      "longitude": -4.014591371,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Navalafuente",
+      "sourceRecordId": "28460",
+      "latitude": 40.82334194,
+      "longitude": -3.676124515,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Navalagamella",
+      "sourceRecordId": "28465",
+      "latitude": 40.46930953,
+      "longitude": -4.122788384,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Robledo de Chavela",
+      "sourceRecordId": "28605",
+      "latitude": 40.50079633,
+      "longitude": -4.238261978,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "San Lorenzo de El Escorial",
+      "sourceRecordId": "28635",
+      "latitude": 40.5914354,
+      "longitude": -4.148963237,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Santa María de la Alameda",
+      "sourceRecordId": "28655",
+      "latitude": 40.59570644,
+      "longitude": -4.257917119,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
     },
     {
       "municipality": "Soto del Real",
-      "latitude": 40.75416667,
-      "longitude": -3.78333333,
-      "sourceUrl": "https://www.wikidata.org/wiki/Q1765495",
-      "checkedAtUtc": "2026-07-23T00:00:00Z"
+      "sourceRecordId": "28690",
+      "latitude": 40.75317934,
+      "longitude": -3.786895514,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Torrelodones",
+      "sourceRecordId": "28730",
+      "latitude": 40.5756,
+      "longitude": -3.929300988,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Valdemaqueda",
+      "sourceRecordId": "28765",
+      "latitude": 40.51115053,
+      "longitude": -4.295726845,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
+    },
+    {
+      "municipality": "Zarzalejo",
+      "sourceRecordId": "28885",
+      "latitude": 40.54730901,
+      "longitude": -4.181377779,
+      "coordinateOrigin": "Detección automática",
+      "sourceUrl": "https://centrodedescargas.cnig.es/CentroDescargas/detalleArchivo?sec=9000004",
+      "checkedAtUtc": "2026-07-23T15:28:53Z"
     }
   ]
 }

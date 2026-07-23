@@ -45,7 +45,8 @@ detrás de interfaces para que puedan sustituirse o probarse sin red.
 6. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una
    advertencia.
 7. Se aplican coordenadas explícitas o, como último recurso, un centroide
-   municipal trazable.
+   municipal trazable. Los 29 centroides de configuración derivan del NGMEP
+   2026 del IGN en ETRS89, compatible con WGS84 en la península.
 8. Se compara con `promotions-state.json`. Tres ausencias consecutivas en
    ejecuciones completas desactivan una promoción.
 9. Las validaciones impiden publicar rangos imposibles, URLs inválidas y

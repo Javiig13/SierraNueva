@@ -119,6 +119,18 @@ public sealed class MunicipalityCentroidCatalog
 
     public string CoordinateReferenceSystem { get; init; } = string.Empty;
 
+    public string DatasetName { get; init; } = string.Empty;
+
+    public string DatasetEdition { get; init; } = string.Empty;
+
+    public string SourceFile { get; init; } = string.Empty;
+
+    public string SourceFileSha256 { get; init; } = string.Empty;
+
+    public string License { get; init; } = string.Empty;
+
+    public string Attribution { get; init; } = string.Empty;
+
     public IReadOnlyList<MunicipalityCentroidSource> Sources { get; init; } = [];
 }
 
@@ -126,9 +138,13 @@ public sealed class MunicipalityCentroidSource
 {
     public string Municipality { get; init; } = string.Empty;
 
+    public string SourceRecordId { get; init; } = string.Empty;
+
     public double Latitude { get; init; }
 
     public double Longitude { get; init; }
+
+    public string CoordinateOrigin { get; init; } = string.Empty;
 
     public string SourceUrl { get; init; } = string.Empty;
 
