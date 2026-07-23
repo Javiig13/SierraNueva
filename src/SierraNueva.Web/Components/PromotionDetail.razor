@@ -1,0 +1,157 @@
+<div class="detail-backdrop" role="presentation" @onclick="CloseAsync">
+    <aside class="detail-panel"
+           role="dialog"
+           aria-modal="true"
+           aria-labelledby="detail-title"
+           @onclick:stopPropagation="true">
+        <button class="detail-close" type="button" aria-label="Cerrar ficha" @onclick="CloseAsync">×</button>
+        <p class="eyebrow">@Promotion.Municipality</p>
+        <h2 id="detail-title">@Promotion.Name</h2>
+        <div class="detail-status">
+            <span class="status">@UiFormatting.Commercial(Promotion.CommercialStatus)</span>
+            <span>@UiFormatting.Construction(Promotion.ConstructionStatus)</span>
+        </div>
+
+        <p class="detail-price">@UiFormatting.Price(Promotion.PriceFrom)</p>
+        @if (Promotion.PriceTo.HasValue)
+        {
+            <p class="detail-subtle">Hasta @UiFormatting.Price(Promotion.PriceTo)</p>
+        }
+
+        <dl class="detail-data">
+            @if (!string.IsNullOrWhiteSpace(Promotion.Address))
+            {
+                <div><dt>Dirección</dt><dd>@Promotion.Address</dd></div>
+            }
+            <div><dt>Tipologías</dt><dd>@TextOrDash(Promotion.PropertyTypes)</dd></div>
+            <div><dt>Dormitorios</dt><dd>@UiFormatting.Range(Promotion.BedroomsMin, Promotion.BedroomsMax, "")</dd></div>
+            <div><dt>Baños</dt><dd>@UiFormatting.Range(Promotion.BathroomsMin, Promotion.BathroomsMax, "")</dd></div>
+            <div><dt>Superficie construida</dt><dd>@UiFormatting.Range(Promotion.BuiltAreaMinSqm, Promotion.BuiltAreaMaxSqm, "m²")</dd></div>
+            <div><dt>Parcela</dt><dd>@UiFormatting.Range(Promotion.PlotAreaMinSqm, Promotion.PlotAreaMaxSqm, "m²")</dd></div>
+            <div><dt>Entrega</dt><dd>@(Promotion.DeliveryDateText ?? "No publicada")</dd></div>
+            @if (!string.IsNullOrWhiteSpace(Promotion.BuildingLicenceStatus))
+            {
+                <div><dt>Licencia</dt><dd>@Promotion.BuildingLicenceStatus</dd></div>
+            }
+            <div><dt>Promotora</dt><dd>@(Promotion.DeveloperName ?? "No indicada")</dd></div>
+            <div><dt>Fuente</dt><dd>@UiFormatting.Source(Promotion.SourceKind)</dd></div>
+            <div><dt>Confianza</dt><dd>@Promotion.SourceConfidence.ToString("P0")</dd></div>
+            <div><dt>Localización</dt><dd>@UiFormatting.Location(Promotion.LocationPrecision)</dd></div>
+            @if (Promotion.TotalUnits.HasValue)
+            {
+                <div><dt>Viviendas totales</dt><dd>@Promotion.TotalUnits</dd></div>
+            }
+            @if (Promotion.AvailableUnits.HasValue)
+            {
+                <div><dt>Disponibles</dt><dd>@Promotion.AvailableUnits</dd></div>
+            }
+        </dl>
+
+        <section class="detail-section">
+            <h3>Fuentes relacionadas</h3>
+            <ul class="source-list">
+                @foreach (string source in Promotion.SourceUrls)
+                {
+                    <li><a href="@source" target="_blank" rel="noopener noreferrer">@Host(source) ↗</a></li>
+                }
+                @foreach (string brochure in Promotion.BrochureUrls)
+                {
+                    <li><a href="@brochure" target="_blank" rel="noopener noreferrer">Dossier PDF ↗</a></li>
+                }
+            </ul>
+        </section>
+
+        @if (Promotion.Warnings.Count > 0)
+        {
+            <section class="detail-section">
+                <h3>Advertencias</h3>
+                <ul>
+                    @foreach (string warning in Promotion.Warnings)
+                    {
+                        <li>@warning</li>
+                    }
+                </ul>
+            </section>
+        }
+
+        <section class="detail-section">
+            <h3>Evidencias</h3>
+            @if (Promotion.Evidence.Count == 0)
+            {
+                <p class="detail-subtle">No hay evidencias resumidas disponibles.</p>
+            }
+            else
+            {
+                <ul class="evidence-list">
+                    @foreach (EvidenceItem evidence in Promotion.Evidence.Take(10))
+                    {
+                        <li>
+                            <strong>@evidence.Field:</strong> @evidence.ValueText
+                            <small>@evidence.Extractor · @evidence.Confidence.ToString("P0")</small>
+                        </li>
+                    }
+                </ul>
+            }
+        </section>
+
+        @if (Changes.Count > 0)
+        {
+            <section class="detail-section">
+                <h3>Cambios recientes</h3>
+                <ul>
+                    @foreach (PromotionChange change in Changes.Take(8))
+                    {
+                        <li>@UiFormatting.Date(change.DetectedAtUtc): @ChangeLabel(change.Kind)</li>
+                    }
+                </ul>
+            </section>
+        }
+
+        <a class="button button-primary button-full"
+           href="@Promotion.CanonicalUrl"
+           target="_blank"
+           rel="noopener noreferrer">
+            Abrir promoción oficial <span aria-hidden="true">↗</span>
+        </a>
+    </aside>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public Promotion Promotion { get; set; } = null!;
+
+    [Parameter]
+    public IReadOnlyList<PromotionChange> Changes { get; set; } = [];
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private Task CloseAsync()
+    {
+        return OnClose.InvokeAsync();
+    }
+
+    private static string TextOrDash(IReadOnlyList<string> values)
+    {
+        return values.Count == 0 ? "—" : string.Join(", ", values);
+    }
+
+    private static string ChangeLabel(ChangeKind kind)
+    {
+        return kind switch
+        {
+            ChangeKind.Added => "promoción incorporada",
+            ChangeKind.Updated => "datos actualizados",
+            ChangeKind.Deactivated => "promoción desactivada",
+            ChangeKind.Reactivated => "promoción reactivada",
+            _ => "cambio registrado"
+        };
+    }
+
+    private static string Host(string value)
+    {
+        return Uri.TryCreate(value, UriKind.Absolute, out Uri? uri)
+            ? uri.Host
+            : "Fuente";
+    }
+}

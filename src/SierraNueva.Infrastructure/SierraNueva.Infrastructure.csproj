@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SierraNueva.Contracts\SierraNueva.Contracts.csproj" />
+    <ProjectReference Include="..\SierraNueva.Core\SierraNueva.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="PdfPig" />
+  </ItemGroup>
+
+</Project>

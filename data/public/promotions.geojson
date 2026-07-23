@@ -1,0 +1,61 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "sn-07c2b1ddbf6c5abb53df",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.78333333,
+          40.75416667
+        ]
+      },
+      "properties": {
+        "name": "El Encinar de Soto",
+        "municipality": "Soto del Real",
+        "priceFrom": 625000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://fixtures.sierranueva.test/encinar-soto"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-3f9829dee5e6c1b8b763",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.9711,
+          40.6762
+        ]
+      },
+      "properties": {
+        "name": "Residencial Cumbre",
+        "municipality": "Moralzarzal",
+        "priceFrom": 475000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "exactCoordinates",
+        "canonicalUrl": "https://fixtures.sierranueva.test/residencial-cumbre"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-c4e77f056b408a8dbb73",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.86486485,
+          40.72609812
+        ]
+      },
+      "properties": {
+        "name": "Puerta de la Pedriza",
+        "municipality": "Manzanares el Real",
+        "commercialStatus": "soldOut",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://fixtures.sierranueva.test/puerta-pedriza"
+      }
+    }
+  ]
+}

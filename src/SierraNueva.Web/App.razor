@@ -1,0 +1,17 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>No encontrado · SierraNueva</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <section class="empty-state" role="alert">
+                <p class="eyebrow">Error 404</p>
+                <h1>Esta ruta no existe</h1>
+                <p>Vuelve al buscador para consultar las promociones disponibles.</p>
+                <a class="button button-primary" href="">Ir al buscador</a>
+            </section>
+        </LayoutView>
+    </NotFound>
+</Router>

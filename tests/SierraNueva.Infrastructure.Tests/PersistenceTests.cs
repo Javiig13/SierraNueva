@@ -1,0 +1,99 @@
+using System.Text.Json;
+using SierraNueva.Contracts;
+using SierraNueva.Infrastructure.Persistence;
+
+namespace SierraNueva.Infrastructure.Tests;
+
+public sealed class PersistenceTests
+{
+    [Fact]
+    public void CsvExport_EscapesTextAndUsesInvariantNumbers()
+    {
+        Promotion promotion = CreatePromotion();
+        promotion.Name = "Residencial \"Cumbre\", fase 2";
+
+        string csv = PublicDataWriter.BuildCsv([promotion]);
+
+        Assert.Contains("\"Residencial \"\"Cumbre\"\", fase 2\"", csv, StringComparison.Ordinal);
+        Assert.Contains(",475000,", csv, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void GeoJson_ContainsOnlyLocatedPromotions()
+    {
+        Promotion located = CreatePromotion();
+        located.Latitude = 40.67;
+        located.Longitude = -3.97;
+        Promotion unlocated = CreatePromotion();
+        unlocated.Id = "sn-unlocated";
+
+        string json = PublicDataWriter.BuildGeoJson([located, unlocated]);
+        using JsonDocument document = JsonDocument.Parse(json);
+
+        JsonElement feature = Assert.Single(
+            document.RootElement.GetProperty("features").EnumerateArray());
+        Assert.Equal(located.Id, feature.GetProperty("id").GetString());
+        Assert.Equal("Point", feature.GetProperty("geometry").GetProperty("type").GetString());
+    }
+
+    [Fact]
+    public async Task Writer_CreatesAllPublicArtifactsAtomically()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            PublicDataWriter writer = new();
+            Promotion promotion = CreatePromotion();
+            await writer.WriteAsync(
+                directory,
+                new PromotionDataset
+                {
+                    RunId = "run",
+                    GeneratedAtUtc = DateTimeOffset.UtcNow,
+                    Promotions = [promotion]
+                },
+                new ChangeDataset { RunId = "run" },
+                new RunReport { RunId = "run" },
+                CancellationToken.None);
+
+            string[] expected =
+            [
+                "promotions.json",
+                "promotions.csv",
+                "promotions.geojson",
+                "changes.json",
+                "run.json"
+            ];
+            Assert.All(expected, file => Assert.True(File.Exists(Path.Combine(directory, file))));
+            Assert.Empty(Directory.GetFiles(directory, "*.tmp"));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    private static Promotion CreatePromotion()
+    {
+        return new()
+        {
+            Id = "sn-test",
+            Name = "Residencial Cumbre",
+            NormalizedName = "residencial cumbre",
+            Municipality = "Moralzarzal",
+            CanonicalUrl = "https://example.com/cumbre",
+            SourceUrls = ["https://example.com/cumbre"],
+            PriceFrom = 475_000m,
+            SourceConfidence = 0.9m,
+            Active = true,
+            LastSeenUtc = DateTimeOffset.UtcNow
+        };
+    }
+
+    private static string CreateTempDirectory()
+    {
+        string path = Path.Combine(Path.GetTempPath(), $"sierranueva-tests-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(path);
+        return path;
+    }
+}

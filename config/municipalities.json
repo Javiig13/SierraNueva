@@ -1,0 +1,308 @@
+{
+  "_coordinatesNote": "Solo se incluyen centroides verificados para el dataset de demostración. Los valores nulos evitan publicar coordenadas no verificadas.",
+  "municipalities": [
+    {
+      "officialName": "Alpedrete",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Becerril de la Sierra",
+      "aliases": [
+        "Becerril"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Bustarviejo",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Cabanillas de la Sierra",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Cercedilla",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Collado Mediano",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Collado Villalba",
+      "aliases": [
+        "Villalba"
+      ],
+      "localities": [
+        "Villalba Estación",
+        "Villalba Pueblo"
+      ],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "El Boalo",
+      "aliases": [
+        "Boalo"
+      ],
+      "localities": [
+        "Cerceda",
+        "Mataelpino"
+      ],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": [
+        "Cerceda obra nueva",
+        "Mataelpino viviendas"
+      ]
+    },
+    {
+      "officialName": "El Escorial",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Fresnedillas de la Oliva",
+      "aliases": [
+        "Fresnedillas"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Galapagar",
+      "aliases": [],
+      "localities": [
+        "La Navata"
+      ],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Guadalix de la Sierra",
+      "aliases": [
+        "Guadalix"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Guadarrama",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Hoyo de Manzanares",
+      "aliases": [
+        "Hoyo"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "La Cabrera",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Los Molinos",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Manzanares el Real",
+      "aliases": [
+        "Manzanares del Real"
+      ],
+      "localities": [],
+      "latitude": 40.72609812,
+      "longitude": -3.86486485,
+      "enabled": true,
+      "searchTerms": [
+        "La Pedriza"
+      ]
+    },
+    {
+      "officialName": "Miraflores de la Sierra",
+      "aliases": [
+        "Miraflores"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Moralzarzal",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.675,
+      "longitude": -3.96944444,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Navacerrada",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Navalafuente",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Navalagamella",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Robledo de Chavela",
+      "aliases": [
+        "Robledo"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "San Lorenzo de El Escorial",
+      "aliases": [
+        "San Lorenzo",
+        "San Lorenzo del Escorial"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Santa María de la Alameda",
+      "aliases": [
+        "Santa Maria de la Alameda"
+      ],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Soto del Real",
+      "aliases": [
+        "Soto"
+      ],
+      "localities": [],
+      "latitude": 40.75416667,
+      "longitude": -3.78333333,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Torrelodones",
+      "aliases": [],
+      "localities": [
+        "La Colonia"
+      ],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Valdemaqueda",
+      "aliases": [],
+      "localities": [],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    },
+    {
+      "officialName": "Zarzalejo",
+      "aliases": [],
+      "localities": [
+        "Zarzalejo Estación"
+      ],
+      "latitude": null,
+      "longitude": null,
+      "enabled": true,
+      "searchTerms": []
+    }
+  ]
+}

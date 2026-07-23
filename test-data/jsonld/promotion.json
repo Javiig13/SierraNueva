@@ -1,0 +1,10 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Residencial Fixture",
+  "offers": {
+    "@type": "Offer",
+    "price": 450000,
+    "priceCurrency": "EUR"
+  }
+}

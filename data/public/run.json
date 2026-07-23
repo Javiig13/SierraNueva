@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0",
+  "runId": "20260723T142711897Z",
+  "startedAtUtc": "2026-07-23T14:27:11.8972585+00:00",
+  "finishedAtUtc": "2026-07-23T14:27:12.174168+00:00",
+  "durationSeconds": 0.277,
+  "status": "success",
+  "crawlerVersion": "1.0.0.0",
+  "totalSources": 1,
+  "successfulSources": 1,
+  "failedSources": 0,
+  "skippedSources": 0,
+  "discoveredUrls": 4,
+  "fetchedUrls": 4,
+  "skippedUrls": 0,
+  "extractedPromotions": 4,
+  "newPromotions": 0,
+  "changedPromotions": 0,
+  "warnings": [],
+  "sourceResults": [
+    {
+      "sourceId": "fixtures-locales",
+      "startedAtUtc": "2026-07-23T14:27:11.8985006+00:00",
+      "finishedAtUtc": "2026-07-23T14:27:12.0909354+00:00",
+      "status": "success",
+      "urlsDiscovered": 4,
+      "urlsFetched": 4,
+      "urlsSkipped": 0,
+      "promotionsExtracted": 4,
+      "warnings": [],
+      "errors": []
+    }
+  ],
+  "dataFreshness": {
+    "oldestSourceCheckUtc": "2026-07-23T14:27:12.1652949+00:00",
+    "newestSourceCheckUtc": "2026-07-23T14:27:12.1652949+00:00",
+    "isStale": false,
+    "staleAfterHours": 96
+  },
+  "quality": {
+    "validPromotions": 4,
+    "invalidPromotions": 0,
+    "warnings": 0,
+    "issues": []
+  }
+}

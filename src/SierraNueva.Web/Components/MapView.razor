@@ -1,0 +1,76 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+<section class="map-shell" aria-label="Mapa de promociones">
+    <div class="map-legend" aria-label="Leyenda del mapa">
+        <span><i class="dot dot-exact"></i> Exacta</span>
+        <span><i class="dot dot-approximate"></i> Aproximada</span>
+        <span><i class="dot dot-centroid"></i> Centro municipal</span>
+    </div>
+    <div @ref="_element" class="map" role="application" aria-label="Mapa interactivo"></div>
+    <noscript>El mapa necesita JavaScript. El listado sigue estando disponible.</noscript>
+</section>
+
+@code {
+    private ElementReference _element;
+    private string _signature = string.Empty;
+    private bool _rendered;
+    private DotNetObjectReference<MapView>? _reference;
+
+    [Parameter]
+    public System.Text.Json.JsonElement GeoJson { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<string> VisibleIds { get; set; } = [];
+
+    [Parameter]
+    public string TileUrl { get; set; } = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+    [Parameter]
+    public string Attribution { get; set; } = "© OpenStreetMap contributors";
+
+    [Parameter]
+    public EventCallback<string> OnOpen { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string signature = string.Join('|', VisibleIds.Order(StringComparer.Ordinal));
+        if (firstRender || signature != _signature)
+        {
+            _reference ??= DotNetObjectReference.Create(this);
+            _signature = signature;
+            await JavaScript.InvokeVoidAsync(
+                "sierraMap.render",
+                _element,
+                GeoJson,
+                VisibleIds,
+                TileUrl,
+                Attribution,
+                _reference);
+            _rendered = true;
+        }
+    }
+
+    [JSInvokable]
+    public Task OpenPromotion(string promotionId)
+    {
+        return OnOpen.InvokeAsync(promotionId);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_rendered)
+        {
+            try
+            {
+                await JavaScript.InvokeVoidAsync("sierraMap.dispose", _element);
+            }
+            catch (JSDisconnectedException)
+            {
+                // The browser has already disconnected.
+            }
+        }
+
+        _reference?.Dispose();
+    }
+}

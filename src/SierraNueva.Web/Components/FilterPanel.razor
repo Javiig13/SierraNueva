@@ -1,0 +1,212 @@
+<aside class="filter-panel" aria-label="Filtros de promociones">
+    <div class="filter-heading">
+        <div>
+            <p class="eyebrow">Afina la búsqueda</p>
+            <h2>Filtros</h2>
+        </div>
+        <button class="text-button" type="button" @onclick="ClearAsync">Limpiar</button>
+    </div>
+
+    <label class="field field-wide">
+        <span>Buscar</span>
+        <input type="search"
+               placeholder="Promoción, municipio o promotora"
+               @bind="Model.Search"
+               @bind:event="oninput"
+               @bind:after="NotifyChanged" />
+    </label>
+
+    <details class="municipality-picker">
+        <summary>
+            Municipios
+            @if (Model.Municipalities.Count > 0)
+            {
+                <span class="selection-count">@Model.Municipalities.Count</span>
+            }
+        </summary>
+        <div class="checkbox-list">
+            @foreach (string municipality in Municipalities)
+            {
+                <label>
+                    <input type="checkbox"
+                           checked="@Model.Municipalities.Contains(municipality)"
+                           @onchange="eventArgs => ToggleMunicipalityAsync(municipality, eventArgs)" />
+                    <span>@municipality</span>
+                </label>
+            }
+        </div>
+    </details>
+
+    <div class="filter-grid">
+        <label class="field">
+            <span>Localidad</span>
+            <select @bind="Model.Locality" @bind:after="NotifyChanged">
+                <option value="">Todas</option>
+                @foreach (string locality in Localities)
+                {
+                    <option value="@locality">@locality</option>
+                }
+            </select>
+        </label>
+
+        <label class="field">
+            <span>Tipología</span>
+            <select @bind="Model.PropertyType" @bind:after="NotifyChanged">
+                <option value="">Todas</option>
+                <option value="Independiente">Independiente</option>
+                <option value="Pareado">Pareado</option>
+                <option value="Adosado">Adosado</option>
+            </select>
+        </label>
+
+        <label class="field">
+            <span>Precio mínimo</span>
+            <input type="number" min="0" step="10000"
+                   placeholder="300000"
+                   @bind="Model.PriceMin"
+                   @bind:event="oninput"
+                   @bind:after="NotifyChanged" />
+        </label>
+
+        <label class="field">
+            <span>Precio máximo</span>
+            <input type="number" min="0" step="10000"
+                   placeholder="700000"
+                   @bind="Model.PriceMax"
+                   @bind:event="oninput"
+                   @bind:after="NotifyChanged" />
+        </label>
+
+        <label class="field">
+            <span>Dormitorios mínimos</span>
+            <input type="number" min="0" max="20"
+                   @bind="Model.BedroomsMin"
+                   @bind:event="oninput"
+                   @bind:after="NotifyChanged" />
+        </label>
+
+        <label class="field">
+            <span>Construidos mínimos (m²)</span>
+            <input type="number" min="0"
+                   @bind="Model.BuiltAreaMin"
+                   @bind:event="oninput"
+                   @bind:after="NotifyChanged" />
+        </label>
+
+        <label class="field">
+            <span>Parcela mínima (m²)</span>
+            <input type="number" min="0"
+                   @bind="Model.PlotAreaMin"
+                   @bind:event="oninput"
+                   @bind:after="NotifyChanged" />
+        </label>
+
+        <label class="field">
+            <span>Estado comercial</span>
+            <select @bind="Model.CommercialStatus" @bind:after="NotifyChanged">
+                <option value="">Todos</option>
+                @foreach (CommercialStatus status in Enum.GetValues<CommercialStatus>())
+                {
+                    <option value="@status">@UiFormatting.Commercial(status)</option>
+                }
+            </select>
+        </label>
+
+        <label class="field">
+            <span>Estado de construcción</span>
+            <select @bind="Model.ConstructionStatus" @bind:after="NotifyChanged">
+                <option value="">Todos</option>
+                @foreach (ConstructionStatus status in Enum.GetValues<ConstructionStatus>())
+                {
+                    <option value="@status">@UiFormatting.Construction(status)</option>
+                }
+            </select>
+        </label>
+
+        <label class="field">
+            <span>Tipo de fuente</span>
+            <select @bind="Model.SourceKind" @bind:after="NotifyChanged">
+                <option value="">Todos</option>
+                @foreach (SourceKind kind in Enum.GetValues<SourceKind>())
+                {
+                    <option value="@kind">@UiFormatting.Source(kind)</option>
+                }
+            </select>
+        </label>
+
+        <label class="field">
+            <span>Confianza mínima</span>
+            <select @bind="Model.ConfidenceMin" @bind:after="NotifyChanged">
+                <option value="">Cualquiera</option>
+                <option value="0.5">50 %</option>
+                <option value="0.7">70 %</option>
+                <option value="0.85">85 %</option>
+            </select>
+        </label>
+    </div>
+
+    <fieldset class="toggle-list">
+        <legend>Mostrar</legend>
+        <label>
+            <input type="checkbox" @bind="Model.ActiveOnly" @bind:after="NotifyChanged" />
+            <span>Solo promociones activas</span>
+        </label>
+        <label>
+            <input type="checkbox" @bind="Model.WithPriceOnly" @bind:after="NotifyChanged" />
+            <span>Solo con precio</span>
+        </label>
+        <label>
+            <input type="checkbox" @bind="Model.ExactLocationOnly" @bind:after="NotifyChanged" />
+            <span>Solo ubicación exacta</span>
+        </label>
+        <label>
+            <input type="checkbox" @bind="Model.NewOnly" @bind:after="NotifyChanged" />
+            <span>Solo nuevas</span>
+        </label>
+        <label>
+            <input type="checkbox" @bind="Model.ChangedOnly" @bind:after="NotifyChanged" />
+            <span>Solo modificadas</span>
+        </label>
+    </fieldset>
+</aside>
+
+@code {
+    [Parameter, EditorRequired]
+    public PromotionFilter Model { get; set; } = null!;
+
+    [Parameter]
+    public IReadOnlyList<string> Municipalities { get; set; } = [];
+
+    [Parameter]
+    public IReadOnlyList<string> Localities { get; set; } = [];
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
+    private Task NotifyChanged()
+    {
+        return OnChanged.InvokeAsync();
+    }
+
+    private async Task ToggleMunicipalityAsync(string municipality, ChangeEventArgs eventArgs)
+    {
+        if (eventArgs.Value is true)
+        {
+            Model.Municipalities.Add(municipality);
+        }
+        else
+        {
+            Model.Municipalities.Remove(municipality);
+        }
+
+        await NotifyChanged();
+    }
+
+    private Task ClearAsync()
+    {
+        return OnClear.InvokeAsync();
+    }
+}

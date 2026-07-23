@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /privado
+Sitemap: https://fixtures.sierranueva.test/sitemap.xml

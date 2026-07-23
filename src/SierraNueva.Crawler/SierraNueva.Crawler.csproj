@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\SierraNueva.Contracts\SierraNueva.Contracts.csproj" />
+    <ProjectReference Include="..\SierraNueva.Core\SierraNueva.Core.csproj" />
+    <ProjectReference Include="..\SierraNueva.Infrastructure\SierraNueva.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+</Project>

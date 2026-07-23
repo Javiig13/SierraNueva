@@ -1,0 +1,333 @@
+@page "/"
+@implements IDisposable
+@inject PublicDataService DataService
+@inject NavigationManager Navigation
+@inject IConfiguration Configuration
+
+<PageTitle>SierraNueva · Obra nueva unifamiliar en la Sierra de Madrid</PageTitle>
+
+<header class="site-header">
+    <a class="brand" href="" aria-label="SierraNueva, inicio">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>
+            <strong>SierraNueva</strong>
+            <small>Vivienda unifamiliar · Sierra de Madrid</small>
+        </span>
+    </a>
+    <a class="download-link" href="data/promotions.csv" download>
+        Descargar CSV <span aria-hidden="true">↓</span>
+    </a>
+</header>
+
+<main id="contenido">
+    @if (_loading)
+    {
+        <section class="loading-state" aria-live="polite" aria-busy="true">
+            <div class="loading-mark" aria-hidden="true"></div>
+            <p>Preparando promociones verificadas…</p>
+        </section>
+    }
+    else if (_error is not null)
+    {
+        <section class="empty-state error-state" role="alert">
+            <p class="eyebrow">No se pudieron cargar los datos</p>
+            <h1>El buscador no está disponible todavía</h1>
+            <p>@_error</p>
+            <button class="button button-primary" type="button" @onclick="LoadAsync">
+                Reintentar
+            </button>
+        </section>
+    }
+    else if (_data is not null)
+    {
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Datos directos de fuentes oficiales</p>
+                <h1>Obra nueva con los pies en la sierra.</h1>
+                <p>
+                    Localiza chalets, pareados y adosados sin ruido de portales.
+                    Cada dato conserva su fuente y su nivel de confianza.
+                </p>
+            </div>
+            <div class="hero-update">
+                <span>Última revisión</span>
+                <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
+                <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
+                    @RunStatusLabel(_data.Run.Status)
+                </small>
+            </div>
+        </section>
+
+        @if (_data.Run.Status == RunStatus.PartialSuccess)
+        {
+            <div class="notice notice-warning" role="status">
+                <strong>Actualización parcial.</strong>
+                Algunas fuentes fallaron; se conservan sus últimos datos válidos.
+            </div>
+        }
+        @if (_data.Run.DataFreshness.IsStale)
+        {
+            <div class="notice notice-stale" role="status">
+                <strong>Datos desactualizados.</strong>
+                La última revisión supera el umbral de @_data.Run.DataFreshness.StaleAfterHours horas.
+            </div>
+        }
+
+        <section class="metric-strip" aria-label="Resumen de datos">
+            <article>
+                <span>Promociones</span>
+                <strong>@_data.Promotions.Statistics.Total</strong>
+                <small>@_data.Promotions.Statistics.Active activas</small>
+            </article>
+            <article>
+                <span>Nuevas</span>
+                <strong>@_data.Run.NewPromotions</strong>
+                <small>en esta revisión</small>
+            </article>
+            <article>
+                <span>Modificadas</span>
+                <strong>@_data.Run.ChangedPromotions</strong>
+                <small>cambios relevantes</small>
+            </article>
+            <article>
+                <span>Fuentes con error</span>
+                <strong>@_data.Run.FailedSources</strong>
+                <small>de @_data.Run.TotalSources</small>
+            </article>
+        </section>
+
+        <div class="workspace">
+            <FilterPanel Model="_filter"
+                         Municipalities="_municipalities"
+                         Localities="_localities"
+                         OnChanged="FiltersChangedAsync"
+                         OnClear="ClearFiltersAsync" />
+
+            <section class="results-area" aria-live="polite">
+                <div class="results-toolbar">
+                    <div>
+                        <p class="eyebrow">Resultados</p>
+                        <h2>
+                            @Filtered.Count
+                            <span>@(Filtered.Count == 1 ? "promoción" : "promociones")</span>
+                        </h2>
+                    </div>
+                    <label class="sort-field">
+                        <span>Ordenar</span>
+                        <select @bind="_filter.Sort" @bind:after="FiltersChangedAsync">
+                            <option value="recent">Más recientes</option>
+                            <option value="price-asc">Precio menor</option>
+                            <option value="price-desc">Precio mayor</option>
+                            <option value="plot-desc">Parcela mayor</option>
+                            <option value="area-desc">Superficie mayor</option>
+                            <option value="confidence">Confianza mayor</option>
+                            <option value="municipality">Municipio</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="mobile-tabs" role="tablist" aria-label="Vista">
+                    <button type="button"
+                            role="tab"
+                            aria-selected="@(_mobileTab == "list")"
+                            class="@(_mobileTab == "list" ? "active" : null)"
+                            @onclick="ShowList">
+                        Resultados
+                    </button>
+                    <button type="button"
+                            role="tab"
+                            aria-selected="@(_mobileTab == "map")"
+                            class="@(_mobileTab == "map" ? "active" : null)"
+                            @onclick="ShowMap">
+                        Mapa
+                    </button>
+                </div>
+
+                <div class="results-layout">
+                    <div class="cards-column mobile-@_mobileTab">
+                        @if (Filtered.Count == 0)
+                        {
+                            <div class="empty-results">
+                                <span aria-hidden="true">⌁</span>
+                                <h3>No hay coincidencias</h3>
+                                <p>Prueba a ampliar el precio, la zona o la tipología.</p>
+                                <button class="text-button" type="button" @onclick="ClearFiltersAsync">
+                                    Limpiar filtros
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (Promotion promotion in Filtered)
+                            {
+                                <PromotionCard @key="promotion.Id"
+                                               Promotion="promotion"
+                                               IsNew="_newIds.Contains(promotion.Id)"
+                                               IsChanged="_changedIds.Contains(promotion.Id)"
+                                               OnOpen="OpenDetail" />
+                            }
+                        }
+                    </div>
+
+                    <div class="map-column mobile-@_mobileTab">
+                        <MapView GeoJson="_data.GeoJson"
+                                 VisibleIds="Filtered.Select(item => item.Id).ToArray()"
+                                 TileUrl="@TileUrl"
+                                 Attribution="@TileAttribution"
+                                 OnOpen="OpenDetailById" />
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="site-footer">
+            <p>
+                SierraNueva no reemplaza la información contractual de la promotora.
+                Confirma disponibilidad, impuestos y condiciones en la fuente original.
+            </p>
+            <p>Sin cuentas, sin seguimiento y sin datos personales.</p>
+        </footer>
+    }
+</main>
+
+@if (_selected is not null && _data is not null)
+{
+    <PromotionDetail Promotion="_selected"
+                     Changes="_data.Changes.Changes.Where(change => change.PromotionId == _selected.Id).ToArray()"
+                     OnClose="CloseDetail" />
+}
+
+@code {
+    private readonly CancellationTokenSource _cancellation = new();
+    private readonly PromotionFilter _filter = new();
+    private SiteData? _data;
+    private Promotion? _selected;
+    private string? _error;
+    private bool _loading = true;
+    private string _mobileTab = "list";
+    private IReadOnlyList<string> _municipalities = [];
+    private IReadOnlyList<string> _localities = [];
+    private HashSet<string> _newIds = new(StringComparer.Ordinal);
+    private HashSet<string> _changedIds = new(StringComparer.Ordinal);
+
+    private string TileUrl =>
+        Configuration["Map:TileUrl"] ??
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+    private string TileAttribution =>
+        Configuration["Map:Attribution"] ?? "© OpenStreetMap contributors";
+
+    private IReadOnlyList<Promotion> Filtered =>
+        _data is null
+            ? []
+            : _filter.Apply(_data.Promotions.Promotions, _newIds, _changedIds);
+
+    protected override async Task OnInitializedAsync()
+    {
+        FilterQueryCodec.Apply(new Uri(Navigation.Uri), _filter);
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _error = null;
+        try
+        {
+            _data = await DataService.LoadAsync(_cancellation.Token);
+            _municipalities = _data.Promotions.Promotions
+                .Select(item => item.Municipality)
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Order(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            _localities = _data.Promotions.Promotions
+                .Select(item => item.Locality)
+                .Where(value => !string.IsNullOrWhiteSpace(value))
+                .Cast<string>()
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Order(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            _newIds = _data.Changes.Changes
+                .Where(change => change.Kind == ChangeKind.Added &&
+                                 change.DetectedAtUtc >= _data.Run.StartedAtUtc)
+                .Select(change => change.PromotionId)
+                .ToHashSet(StringComparer.Ordinal);
+            _changedIds = _data.Changes.Changes
+                .Where(change => change.DetectedAtUtc >= _data.Run.StartedAtUtc)
+                .Where(change => change.Kind is ChangeKind.Updated or
+                                 ChangeKind.Deactivated or
+                                 ChangeKind.Reactivated)
+                .Select(change => change.PromotionId)
+                .ToHashSet(StringComparer.Ordinal);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            _error =
+                "Comprueba que el crawler ha generado data/public y que los archivos se han " +
+                $"copiado a wwwroot/data. Detalle: {exception.Message}";
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private Task FiltersChangedAsync()
+    {
+        string query = FilterQueryCodec.Build(_filter);
+        string path = new Uri(Navigation.Uri).GetLeftPart(UriPartial.Path);
+        Navigation.NavigateTo(query.Length == 0 ? path : $"{path}?{query}", replace: true);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private async Task ClearFiltersAsync()
+    {
+        _filter.Reset();
+        await FiltersChangedAsync();
+    }
+
+    private void OpenDetail(Promotion promotion)
+    {
+        _selected = promotion;
+    }
+
+    private void CloseDetail()
+    {
+        _selected = null;
+    }
+
+    private void OpenDetailById(string promotionId)
+    {
+        _selected = _data?.Promotions.Promotions.FirstOrDefault(
+            promotion => promotion.Id == promotionId);
+    }
+
+    private void ShowList()
+    {
+        _mobileTab = "list";
+    }
+
+    private void ShowMap()
+    {
+        _mobileTab = "map";
+    }
+
+    private static string RunStatusLabel(RunStatus status)
+    {
+        return status switch
+        {
+            RunStatus.Success => "Revisión completada",
+            RunStatus.PartialSuccess => "Revisión parcial",
+            RunStatus.Failed => "Última revisión fallida",
+            _ => "Datos pendientes de validación"
+        };
+    }
+
+    public void Dispose()
+    {
+        _cancellation.Cancel();
+        _cancellation.Dispose();
+    }
+}

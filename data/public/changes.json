@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAtUtc": "2026-07-23T14:27:12.1652949+00:00",
+  "runId": "20260723T142711897Z",
+  "changes": [
+    {
+      "id": "change-410a2b35cf9baf6b",
+      "promotionId": "sn-07c2b1ddbf6c5abb53df",
+      "promotionName": "El Encinar de Soto",
+      "kind": "updated",
+      "detectedAtUtc": "2026-07-23T13:36:36.936273+00:00",
+      "fields": [
+        {
+          "field": "builtAreaMinSqm",
+          "previousValue": "510",
+          "currentValue": "210"
+        }
+      ]
+    },
+    {
+      "id": "change-e7666ef73c173a7c",
+      "promotionId": "sn-3f9829dee5e6c1b8b763",
+      "promotionName": "Residencial Cumbre",
+      "kind": "updated",
+      "detectedAtUtc": "2026-07-23T13:36:36.936273+00:00",
+      "fields": [
+        {
+          "field": "builtAreaMinSqm",
+          "previousValue": "280",
+          "currentValue": "165"
+        }
+      ]
+    },
+    {
+      "id": "change-0ad00fd44de49ec1",
+      "promotionId": "sn-07c2b1ddbf6c5abb53df",
+      "promotionName": "El Encinar de Soto",
+      "kind": "added",
+      "detectedAtUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-6519bf8f16ec3182",
+      "promotionId": "sn-c4e77f056b408a8dbb73",
+      "promotionName": "Puerta de la Pedriza",
+      "kind": "added",
+      "detectedAtUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-f66b7f4cb3dce547",
+      "promotionId": "sn-3f9829dee5e6c1b8b763",
+      "promotionName": "Residencial Cumbre",
+      "kind": "added",
+      "detectedAtUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-bca3a3f382b6af26",
+      "promotionId": "sn-240511b0ac4e8a2663a0",
+      "promotionName": "Residencial El Robledal",
+      "kind": "added",
+      "detectedAtUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "fields": []
+    }
+  ]
+}

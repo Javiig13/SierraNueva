@@ -1,0 +1,519 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAtUtc": "2026-07-23T14:27:12.1652949+00:00",
+  "runId": "20260723T142711897Z",
+  "sourceCount": 1,
+  "successfulSourceCount": 1,
+  "failedSourceCount": 0,
+  "promotions": [
+    {
+      "id": "sn-240511b0ac4e8a2663a0",
+      "name": "Residencial El Robledal",
+      "normalizedName": "residencial el robledal",
+      "municipality": "El Boalo",
+      "locationPrecision": "unknown",
+      "propertyTypes": [
+        "Adosado",
+        "Pareado"
+      ],
+      "commercialStatus": "upcoming",
+      "constructionStatus": "unknown",
+      "sourceKind": "officialPromoter",
+      "sourceConfidence": 0.91,
+      "priceFrom": 399000,
+      "currency": "EUR",
+      "bedroomsMin": 3,
+      "bedroomsMax": 4,
+      "builtAreaMinSqm": 155,
+      "builtAreaMaxSqm": 190,
+      "canonicalUrl": "https://fixtures.sierranueva.test/robledal",
+      "sourceUrls": [
+        "https://fixtures.sierranueva.test/robledal"
+      ],
+      "brochureUrls": [],
+      "firstSeenUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "lastSeenUtc": "2026-07-23T14:27:12.1652949+00:00",
+      "lastChangedUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "consecutiveMisses": 0,
+      "active": true,
+      "tags": [],
+      "evidence": [
+        {
+          "field": "name",
+          "valueText": "Residencial El Robledal",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "HtmlMetadataExtractor",
+          "confidence": 0.82,
+          "quality": "explicit",
+          "textFragment": "Residencial El Robledal"
+        },
+        {
+          "field": "priceFrom",
+          "valueText": "399000",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.84,
+          "quality": "normalized",
+          "textFragment": "rmitorios. Superficie construida desde 155 m2 hasta 190 m2. Precio desde 399 000 euros. Pr\u00F3ximamente. window.__fixture = { rendered: true };"
+        },
+        {
+          "field": "propertyTypes",
+          "valueText": "Adosado, Pareado",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "Residencial El Robledal Obra nueva en El Boalo, junto a Cerceda. Viviendas adosadas y pareadas de 3 a 4 dormitorios. Superficie con"
+        },
+        {
+          "field": "bedrooms",
+          "valueText": "3-4",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "El Boalo, junto a Cerceda. Viviendas adosadas y pareadas de 3 a 4 dormitorios. Superficie construida desde 155 m2 hasta 190 m2. Precio de"
+        },
+        {
+          "field": "builtAreaSqm",
+          "valueText": "155-190",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "erceda. Viviendas adosadas y pareadas de 3 a 4 dormitorios. Superficie construida desde 155 m2 hasta 190 m2. Precio desde 399 000 euros. Pr\u00F3ximamente. window.__fixture"
+        },
+        {
+          "field": "commercialStatus",
+          "valueText": "Upcoming",
+          "sourceUrl": "https://fixtures.sierranueva.test/robledal",
+          "capturedAtUtc": "2026-07-23T14:27:12.032274+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "uida desde 155 m2 hasta 190 m2. Precio desde 399 000 euros. Pr\u00F3ximamente. window.__fixture = { rendered: true };"
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "sn-c4e77f056b408a8dbb73",
+      "name": "Puerta de la Pedriza",
+      "normalizedName": "puerta de la pedriza",
+      "municipality": "Manzanares el Real",
+      "latitude": 40.72609812,
+      "longitude": -3.86486485,
+      "locationPrecision": "municipalityCentroid",
+      "propertyTypes": [
+        "Adosado"
+      ],
+      "commercialStatus": "soldOut",
+      "constructionStatus": "completed",
+      "sourceKind": "officialPromoter",
+      "sourceConfidence": 0.91,
+      "currency": "EUR",
+      "bedroomsMin": 3,
+      "bathroomsMin": 2,
+      "builtAreaMinSqm": 148,
+      "canonicalUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+      "sourceUrls": [
+        "https://fixtures.sierranueva.test/puerta-pedriza"
+      ],
+      "brochureUrls": [],
+      "firstSeenUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "lastSeenUtc": "2026-07-23T14:27:12.1652949+00:00",
+      "lastChangedUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "consecutiveMisses": 0,
+      "active": true,
+      "tags": [],
+      "evidence": [
+        {
+          "field": "name",
+          "valueText": "Puerta de la Pedriza",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "HtmlMetadataExtractor",
+          "confidence": 0.82,
+          "quality": "explicit",
+          "textFragment": "Puerta de la Pedriza"
+        },
+        {
+          "field": "propertyTypes",
+          "valueText": "Adosado",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "Puerta de la Pedriza Promoci\u00F3n de 9 chalets adosados en Manzanares el Real. Viviendas de 3 dormitorios, 2 ba\u00F1os y superficie cons"
+        },
+        {
+          "field": "bedrooms",
+          "valueText": "3",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "n de 9 chalets adosados en Manzanares el Real. Viviendas de 3 dormitorios, 2 ba\u00F1os y superficie construida de 148 m\u00B2. Promoci\u00F3n agota"
+        },
+        {
+          "field": "bathrooms",
+          "valueText": "2",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "adosados en Manzanares el Real. Viviendas de 3 dormitorios, 2 ba\u00F1os y superficie construida de 148 m\u00B2. Promoci\u00F3n agotada. Obra"
+        },
+        {
+          "field": "builtAreaSqm",
+          "valueText": "148",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "n Manzanares el Real. Viviendas de 3 dormitorios, 2 ba\u00F1os y superficie construida de 148 m\u00B2. Promoci\u00F3n agotada. Obra finalizada."
+        },
+        {
+          "field": "commercialStatus",
+          "valueText": "SoldOut",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "orios, 2 ba\u00F1os y superficie construida de 148 m\u00B2. Promoci\u00F3n agotada. Obra finalizada."
+        },
+        {
+          "field": "constructionStatus",
+          "valueText": "Completed",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:11.9832631+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "ba\u00F1os y superficie construida de 148 m\u00B2. Promoci\u00F3n agotada. Obra finalizada."
+        },
+        {
+          "field": "location",
+          "valueText": "40.72609812, -3.86486485",
+          "sourceUrl": "https://fixtures.sierranueva.test/puerta-pedriza",
+          "capturedAtUtc": "2026-07-23T14:27:12.0897056+00:00",
+          "extractor": "MunicipalityCentroidGeocoder",
+          "confidence": 0.55,
+          "quality": "approximate",
+          "textFragment": "Centroide configurado de Manzanares el Real"
+        }
+      ],
+      "warnings": [
+        "Ubicaci\u00F3n aproximada: se muestra el centroide municipal."
+      ]
+    },
+    {
+      "id": "sn-3f9829dee5e6c1b8b763",
+      "name": "Residencial Cumbre",
+      "normalizedName": "residencial cumbre",
+      "municipality": "Moralzarzal",
+      "locality": "Moralzarzal",
+      "address": "Avenida de la Sierra 18, Moralzarzal, 28411",
+      "postalCode": "28411",
+      "latitude": 40.6762,
+      "longitude": -3.9711,
+      "locationPrecision": "exactCoordinates",
+      "propertyTypes": [
+        "Pareado"
+      ],
+      "commercialStatus": "onSale",
+      "constructionStatus": "unknown",
+      "sourceKind": "officialPromoter",
+      "sourceConfidence": 0.95,
+      "developerName": "Sierra Hogares, S.L.",
+      "priceFrom": 475000,
+      "priceTo": 535000,
+      "currency": "EUR",
+      "bedroomsMin": 3,
+      "bedroomsMax": 4,
+      "bathroomsMin": 2,
+      "builtAreaMinSqm": 165,
+      "plotAreaMinSqm": 280,
+      "hasCommunityPool": true,
+      "canonicalUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+      "sourceUrls": [
+        "https://fixtures.sierranueva.test/residencial-cumbre"
+      ],
+      "brochureUrls": [],
+      "firstSeenUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "lastSeenUtc": "2026-07-23T14:27:12.1652949+00:00",
+      "lastChangedUtc": "2026-07-23T13:36:36.936273+00:00",
+      "consecutiveMisses": 0,
+      "active": true,
+      "tags": [],
+      "evidence": [
+        {
+          "field": "name",
+          "valueText": "Residencial Cumbre",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "JsonLdPromotionExtractor",
+          "confidence": 0.96,
+          "quality": "explicit",
+          "textFragment": "{ \u0022@context\u0022: \u0022https://schema.org\u0022, \u0022@type\u0022: \u0022Product\u0022, \u0022name\u0022: \u0022Residencial Cumbre\u0022, \u0022url\u0022: \u0022https://fixtures.sierranueva.test/residencial-cumbre\u0022, \u0022brand\u0022: { \u0022@type\u0022: \u0022Organization\u0022, \u0022name\u0022: \u0022Sierra Hogares, S.L.\u0022 }, \u0022address\u0022: { \u0022@type\u0022: \u0022PostalAddress\u0022, \u0022streetAddress\u0022: \u0022Ave\u2026"
+        },
+        {
+          "field": "priceFrom",
+          "valueText": "475000",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "JsonLdPromotionExtractor",
+          "confidence": 0.94,
+          "quality": "explicit",
+          "textFragment": "{ \u0022@context\u0022: \u0022https://schema.org\u0022, \u0022@type\u0022: \u0022Product\u0022, \u0022name\u0022: \u0022Residencial Cumbre\u0022, \u0022url\u0022: \u0022https://fixtures.sierranueva.test/residencial-cumbre\u0022, \u0022brand\u0022: { \u0022@type\u0022: \u0022Organization\u0022, \u0022name\u0022: \u0022Sierra Hogares, S.L.\u0022 }, \u0022address\u0022: { \u0022@type\u0022: \u0022PostalAddress\u0022, \u0022streetAddress\u0022: \u0022Ave\u2026"
+        },
+        {
+          "field": "propertyTypes",
+          "valueText": "Pareado",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "Residencial Cumbre 18 chalets pareados de obra nueva en Moralzarzal. Viviendas de 3 a 4 dormitorios y 2 ba\u00F1os, con 165 m\u00B2 construid"
+        },
+        {
+          "field": "bedrooms",
+          "valueText": "3-4",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "chalets pareados de obra nueva en Moralzarzal. Viviendas de 3 a 4 dormitorios y 2 ba\u00F1os, con 165 m\u00B2 construidos. Parcelas desde 280 m\u00B2 y"
+        },
+        {
+          "field": "bathrooms",
+          "valueText": "2",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "obra nueva en Moralzarzal. Viviendas de 3 a 4 dormitorios y 2 ba\u00F1os, con 165 m\u00B2 construidos. Parcelas desde 280 m\u00B2 y piscina co"
+        },
+        {
+          "field": "builtAreaSqm",
+          "valueText": "165",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "Moralzarzal. Viviendas de 3 a 4 dormitorios y 2 ba\u00F1os, con 165 m\u00B2 construidos. Parcelas desde 280 m\u00B2 y piscina comunitaria. En venta. Ent"
+        },
+        {
+          "field": "plotAreaSqm",
+          "valueText": "280",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "das de 3 a 4 dormitorios y 2 ba\u00F1os, con 165 m\u00B2 construidos. Parcelas desde 280 m\u00B2 y piscina comunitaria. En venta. Entrega prevista 2\u00BA trimes"
+        },
+        {
+          "field": "commercialStatus",
+          "valueText": "OnSale",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "\u00B2 construidos. Parcelas desde 280 m\u00B2 y piscina comunitaria. En venta. Entrega prevista 2\u00BA trimestre de 2028."
+        },
+        {
+          "field": "developerName",
+          "valueText": "Sierra Hogares, S.L.",
+          "sourceUrl": "https://fixtures.sierranueva.test/residencial-cumbre",
+          "capturedAtUtc": "2026-07-23T14:27:11.9780488+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": ""
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "id": "sn-07c2b1ddbf6c5abb53df",
+      "name": "El Encinar de Soto",
+      "normalizedName": "el encinar de soto",
+      "municipality": "Soto del Real",
+      "latitude": 40.75416667,
+      "longitude": -3.78333333,
+      "locationPrecision": "municipalityCentroid",
+      "propertyTypes": [
+        "Independiente"
+      ],
+      "commercialStatus": "unknown",
+      "constructionStatus": "underConstruction",
+      "sourceKind": "officialPromoter",
+      "sourceConfidence": 0.95,
+      "developerName": "Cumbres de Madrid S.A.",
+      "totalUnits": 12,
+      "priceFrom": 625000,
+      "currency": "EUR",
+      "bedroomsMin": 4,
+      "bathroomsMin": 3,
+      "builtAreaMinSqm": 210,
+      "plotAreaMinSqm": 510,
+      "hasPrivatePool": true,
+      "deliveryDateText": "Entrega prevista 2027",
+      "estimatedDeliveryDate": "2027-12-31",
+      "canonicalUrl": "https://fixtures.sierranueva.test/encinar-soto",
+      "sourceUrls": [
+        "https://fixtures.sierranueva.test/encinar-soto"
+      ],
+      "brochureUrls": [],
+      "firstSeenUtc": "2026-07-23T13:29:34.6843231+00:00",
+      "lastSeenUtc": "2026-07-23T14:27:12.1652949+00:00",
+      "lastChangedUtc": "2026-07-23T13:36:36.936273+00:00",
+      "consecutiveMisses": 0,
+      "active": true,
+      "tags": [],
+      "evidence": [
+        {
+          "field": "name",
+          "valueText": "El Encinar de Soto",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "HtmlMetadataExtractor",
+          "confidence": 0.82,
+          "quality": "explicit",
+          "textFragment": "El Encinar de Soto"
+        },
+        {
+          "field": "priceFrom",
+          "valueText": "625000",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.84,
+          "quality": "normalized",
+          "textFragment": "12 viviendas unifamiliares independientes en Soto del Real. Desde 625.000 \u20AC; 4 dormitorios, 3 ba\u00F1os y 210 m2 construidos. Parcela desde"
+        },
+        {
+          "field": "propertyTypes",
+          "valueText": "Independiente",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "El Encinar de Soto Nueva promoci\u00F3n de 12 viviendas unifamiliares independientes en Soto del Real. Desde 625.000 \u20AC; 4 dormitorios,"
+        },
+        {
+          "field": "bedrooms",
+          "valueText": "4",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "amiliares independientes en Soto del Real. Desde 625.000 \u20AC; 4 dormitorios, 3 ba\u00F1os y 210 m2 construidos. Parcela desde 510 m\u00B2. Cada v"
+        },
+        {
+          "field": "bathrooms",
+          "valueText": "3",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "endientes en Soto del Real. Desde 625.000 \u20AC; 4 dormitorios, 3 ba\u00F1os y 210 m2 construidos. Parcela desde 510 m\u00B2. Cada vivienda d"
+        },
+        {
+          "field": "builtAreaSqm",
+          "valueText": "210",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "en Soto del Real. Desde 625.000 \u20AC; 4 dormitorios, 3 ba\u00F1os y 210 m2 construidos. Parcela desde 510 m\u00B2. Cada vivienda dispone de piscina pri"
+        },
+        {
+          "field": "plotAreaSqm",
+          "valueText": "510",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "sde 625.000 \u20AC; 4 dormitorios, 3 ba\u00F1os y 210 m2 construidos. Parcela desde 510 m\u00B2. Cada vivienda dispone de piscina privada. Promotora: Cumbr"
+        },
+        {
+          "field": "constructionStatus",
+          "valueText": "UnderConstruction",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "spone de piscina privada. Promotora: Cumbres de Madrid S.A. Obras iniciadas. Entrega prevista 2027."
+        },
+        {
+          "field": "deliveryDateText",
+          "valueText": "Entrega prevista 2027",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "privada. Promotora: Cumbres de Madrid S.A. Obras iniciadas. Entrega prevista 2027."
+        },
+        {
+          "field": "developerName",
+          "valueText": "Cumbres de Madrid S.A.",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:11.9805168+00:00",
+          "extractor": "TextPatternExtractor",
+          "confidence": 0.78,
+          "quality": "normalized",
+          "textFragment": "ela desde 510 m\u00B2. Cada vivienda dispone de piscina privada. Promotora: Cumbres de Madrid S.A. Obras iniciadas. Entrega prevista 2027."
+        },
+        {
+          "field": "location",
+          "valueText": "40.75416667, -3.78333333",
+          "sourceUrl": "https://fixtures.sierranueva.test/encinar-soto",
+          "capturedAtUtc": "2026-07-23T14:27:12.0884893+00:00",
+          "extractor": "MunicipalityCentroidGeocoder",
+          "confidence": 0.55,
+          "quality": "approximate",
+          "textFragment": "Centroide configurado de Soto del Real"
+        }
+      ],
+      "warnings": [
+        "Ubicaci\u00F3n aproximada: se muestra el centroide municipal."
+      ]
+    }
+  ],
+  "statistics": {
+    "total": 4,
+    "active": 4,
+    "withPrice": 3,
+    "withCoordinates": 3,
+    "byMunicipality": {
+      "El Boalo": 1,
+      "Manzanares el Real": 1,
+      "Moralzarzal": 1,
+      "Soto del Real": 1
+    }
+  }
+}

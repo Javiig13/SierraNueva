@@ -1,0 +1,88 @@
+<article class="promotion-card @(Promotion.Active ? null : "is-inactive")">
+    <div class="card-topline">
+        <span class="municipality">@Promotion.Municipality</span>
+        <span class="status status-@Promotion.CommercialStatus.ToString().ToLowerInvariant()">
+            @UiFormatting.Commercial(Promotion.CommercialStatus)
+        </span>
+    </div>
+
+    <div>
+        <div class="badge-row" aria-label="Novedades">
+            @if (IsNew)
+            {
+                <span class="badge badge-new">Nueva</span>
+            }
+            else if (IsChanged)
+            {
+                <span class="badge badge-changed">Actualizada</span>
+            }
+            @if (Promotion.LocationPrecision is not LocationPrecision.ExactCoordinates)
+            {
+                <span class="badge badge-muted">Ubicación aproximada</span>
+            }
+        </div>
+        <h3>@Promotion.Name</h3>
+        <p class="developer">@(Promotion.DeveloperName ?? "Promotora no indicada")</p>
+    </div>
+
+    <p class="price">
+        @if (Promotion.PriceFrom.HasValue)
+        {
+            <span>Desde</span>
+        }
+        @UiFormatting.Price(Promotion.PriceFrom)
+    </p>
+
+    <dl class="feature-grid">
+        <div>
+            <dt>Tipología</dt>
+            <dd>@(Promotion.PropertyTypes.Count > 0 ? string.Join(", ", Promotion.PropertyTypes) : "No indicada")</dd>
+        </div>
+        <div>
+            <dt>Dormitorios</dt>
+            <dd>@UiFormatting.Range(Promotion.BedroomsMin, Promotion.BedroomsMax, "")</dd>
+        </div>
+        <div>
+            <dt>Construidos</dt>
+            <dd>@UiFormatting.Range(Promotion.BuiltAreaMinSqm, Promotion.BuiltAreaMaxSqm, "m²")</dd>
+        </div>
+        <div>
+            <dt>Parcela</dt>
+            <dd>@UiFormatting.Range(Promotion.PlotAreaMinSqm, Promotion.PlotAreaMaxSqm, "m²")</dd>
+        </div>
+    </dl>
+
+    <div class="card-meta">
+        <span>@UiFormatting.Source(Promotion.SourceKind)</span>
+        <span title="Confianza de la fuente">@Promotion.SourceConfidence.ToString("P0") confianza</span>
+        <span>Revisada @UiFormatting.Date(Promotion.LastSeenUtc)</span>
+    </div>
+
+    <div class="card-actions">
+        <button class="button button-secondary" type="button" @onclick="OpenAsync">
+            Ver ficha
+        </button>
+        <a class="source-link" href="@Promotion.CanonicalUrl" target="_blank" rel="noopener noreferrer">
+            Fuente directa <span aria-hidden="true">↗</span>
+        </a>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public Promotion Promotion { get; set; } = null!;
+
+    [Parameter]
+    public bool IsNew { get; set; }
+
+    [Parameter]
+    public bool IsChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<Promotion> OnOpen { get; set; }
+
+    private Task OpenAsync()
+    {
+        return OnOpen.InvokeAsync(Promotion);
+    }
+}

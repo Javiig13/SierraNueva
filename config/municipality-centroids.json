@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0",
+  "coordinateReferenceSystem": "WGS84",
+  "sources": [
+    {
+      "municipality": "Manzanares el Real",
+      "latitude": 40.72609812,
+      "longitude": -3.86486485,
+      "sourceUrl": "https://www.aemet.es/en/eltiempo/prediccion/municipios/horas/tabla/manzanares-el-real-id28082",
+      "checkedAtUtc": "2026-07-23T00:00:00Z"
+    },
+    {
+      "municipality": "Moralzarzal",
+      "latitude": 40.675,
+      "longitude": -3.96944444,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q1646201",
+      "checkedAtUtc": "2026-07-23T00:00:00Z"
+    },
+    {
+      "municipality": "Soto del Real",
+      "latitude": 40.75416667,
+      "longitude": -3.78333333,
+      "sourceUrl": "https://www.wikidata.org/wiki/Q1765495",
+      "checkedAtUtc": "2026-07-23T00:00:00Z"
+    }
+  ]
+}

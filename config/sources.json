@@ -1,0 +1,33 @@
+{
+  "sources": [
+    {
+      "id": "fixtures-locales",
+      "name": "Promociones sintéticas locales",
+      "baseUrl": "https://fixtures.sierranueva.test/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "fixtures.sierranueva.test"
+      ],
+      "startUrls": [
+        "https://fixtures.sierranueva.test/residencial-cumbre",
+        "https://fixtures.sierranueva.test/encinar-soto",
+        "https://fixtures.sierranueva.test/puerta-pedriza",
+        "https://fixtures.sierranueva.test/robledal"
+      ],
+      "useRobots": false,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 10,
+      "requestDelayMilliseconds": 0,
+      "usePlaywright": false,
+      "municipalityHints": [],
+      "includePatterns": [],
+      "excludePatterns": [],
+      "customSelectors": {},
+      "fixturePath": "test-data/html",
+      "notes": "Fuente sintética habilitada para desarrollo y pruebas sin Internet."
+    }
+  ]
+}

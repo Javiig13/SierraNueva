@@ -1,0 +1,44 @@
+{
+  "_comment": "Ejemplos deshabilitados. Sustituye los dominios .example por URLs oficiales verificadas antes de habilitarlos.",
+  "sources": [
+    {
+      "id": "promotora-ejemplo",
+      "name": "Promotora oficial de ejemplo",
+      "baseUrl": "https://promotora.example/",
+      "enabled": false,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "promotora.example"
+      ],
+      "startUrls": [
+        "https://promotora.example/promociones"
+      ],
+      "useRobots": true,
+      "useSitemaps": true,
+      "followInternalLinks": true,
+      "maxDepth": 3,
+      "maxPages": 100,
+      "requestDelayMilliseconds": 2000,
+      "usePlaywright": false,
+      "municipalityHints": [
+        "Moralzarzal"
+      ],
+      "includePatterns": [
+        "promociones",
+        "obra-nueva",
+        "residencial"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "login"
+      ],
+      "customSelectors": {
+        "name": "main h1",
+        "priceFrom": "[data-price]"
+      },
+      "manualUrlsFile": "config/manual-urls.txt",
+      "notes": "Revisar robots.txt, aviso legal y términos antes de habilitar."
+    }
+  ]
+}
