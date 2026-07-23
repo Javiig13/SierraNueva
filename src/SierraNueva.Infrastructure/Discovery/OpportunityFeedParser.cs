@@ -36,6 +36,9 @@ public sealed class OpportunityFeedParser
             OpportunityFeedFormat.EAdminHtml => ParseEAdminHtml(
                 Decode(content),
                 sourceUri),
+            OpportunityFeedFormat.Sitemap => ParseSitemap(
+                Decode(content),
+                sourceUri),
             _ => throw new InvalidDataException(
                 $"Formato de radar no admitido: {source.Format}.")
         };
@@ -326,6 +329,51 @@ public sealed class OpportunityFeedParser
                     Summary = TextNormalizer.CleanEvidence(row.TextContent, 4_000),
                     OfficialUrl = resolved,
                     PublishedAtUtc = ParseEAdminDate(row.TextContent)
+                };
+            })
+            .Where(item => item.OfficialUrl.Length > 0)
+            .ToArray();
+    }
+
+    private static IReadOnlyList<OpportunityFeedItem> ParseSitemap(
+        string xml,
+        Uri sourceUri)
+    {
+        XDocument document = ParseXml(xml);
+        if (document.Root?.Name.LocalName != "urlset")
+        {
+            throw new InvalidDataException(
+                $"El sitemap comercial '{sourceUri}' no contiene un urlset.");
+        }
+
+        return document.Descendants()
+            .Where(element => element.Name.LocalName == "url")
+            .Select(item =>
+            {
+                string location = ChildValue(item, "loc");
+                string resolved = ResolveUrl(sourceUri, location);
+                string pathText = Uri.TryCreate(resolved, UriKind.Absolute, out Uri? uri)
+                    ? Uri.UnescapeDataString(uri.AbsolutePath)
+                        .Replace('/', ' ')
+                        .Replace('-', ' ')
+                        .Replace('_', ' ')
+                    : string.Empty;
+                string embeddedTitles = string.Join(
+                    ' ',
+                    item.Descendants()
+                        .Where(element => element.Name.LocalName == "title")
+                        .Select(element => element.Value)
+                        .Where(value => !string.IsNullOrWhiteSpace(value)));
+                string searchable = TextNormalizer.CleanEvidence(
+                    $"{embeddedTitles} {pathText}",
+                    2_000);
+                return new OpportunityFeedItem
+                {
+                    ExternalId = resolved,
+                    Title = searchable,
+                    Summary = searchable,
+                    OfficialUrl = resolved,
+                    PublishedAtUtc = ParseDate(ChildValue(item, "lastmod"))
                 };
             })
             .Where(item => item.OfficialUrl.Length > 0)

@@ -24,7 +24,7 @@ jobs:
   build:
     name: Crawl and build Pages artifact
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -63,6 +63,18 @@ jobs:
           validate-config
           --config config/appsettings.live.json
           --sources config/sources.live.json
+
+      - name: Discover opportunities and update private coverage
+        id: opportunity-radar
+        continue-on-error: true
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          discover-opportunities
+          --config config/appsettings.live.json
+          --discovery-sources config/discovery-sources.live.json
+          --sources config/sources.live.json
+          --municipalities config/municipalities.json
+          --state .runtime/state
 
       - name: Crawl reviewed live sources
         run: >-
@@ -130,9 +142,28 @@ jobs:
 
       - name: Write crawl summary
         shell: pwsh
+        env:
+          RADAR_OUTCOME: ${{ steps.opportunity-radar.outcome }}
         run: |
           $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
             ConvertFrom-Json
+          $coveragePath = '.runtime/state/opportunity-candidates.json'
+          if (Test-Path -LiteralPath $coveragePath) {
+            $radar = Get-Content -Raw -LiteralPath $coveragePath |
+              ConvertFrom-Json
+            $coverage = $radar.coverage
+            $radarSummary = @"
+          - Ejecución del radar: $env:RADAR_OUTCOME
+          - Radar: $($coverage.healthySources) fuentes sanas, $($coverage.degradedSources) degradadas y $($coverage.failingSources) en fallo reiterado
+          - Cobertura radar: $($coverage.municipalitiesWithHealthyCoverage)/$($coverage.municipalitiesTotal) municipios; $($coverage.municipalitiesWithHealthyDirectSource) con canal directo
+          - Candidatos privados pendientes: $($coverage.pendingCandidates)
+          "@
+          } else {
+            $radarSummary = @"
+          - Ejecución del radar: $env:RADAR_OUTCOME
+          - Radar: sin estado disponible en esta ejecución
+          "@
+          }
           @"
           ## SierraNueva
 
@@ -141,6 +172,7 @@ jobs:
           - Fuentes correctas: $($run.successfulSources)
           - Fuentes fallidas: $($run.failedSources)
           - Run ID: ``$($run.runId)``
+          $radarSummary
           "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
   deploy:

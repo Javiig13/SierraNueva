@@ -25,10 +25,14 @@ El descubrimiento administrativo forma un flujo paralelo y privado:
 flowchart LR
     F["BOCM · BOE · PCSP · Portal del Suelo · tablones municipales"] --> A["Calendario/XML · JSON · Atom/ZIP · HTML · eAdmin"]
     A --> R["Municipio + señal + contexto − exclusiones"]
-    R --> S["data/state/opportunity-candidates.json"]
+    R --> S["Cola privada de candidatos"]
+    A --> H["Salud de fuentes"]
+    H --> MC["Cobertura municipal directa y central"]
+    S --> P["data/state/opportunity-candidates.json"]
+    MC --> P
     S --> V["Revisión humana"]
     V --> O["Fuente comercial oficial revisada"]
-    O --> C["Pipeline público de promociones"]
+    O --> PUB["Pipeline público de promociones"]
 ```
 
 ## Fronteras de proyectos
@@ -87,7 +91,9 @@ El estado privado conserva dos generaciones atómicas de
 predeterminada usa fixtures; el perfil live debe indicarse expresamente. El
 lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom, bloques HTML
 acotados por selector, el calendario/sumario XML de BOCM, tablones `eAdmin` y
-portadas públicas de sedes electrónicas.
+portadas públicas de sedes electrónicas. También procesa `urlset` de sitemaps
+pertenecientes a dominios comerciales oficiales ya aprobados; rechaza HTTP y
+hosts ajenos antes de crear un candidato.
 BOCM se recorre por día: la página de calendario descubre el XML oficial de la
 edición y los días sin boletín no producen entradas. Los tablones municipales
 usan una única página, extraen solo enlaces de detalle y fijan un municipio
@@ -107,6 +113,27 @@ La identidad combina fuente, identificador externo o URL y municipio. Una
 ejecución posterior actualiza el candidato sin perder su estado humano:
 `new`, `monitoring`, `rejected`, `verifiedSource` o `stale`. La escritura es
 atómica, rota dos backups y nunca toca `data/public`.
+
+El mismo estado privado mantiene un registro por fuente con primer y último
+chequeo, último éxito y fallo, última respuesta no vacía, contadores de fallos
+y vacíos consecutivos, siguiente revisión prevista y la incidencia saneada. El
+primer fallo degrada la fuente y el segundo consecutivo la marca como fallo
+reiterado. Dos respuestas vacías consecutivas después de haber observado datos
+se consideran una anomalía, pero no borran candidatos ni resultados
+anteriores. `coverage-status` marca también revisiones atrasadas según la
+operación diaria, con un margen de 36 horas.
+
+Cada ejecución genera además una fotografía para los 29 municipios. Distingue
+cobertura municipal directa, exclusivamente central, combinada, degradada o
+todavía no comprobada; incorpora el número de canales sanos y candidatos
+pendientes. `coverage-status` presenta solo esos agregados operativos y no
+expone títulos, URLs ni el contenido de la cola.
+
+El radar recibe las URLs iniciales del registro comercial. Si una URL de
+sitemap coincide tras normalización con una ficha ya revisada, el candidato se
+marca `verifiedSource`; el resto permanece `new`. Esta comparación reduce
+ruido sin convertir un enlace nuevo en promoción ni saltarse la revisión
+jurídica y técnica.
 
 Los ZIP mensuales de PCSP se descargan a un temporal con límite de 512 MiB y se
 procesan entrada a entrada para no mantenerlos completos en memoria. El
@@ -187,8 +214,11 @@ misma frontera.
 ## Automatización y publicación
 
 `ci.yml` ejecuta solo fixtures y reproduce la baseline offline. El workflow
-`crawl-and-deploy.yml` usa explícitamente el perfil live, conserva el estado
-privado en caché de Actions, exige éxito completo antes de publicar y genera un
+`crawl-and-deploy.yml` usa explícitamente los perfiles live del radar y del
+crawler. Primero actualiza candidatos, salud y cobertura dentro del estado
+privado restaurado desde la caché de Actions. Un fallo parcial administrativo
+se informa en el resumen sin sustituir ni bloquear el dataset comercial; este
+último sigue exigiendo éxito completo antes de publicar. El workflow genera un
 artefacto estático con base `/SierraNueva/`, `.nojekyll` y fallback `404.html`.
 La caché nunca se copia al artefacto. Nominatim permanece deshabilitado; las
 promociones sin coordenada exacta usan el centroide municipal trazable y el

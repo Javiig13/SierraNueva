@@ -63,6 +63,9 @@ internal static class CrawlerApplication
                 "review-opportunity" => await ReviewOpportunityAsync(
                     options,
                     shutdown.Token),
+                "coverage-status" => await CoverageStatusAsync(
+                    options,
+                    shutdown.Token),
                 _ => throw new ArgumentException($"Comando desconocido: {options.Command}")
             };
         }
@@ -262,6 +265,9 @@ internal static class CrawlerApplication
             cancellationToken);
         IReadOnlyList<MunicipalityDefinition> municipalities =
             await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        IReadOnlyList<SourceDefinition> knownSources = await loader.LoadSourcesAsync(
+            options.Sources,
+            cancellationToken);
         IReadOnlyList<string> errors = loader.ValidateOpportunityCatalog(
             catalog,
             municipalities);
@@ -294,6 +300,10 @@ internal static class CrawlerApplication
                 From = from,
                 To = to,
                 SourceFilter = options.Source,
+                KnownPromotionUrls = knownSources
+                    .Where(source => source.Enabled)
+                    .SelectMany(source => source.StartUrls)
+                    .ToArray(),
                 DryRun = options.DryRun
             },
             cancellationToken);
@@ -303,6 +313,13 @@ internal static class CrawlerApplication
             $"Radar {result.Run.RunId}: {result.Run.NewCandidates} candidatos nuevos, " +
             $"{result.Run.UpdatedCandidates} actualizados, " +
             $"{result.State.Candidates.Count} acumulados; {failed} fuentes fallidas.");
+        Console.WriteLine(
+            $"Cobertura: {result.State.Coverage.MunicipalitiesWithHealthyCoverage}/" +
+            $"{result.State.Coverage.MunicipalitiesTotal} municipios con vigilancia sana; " +
+            $"{result.State.Coverage.MunicipalitiesWithHealthyDirectSource} con canal " +
+            $"municipal directo; {result.State.Coverage.HealthySources} fuentes sanas, " +
+            $"{result.State.Coverage.DegradedSources} degradadas y " +
+            $"{result.State.Coverage.FailingSources} en fallo reiterado.");
         foreach (OpportunitySourceRun source in result.Run.Sources)
         {
             Console.WriteLine(
@@ -356,13 +373,87 @@ internal static class CrawlerApplication
             LastRun = state.LastRun,
             Candidates = state.Candidates
                 .Select(candidate => candidate.Id == reviewed.Id ? reviewed : candidate)
-                .ToArray()
+                .ToArray(),
+            SourceHealth = state.SourceHealth,
+            Coverage = state.Coverage
         };
         await repository.SaveAsync(options.State, updated, cancellationToken);
         Console.WriteLine(
             $"Candidato {reviewed.Id}: estado {reviewed.Status} guardado en " +
             $"'{options.State}'.");
         return 0;
+    }
+
+    private static async Task<int> CoverageStatusAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        OpportunityRadarState state = await new JsonOpportunityStateRepository().LoadAsync(
+            options.State,
+            cancellationToken);
+        OpportunityCoverageSnapshot coverage = state.Coverage;
+        if (coverage.GeneratedAtUtc == default)
+        {
+            Console.Error.WriteLine(
+                "Todavía no existe una instantánea de cobertura. " +
+                "Ejecuta discover-opportunities sin --dry-run.");
+            return 1;
+        }
+
+        Console.WriteLine(
+            $"Cobertura {coverage.GeneratedAtUtc:O}: " +
+            $"{coverage.MunicipalitiesWithHealthyCoverage}/{coverage.MunicipalitiesTotal} " +
+            $"municipios con vigilancia sana; " +
+            $"{coverage.MunicipalitiesWithHealthyDirectSource} con canal directo.");
+        Console.WriteLine(
+            $"Fuentes: {coverage.HealthySources} sanas, " +
+            $"{coverage.DegradedSources} degradadas, " +
+            $"{coverage.FailingSources} en fallo reiterado; " +
+            $"{coverage.PendingCandidates} candidatos pendientes.");
+
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        OpportunitySourceHealth[] overdueSources = state.SourceHealth
+            .Where(source =>
+                source.NextCheckDueUtc.HasValue &&
+                source.NextCheckDueUtc.Value < now)
+            .OrderBy(source => source.SourceId, StringComparer.Ordinal)
+            .ToArray();
+        foreach (OpportunitySourceHealth source in overdueSources)
+        {
+            Console.WriteLine(
+                $"  ATRASADA {source.SourceId}: revisión prevista antes de " +
+                $"{source.NextCheckDueUtc:O}.");
+        }
+
+        foreach (OpportunitySourceHealth source in state.SourceHealth.Where(source =>
+                     source.Status is
+                         OpportunitySourceHealthStatus.Degraded or
+                         OpportunitySourceHealthStatus.Failing))
+        {
+            Console.WriteLine(
+                $"  FUENTE {source.SourceId}: {source.Status}; " +
+                $"{string.Join(" | ", source.Issues)}");
+        }
+
+        foreach (MunicipalityOpportunityCoverage municipality in
+                 coverage.Municipalities.Where(municipality =>
+                     municipality.Status is
+                         MunicipalityCoverageStatus.CentralOnly or
+                         MunicipalityCoverageStatus.Degraded or
+                         MunicipalityCoverageStatus.NotChecked))
+        {
+            Console.WriteLine(
+                $"  MUNICIPIO {municipality.Municipality}: {municipality.Status}; " +
+                $"{municipality.HealthyDirectSources}/" +
+                $"{municipality.ConfiguredDirectSources} canales directos sanos.");
+        }
+
+        return coverage.DegradedSources > 0 ||
+               coverage.FailingSources > 0 ||
+               overdueSources.Length > 0 ||
+               coverage.MunicipalitiesWithHealthyCoverage < coverage.MunicipalitiesTotal
+            ? 1
+            : 0;
     }
 
     private static OpportunityCandidate CopyWithStatus(
@@ -506,6 +597,7 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- validate-data [opciones]
               dotnet run --project src/SierraNueva.Crawler -- discover-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
 
             Opciones:
               --config <ruta>          config/appsettings.json
@@ -607,7 +699,8 @@ internal sealed class CliOptions
             "validate-config" or
             "validate-data" or
             "discover-opportunities" or
-            "review-opportunity"))
+            "review-opportunity" or
+            "coverage-status"))
         {
             throw new ArgumentException($"Comando desconocido: {command}");
         }

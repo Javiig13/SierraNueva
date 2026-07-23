@@ -16,7 +16,10 @@
     "reparcelación",
     "plan parcial",
     "estudio de detalle",
-    "licencia de obra"
+    "licencia de obra",
+    "promoción",
+    "promociones",
+    "obra nueva"
   ],
   "exclusionTerms": [
     "aparcamiento",
@@ -43,7 +46,10 @@
     { "term": "licencia de obra", "kind": "buildingPermit" },
     { "term": "uso residencial unifamiliar", "kind": "residentialDevelopment" },
     { "term": "promoción de viviendas", "kind": "residentialDevelopment" },
-    { "term": "viviendas unifamiliares", "kind": "residentialDevelopment" }
+    { "term": "viviendas unifamiliares", "kind": "residentialDevelopment" },
+    { "term": "promoción", "kind": "residentialDevelopment" },
+    { "term": "promociones", "kind": "residentialDevelopment" },
+    { "term": "obra nueva", "kind": "residentialDevelopment" }
   ],
   "sources": [
     {
@@ -446,6 +452,149 @@
       "allowedHosts": [ "www.navalafuente.org", "navalafuente.org" ],
       "fixedMunicipality": "Navalafuente",
       "maxItems": 50
+    },
+    {
+      "id": "sitemap-exxacon",
+      "name": "EXXACON — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.exxacon.es/promocion-sitemap.xml",
+      "allowedHosts": [ "www.exxacon.es", "exxacon.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-antaro",
+      "name": "Antaro — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://antaro.es/promocion-sitemap.xml",
+      "allowedHosts": [ "antaro.es", "www.antaro.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-apremya",
+      "name": "Apremya Homes — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://apremyahomes.es/wp-sitemap-posts-page-1.xml",
+      "allowedHosts": [ "apremyahomes.es", "www.apremyahomes.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-grupo-index",
+      "name": "Grupo Index Madrid — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://grupoindexmadrid.com/page-sitemap.xml",
+      "allowedHosts": [ "grupoindexmadrid.com", "www.grupoindexmadrid.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-hirimasa",
+      "name": "Hirimasa — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://hirimasa.com/wp-sitemap-posts-page-1.xml",
+      "allowedHosts": [ "hirimasa.com", "www.hirimasa.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-nuvare",
+      "name": "NUVARE — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://nuvare.es/page-sitemap.xml",
+      "allowedHosts": [ "nuvare.es", "www.nuvare.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-residencial-alpedrete",
+      "name": "Residencial Alpedrete — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://residencialalpedrete.com/page-sitemap.xml",
+      "allowedHosts": [ "residencialalpedrete.com", "www.residencialalpedrete.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-stance",
+      "name": "STANCE Homes — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://stancehomes.es/page-sitemap.xml",
+      "allowedHosts": [ "stancehomes.es", "www.stancehomes.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-trinosa",
+      "name": "Trinosa — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://trinosa.com/promocion-sitemap.xml",
+      "allowedHosts": [ "trinosa.com", "www.trinosa.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-altter",
+      "name": "Altter — sitemap de propiedades",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.altter.es/property-sitemap.xml",
+      "allowedHosts": [ "www.altter.es", "altter.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-kronos",
+      "name": "Kronos Homes — sitemap de negocio",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.kronoshomes.com/sitemap-negocio.xml",
+      "allowedHosts": [ "www.kronoshomes.com", "kronoshomes.com" ],
+      "maxItems": 2000
+    },
+    {
+      "id": "sitemap-quinta-manzanares",
+      "name": "La Quinta de Manzanares — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.laquintademanzanares.com/sitemap.xml",
+      "allowedHosts": [ "www.laquintademanzanares.com", "laquintademanzanares.com" ],
+      "maxItems": 100
+    },
+    {
+      "id": "sitemap-vesari",
+      "name": "Vesari — sitemap de páginas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.vesari.info/pages-sitemap.xml",
+      "allowedHosts": [ "www.vesari.info", "vesari.info" ],
+      "maxItems": 1000
     }
   ]
 }

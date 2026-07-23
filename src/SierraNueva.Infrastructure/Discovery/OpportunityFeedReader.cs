@@ -27,7 +27,11 @@ public sealed class OpportunityFeedReader(
             Uri baseUri = fixtureUris.Count > 0
                 ? fixtureUris[0].Uri
                 : new Uri("https://fixtures.invalid/");
-            return parser.Parse(source, fixture, baseUri, toDate);
+            IReadOnlyList<OpportunityFeedItem> fixtureItems =
+                parser.Parse(source, fixture, baseUri, toDate);
+            return source.Format == OpportunityFeedFormat.Sitemap
+                ? FilterSitemapItems(source, fixtureItems)
+                : fixtureItems;
         }
 
         List<OpportunityFeedItem> items = [];
@@ -81,7 +85,14 @@ public sealed class OpportunityFeedReader(
                 continue;
             }
 
-            items.AddRange(parser.Parse(source, content, uri, date));
+            IReadOnlyList<OpportunityFeedItem> parsed = parser.Parse(
+                source,
+                content,
+                uri,
+                date);
+            items.AddRange(source.Format == OpportunityFeedFormat.Sitemap
+                ? FilterSitemapItems(source, parsed)
+                : parsed);
             if (items.Count >= source.MaxItems)
             {
                 break;
@@ -95,6 +106,19 @@ public sealed class OpportunityFeedReader(
                     : item.ExternalId,
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
+            .ToArray();
+    }
+
+    private static IReadOnlyList<OpportunityFeedItem> FilterSitemapItems(
+        OpportunitySourceDefinition source,
+        IEnumerable<OpportunityFeedItem> items)
+    {
+        return items.Where(item =>
+                Uri.TryCreate(item.OfficialUrl, UriKind.Absolute, out Uri? uri) &&
+                uri.Scheme == Uri.UriSchemeHttps &&
+                source.AllowedHosts.Contains(
+                    uri.IdnHost,
+                    StringComparer.OrdinalIgnoreCase))
             .ToArray();
     }
 

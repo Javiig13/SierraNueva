@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://promotora-fixture.test/promociones/residencial-encinar-galapagar</loc>
+    <lastmod>2026-05-20T08:30:00+00:00</lastmod>
+    <image:image>
+      <image:title>Obra nueva residencial en Galapagar</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://promotora-fixture.test/aviso-legal</loc>
+    <lastmod>2026-05-18</lastmod>
+  </url>
+  <url>
+    <loc>http://promotora-fixture.test/promociones/residencial-descartada-galapagar</loc>
+  </url>
+  <url>
+    <loc>https://portal-no-autorizado.test/promociones/residencial-ajena-galapagar</loc>
+  </url>
+</urlset>

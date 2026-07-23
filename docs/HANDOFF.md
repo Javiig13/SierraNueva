@@ -79,10 +79,22 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   previa y usa cookies públicas de sesión únicamente en memoria.
 - Filtro de radar por municipio, señal y contexto inmobiliario, con exclusiones
   para ruido administrativo. Los candidatos viven únicamente en `data/state`.
+- Registro privado de salud por fuente con último intento/éxito/fallo,
+  respuestas vacías consecutivas, siguiente revisión prevista y escalado de
+  degradación a fallo reiterado.
+- Instantánea privada de cobertura para los 29 municipios, separando canal
+  directo, central, combinado, degradado o no comprobado. `coverage-status`
+  muestra solo agregados y puntos ciegos.
+- Descubrimiento comercial privado mediante 13 sitemaps de dominios oficiales
+  ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
+  señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
+  ya figuran en el registro de fuentes.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
   atómicos adicionales para la cola de oportunidades.
 - CI offline en GitHub Actions y workflow manual/diario de crawl y despliegue,
   con acciones fijadas, permisos mínimos, concurrencia y resumen de ejecución.
+  El workflow actualizado ejecuta primero el radar y conserva su estado en la
+  caché privada, sin publicar candidatos.
 - Preparación de Pages con base `/SierraNueva/`, `.nojekyll`, fallback
   `404.html` y rechazo explícito de cualquier estado privado.
 
@@ -121,24 +133,25 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:82 correctos
+Tests Infrastructure:84 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               103/103 correctos
+Total:               105/105 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 32 fuentes de radar
+validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       21 fuentes; 21 promociones válidas, 0 fallos
 Mapa live:           21/21 promociones; 20 centroides municipales y 1 exacta
-Radar offline:       32 candidatos de fixtures; 32/32 fuentes
+Radar offline:       33 candidatos; 33/33 fuentes sanas; cobertura 29/29
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
+Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 1 min 55 s para el commit 5e6c472
+CI GitHub real:      correcto en 1 min 40 s para el commit 401a309
 Crawl/deploy GitHub: correcto en la ejecución 30051216349
 Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
 Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
@@ -209,6 +222,19 @@ porque el estado sintético ya está sembrado.
 - La cuarta cohorte añade la actualidad oficial de Collado Villalba y los RSS
   de Guadalix de la Sierra y Navalafuente. Procesó 20 entradas live sin fallos
   ni candidatos y eleva la vigilancia municipal directa a 28/29 (96,6 %).
+- El radar genera ahora una fotografía operativa: la baseline offline obtiene
+  29/29 municipios con vigilancia sana, 28 con canal directo y Robledo de
+  Chavela como cobertura exclusivamente central. Esto mide ejecución y puntos
+  ciegos; no convierte candidatos en promociones ni garantiza disponibilidad.
+- Trece sitemaps comerciales oficiales amplían el catálogo live a 45 fuentes.
+  El smoke aislado procesó 839 URLs sin fallos, encontró 15 coincidencias y
+  separó tres URLs ya conocidas de 12 candidatos pendientes. Entre estos
+  últimos aparece una ficha específica de STANCE en Torrelodones y varias
+  páginas municipales de obra nueva que todavía no demuestran una promoción.
+- Dos respuestas vacías consecutivas tras observar datos degradan una fuente.
+  El primer fallo también degrada y el segundo consecutivo marca fallo
+  reiterado; una recuperación limpia ambos contadores. La prueba usa un lector
+  secuenciado completamente offline.
 - Robledo de Chavela sigue sin canal municipal directo: el RSS devuelve 403 al
   cliente identificado, la sede anterior declara estar inactiva y la nueva
   sede es una aplicación JavaScript sin avisos en el HTML. No se evade el
@@ -247,10 +273,14 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI #15 se ejecutó para `5e6c472` y terminó correctamente en 1 min 55 s.
+- CI #16 se ejecutó para `401a309` y terminó correctamente en 1 min 40 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
+- El workflow actualizado ejecuta antes `discover-opportunities` con las 32
+  fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
+  del radar queda visible y no bloquea el último dataset comercial válido. La
+  primera ejecución real de esta ampliación aún está pendiente de verificar.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -273,20 +303,26 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Mantener verde la baseline offline.
-2. Revalidar las 21 evaluaciones antes de cada cambio operativo o
+1. Verificar la primera ejecución real del workflow con radar integrado y
+   registrar salud, cobertura y aislamiento de `data/state`.
+2. Mantener verde la baseline offline.
+3. Revalidar las 21 evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+4. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-4. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+5. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-5. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
+6. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
    operativa y siempre sobre estado privado aislado.
-6. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+7. Revisar los 12 candidatos de sitemap y promover solo fichas oficiales
+   vigentes que superen la evaluación técnica y jurídica.
+8. Añadir seguimiento de enlaces internos solo donde el sitemap oficial omita
+   páginas relevantes; todo hallazgo debe entrar en la cola privada.
+9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-7. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-8. Definir la protección y política de ramas cuando el propietario decida el
+11. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 
 ## Cómo retomar en otro equipo

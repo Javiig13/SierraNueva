@@ -6,7 +6,8 @@ public enum OpportunitySourceKind
     StateGazette,
     PublicProcurement,
     PublicLandPortal,
-    MunicipalNoticeBoard
+    MunicipalNoticeBoard,
+    OfficialCommercialWebsite
 }
 
 public enum OpportunityFeedFormat
@@ -17,7 +18,8 @@ public enum OpportunityFeedFormat
     ZipAtom,
     Html,
     BocmCalendar,
-    EAdminHtml
+    EAdminHtml,
+    Sitemap
 }
 
 public enum OpportunityFeedCadence
@@ -45,6 +47,23 @@ public enum OpportunityCandidateStatus
     Rejected,
     VerifiedSource,
     Stale
+}
+
+public enum OpportunitySourceHealthStatus
+{
+    NotChecked,
+    Healthy,
+    Degraded,
+    Failing
+}
+
+public enum MunicipalityCoverageStatus
+{
+    NotChecked,
+    CentralOnly,
+    DirectOnly,
+    DirectAndCentral,
+    Degraded
 }
 
 public sealed class OpportunityTermRule
@@ -177,6 +196,88 @@ public sealed class OpportunityDiscoveryRun
     public IReadOnlyList<OpportunitySourceRun> Sources { get; init; } = [];
 }
 
+public sealed class OpportunitySourceHealth
+{
+    public string SourceId { get; init; } = string.Empty;
+
+    public string SourceName { get; init; } = string.Empty;
+
+    public OpportunitySourceKind SourceKind { get; init; }
+
+    public OpportunityFeedCadence Cadence { get; init; }
+
+    public string? FixedMunicipality { get; init; }
+
+    public DateTimeOffset? FirstCheckedUtc { get; init; }
+
+    public DateTimeOffset? LastAttemptUtc { get; init; }
+
+    public DateTimeOffset? LastSuccessUtc { get; init; }
+
+    public DateTimeOffset? LastFailureUtc { get; init; }
+
+    public DateTimeOffset? LastNonEmptyUtc { get; init; }
+
+    public DateTimeOffset? NextCheckDueUtc { get; init; }
+
+    public int ConsecutiveFailures { get; init; }
+
+    public int ConsecutiveEmptyRuns { get; init; }
+
+    public int LastItemsRead { get; init; }
+
+    public int LastCandidatesMatched { get; init; }
+
+    public OpportunitySourceHealthStatus Status { get; init; } =
+        OpportunitySourceHealthStatus.NotChecked;
+
+    public IReadOnlyList<string> Issues { get; init; } = [];
+}
+
+public sealed class MunicipalityOpportunityCoverage
+{
+    public string Municipality { get; init; } = string.Empty;
+
+    public MunicipalityCoverageStatus Status { get; init; }
+
+    public int ConfiguredDirectSources { get; init; }
+
+    public int HealthyDirectSources { get; init; }
+
+    public int HealthyCentralSources { get; init; }
+
+    public DateTimeOffset? LastSuccessfulCheckUtc { get; init; }
+
+    public int NewCandidates { get; init; }
+
+    public int MonitoringCandidates { get; init; }
+}
+
+public sealed class OpportunityCoverageSnapshot
+{
+    public DateTimeOffset GeneratedAtUtc { get; init; }
+
+    public int EnabledSources { get; init; }
+
+    public int HealthySources { get; init; }
+
+    public int DegradedSources { get; init; }
+
+    public int FailingSources { get; init; }
+
+    public int MunicipalitiesTotal { get; init; }
+
+    public int MunicipalitiesWithDirectSource { get; init; }
+
+    public int MunicipalitiesWithHealthyDirectSource { get; init; }
+
+    public int MunicipalitiesWithHealthyCoverage { get; init; }
+
+    public int PendingCandidates { get; init; }
+
+    public IReadOnlyList<MunicipalityOpportunityCoverage> Municipalities { get; init; } = [];
+}
+
 public sealed class OpportunityRadarState
 {
     public string SchemaVersion { get; init; } = "1.0";
@@ -186,6 +287,10 @@ public sealed class OpportunityRadarState
     public OpportunityDiscoveryRun? LastRun { get; init; }
 
     public IReadOnlyList<OpportunityCandidate> Candidates { get; init; } = [];
+
+    public IReadOnlyList<OpportunitySourceHealth> SourceHealth { get; init; } = [];
+
+    public OpportunityCoverageSnapshot Coverage { get; init; } = new();
 }
 
 public sealed class OpportunityDiscoveryRequest
@@ -201,6 +306,8 @@ public sealed class OpportunityDiscoveryRequest
     public DateOnly To { get; init; }
 
     public string? SourceFilter { get; init; }
+
+    public IReadOnlyList<string> KnownPromotionUrls { get; init; } = [];
 
     public bool DryRun { get; init; }
 }

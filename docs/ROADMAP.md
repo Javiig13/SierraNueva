@@ -179,6 +179,42 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   activa muestra 18 opciones; las cinco promociones de la cuarta ampliación
   están presentes en listado y mapa.
 
+## P5 — Cobertura continua
+
+- **Hecho:** registro privado de salud para todas las fuentes del radar con
+  último intento, éxito, fallo, respuesta no vacía, contadores consecutivos e
+  incidencia saneada; la siguiente revisión prevista permite detectar canales
+  atrasados.
+- **Hecho:** degradación ante el primer fallo, fallo reiterado a partir del
+  segundo y anomalía tras dos respuestas vacías consecutivas cuando la fuente
+  había proporcionado datos.
+- **Hecho:** instantánea de cobertura para los 29 municipios con estados
+  directo, central, combinado, degradado o no comprobado y recuento de
+  candidatos pendientes.
+- **Hecho:** `coverage-status` permite consultar agregados y puntos ciegos sin
+  revelar la cola privada.
+- **Hecho:** integración del radar en el workflow diario antes del crawl. El
+  estado se conserva solo en la caché privada y el resumen informa su resultado;
+  un fallo administrativo parcial no sustituye ni bloquea el dataset comercial.
+- **Hecho:** prueba offline de integración con 33/33 fuentes sanas, 29/29
+  municipios vigilados y 28 con canal municipal directo, además de regresión
+  para vacíos, fallos reiterados y recuperación.
+- **Hecho:** descubrimiento acotado mediante 13 sitemaps declarados en
+  `robots.txt` o comprobados en dominios comerciales oficiales ya aprobados.
+  Solo admite HTTPS y hosts permitidos; una fixture cubre URLs válidas,
+  externas y no seguras.
+- **Hecho:** smoke live aislado de los 13 sitemaps: 839 URLs procesadas, 13/13
+  fuentes sanas, 15 coincidencias, tres URLs ya verificadas y 12 candidatos
+  pendientes de revisión. Evaluación en
+  `docs/source-assessments/continuous-discovery-2026-07-24.md`.
+- **Pendiente:** verificar la primera ejecución real del workflow ampliado y
+  registrar sus métricas sin publicar `data/state`.
+- **Pendiente:** añadir seguimiento acotado de enlaces internos para los
+  dominios oficiales cuyo sitemap omite páginas o municipio, siempre mediante
+  cola de revisión y sin alta automática.
+- **Pendiente:** ejecutar backfills periódicos por lotes y auditorías muestrales
+  para estimar oportunidades no observadas entre canales independientes.
+
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
@@ -210,7 +246,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 25 | Portales excluidos bloqueados | Hecho | blocklist y pruebas |
 | 26 | Fallo parcial no destruye dataset | Hecho | reglas y pruebas de estado |
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
-| 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
+| 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
 | 30 | `dotnet test` ejecutado e informado | Hecho | 103/103 en la entrega |
 

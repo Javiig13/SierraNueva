@@ -224,6 +224,50 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_ReadsOfficialSitemapAndRejectsNonHttpsOrForeignUrls()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "promoter-sitemap",
+            Name = "Sitemap de promotora",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+            Format = OpportunityFeedFormat.Sitemap,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate = "https://promotora-fixture.test/sitemap.xml",
+            FixturePath = FixturePath("promoter-sitemap.xml"),
+            AllowedHosts = ["promotora-fixture.test"],
+            MaxItems = 100
+        };
+        OpportunityFeedReader reader = new(
+            new UnusedHttpClientFactory(),
+            new OpportunityFeedParser());
+
+        IReadOnlyList<OpportunityFeedItem> items = await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            CancellationToken.None);
+
+        Assert.Equal(2, items.Count);
+        OpportunityFeedItem promotion = Assert.Single(
+            items,
+            item => item.OfficialUrl.Contains(
+                "residencial-encinar",
+                StringComparison.Ordinal));
+        Assert.Contains("obra nueva", promotion.Title, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(
+            new DateTimeOffset(2026, 5, 20, 8, 30, 0, TimeSpan.Zero),
+            promotion.PublishedAtUtc);
+        Assert.All(
+            items,
+            item => Assert.StartsWith(
+                "https://promotora-fixture.test/",
+                item.OfficialUrl,
+                StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task Pipeline_FiltersNoisePersistsPrivatelyAndPreservesReview()
     {
         string directory = CreateTempDirectory();
@@ -258,7 +302,7 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(32, first.Run.NewCandidates);
+            Assert.Equal(33, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
@@ -296,6 +340,25 @@ public sealed class OpportunityDiscoveryTests
                     .Order(StringComparer.Ordinal)
                     .ToArray());
             Assert.True(File.Exists(Path.Combine(directory, "opportunity-candidates.json")));
+            Assert.Equal(33, first.State.SourceHealth.Count);
+            Assert.All(
+                first.State.SourceHealth,
+                source => Assert.Equal(
+                    OpportunitySourceHealthStatus.Healthy,
+                    source.Status));
+            Assert.Equal(29, first.State.Coverage.MunicipalitiesTotal);
+            Assert.Equal(28, first.State.Coverage.MunicipalitiesWithDirectSource);
+            Assert.Equal(28, first.State.Coverage.MunicipalitiesWithHealthyDirectSource);
+            Assert.Equal(29, first.State.Coverage.MunicipalitiesWithHealthyCoverage);
+            Assert.Equal(33, first.State.Coverage.PendingCandidates);
+            Assert.Equal(
+                MunicipalityCoverageStatus.CentralOnly,
+                first.State.Coverage.Municipalities.Single(
+                    item => item.Municipality == "Robledo de Chavela").Status);
+            Assert.Equal(
+                MunicipalityCoverageStatus.DirectAndCentral,
+                first.State.Coverage.Municipalities.Single(
+                    item => item.Municipality == "Galapagar").Status);
 
             OpportunityCandidate reviewed = first.State.Candidates[0];
             OpportunityRadarState reviewedState = new()
@@ -305,7 +368,9 @@ public sealed class OpportunityDiscoveryTests
                 Candidates = first.State.Candidates.Select(candidate =>
                     candidate.Id == reviewed.Id
                         ? CopyWithStatus(candidate, OpportunityCandidateStatus.Monitoring)
-                        : candidate).ToArray()
+                        : candidate).ToArray(),
+                SourceHealth = first.State.SourceHealth,
+                Coverage = first.State.Coverage
             };
             await repository.SaveAsync(directory, reviewedState, CancellationToken.None);
 
@@ -314,10 +379,137 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(32, second.Run.UpdatedCandidates);
+            Assert.Equal(33, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);
+            Assert.Equal(33, second.State.SourceHealth.Count);
+            Assert.Equal(29, second.State.Coverage.MunicipalitiesWithHealthyCoverage);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_TracksEmptyResponsesAndRepeatedFailuresWithoutLosingCoverageState()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition source = new()
+            {
+                Id = "galapagar-notices",
+                Name = "Tablón de Galapagar",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.MunicipalNoticeBoard,
+                Format = OpportunityFeedFormat.Rss,
+                Cadence = OpportunityFeedCadence.Daily,
+                FixedMunicipality = "Galapagar"
+            };
+            OpportunityDiscoveryCatalog catalog = new()
+            {
+                Terms =
+                [
+                    new()
+                    {
+                        Term = "licencia de obra",
+                        Kind = OpportunityKind.BuildingPermit
+                    }
+                ],
+                ContextTerms = ["viviendas"],
+                Sources = [source]
+            };
+            OpportunityFeedItem item = new()
+            {
+                ExternalId = "notice-1",
+                Title = "Licencia de obra para 12 viviendas",
+                OfficialUrl = "https://official.example/notices/1"
+            };
+            ScriptedFeedReader reader = new(
+                new OpportunityFeedItem[] { item },
+                Array.Empty<OpportunityFeedItem>(),
+                Array.Empty<OpportunityFeedItem>(),
+                new IOException("Fallo transitorio"),
+                new IOException("Fallo repetido"),
+                new OpportunityFeedItem[] { item });
+            OpportunityDiscoveryPipeline pipeline = new(
+                reader,
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 5, 21, 12, 0, 0, TimeSpan.Zero)));
+            OpportunityDiscoveryRequest request = new()
+            {
+                Catalog = catalog,
+                Municipalities = [new() { OfficialName = "Galapagar" }],
+                StateDirectory = directory,
+                From = FixtureDate,
+                To = FixtureDate,
+                KnownPromotionUrls = ["https://official.example/notices/1/"]
+            };
+
+            OpportunityDiscoveryResult first = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            Assert.Equal(
+                OpportunitySourceHealthStatus.Healthy,
+                Assert.Single(first.State.SourceHealth).Status);
+            Assert.Equal(
+                OpportunityCandidateStatus.VerifiedSource,
+                Assert.Single(first.State.Candidates).Status);
+            Assert.Equal(0, first.State.Coverage.PendingCandidates);
+            Assert.Equal(
+                new DateTimeOffset(2026, 5, 23, 0, 0, 0, TimeSpan.Zero),
+                Assert.Single(first.State.SourceHealth).NextCheckDueUtc);
+
+            OpportunityDiscoveryResult firstEmpty = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            Assert.Equal(
+                OpportunitySourceHealthStatus.Healthy,
+                Assert.Single(firstEmpty.State.SourceHealth).Status);
+            Assert.Equal(1, Assert.Single(firstEmpty.State.SourceHealth).ConsecutiveEmptyRuns);
+
+            OpportunityDiscoveryResult secondEmpty = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            OpportunitySourceHealth emptyHealth = Assert.Single(secondEmpty.State.SourceHealth);
+            Assert.Equal(OpportunitySourceHealthStatus.Degraded, emptyHealth.Status);
+            Assert.Equal(2, emptyHealth.ConsecutiveEmptyRuns);
+            Assert.Contains("cero entradas", Assert.Single(emptyHealth.Issues));
+            Assert.Equal(
+                MunicipalityCoverageStatus.Degraded,
+                Assert.Single(secondEmpty.State.Coverage.Municipalities).Status);
+
+            OpportunityDiscoveryResult firstFailure = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            Assert.Equal(
+                OpportunitySourceHealthStatus.Degraded,
+                Assert.Single(firstFailure.State.SourceHealth).Status);
+            Assert.Equal(1, Assert.Single(firstFailure.State.SourceHealth).ConsecutiveFailures);
+
+            OpportunityDiscoveryResult secondFailure = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            OpportunitySourceHealth failingHealth = Assert.Single(
+                secondFailure.State.SourceHealth);
+            Assert.Equal(OpportunitySourceHealthStatus.Failing, failingHealth.Status);
+            Assert.Equal(2, failingHealth.ConsecutiveFailures);
+            Assert.Equal("Fallo repetido", Assert.Single(failingHealth.Issues));
+
+            OpportunityDiscoveryResult recovered = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            OpportunitySourceHealth recoveredHealth = Assert.Single(
+                recovered.State.SourceHealth);
+            Assert.Equal(OpportunitySourceHealthStatus.Healthy, recoveredHealth.Status);
+            Assert.Equal(0, recoveredHealth.ConsecutiveFailures);
+            Assert.Equal(0, recoveredHealth.ConsecutiveEmptyRuns);
+            Assert.Empty(recoveredHealth.Issues);
+            Assert.Equal(
+                MunicipalityCoverageStatus.DirectOnly,
+                Assert.Single(recovered.State.Coverage.Municipalities).Status);
         }
         finally
         {
@@ -345,6 +537,18 @@ public sealed class OpportunityDiscoveryTests
         Assert.Empty(loader.ValidateOpportunityCatalog(live, municipalities));
         Assert.All(offline.Sources, source => Assert.NotNull(source.FixturePath));
         Assert.All(live.Sources, source => Assert.Null(source.FixturePath));
+        Assert.Single(
+            offline.Sources,
+            source => source.SourceKind ==
+                      OpportunitySourceKind.OfficialCommercialWebsite);
+        Assert.Equal(
+            13,
+            live.Sources.Count(source =>
+                source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
+        Assert.All(
+            live.Sources.Where(source =>
+                source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite),
+            source => Assert.Equal(OpportunityFeedFormat.Sitemap, source.Format));
     }
 
     [Fact]
@@ -591,6 +795,27 @@ public sealed class OpportunityDiscoveryTests
             CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("No debe leer feeds.");
+        }
+    }
+
+    private sealed class ScriptedFeedReader(params object[] results) : IOpportunityFeedReader
+    {
+        private readonly Queue<object> _results = new(results);
+
+        public Task<IReadOnlyList<OpportunityFeedItem>> ReadAsync(
+            OpportunitySourceDefinition source,
+            DateOnly fromDate,
+            DateOnly toDate,
+            CancellationToken cancellationToken)
+        {
+            object result = _results.Dequeue();
+            return result switch
+            {
+                Exception exception => Task.FromException<IReadOnlyList<OpportunityFeedItem>>(
+                    exception),
+                IReadOnlyList<OpportunityFeedItem> items => Task.FromResult(items),
+                _ => throw new InvalidOperationException("Resultado de feed no compatible.")
+            };
         }
     }
 

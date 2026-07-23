@@ -33,6 +33,9 @@ comprobada e integraciones live que aún requieren trabajo.
   hipervínculos internos.
 - Ejecuta un radar privado y separado para señales de BOCM, BOE, contratación
   pública y suelo público, sin confundirlas con promociones verificadas.
+- Mantiene un registro privado de salud por fuente y una instantánea de
+  cobertura por municipio; detecta fallos repetidos y respuestas vacías
+  anómalas sin retirar el último estado válido.
 - Respeta `robots.txt`, limita solicitudes y bloquea portales, esquemas
   peligrosos y direcciones privadas.
 - Mantiene estado y evita desactivar una promoción hasta tres ausencias
@@ -130,6 +133,9 @@ SierraNueva.Crawler review-opportunity
   --state <ruta>
   --candidate <id>
   --status <new|monitoring|rejected|verifiedSource|stale>
+
+SierraNueva.Crawler coverage-status
+  --state <ruta>
 ```
 
 Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida,
@@ -140,13 +146,14 @@ tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene 21 fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
-El radar sigue el mismo principio. `config/discovery-sources.json` usa 32
+El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` habilita de forma explícita los cuatro
-canales centrales y 28 fuentes municipales: cinco tablones `eAdmin`, 18
-portadas públicas de sedes `sedelectronica.es`, el tablón de transparencia de
-Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y Navalafuente y la
-actualidad oficial de Collado Villalba:
+`config/discovery-sources.live.json` habilita de forma explícita 45 fuentes:
+cuatro canales centrales, 28 fuentes municipales y 13 sitemaps de dominios
+comerciales oficiales ya revisados. La parte municipal comprende cinco tablones
+`eAdmin`, 18 portadas públicas de sedes `sedelectronica.es`, el tablón de
+transparencia de Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y
+Navalafuente y la actualidad oficial de Collado Villalba:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
@@ -159,6 +166,24 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 Los resultados se guardan únicamente en `data/state` o en la ruta aislada
 indicada. Un candidato no es una promoción ni se incorpora automáticamente al
 contrato público.
+
+Una ejecución no seca actualiza también el registro de salud y cobertura. Para
+consultarlo sin mostrar títulos, URLs ni detalles de los candidatos:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  coverage-status --state data/state
+```
+
+El informe diferencia canales sanos, degradados, atrasados y en fallo
+reiterado, cobertura municipal directa o exclusivamente central y el total de
+candidatos pendientes.
+
+Los sitemaps solo aceptan HTTPS y URLs del mismo conjunto de hosts aprobado.
+Detectan nombres de municipios y señales como `promoción`, `promociones` u
+`obra nueva`; los enlaces que ya existen en `sources.live.json` se marcan como
+fuente verificada y los demás quedan pendientes de revisión. Nunca se añaden
+automáticamente al dataset público.
 
 BOCM admite backfill por intervalos de hasta 367 días inclusivos. Para recorrer
 varios años se ejecuta un lote por año, siempre con una ruta de estado privada:
@@ -264,7 +289,9 @@ data/state/opportunity-candidates.backup-2.json
 ```
 
 Los archivos `opportunity-candidates*` están ignorados por Git para reducir el
-riesgo de publicar accidentalmente una cola live.
+riesgo de publicar accidentalmente una cola live. El mismo contrato privado
+conserva la salud histórica de las fuentes y la instantánea municipal de
+cobertura; no se copia al frontend.
 
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se
@@ -357,8 +384,10 @@ sigue funcionando.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; usa las 21 fuentes live revisadas y no versiona el
-  estado.
+  `Europe/Madrid`; actualiza primero el radar y su cobertura privada, usa las
+  21 fuentes live revisadas y no versiona el estado. Un fallo parcial del radar
+  queda visible en el resumen, pero no elimina ni bloquea el último dataset
+  comercial válido.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
 - GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El

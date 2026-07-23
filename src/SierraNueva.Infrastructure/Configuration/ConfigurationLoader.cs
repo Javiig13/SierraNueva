@@ -168,6 +168,20 @@ public sealed class ConfigurationLoader
                 errors.Add($"El tablón municipal '{source.Id}' debe fijar municipio.");
             }
 
+            if (source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite &&
+                source.Format != OpportunityFeedFormat.Sitemap)
+            {
+                errors.Add(
+                    $"La fuente comercial '{source.Id}' debe usar el formato Sitemap.");
+            }
+
+            if (source.Format == OpportunityFeedFormat.Sitemap &&
+                source.SourceKind != OpportunitySourceKind.OfficialCommercialWebsite)
+            {
+                errors.Add(
+                    $"El sitemap '{source.Id}' debe declararse como web comercial oficial.");
+            }
+
             if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&
                 municipalities is not null &&
                 !municipalities.Any(municipality =>

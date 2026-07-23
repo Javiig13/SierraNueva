@@ -16,7 +16,10 @@
     "reparcelación",
     "plan parcial",
     "estudio de detalle",
-    "licencia de obra"
+    "licencia de obra",
+    "promoción",
+    "promociones",
+    "obra nueva"
   ],
   "exclusionTerms": [
     "aparcamiento",
@@ -43,7 +46,10 @@
     { "term": "licencia de obra", "kind": "buildingPermit" },
     { "term": "uso residencial unifamiliar", "kind": "residentialDevelopment" },
     { "term": "promoción de viviendas", "kind": "residentialDevelopment" },
-    { "term": "viviendas unifamiliares", "kind": "residentialDevelopment" }
+    { "term": "viviendas unifamiliares", "kind": "residentialDevelopment" },
+    { "term": "promoción", "kind": "residentialDevelopment" },
+    { "term": "promociones", "kind": "residentialDevelopment" },
+    { "term": "obra nueva", "kind": "residentialDevelopment" }
   ],
   "sources": [
     {
@@ -478,6 +484,18 @@
       "allowedHosts": [ "www.navalafuente.org", "navalafuente.org" ],
       "fixedMunicipality": "Navalafuente",
       "maxItems": 50
+    },
+    {
+      "id": "sitemap-promotora-fixture",
+      "name": "Promotora oficial — sitemap de prueba",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://promotora-fixture.test/sitemap.xml",
+      "fixturePath": "test-data/discovery/promoter-sitemap.xml",
+      "allowedHosts": [ "promotora-fixture.test" ],
+      "maxItems": 100
     }
   ]
 }

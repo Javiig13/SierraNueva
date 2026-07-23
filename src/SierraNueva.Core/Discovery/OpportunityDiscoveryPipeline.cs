@@ -34,12 +34,39 @@ public sealed class OpportunityDiscoveryPipeline(
         Dictionary<string, OpportunityCandidate> candidates = previous.Candidates.ToDictionary(
             candidate => candidate.Id,
             StringComparer.Ordinal);
+        Dictionary<string, OpportunitySourceHealth> sourceHealth =
+            previous.SourceHealth.ToDictionary(
+                source => source.SourceId,
+                StringComparer.Ordinal);
         List<OpportunitySourceRun> sourceRuns = [];
         int newCandidates = 0;
         int updatedCandidates = 0;
+        HashSet<string> knownPromotionUrls = request.KnownPromotionUrls
+            .Select(UrlNormalizer.Normalize)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        IEnumerable<OpportunitySourceDefinition> sources = request.Catalog.Sources
-            .Where(source => source.Enabled);
+        OpportunitySourceDefinition[] enabledSources = request.Catalog.Sources
+            .Where(source => source.Enabled)
+            .OrderBy(source => source.Id, StringComparer.Ordinal)
+            .ToArray();
+        HashSet<string> enabledSourceIds = enabledSources
+            .Select(source => source.Id)
+            .ToHashSet(StringComparer.Ordinal);
+        foreach (string removedSourceId in sourceHealth.Keys
+                     .Where(sourceId => !enabledSourceIds.Contains(sourceId))
+                     .ToArray())
+        {
+            sourceHealth.Remove(removedSourceId);
+        }
+
+        foreach (OpportunitySourceDefinition source in enabledSources)
+        {
+            sourceHealth[source.Id] = RegisterSource(
+                source,
+                sourceHealth.GetValueOrDefault(source.Id));
+        }
+
+        IEnumerable<OpportunitySourceDefinition> sources = enabledSources;
         if (!string.IsNullOrWhiteSpace(request.SourceFilter))
         {
             sources = sources.Where(source => string.Equals(
@@ -68,6 +95,7 @@ public sealed class OpportunityDiscoveryPipeline(
                         request.Catalog.Terms,
                         request.Catalog.ContextTerms,
                         request.Catalog.ExclusionTerms,
+                        knownPromotionUrls,
                         clock.UtcNow);
                     if (candidate is null)
                     {
@@ -94,16 +122,28 @@ public sealed class OpportunityDiscoveryPipeline(
                     ItemsRead = items.Count,
                     CandidatesMatched = matched
                 });
+                sourceHealth[source.Id] = RecordSuccess(
+                    source,
+                    sourceHealth[source.Id],
+                    items.Count,
+                    matched,
+                    clock.UtcNow);
             }
             catch (Exception exception) when (
                 exception is HttpRequestException or IOException or InvalidDataException)
             {
+                string error = TextNormalizer.CleanEvidence(exception.Message);
                 sourceRuns.Add(new()
                 {
                     SourceId = source.Id,
                     Success = false,
-                    Error = TextNormalizer.CleanEvidence(exception.Message)
+                    Error = error
                 });
+                sourceHealth[source.Id] = RecordFailure(
+                    source,
+                    sourceHealth[source.Id],
+                    error,
+                    clock.UtcNow);
             }
         }
 
@@ -119,6 +159,15 @@ public sealed class OpportunityDiscoveryPipeline(
             UpdatedCandidates = updatedCandidates,
             Sources = sourceRuns.OrderBy(item => item.SourceId, StringComparer.Ordinal).ToArray()
         };
+        OpportunitySourceHealth[] orderedHealth = sourceHealth.Values
+            .OrderBy(item => item.SourceId, StringComparer.Ordinal)
+            .ToArray();
+        OpportunityCoverageSnapshot coverage = BuildCoverage(
+            enabledSources,
+            request.Municipalities,
+            orderedHealth,
+            candidates.Values,
+            finishedAt);
         OpportunityRadarState state = new()
         {
             UpdatedAtUtc = finishedAt,
@@ -127,7 +176,9 @@ public sealed class OpportunityDiscoveryPipeline(
                 .OrderBy(item => item.Municipality, StringComparer.Ordinal)
                 .ThenByDescending(item => item.PublishedAtUtc)
                 .ThenBy(item => item.Id, StringComparer.Ordinal)
-                .ToArray()
+                .ToArray(),
+            SourceHealth = orderedHealth,
+            Coverage = coverage
         };
         if (!request.DryRun)
         {
@@ -137,6 +188,238 @@ public sealed class OpportunityDiscoveryPipeline(
         return new() { State = state, Run = run };
     }
 
+    private static OpportunitySourceHealth RegisterSource(
+        OpportunitySourceDefinition source,
+        OpportunitySourceHealth? previous)
+    {
+        return new()
+        {
+            SourceId = source.Id,
+            SourceName = source.Name,
+            SourceKind = source.SourceKind,
+            Cadence = source.Cadence,
+            FixedMunicipality = source.FixedMunicipality,
+            FirstCheckedUtc = previous?.FirstCheckedUtc,
+            LastAttemptUtc = previous?.LastAttemptUtc,
+            LastSuccessUtc = previous?.LastSuccessUtc,
+            LastFailureUtc = previous?.LastFailureUtc,
+            LastNonEmptyUtc = previous?.LastNonEmptyUtc,
+            NextCheckDueUtc = previous?.NextCheckDueUtc,
+            ConsecutiveFailures = previous?.ConsecutiveFailures ?? 0,
+            ConsecutiveEmptyRuns = previous?.ConsecutiveEmptyRuns ?? 0,
+            LastItemsRead = previous?.LastItemsRead ?? 0,
+            LastCandidatesMatched = previous?.LastCandidatesMatched ?? 0,
+            Status = previous?.Status ?? OpportunitySourceHealthStatus.NotChecked,
+            Issues = previous?.Issues ?? []
+        };
+    }
+
+    private static OpportunitySourceHealth RecordSuccess(
+        OpportunitySourceDefinition source,
+        OpportunitySourceHealth previous,
+        int itemsRead,
+        int candidatesMatched,
+        DateTimeOffset checkedAtUtc)
+    {
+        int consecutiveEmptyRuns = itemsRead == 0
+            ? previous.ConsecutiveEmptyRuns + 1
+            : 0;
+        bool emptyAnomaly = itemsRead == 0 &&
+                            consecutiveEmptyRuns >= 2 &&
+                            previous.LastNonEmptyUtc.HasValue;
+        return new()
+        {
+            SourceId = source.Id,
+            SourceName = source.Name,
+            SourceKind = source.SourceKind,
+            Cadence = source.Cadence,
+            FixedMunicipality = source.FixedMunicipality,
+            FirstCheckedUtc = previous.FirstCheckedUtc ?? checkedAtUtc,
+            LastAttemptUtc = checkedAtUtc,
+            LastSuccessUtc = checkedAtUtc,
+            LastFailureUtc = previous.LastFailureUtc,
+            LastNonEmptyUtc = itemsRead > 0 ? checkedAtUtc : previous.LastNonEmptyUtc,
+            NextCheckDueUtc = NextCheckDue(checkedAtUtc),
+            ConsecutiveFailures = 0,
+            ConsecutiveEmptyRuns = consecutiveEmptyRuns,
+            LastItemsRead = itemsRead,
+            LastCandidatesMatched = candidatesMatched,
+            Status = emptyAnomaly
+                ? OpportunitySourceHealthStatus.Degraded
+                : OpportunitySourceHealthStatus.Healthy,
+            Issues = emptyAnomaly
+                ? ["La fuente devolvió cero entradas en dos ejecuciones consecutivas tras contener datos."]
+                : []
+        };
+    }
+
+    private static OpportunitySourceHealth RecordFailure(
+        OpportunitySourceDefinition source,
+        OpportunitySourceHealth previous,
+        string error,
+        DateTimeOffset checkedAtUtc)
+    {
+        int consecutiveFailures = previous.ConsecutiveFailures + 1;
+        return new()
+        {
+            SourceId = source.Id,
+            SourceName = source.Name,
+            SourceKind = source.SourceKind,
+            Cadence = source.Cadence,
+            FixedMunicipality = source.FixedMunicipality,
+            FirstCheckedUtc = previous.FirstCheckedUtc ?? checkedAtUtc,
+            LastAttemptUtc = checkedAtUtc,
+            LastSuccessUtc = previous.LastSuccessUtc,
+            LastFailureUtc = checkedAtUtc,
+            LastNonEmptyUtc = previous.LastNonEmptyUtc,
+            NextCheckDueUtc = NextCheckDue(checkedAtUtc),
+            ConsecutiveFailures = consecutiveFailures,
+            ConsecutiveEmptyRuns = previous.ConsecutiveEmptyRuns,
+            LastItemsRead = previous.LastItemsRead,
+            LastCandidatesMatched = previous.LastCandidatesMatched,
+            Status = consecutiveFailures >= 2
+                ? OpportunitySourceHealthStatus.Failing
+                : OpportunitySourceHealthStatus.Degraded,
+            Issues = [error]
+        };
+    }
+
+    private static DateTimeOffset NextCheckDue(DateTimeOffset checkedAtUtc)
+    {
+        return checkedAtUtc.AddHours(36);
+    }
+
+    private static OpportunityCoverageSnapshot BuildCoverage(
+        IReadOnlyList<OpportunitySourceDefinition> sources,
+        IReadOnlyList<MunicipalityDefinition> municipalities,
+        IReadOnlyList<OpportunitySourceHealth> sourceHealth,
+        IEnumerable<OpportunityCandidate> candidates,
+        DateTimeOffset generatedAtUtc)
+    {
+        Dictionary<string, OpportunitySourceHealth> healthBySource = sourceHealth.ToDictionary(
+            source => source.SourceId,
+            StringComparer.Ordinal);
+        OpportunitySourceDefinition[] centralSources = sources
+            .Where(source => source.SourceKind is
+                OpportunitySourceKind.RegionalGazette or
+                OpportunitySourceKind.StateGazette or
+                OpportunitySourceKind.PublicProcurement or
+                OpportunitySourceKind.PublicLandPortal)
+            .ToArray();
+        OpportunityCandidate[] candidateArray = candidates.ToArray();
+        MunicipalityOpportunityCoverage[] municipalityCoverage = municipalities
+            .Where(municipality => municipality.Enabled)
+            .OrderBy(municipality => municipality.OfficialName, StringComparer.Ordinal)
+            .Select(municipality =>
+            {
+                OpportunitySourceDefinition[] directSources = sources
+                    .Where(source =>
+                        source.SourceKind == OpportunitySourceKind.MunicipalNoticeBoard &&
+                        string.Equals(
+                            source.FixedMunicipality,
+                            municipality.OfficialName,
+                            StringComparison.OrdinalIgnoreCase))
+                    .ToArray();
+                OpportunitySourceHealth[] relevantHealth = directSources
+                    .Concat(centralSources)
+                    .Select(source => healthBySource[source.Id])
+                    .ToArray();
+                OpportunitySourceHealth[] healthyDirect = directSources
+                    .Select(source => healthBySource[source.Id])
+                    .Where(health => health.Status == OpportunitySourceHealthStatus.Healthy)
+                    .ToArray();
+                OpportunitySourceHealth[] healthyCentral = centralSources
+                    .Select(source => healthBySource[source.Id])
+                    .Where(health => health.Status == OpportunitySourceHealthStatus.Healthy)
+                    .ToArray();
+                bool anyChecked = relevantHealth.Any(health => health.LastAttemptUtc.HasValue);
+                MunicipalityCoverageStatus status = ResolveCoverageStatus(
+                    healthyDirect.Length,
+                    healthyCentral.Length,
+                    anyChecked);
+                OpportunityCandidate[] municipalityCandidates = candidateArray
+                    .Where(candidate => string.Equals(
+                        candidate.Municipality,
+                        municipality.OfficialName,
+                        StringComparison.Ordinal))
+                    .ToArray();
+                return new MunicipalityOpportunityCoverage
+                {
+                    Municipality = municipality.OfficialName,
+                    Status = status,
+                    ConfiguredDirectSources = directSources.Length,
+                    HealthyDirectSources = healthyDirect.Length,
+                    HealthyCentralSources = healthyCentral.Length,
+                    LastSuccessfulCheckUtc = healthyDirect
+                        .Concat(healthyCentral)
+                        .Select(health => health.LastSuccessUtc)
+                        .Where(value => value.HasValue)
+                        .Select(value => value!.Value)
+                        .DefaultIfEmpty()
+                        .Max() is DateTimeOffset lastSuccess && lastSuccess != default
+                            ? lastSuccess
+                            : null,
+                    NewCandidates = municipalityCandidates.Count(candidate =>
+                        candidate.Status == OpportunityCandidateStatus.New),
+                    MonitoringCandidates = municipalityCandidates.Count(candidate =>
+                        candidate.Status == OpportunityCandidateStatus.Monitoring)
+                };
+            })
+            .ToArray();
+
+        return new()
+        {
+            GeneratedAtUtc = generatedAtUtc,
+            EnabledSources = sources.Count,
+            HealthySources = sourceHealth.Count(source =>
+                source.Status == OpportunitySourceHealthStatus.Healthy),
+            DegradedSources = sourceHealth.Count(source =>
+                source.Status == OpportunitySourceHealthStatus.Degraded),
+            FailingSources = sourceHealth.Count(source =>
+                source.Status == OpportunitySourceHealthStatus.Failing),
+            MunicipalitiesTotal = municipalityCoverage.Length,
+            MunicipalitiesWithDirectSource = municipalityCoverage.Count(item =>
+                item.ConfiguredDirectSources > 0),
+            MunicipalitiesWithHealthyDirectSource = municipalityCoverage.Count(item =>
+                item.HealthyDirectSources > 0),
+            MunicipalitiesWithHealthyCoverage = municipalityCoverage.Count(item =>
+                item.Status is
+                    MunicipalityCoverageStatus.CentralOnly or
+                    MunicipalityCoverageStatus.DirectOnly or
+                    MunicipalityCoverageStatus.DirectAndCentral),
+            PendingCandidates = candidateArray.Count(candidate =>
+                candidate.Status is
+                    OpportunityCandidateStatus.New or
+                    OpportunityCandidateStatus.Monitoring),
+            Municipalities = municipalityCoverage
+        };
+    }
+
+    private static MunicipalityCoverageStatus ResolveCoverageStatus(
+        int healthyDirectSources,
+        int healthyCentralSources,
+        bool anyChecked)
+    {
+        if (healthyDirectSources > 0 && healthyCentralSources > 0)
+        {
+            return MunicipalityCoverageStatus.DirectAndCentral;
+        }
+
+        if (healthyDirectSources > 0)
+        {
+            return MunicipalityCoverageStatus.DirectOnly;
+        }
+
+        if (healthyCentralSources > 0)
+        {
+            return MunicipalityCoverageStatus.CentralOnly;
+        }
+
+        return anyChecked
+            ? MunicipalityCoverageStatus.Degraded
+            : MunicipalityCoverageStatus.NotChecked;
+    }
+
     private static OpportunityCandidate? Match(
         OpportunitySourceDefinition source,
         OpportunityFeedItem item,
@@ -144,6 +427,7 @@ public sealed class OpportunityDiscoveryPipeline(
         IReadOnlyList<OpportunityTermRule> rules,
         IReadOnlyList<string> contextTerms,
         IReadOnlyList<string> exclusionTerms,
+        IReadOnlySet<string> knownPromotionUrls,
         DateTimeOffset observedAtUtc)
     {
         string searchable = TextNormalizer.NormalizeForComparison(
@@ -200,7 +484,10 @@ public sealed class OpportunityDiscoveryPipeline(
                 .Order(StringComparer.OrdinalIgnoreCase)
                 .ToArray(),
             FirstSeenUtc = observedAtUtc,
-            LastSeenUtc = observedAtUtc
+            LastSeenUtc = observedAtUtc,
+            Status = knownPromotionUrls.Contains(UrlNormalizer.Normalize(item.OfficialUrl))
+                ? OpportunityCandidateStatus.VerifiedSource
+                : OpportunityCandidateStatus.New
         };
     }
 
