@@ -162,6 +162,10 @@ la query para compartir la vista. La ficha detalla las señales de confianza;
 el patrón de tabs móvil admite teclado y el detalle se presenta como diálogo
 con cierre mediante Escape.
 
+Cada arranque de la SPA añade un mismo token de versión a los cuatro recursos
+públicos. Así se evita combinar respuestas antiguas de la caché del navegador
+con el último despliegue, manteniendo a la vez una instantánea coherente.
+
 Leaflet recibe el GeoJSON generado y una lista de identificadores visibles.
 Los popups se construyen con nodos y `textContent`, nunca con HTML de terceros.
 La versión 1.9.4 se sirve desde el artefacto estático, sin CDN. Si Leaflet o las

@@ -24,6 +24,8 @@ requiere trabajo de producto.
   compartible; todo tráfico externo se aborta antes de salir.
 - **Hecho:** rediseño responsive con mapa dominante, precios sobre marcadores,
   filtros compactos/avanzados y resaltado bidireccional entre mapa y tarjetas.
+- **Hecho:** invalidación por versión de la caché de los cuatro recursos
+  públicos para mostrar cada dataset desplegado sin mezclar revisiones.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
   lector, incluida navegación por flechas en tabs y cierre de diálogo con
   Escape.
@@ -138,7 +140,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 83/83 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 84/84 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
@@ -166,7 +168,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 83/83 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 84/84 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

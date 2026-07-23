@@ -103,6 +103,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   Escape y comprobaciones de semántica y contraste.
 - Salida `data/public` enlazada al `wwwroot/data` durante build/publish; el
   estado interno no se incluye y el publish lo comprueba automáticamente.
+- Las cuatro lecturas públicas añaden un token común por arranque para evitar
+  que el navegador reutilice JSON o GeoJSON de un despliegue anterior.
 - Scripts de ejecución local para PowerShell y Bash.
 
 ## Baseline comprobado
@@ -114,9 +116,9 @@ SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
 Tests Infrastructure:63 correctos
-Tests Web:           4 correctos
+Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               83/83 correctos
+Total:               84/84 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -195,6 +197,8 @@ porque el estado sintético ya está sembrado.
 - El rediseño visual del 23 de julio de 2026 se comprobó en navegador real:
   portada responsive, barra de filtros, mapa dominante, tarjetas, popups y
   estados de hover/foco. No añade recursos visuales ni dependencias externas.
+- Una prueba unitaria comprueba que promociones, cambios, informe y GeoJSON
+  usan el mismo token de versión y no quedan mezclados entre despliegues.
 - La auditoría automatizada cubre una baseline básica de accesibilidad, no una
   certificación WCAG ni pruebas con lectores de pantalla físicos.
 - Los enlaces sintéticos usan el dominio reservado `.test`; el comportamiento

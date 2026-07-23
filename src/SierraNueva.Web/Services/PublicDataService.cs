@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SierraNueva.Contracts;
@@ -8,18 +9,25 @@ namespace SierraNueva.Web.Services;
 public sealed class PublicDataService(HttpClient httpClient)
 {
     private static readonly JsonSerializerOptions JsonOptions = CreateOptions();
+    private readonly string _cacheToken = DateTimeOffset.UtcNow
+        .ToUnixTimeMilliseconds()
+        .ToString(CultureInfo.InvariantCulture);
 
     public async Task<SiteData> LoadAsync(CancellationToken cancellationToken)
     {
         PromotionDataset promotions = await LoadAsync<PromotionDataset>(
-            "data/promotions.json",
+            Versioned("data/promotions.json"),
             cancellationToken);
         ChangeDataset changes = await LoadAsync<ChangeDataset>(
-            "data/changes.json",
+            Versioned("data/changes.json"),
             cancellationToken);
-        RunReport run = await LoadAsync<RunReport>("data/run.json", cancellationToken);
+        RunReport run = await LoadAsync<RunReport>(
+            Versioned("data/run.json"),
+            cancellationToken);
         using JsonDocument geoJson = JsonDocument.Parse(
-            await httpClient.GetStringAsync("data/promotions.geojson", cancellationToken));
+            await httpClient.GetStringAsync(
+                Versioned("data/promotions.geojson"),
+                cancellationToken));
         return new()
         {
             Promotions = promotions,
@@ -27,6 +35,11 @@ public sealed class PublicDataService(HttpClient httpClient)
             Run = run,
             GeoJson = geoJson.RootElement.Clone()
         };
+    }
+
+    private string Versioned(string path)
+    {
+        return $"{path}?v={_cacheToken}";
     }
 
     private async Task<T> LoadAsync<T>(string path, CancellationToken cancellationToken)
