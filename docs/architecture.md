@@ -186,7 +186,9 @@ misma frontera.
 `crawl-and-deploy.yml` usa explícitamente el perfil live, conserva el estado
 privado en caché de Actions, exige éxito completo antes de publicar y genera un
 artefacto estático con base `/SierraNueva/`, `.nojekyll` y fallback `404.html`.
-La caché nunca se copia al artefacto.
+La caché nunca se copia al artefacto. Nominatim permanece deshabilitado; las
+promociones sin coordenada exacta usan el centroide municipal trazable y el
+workflow rechaza el artefacto si GeoJSON no cubre todas las promociones.
 
 La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. El
 repositorio es público y Pages usa GitHub Actions como fuente. La ejecución

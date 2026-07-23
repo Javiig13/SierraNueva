@@ -123,6 +123,7 @@ Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
+Mapa live:           8/8 promociones; 7 centroides municipales y 1 exacta
 Radar offline:       29 candidatos de fixtures; 29/29 fuentes
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -208,6 +209,9 @@ porque el estado sintético ya está sembrado.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las ocho fuentes
   revisadas; un fallo conserva el último despliegue válido.
+- El workflow aplica el fallback local de centroides municipales con Nominatim
+  deshabilitado y exige que todas las promociones publicadas estén presentes
+  en GeoJSON. El smoke live confirmó 8/8 puntos: siete aproximados y uno exacto.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual

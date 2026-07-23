@@ -73,13 +73,25 @@ jobs:
           --output .runtime/public
           --state .runtime/state
           --no-playwright
-          --no-geocoding
 
       - name: Validate live public data
         run: >-
           dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
           validate-data
           --output .runtime/public
+
+      - name: Validate map coverage
+        shell: pwsh
+        run: |
+          $dataset = Get-Content -Raw -LiteralPath .runtime/public/promotions.json |
+            ConvertFrom-Json
+          $geoJson = Get-Content -Raw -LiteralPath .runtime/public/promotions.geojson |
+            ConvertFrom-Json
+          $promotionCount = @($dataset.promotions).Count
+          $featureCount = @($geoJson.features).Count
+          if ($featureCount -ne $promotionCount) {
+            throw "El mapa solo contiene $featureCount de $promotionCount promociones."
+          }
 
       - name: Reject fixture data in the production artifact
         shell: pwsh

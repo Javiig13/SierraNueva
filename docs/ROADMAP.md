@@ -122,6 +122,9 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   summary; las acciones están fijadas por SHA.
 - **Hecho:** artefacto Pages con datos live solo tras éxito completo y
   comprobación de ausencia de `data/state`.
+- **Hecho:** cobertura de mapa exigida en el workflow; las ocho promociones
+  live aparecen en GeoJSON mediante siete centroides trazables y una ubicación
+  exacta, sin activar Nominatim.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
 - **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
