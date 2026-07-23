@@ -20,10 +20,12 @@ comprueba el código y corrige después la documentación.
 
 ## Estado de la fase
 
-La fase actual es **producto local y repositorio**. El propietario ha aplazado
-expresamente GitHub, Actions, Pages, hosting y demás infraestructura hasta el
-final. No añadas todavía workflows, remotos, despliegues, secretos, `base href`
-de un repositorio provisional ni servicios cloud, salvo petición expresa.
+La fase actual es **producto local y repositorio**. El propietario autorizó el
+23 de julio de 2026 crear el remoto privado
+`https://github.com/Javiig13/SierraNueva`; `main` lo sigue. Actions, Pages,
+hosting y demás infraestructura continúan aplazados. No añadas todavía
+workflows, despliegues, secretos, `base href` ni servicios cloud, salvo petición
+expresa.
 
 El punto de partida funcional usa únicamente `fixtures-locales`. No habilites
 una fuente real por comodidad: cada fuente debe verificarse jurídica y

@@ -99,10 +99,12 @@ requiere trabajo de producto.
 
 ## P4 — GitHub y hosting
 
-No iniciar hasta que el propietario lo autorice y exista repositorio/slug
-definitivo.
+El propietario autorizó el 23 de julio de 2026 crear y subir el repositorio
+privado. Las mutaciones operativas restantes requieren autorización expresa.
 
-- **Pendiente acordado:** crear remoto y política de ramas.
+- **Hecho:** repositorio privado `Javiig13/SierraNueva`, remoto `origin`,
+  historial completo y `main` siguiendo `origin/main`.
+- **Pendiente acordado:** definir protección y política de ramas.
 - **Pendiente acordado:** `ci.yml` para restore, build, test, formato y
   configuración sin crawling live.
 - **Pendiente acordado:** `crawl-and-deploy.yml` con `workflow_dispatch`,

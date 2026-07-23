@@ -13,10 +13,10 @@ partir de fuentes oficiales, pero nunca los publica como promociones.
 
 ## Contexto de producto
 
-La petición original incluía producto e infraestructura. El propietario decidió
-terminar primero el repositorio y dejar GitHub, Actions, Pages, hosting y
-operación remota para el final. No es un olvido: es una decisión explícita de
-secuencia.
+La petición original incluía producto e infraestructura. Tras completar la
+fase local, el propietario autorizó el 23 de julio de 2026 crear y subir el
+repositorio privado `Javiig13/SierraNueva`. Actions, Pages, hosting y operación
+programada siguen aplazados; no es un olvido, sino la siguiente fase.
 
 La SPA está hecha con **Blazor WebAssembly standalone sobre .NET 10**. Es
 estática y compatible conceptualmente con GitHub Pages. Aún no está adaptada al
@@ -183,11 +183,14 @@ porque el estado sintético ya está sembrado.
 
 ### Infraestructura aplazada
 
-- No existe carpeta `.github` ni remotos configurados.
+- Existe el remoto privado `origin` en
+  `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
+  historial y sigue `origin/main`.
+- No existe todavía carpeta `.github`.
 - Faltan CI, crawling programado, despliegue, permisos y resúmenes.
 - Faltan `base href` de project site, `.nojekyll` y fallback `404.html`.
-- No se ha decidido nombre/slug final del repositorio ni estrategia de estado
-  a largo plazo.
+- El slug final es `SierraNueva`; falta decidir la estrategia de estado a largo
+  plazo.
 
 ## Próximo trabajo recomendado
 
@@ -204,8 +207,8 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 7. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-8. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
-   descrita en `docs/ROADMAP.md`.
+8. Continuar la fase GitHub descrita en `docs/ROADMAP.md` solo por autorización
+   expresa: CI offline primero y Pages/operación después.
 
 ## Cómo retomar en otro equipo
 
@@ -228,4 +231,5 @@ No hace falta Docker, npm, backend ni servicios externos para la baseline.
 - Los centroides nulos son preferibles a coordenadas inventadas.
 - Playwright y Nominatim son fallbacks, no el camino principal.
 - La lista sigue siendo plenamente útil si el mapa falla.
-- La infraestructura espera al nombre y configuración final del repositorio.
+- El repositorio remoto ya está fijado; la automatización y el hosting siguen
+  requiriendo una decisión operativa explícita.

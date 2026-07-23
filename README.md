@@ -5,9 +5,10 @@ en la Sierra de Madrid. El repositorio contiene un crawler/ETL en .NET y una
 aplicación Blazor WebAssembly completamente estática. El MVP prioriza fuentes
 oficiales y excluye los grandes portales inmobiliarios.
 
-Esta primera fase es deliberadamente local. No incluye todavía GitHub Actions,
-GitHub Pages, hosting ni configuración remota del repositorio. Esas piezas se
-añadirán al final, sobre una base de producto ya comprobada.
+El repositorio privado oficial es
+`https://github.com/Javiig13/SierraNueva`. No incluye todavía GitHub Actions,
+GitHub Pages ni hosting; esas piezas se añadirán sobre la base local ya
+comprobada.
 
 ## Continuar el proyecto
 

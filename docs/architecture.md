@@ -179,11 +179,10 @@ misma frontera.
 
 ## Decisiones pendientes de infraestructura
 
-GitHub Pages sigue siendo el destino previsto porque puede servir Blazor y los
-datos sin backend. No se ha materializado en esta fase: faltan workflows,
-permisos, concurrencia, programación, artefacto Pages, `base href`, `.nojekyll`
-y fallback SPA. Se diseñarán cuando se conozca el repositorio final para no
-codificar rutas o nombres provisionales.
+El repositorio privado definitivo es `Javiig13/SierraNueva`. GitHub Pages sigue
+siendo el destino previsto porque puede servir Blazor y los datos sin backend,
+pero aún faltan workflows, permisos, concurrencia, programación, artefacto
+Pages, `base href`, `.nojekyll` y fallback SPA.
 
-En esa fase se decidirá si el estado se versiona en Git o se mueve a
+Antes de automatizar se decidirá si el estado se versiona en Git o se mueve a
 almacenamiento externo y qué fuentes live se habilitan.
