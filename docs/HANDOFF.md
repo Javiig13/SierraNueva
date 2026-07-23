@@ -151,8 +151,10 @@ Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 1 min 40 s para el commit 401a309
-Crawl/deploy GitHub: correcto en la ejecución 30051216349
+CI GitHub real:      correcto en 1 min 57 s para el commit ba2a186
+Crawl/deploy GitHub: correcto en la ejecución 30054208393 (7 min 10 s)
+Radar GitHub real:   40 sanas, 5 degradadas; cobertura 29/29, 23 directas
+Cola privada real:   17 hallazgos; 3 URLs conocidas y 14 pendientes
 Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
 Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
 ```
@@ -231,6 +233,16 @@ porque el estado sintético ya está sembrado.
   separó tres URLs ya conocidas de 12 candidatos pendientes. Entre estos
   últimos aparece una ficha específica de STANCE en Torrelodones y varias
   páginas municipales de obra nueva que todavía no demuestran una promoción.
+- La primera ejecución integrada en GitHub, `30054208393`, recorrió las 45
+  fuentes en 3 min 40 s. Encontró 17 coincidencias: tres correspondían a URLs
+  comerciales conocidas y 14 quedaron pendientes en la cola privada. PCSP y
+  Collado Mediano aportaron una coincidencia cada uno; los sitemaps aportaron
+  las quince restantes.
+- Cinco canales municipales quedaron degradados en esa ejecución: las portadas
+  de El Boalo, El Escorial, Guadarrama y Torrelodones respondieron HTTP 503, y
+  el tablón de Los Molinos respondió HTTP 403. Las otras 40 fuentes terminaron
+  sanas. La redundancia central mantuvo 29/29 municipios vigilados, aunque solo
+  23 tuvieron canal municipal directo sano en esa fotografía.
 - Dos respuestas vacías consecutivas tras observar datos degradan una fuente.
   El primer fallo también degrada y el segundo consecutivo marca fallo
   reiterado; una recuperación limpia ambos contadores. La prueba usa un lector
@@ -273,14 +285,16 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI #16 se ejecutó para `401a309` y terminó correctamente en 1 min 40 s.
+- CI #17 se ejecutó para `ba2a186` y terminó correctamente en 1 min 57 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
-- El workflow actualizado ejecuta antes `discover-opportunities` con las 32
+- El workflow actualizado ejecuta antes `discover-opportunities` con las 45
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
   del radar queda visible y no bloquea el último dataset comercial válido. La
-  primera ejecución real de esta ampliación aún está pendiente de verificar.
+  ejecución real `30054208393` verificó el aislamiento: el paso del radar
+  informó resultado `failure` por cinco canales degradados, pero el job
+  completó 21/21 fuentes comerciales, publicó el artefacto y desplegó Pages.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -291,31 +305,33 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30051216349` completó el crawl, validó las 21 fuentes, publicó 21
+  `30054208393` completó el crawl, validó las 21 fuentes, publicó 21
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó en navegador la portada y el mapa, incluidas Essentia, Osnola,
   Claveles, Cumbres de Navalafuente y Montemilano. La vista por defecto muestra
-  18 promociones comerciales activas y el resumen conserva las 21. El JSON
+  17 promociones comerciales activas y el resumen conserva las 21. El JSON
   público contiene 21 promociones en 16 municipios, el GeoJSON 21 elementos,
-  el `runId` es `20260723T225026535Z` y el estado privado devuelve 404.
+  el `runId` es `20260723T235040607Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
 
-1. Verificar la primera ejecución real del workflow con radar integrado y
-   registrar salud, cobertura y aislamiento de `data/state`.
-2. Mantener verde la baseline offline.
-3. Revalidar las 21 evaluaciones antes de cada cambio operativo o
+1. Revisar los 14 candidatos privados de la ejecución `30054208393`; promover
+   únicamente fichas oficiales vigentes que superen la evaluación técnica y
+   jurídica.
+2. Investigar los cuatro HTTP 503 municipales y el HTTP 403 de Los Molinos sin
+   evadir restricciones; confirmar recuperación o segundo fallo en la próxima
+   ejecución diaria.
+3. Mantener verde la baseline offline.
+4. Revalidar las 21 evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-4. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+5. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-5. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+6. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-6. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
+7. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
    operativa y siempre sobre estado privado aislado.
-7. Revisar los 12 candidatos de sitemap y promover solo fichas oficiales
-   vigentes que superen la evaluación técnica y jurídica.
 8. Añadir seguimiento de enlaces internos solo donde el sitemap oficial omita
    páginas relevantes; todo hallazgo debe entrar en la cola privada.
 9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una

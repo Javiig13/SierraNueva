@@ -172,11 +172,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
 - **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
-  `30051216349` correcta y SPA disponible en
+  `30054208393` correcta y SPA disponible en
   `https://javiig13.github.io/SierraNueva/`.
 - **Hecho:** portada, mapa, dataset live de 21 promociones en 16 municipios, 21
   elementos GeoJSON y exclusión pública de `data/state` comprobados. La vista
-  activa muestra 18 opciones; las cinco promociones de la cuarta ampliación
+  activa muestra 17 opciones; las cinco promociones de la cuarta ampliación
   están presentes en listado y mapa.
 
 ## P5 — Cobertura continua
@@ -207,8 +207,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   fuentes sanas, 15 coincidencias, tres URLs ya verificadas y 12 candidatos
   pendientes de revisión. Evaluación en
   `docs/source-assessments/continuous-discovery-2026-07-24.md`.
-- **Pendiente:** verificar la primera ejecución real del workflow ampliado y
-  registrar sus métricas sin publicar `data/state`.
+- **Hecho:** primera ejecución real del workflow ampliado (`30054208393`):
+  40/45 fuentes sanas, cinco municipales degradadas, 29/29 municipios
+  vigilados, 23 con canal directo sano y 14 candidatos pendientes. El radar
+  informó fallo parcial, pero el aislamiento permitió publicar 21/21 fuentes
+  comerciales; Pages terminó correctamente y `data/state` devolvió 404.
 - **Pendiente:** añadir seguimiento acotado de enlaces internos para los
   dominios oficiales cuyo sitemap omite páginas o municipio, siempre mediante
   cola de revisión y sin alta automática.
@@ -220,7 +223,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 103/103 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 105/105 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
@@ -237,7 +240,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 16 | Enlaces a webs originales | Hecho | las 21 fichas live publican su URL oficial y la UI expone el enlace |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
-| 19 | Deploy Pages | Hecho | ejecución `30051216349` y URL pública verificadas |
+| 19 | Deploy Pages | Hecho | ejecución `30054208393` y URL pública verificadas |
 | 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
 | 21 | `.nojekyll` | Hecho | generado y verificado |
 | 22 | Fallback SPA | Hecho | `404.html` generado y verificado |
@@ -248,7 +251,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 103/103 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 105/105 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
