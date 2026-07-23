@@ -119,8 +119,8 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene la primera fuente revisada, pero nunca se
-usa en la baseline ni en pruebas automáticas.
+`config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
+nunca se usa en la baseline ni en pruebas automáticas.
 
 ## Configurar fuentes
 
@@ -129,6 +129,12 @@ controla hosts permitidos, URLs iniciales, profundidad, límites, espera entre
 peticiones, sitemaps, Playwright, patrones y selectores específicos. El
 [ejemplo documentado](config/sources.example.json) usa dominios `.example` y
 está deshabilitado de forma intencionada.
+
+Las fichas de una sola promoción pueden declarar `fixedMunicipality` después
+de una revisión humana. `contentSelector` y, si hace falta,
+`additionalContentSelectors` limitan la extracción a los bloques de la
+promoción; si alguno desaparece, la fuente falla de forma cerrada en vez de
+leer navegación, pies o promociones relacionadas.
 
 Para añadir URLs manuales, usa `manualUrlsFile` y una URL HTTP(S) oficial por
 línea. No apuntes el crawler a resultados de buscadores ni a portales
@@ -142,8 +148,8 @@ dotnet run --project src/SierraNueva.Crawler -- crawl `
   --source identificador-de-fuente --max-pages 3 --verbose --dry-run
 ```
 
-La comprobación manual y limitada de Living Natura usa rutas de salida y estado
-aisladas para no tocar el último dataset local válido:
+La comprobación manual de una fuente live usa rutas de salida y estado aisladas
+para no tocar el último dataset local válido:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release -- crawl `
@@ -155,9 +161,10 @@ dotnet run --project src/SierraNueva.Crawler -c Release -- crawl `
 ```
 
 La evaluación de identidad, condiciones, `robots.txt`, alcance y mitigaciones
-está en
-[docs/source-assessments/exxacon-living-natura.md](docs/source-assessments/exxacon-living-natura.md).
-Debe repetirse antes de automatizar o ampliar el rastreo.
+está en [docs/source-assessments](docs/source-assessments). La matriz completa
+de los 29 municipios está en
+[docs/source-coverage.md](docs/source-coverage.md). Ambas revisiones deben
+repetirse antes de automatizar o ampliar el rastreo.
 
 Playwright es un fallback explícito. Se ejecuta solo si la configuración global
 y la fuente tienen habilitado Playwright y el HTML inicial es insuficiente. No

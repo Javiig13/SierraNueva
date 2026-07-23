@@ -20,8 +20,13 @@
       "maxPages": 100,
       "requestDelayMilliseconds": 2000,
       "usePlaywright": false,
+      "fixedMunicipality": "Moralzarzal",
       "municipalityHints": [
         "Moralzarzal"
+      ],
+      "contentSelector": "main",
+      "additionalContentSelectors": [
+        ".promotion-facts"
       ],
       "includePatterns": [
         "promociones",

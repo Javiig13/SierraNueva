@@ -44,6 +44,7 @@ public sealed class ExtractionTests
         Assert.Equal("Residencial Cumbre", promotion.Name);
         Assert.Equal(475_000m, promotion.PriceFrom);
         Assert.Equal(535_000m, promotion.PriceTo);
+        Assert.Equal(18, promotion.TotalUnits);
         Assert.Equal(165m, promotion.BuiltAreaMinSqm);
         Assert.Equal(280m, promotion.PlotAreaMinSqm);
         Assert.Equal(LocationPrecision.ExactCoordinates, promotion.LocationPrecision);
@@ -98,6 +99,7 @@ public sealed class ExtractionTests
 
         Assert.Equal(CommercialStatus.SoldOut, promotion.CommercialStatus);
         Assert.Equal(ConstructionStatus.Completed, promotion.ConstructionStatus);
+        Assert.Equal(9, promotion.TotalUnits);
     }
 
     [Fact]
@@ -156,6 +158,82 @@ public sealed class ExtractionTests
             promotion.Evidence,
             item => item.Field == "municipality" &&
                     item.Extractor == "DomainSpecificSelectorExtractor");
+    }
+
+    [Fact]
+    public async Task ReviewedSourceScope_UsesOnlyPromotionContentAndFixedMunicipality()
+    {
+        const string html = """
+            <html>
+              <body>
+                <nav>Promociones en Guadarrama desde 99.000 €</nav>
+                <main id="promotion">
+                  <h1>Residencial del Bosque</h1>
+                  <p>Cuatro chalets pareados desde 545.000 €.</p>
+                </main>
+              </body>
+            </html>
+            """;
+        LayeredPromotionExtractor extractor = new();
+        SourceDefinition source = new()
+        {
+            Id = "reviewed",
+            SourceKind = SourceKind.OfficialPromoter,
+            StartUrls = ["https://promotora.example/residencial"],
+            FixedMunicipality = "Miraflores de la Sierra",
+            ContentSelector = "#promotion"
+        };
+
+        Promotion promotion = Assert.Single(await extractor.ExtractAsync(
+            new FetchedPage(
+                new("https://promotora.example/residencial"),
+                html,
+                "text/html",
+                DateTimeOffset.UtcNow,
+                "fixture"),
+            source,
+            [
+                new MunicipalityDefinition { OfficialName = "Guadarrama" },
+                new MunicipalityDefinition { OfficialName = "Miraflores de la Sierra" }
+            ],
+            CancellationToken.None));
+
+        Assert.Equal("Miraflores de la Sierra", promotion.Municipality);
+        Assert.Equal(545_000m, promotion.PriceFrom);
+        Assert.Null(promotion.PriceTo);
+        Assert.Contains(
+            promotion.Evidence,
+            item => item.Field == "municipality" &&
+                    item.Extractor == "ReviewedSourceConfiguration");
+    }
+
+    [Fact]
+    public async Task ReviewedSourceScope_FailsClosedWhenSelectorDisappears()
+    {
+        LayeredPromotionExtractor extractor = new();
+        SourceDefinition source = new()
+        {
+            Id = "reviewed",
+            SourceKind = SourceKind.OfficialPromoter,
+            StartUrls = ["https://promotora.example/residencial"],
+            FixedMunicipality = "Moralzarzal",
+            ContentSelector = "body",
+            AdditionalContentSelectors = ["#missing"]
+        };
+
+        InvalidDataException exception = await Assert.ThrowsAsync<InvalidDataException>(
+            () => extractor.ExtractAsync(
+                new FetchedPage(
+                    new("https://promotora.example/residencial"),
+                    "<html><body><h1>Residencial</h1></body></html>",
+                    "text/html",
+                    DateTimeOffset.UtcNow,
+                    "fixture"),
+                source,
+                Municipalities,
+                CancellationToken.None));
+
+        Assert.Contains("#missing", exception.Message, StringComparison.Ordinal);
     }
 
     private static SourceDefinition CreateSource()

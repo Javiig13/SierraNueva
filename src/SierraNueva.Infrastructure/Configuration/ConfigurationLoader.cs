@@ -97,6 +97,17 @@ public sealed class ConfigurationLoader
                     errors.Add($"URL no válida en '{source.Id}': {url}");
                 }
             }
+
+            if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&
+                !municipalities.Any(municipality => string.Equals(
+                    municipality.OfficialName,
+                    source.FixedMunicipality,
+                    StringComparison.OrdinalIgnoreCase)))
+            {
+                errors.Add(
+                    $"La fuente '{source.Id}' fija un municipio desconocido: " +
+                    $"'{source.FixedMunicipality}'.");
+            }
         }
 
         if (municipalities.Count == 0)

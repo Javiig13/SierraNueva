@@ -21,9 +21,11 @@
       "maxPages": 1,
       "requestDelayMilliseconds": 5000,
       "usePlaywright": false,
+      "fixedMunicipality": "Galapagar",
       "municipalityHints": [
         "Galapagar"
       ],
+      "contentSelector": "main",
       "includePatterns": [
         "/promocion/living-natura/"
       ],
@@ -39,6 +41,285 @@
         "address": "#officeLink .elementor-icon-box-title"
       },
       "notes": "Fuente corporativa oficial revisada el 2026-07-23. Alcance limitado y decisión documentada en docs/source-assessments/exxacon-living-natura.md."
+    },
+    {
+      "id": "apremya-puerta-villalba",
+      "name": "Apremya Homes — Puerta de Villalba",
+      "baseUrl": "https://apremyahomes.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "apremyahomes.es",
+        "www.apremyahomes.es"
+      ],
+      "startUrls": [
+        "https://apremyahomes.es/promociones/residencial-puerta-de-villalba/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Collado Villalba",
+      "municipalityHints": [
+        "Collado Villalba"
+      ],
+      "contentSelector": "main#content",
+      "includePatterns": [
+        "residencial-puerta-de-villalba"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main#content h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-23. Una URL pública; evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "altter-navata-nature",
+      "name": "Altter — Residencial Navata Nature",
+      "baseUrl": "https://www.altter.es/",
+      "enabled": true,
+      "sourceKind": "exclusiveMarketer",
+      "allowedHosts": [
+        "www.altter.es",
+        "altter.es"
+      ],
+      "startUrls": [
+        "https://www.altter.es/residencial-navata-nature/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Galapagar",
+      "municipalityHints": [
+        "Galapagar",
+        "La Navata"
+      ],
+      "contentSelector": "article",
+      "includePatterns": [
+        "/residencial-navata-nature/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "article h1"
+      },
+      "notes": "Comercializador revisado el 2026-07-23; una URL y crawl-delay respetado. Evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "los-pinarejos-p6",
+      "name": "Los Pinarejos — Manzana P-6",
+      "baseUrl": "https://www.lospinarejos.com/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "www.lospinarejos.com",
+        "lospinarejos.com"
+      ],
+      "startUrls": [
+        "https://www.lospinarejos.com/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": ".container.mb-4",
+      "additionalContentSelectors": [
+        "#myTabContentJust"
+      ],
+      "includePatterns": [
+        "lospinarejos.com/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "pdf"
+      ],
+      "customSelectors": {
+        "name": "title",
+        "totalUnits": ".title-destacado",
+        "propertyTypes": ".title-destacado"
+      },
+      "notes": "Micrositio oficial revisado el 2026-07-23. Solo la página HTML; no se descargan planos ni imágenes. Evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "trinosa-etria",
+      "name": "Trinosa — Etria",
+      "baseUrl": "https://trinosa.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "trinosa.com",
+        "www.trinosa.com"
+      ],
+      "startUrls": [
+        "https://trinosa.com/etria/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "San Lorenzo de El Escorial",
+      "municipalityHints": [
+        "San Lorenzo de El Escorial"
+      ],
+      "contentSelector": "main#main",
+      "includePatterns": [
+        "/etria/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "area-cliente",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main#main h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-23. Una URL pública sin área cliente. Evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "kronos-onix",
+      "name": "Kronos Homes — Onix",
+      "baseUrl": "https://www.kronoshomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.kronoshomes.com",
+        "kronoshomes.com"
+      ],
+      "startUrls": [
+        "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/onix/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Torrelodones",
+      "municipalityHints": [
+        "Torrelodones"
+      ],
+      "contentSelector": ".promo_cover_infos_cont",
+      "includePatterns": [
+        "/madrid/onix/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "area-de-clientes"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-23. Solo ficha pública; se excluye el área de clientes. Evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "quinta-manzanares",
+      "name": "La Quinta de Manzanares — Manzanares el Real",
+      "baseUrl": "https://www.laquintademanzanares.com/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "www.laquintademanzanares.com",
+        "laquintademanzanares.com"
+      ],
+      "startUrls": [
+        "https://www.laquintademanzanares.com/manzanares.html"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Manzanares el Real",
+      "municipalityHints": [
+        "Manzanares el Real"
+      ],
+      "contentSelector": "body",
+      "includePatterns": [
+        "/manzanares.html"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "apps"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Micrositio oficial revisado el 2026-07-23. Una URL pública; evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "gilmar-quercus-dorf",
+      "name": "Gilmar — Quercus Dorf Guadarrama",
+      "baseUrl": "https://www.gilmar.es/",
+      "enabled": true,
+      "sourceKind": "exclusiveMarketer",
+      "allowedHosts": [
+        "www.gilmar.es",
+        "gilmar.es"
+      ],
+      "startUrls": [
+        "https://www.gilmar.es/inmueble/quercus-dorf-guadarrama/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Guadarrama",
+      "municipalityHints": [
+        "Guadarrama"
+      ],
+      "contentSelector": ".inmueble-info",
+      "additionalContentSelectors": [
+        "section.content-inmueble:not(.inmueble-info)"
+      ],
+      "includePatterns": [
+        "/inmueble/quercus-dorf-guadarrama/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "login",
+        "agentes"
+      ],
+      "customSelectors": {
+        "name": "main h1"
+      },
+      "notes": "Comercializador exclusivo revisado el 2026-07-23. Solo ficha pública; evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
     }
   ]
 }

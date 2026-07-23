@@ -33,7 +33,31 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         }
 
         IDocument document = await _parser.ParseDocumentAsync(page.Content, cancellationToken);
-        string pageText = TextNormalizer.CleanEvidence(document.Body?.TextContent, 100_000);
+        IElement? contentRoot = string.IsNullOrWhiteSpace(source.ContentSelector)
+            ? document.Body
+            : document.QuerySelector(source.ContentSelector);
+        if (contentRoot is null)
+        {
+            throw new InvalidDataException(
+                $"El selector de contenido '{source.ContentSelector}' no existe en '{page.Url}'.");
+        }
+
+        List<IElement> contentRoots = [contentRoot];
+        foreach (string selector in source.AdditionalContentSelectors)
+        {
+            IElement? additionalRoot = document.QuerySelector(selector);
+            if (additionalRoot is null)
+            {
+                throw new InvalidDataException(
+                    $"El selector de contenido adicional '{selector}' no existe en '{page.Url}'.");
+            }
+
+            contentRoots.Add(additionalRoot);
+        }
+
+        string pageText = TextNormalizer.CleanEvidence(
+            string.Join(' ', contentRoots.Distinct().Select(root => root.TextContent)),
+            100_000);
         Uri canonicalUri = GetCanonicalUri(document, page.Url);
         List<Promotion> promotions = ExtractJsonLd(
             document,
@@ -67,6 +91,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                 municipalities,
                 canonicalUri,
                 page.FetchedAtUtc);
+            ApplyFixedMunicipality(
+                promotion,
+                source,
+                canonicalUri,
+                page.FetchedAtUtc);
             promotion.BrochureUrls = document.QuerySelectorAll("a[href]")
                 .Select(link => link.GetAttribute("href"))
                 .Where(href => !string.IsNullOrWhiteSpace(href))
@@ -84,7 +113,40 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                 .ToArray();
         }
 
-        return promotions;
+        return promotions
+            .DistinctBy(
+                promotion => string.Join(
+                    '\u001f',
+                    promotion.CanonicalUrl,
+                    promotion.Name,
+                    promotion.PriceFrom?.ToString(CultureInfo.InvariantCulture),
+                    promotion.PriceTo?.ToString(CultureInfo.InvariantCulture)),
+                StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
+    private static void ApplyFixedMunicipality(
+        Promotion promotion,
+        SourceDefinition source,
+        Uri sourceUrl,
+        DateTimeOffset capturedAt)
+    {
+        if (string.IsNullOrWhiteSpace(source.FixedMunicipality))
+        {
+            return;
+        }
+
+        promotion.Municipality = source.FixedMunicipality;
+        AddEvidence(
+            promotion,
+            "municipality",
+            source.FixedMunicipality,
+            sourceUrl,
+            capturedAt,
+            "ReviewedSourceConfiguration",
+            0.98m,
+            FieldQuality.Explicit,
+            $"Municipio fijo revisado para la URL de inicio: {source.FixedMunicipality}");
     }
 
     private static List<Promotion> ExtractJsonLd(
@@ -149,6 +211,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                     promotion.Municipality =
                         catalog.ResolveOfficialName(ReadAddressLocality(node)) ??
                         catalog.ResolveOfficialName(promotion.Address) ??
+                        source.FixedMunicipality ??
                         (source.MunicipalityHints.Count > 0 ? source.MunicipalityHints[0] : null) ??
                         string.Empty;
                     AddEvidence(
@@ -197,6 +260,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     {
         MunicipalityCatalog catalog = new(municipalities);
         string? municipality = catalog.ResolveOfficialName(text) ??
+                               source.FixedMunicipality ??
                                (source.MunicipalityHints.Count > 0
                                    ? source.MunicipalityHints[0]
                                    : null);
@@ -245,6 +309,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     {
         MunicipalityCatalog catalog = new(municipalities);
         string? municipality = catalog.ResolveOfficialName(text) ??
+                               source.FixedMunicipality ??
                                (source.MunicipalityHints.Count > 0
                                    ? source.MunicipalityHints[0]
                                    : null);
@@ -365,6 +430,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         {
             promotion.BuildingLicenceStatus ??= "Concedida";
         }
+        else if (promotion.ConstructionStatus == ConstructionStatus.Planned &&
+                 LicenceRequestedRegex().IsMatch(normalized))
+        {
+            promotion.BuildingLicenceStatus ??= "Solicitada";
+        }
 
         Match delivery = DeliveryRegex().Match(normalized);
         if (delivery.Success && promotion.DeliveryDateText is null)
@@ -387,6 +457,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         else if (SingleAvailableUnitRegex().IsMatch(normalized))
         {
             promotion.AvailableUnits ??= 1;
+        }
+
+        if (promotion.AvailableUnits == 1 &&
+            promotion.CommercialStatus == CommercialStatus.Unknown)
+        {
+            promotion.CommercialStatus = CommercialStatus.LastUnits;
         }
 
         Match developer = DeveloperRegex().Match(normalized);
@@ -519,6 +595,17 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                 case "pricefrom":
                     promotion.PriceFrom = ParseSpanishDecimal(value);
                     break;
+                case "totalunits":
+                    if (FirstIntegerRegex().Match(value) is { Success: true } totalMatch &&
+                        int.TryParse(totalMatch.Value, out int totalUnits))
+                    {
+                        promotion.TotalUnits = totalUnits;
+                    }
+
+                    break;
+                case "propertytypes":
+                    promotion.PropertyTypes = ExtractPropertyTypes(value);
+                    break;
             }
 
             AddEvidence(
@@ -532,6 +619,27 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                 FieldQuality.Explicit,
                 value);
         }
+    }
+
+    private static IReadOnlyList<string> ExtractPropertyTypes(string value)
+    {
+        List<string> propertyTypes = [];
+        if (IndependentRegex().IsMatch(value))
+        {
+            propertyTypes.Add("Independiente");
+        }
+
+        if (SemiDetachedRegex().IsMatch(value))
+        {
+            propertyTypes.Add("Pareado");
+        }
+
+        if (TownhouseRegex().IsMatch(value))
+        {
+            propertyTypes.Add("Adosado");
+        }
+
+        return propertyTypes;
     }
 
     private static IEnumerable<JsonElement> EnumerateNodes(JsonElement element)
@@ -857,6 +965,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             return CommercialStatus.Upcoming;
         }
 
+        if (PreSalesRegex().IsMatch(text))
+        {
+            return CommercialStatus.PreSales;
+        }
+
         return OnSaleRegex().IsMatch(text) ? CommercialStatus.OnSale : fallback;
     }
 
@@ -874,7 +987,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             return ConstructionStatus.UnderConstruction;
         }
 
-        return LicensedRegex().IsMatch(text) ? ConstructionStatus.Licensed : fallback;
+        if (LicensedRegex().IsMatch(text))
+        {
+            return ConstructionStatus.Licensed;
+        }
+
+        return LicenceRequestedRegex().IsMatch(text) ? ConstructionStatus.Planned : fallback;
     }
 
     private static DateOnly? EstimateDelivery(Match match)
@@ -979,17 +1097,17 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PriceRegex();
 
     [GeneratedRegex(
-        @"(?:(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2))?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
+        @"(?:(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BuiltAreaRegex();
 
     [GeneratedRegex(
-        @"parcelas?\D{0,35}(?<min>\d{2,5}(?:[.,]\d+)?)\s*m(?:²|2)(?:\D{0,15}(?<max>\d{2,5}(?:[.,]\d+)?)\s*m(?:²|2))?",
+        @"parcelas?\D{0,35}(?<min>\d{2,5}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,5}(?:[.,]\d+)?))?\s*m(?:²|2)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PlotAreaRegex();
 
     [GeneratedRegex(
-        @"(?<min>\d{1,2})(?:\s*(?:a|y|-)\s*(?<max>\d{1,2}))?\s+dormitorios?",
+        @"(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BedroomsRegex();
 
@@ -1027,14 +1145,22 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     [GeneratedRegex(@"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n)\b", RegexOptions.IgnoreCase)]
     private static partial Regex OnSaleRegex();
 
+    [GeneratedRegex(@"precomercializaci[oó]n", RegexOptions.IgnoreCase)]
+    private static partial Regex PreSalesRegex();
+
     [GeneratedRegex(@"\b(?:obra\s+finalizada|llave\s+en\s+mano)\b", RegexOptions.IgnoreCase)]
     private static partial Regex CompletedRegex();
 
-    [GeneratedRegex(@"\b(?:en\s+construcci[oó]n|obras?\s+iniciadas?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\b(?:en\s+construcci[oó]n|obras?\s+iniciadas?|obra\s+en\s+ejecuci[oó]n)\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex UnderConstructionRegex();
 
     [GeneratedRegex(@"\blicencia\s+(?:concedida|otorgada)\b", RegexOptions.IgnoreCase)]
     private static partial Regex LicensedRegex();
+
+    [GeneratedRegex(@"\blicencia\s+de\s+obra\s+solicitada\b", RegexOptions.IgnoreCase)]
+    private static partial Regex LicenceRequestedRegex();
 
     [GeneratedRegex(
         @"(?<all>(?:entrega|finalizaci[oó]n)(?:\s+prevista)?\D{0,20}(?:(?<quarter>[1-4])(?:er|º|o)?\s*(?:trimestre|T)|Q(?<quarterQ>[1-4]))?\s*(?<year>20\d{2}))",
@@ -1042,7 +1168,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex DeliveryRegex();
 
     [GeneratedRegex(
-        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?viviendas?",
+        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?(?:viviendas?|chalets?)",
         RegexOptions.IgnoreCase)]
     private static partial Regex UnitsRegex();
 
@@ -1050,9 +1176,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex AvailableUnitsRegex();
 
     [GeneratedRegex(
-        @"\b(?:[uú]ltima|[uú]nica)\s+(?:vivienda|villa|chalet)\s+(?:disponible|a\s+la\s+venta)\b",
+        @"\b(?:[uú]ltima|[uú]nica)\s+(?:(?:vivienda|villa|chalet)\s+(?:disponible|a\s+la\s+venta)|unidad)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex SingleAvailableUnitRegex();
+
+    [GeneratedRegex(@"\d+")]
+    private static partial Regex FirstIntegerRegex();
 
     [GeneratedRegex(
         @"(?:promueve|promotora|desarrollado\s+por)\s*:?\s*(?<value>[\p{L}\d .,&'-]{2,80}?)(?=\s+(?:obras?|entrega|en\s+venta|promoci[oó]n)|$)",
@@ -1068,12 +1197,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PdfTitleRegex();
 
     [GeneratedRegex(
-        @"\b(?:agotad[oa]|[uú]ltimas?\s+unidades?|pr[oó]ximamente|en\s+venta|comercializaci[oó]n)\b",
+        @"\b(?:agotad[oa]|[uú]ltimas?\s+unidades?|pr[oó]ximamente|precomercializaci[oó]n|en\s+venta|comercializaci[oó]n)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex CommercialStatusRegex();
 
     [GeneratedRegex(
-        @"\b(?:obra\s+finalizada|llave\s+en\s+mano|en\s+construcci[oó]n|obras?\s+iniciadas?|licencia\s+(?:concedida|otorgada))\b",
+        @"\b(?:obra\s+finalizada|llave\s+en\s+mano|en\s+construcci[oó]n|obras?\s+iniciadas?|obra\s+en\s+ejecuci[oó]n|licencia\s+(?:concedida|otorgada)|licencia\s+de\s+obra\s+solicitada)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex ConstructionStatusRegex();
 }

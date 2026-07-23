@@ -35,8 +35,8 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - CLI `crawl`, `validate-config` y `validate-data` con opciones y códigos de
   salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito y
-  limitado para EXXACON — Living Natura.
+- Perfil predeterminado completamente offline y perfil live explícito con ocho
+  fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
 - Prueba de integración del pipeline mediante un servidor HTTP real en
@@ -46,6 +46,9 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Extracción por JSON-LD, metadatos, OpenGraph, HTML/patrones, selectores y PDF.
   Los municipios obtenidos mediante selector se normalizan contra el catálogo;
   las superficies admiten formatos decimales españoles y límites plausibles.
+- Las fichas live de una promoción fijan el municipio tras revisión y limitan
+  el texto mediante un selector de contenido. Un cambio estructural hace fallar
+  la fuente sin sustituir el último dataset válido.
 - Playwright aislado y condicionado como fallback.
 - Geocodificación por centroide y Nominatim opcional con caché y rate limit.
 - Normalización, identidad determinista, deduplicación conservadora, confianza,
@@ -85,16 +88,16 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:35 correctos
+Tests Infrastructure:45 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               55/55 correctos
+Total:               65/65 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios y 29 centroides trazables
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado:       EXXACON — Living Natura; 1 promoción válida, 0 fallos
+Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -110,14 +113,18 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita manualmente solo
-  `exxacon-living-natura`.
-- El 23 de julio de 2026 se verificaron en vivo `robots.txt` y una página de
-  EXXACON, primero con dry run y después con salida/estado aislados. Se obtuvo
-  una promoción válida de Galapagar y `validate-data` fue correcto.
-- La revisión y sus límites están en
-  `docs/source-assessments/exxacon-living-natura.md`; no equivale a cobertura
-  periódica ni garantiza que la web o sus condiciones no cambien.
+  perfil separado `sources.live.json` habilita manualmente ocho fuentes
+  limitadas y no se ejecuta por accidente.
+- El 23 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
+  acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
+  conjunta con salida/estado aislados. Las ocho fuentes terminaron sin fallos,
+  se obtuvieron ocho promociones válidas y `validate-data` fue correcto.
+- La búsqueda cubrió sistemáticamente los 29 municipios. La fotografía ofrece
+  fuente en 7 (24,1 %); los otros 22 constan con candidato descartado o ausencia
+  de candidata apta en `docs/source-coverage.md`.
+- Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
+  periódica ni garantizan que las webs, disponibilidad o condiciones no
+  cambien.
 - Playwright, Nominatim y ETag/Last-Modified tienen implementación y pruebas
   aisladas, pero no una prueba operacional live. La fuente incorporada no
   necesita Playwright ni Nominatim.
@@ -144,12 +151,11 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Revalidar la evaluación de EXXACON antes de cada cambio operativo o
-   automatización; conservar la salida y el estado live separados mientras se
-   revisa su calidad.
-3. Incorporar pocas fuentes oficiales adicionales, cada una con revisión,
-   dry run y fixture sintética/reducida, y medir cobertura y falsos positivos.
-4. Ensayar Playwright o Nominatim solo cuando una fuente autorizada realmente
+2. Revalidar las ocho evaluaciones antes de cada cambio operativo o
+   automatización; conservar la salida y el estado live separados.
+3. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+   ficha oficial vigente o se corrija la carencia documentada.
+4. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
 5. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
    descrita en `docs/ROADMAP.md`.

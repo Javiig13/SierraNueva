@@ -41,8 +41,10 @@ detrás de interfaces para que puedan sustituirse o probarse sin red.
 3. El rastreador valida esquema, host, blocklist y red privada; consulta
    `robots.txt`; aplica espera, tamaño, contenido, reintentos y cancelación.
 4. El HTML se procesa por JSON-LD, metadatos, texto y selectores específicos.
-   Los valores territoriales obtenidos por selector se normalizan contra el
-   catálogo para evitar falsos positivos de topónimos generales. PDF y
+   Una ficha revisada puede fijar el municipio y reunir uno o varios bloques de
+   contenido explícitos; si falta cualquiera, la extracción falla de forma
+   cerrada. Esto evita mezclar navegación, pies o promociones relacionadas.
+   Los demás valores territoriales se normalizan contra el catálogo. PDF y
    Playwright son capas opcionales.
 5. Los candidatos se normalizan y reciben un identificador SHA-256 truncado.
 6. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una

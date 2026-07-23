@@ -44,7 +44,20 @@ requiere trabajo de producto.
   sintética reducida para municipio, superficies, dormitorios y disponibilidad.
 - **Hecho:** ejecución live limitada y `validate-data` correctos usando salida y
   estado aislados, sin modificar `data/public` ni `data/state`.
-- **Pendiente:** ampliar gradualmente cobertura y métricas de calidad.
+- **Hecho:** búsqueda sistemática y matriz de decisión para los 29 municipios,
+  con fuente, falso positivo o motivo de descarte fechados.
+- **Hecho:** siete fuentes adicionales revisadas e incorporadas; el perfil live
+  suma 8 fuentes, 8 promociones y 7 municipios con cobertura.
+- **Hecho:** municipio fijo revisado y selector de contenido que falla de forma
+  cerrada para evitar contaminación por navegación o promociones relacionadas.
+- **Hecho:** siete fixtures reducidas y pruebas offline para los formatos
+  nuevos, incluidos rangos, habitaciones, licencia solicitada y
+  precomercialización.
+- **Hecho:** dry runs por fuente, ejecución live conjunta aislada y
+  `validate-data` correctos: 8/8 fuentes y 8/8 promociones válidas.
+- **Hecho:** métricas de la fotografía live: 24,1 % de municipios con al menos
+  una fuente, 75 % de promociones con precio y 100 % de fuentes/promociones
+  finales válidas. La matriz no promete cobertura exhaustiva del mercado.
 
 ## P3 — Preparación operativa local
 
@@ -82,10 +95,10 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 55/55 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 65/65 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | EXXACON — Living Natura, perfil manual limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -108,9 +121,9 @@ definitivo.
 | 25 | Portales excluidos bloqueados | Hecho | blocklist y pruebas |
 | 26 | Fallo parcial no destruye dataset | Hecho | reglas y pruebas de estado |
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
-| 28 | Sin código esencial pendiente | Parcial | vertical local completa; ver P1/P2 |
+| 28 | Sin código esencial pendiente | Hecho | vertical local y cobertura P1/P2 completas; P3 es operacional |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 55/55 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 65/65 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

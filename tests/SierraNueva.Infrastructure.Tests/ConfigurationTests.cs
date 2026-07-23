@@ -97,6 +97,28 @@ public sealed class ConfigurationTests
     }
 
     [Fact]
+    public void Validation_RejectsUnknownFixedMunicipality()
+    {
+        IReadOnlyList<string> errors = new ConfigurationLoader().Validate(
+            new CrawlerSettings(),
+            [
+                new SourceDefinition
+                {
+                    Id = "reviewed",
+                    Name = "Reviewed source",
+                    Enabled = true,
+                    FixturePath = "fixture.html",
+                    FixedMunicipality = "Municipio inexistente"
+                }
+            ],
+            [new MunicipalityDefinition { OfficialName = "Moralzarzal" }]);
+
+        Assert.Contains(
+            errors,
+            error => error.Contains("municipio desconocido", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task VersionedIgnFixture_MatchesEveryConfiguredMunicipality()
     {
         string configDirectory = Path.Combine(AppContext.BaseDirectory, "config");

@@ -78,7 +78,13 @@ public sealed class SourceDefinition
 
     public bool UsePlaywright { get; init; }
 
+    public string? FixedMunicipality { get; init; }
+
     public IReadOnlyList<string> MunicipalityHints { get; init; } = [];
+
+    public string? ContentSelector { get; init; }
+
+    public IReadOnlyList<string> AdditionalContentSelectors { get; init; } = [];
 
     public IReadOnlyList<string> IncludePatterns { get; init; } = [];
 
