@@ -1,0 +1,148 @@
+name: Crawl and deploy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+      timezone: "Europe/Madrid"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_NOLOGO: "1"
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build:
+    name: Crawl and build Pages artifact
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install .NET from global.json
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: nuget-${{ runner.os }}-${{ hashFiles('global.json', 'Directory.Packages.props', '**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore last private crawler state
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: .runtime/state
+          key: crawler-state-${{ github.run_id }}
+          restore-keys: |
+            crawler-state-
+
+      - name: Restore
+        run: dotnet restore SierraNueva.sln
+
+      - name: Build crawler and web
+        run: dotnet build SierraNueva.sln -c Release --no-restore
+
+      - name: Validate live configuration
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          validate-config
+          --config config/appsettings.live.json
+          --sources config/sources.live.json
+
+      - name: Crawl reviewed live sources
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          crawl
+          --config config/appsettings.live.json
+          --sources config/sources.live.json
+          --output .runtime/public
+          --state .runtime/state
+          --no-playwright
+          --no-geocoding
+
+      - name: Validate live public data
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          validate-data
+          --output .runtime/public
+
+      - name: Reject fixture data in the production artifact
+        shell: pwsh
+        run: |
+          $dataset = Get-Content -Raw -LiteralPath .runtime/public/promotions.json
+          if ($dataset.IndexOf('.test', [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            throw 'El dataset live contiene una URL reservada .test.'
+          }
+
+      - name: Stage live public data for the web build
+        shell: pwsh
+        run: |
+          Copy-Item -Path .runtime/public/* -Destination data/public -Force
+
+      - name: Publish Blazor
+        run: >-
+          dotnet publish src/SierraNueva.Web/SierraNueva.Web.csproj
+          -c Release
+          --no-restore
+          -o artifacts/publish
+
+      - name: Prepare GitHub Pages subpath
+        shell: pwsh
+        run: >-
+          ./scripts/prepare-pages.ps1
+          -WebRoot artifacts/publish/wwwroot
+          -BasePath /SierraNueva/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+        with:
+          enablement: true
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: artifacts/publish/wwwroot
+
+      - name: Write crawl summary
+        shell: pwsh
+        run: |
+          $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
+            ConvertFrom-Json
+          @"
+          ## SierraNueva
+
+          - Estado: $($run.status)
+          - Promociones publicadas: $($run.quality.validPromotions)
+          - Fuentes correctas: $($run.successfulSources)
+          - Fuentes fallidas: $($run.failedSources)
+          - Run ID: ``$($run.runId)``
+          "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+
+  deploy:
+    name: Deploy GitHub Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

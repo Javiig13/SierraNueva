@@ -5,6 +5,7 @@ obj/
 .vscode/
 TestResults/
 artifacts/
+.runtime/
 playwright-report/
 src/SierraNueva.Web/wwwroot/data/
 data/state/*.tmp
