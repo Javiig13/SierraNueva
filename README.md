@@ -137,7 +137,7 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
+`config/sources.live.json` contiene catorce fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 29
@@ -337,8 +337,8 @@ sigue funcionando.
 ## Límites actuales y siguiente fase
 
 - El perfil predeterminado no tiene fuentes live y mantiene la baseline
-  determinista. El único perfil live es manual, explícito y está limitado a una
-  página.
+  determinista. El único perfil live es explícito y cada fuente está limitada
+  a una ficha pública.
 - La interpretación de lenguaje comercial es heurística y debe ampliarse con
   fixtures cuando aparezcan formatos nuevos.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
@@ -355,7 +355,8 @@ sigue funcionando.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; usa las ocho fuentes live revisadas y no versiona el estado.
+  `Europe/Madrid`; usa las catorce fuentes live revisadas y no versiona el
+  estado.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
 - GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El

@@ -16,7 +16,13 @@ public sealed class LiveSourceFixtureTests
             { "trinosa-etria", "trinosa-etria.html" },
             { "kronos-onix", "kronos-onix.html" },
             { "quinta-manzanares", "quinta-manzanares.html" },
-            { "gilmar-quercus-dorf", "gilmar-quercus-dorf.html" }
+            { "gilmar-quercus-dorf", "gilmar-quercus-dorf.html" },
+            { "antaro-prado-de-noria", "antaro-prado-de-noria.html" },
+            { "antaro-los-trigales", "antaro-los-trigales.html" },
+            { "grupo-index-sierra-bonita", "grupo-index-sierra-bonita.html" },
+            { "vesari-el-tomillar", "vesari-el-tomillar.html" },
+            { "vesari-cuarteto", "vesari-cuarteto.html" },
+            { "vesari-luar-robledo", "vesari-luar-robledo.html" }
         };
 
     [Theory]
@@ -59,7 +65,9 @@ public sealed class LiveSourceFixtureTests
         AssertSourceSpecificFields(sourceId, promotion);
     }
 
-    private static void AssertSourceSpecificFields(string sourceId, Promotion promotion)
+    private static void AssertSourceSpecificFields(
+        string sourceId,
+        Promotion promotion)
     {
         switch (sourceId)
         {
@@ -108,6 +116,42 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(252m, promotion.BuiltAreaMaxSqm);
                 Assert.Equal(811m, promotion.PlotAreaMinSqm);
                 Assert.Equal(1026m, promotion.PlotAreaMaxSqm);
+                break;
+            case "antaro-prado-de-noria":
+                Assert.Equal(35, promotion.TotalUnits);
+                Assert.Equal(479_500m, promotion.PriceFrom);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "antaro-los-trigales":
+                Assert.Equal(25, promotion.TotalUnits);
+                Assert.Equal(395_013m, promotion.PriceFrom);
+                Assert.Equal(CommercialStatus.LastUnits, promotion.CommercialStatus);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "grupo-index-sierra-bonita":
+                Assert.Equal(80, promotion.TotalUnits);
+                Assert.Equal(134m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(180m, promotion.BuiltAreaMaxSqm);
+                Assert.Equal(250m, promotion.PlotAreaMinSqm);
+                Assert.Equal(974m, promotion.PlotAreaMaxSqm);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(
+                    ["Adosado", "Independiente", "Pareado"],
+                    promotion.PropertyTypes);
+                break;
+            case "vesari-el-tomillar":
+                Assert.Equal(18, promotion.TotalUnits);
+                Assert.Contains("Pareado", promotion.PropertyTypes);
+                break;
+            case "vesari-cuarteto":
+                Assert.Equal(4, promotion.TotalUnits);
+                Assert.Equal(1, promotion.AvailableUnits);
+                Assert.Equal(CommercialStatus.LastUnits, promotion.CommercialStatus);
+                Assert.Contains("Adosado", promotion.PropertyTypes);
+                break;
+            case "vesari-luar-robledo":
+                Assert.Equal(7, promotion.TotalUnits);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

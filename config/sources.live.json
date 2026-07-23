@@ -320,6 +320,238 @@
         "name": "main h1"
       },
       "notes": "Comercializador exclusivo revisado el 2026-07-23. Solo ficha pública; evaluación consolidada en docs/source-assessments/expanded-live-sources.md."
+    },
+    {
+      "id": "antaro-prado-de-noria",
+      "name": "Antaro — Prado de Noria",
+      "baseUrl": "https://antaro.es/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "antaro.es",
+        "www.antaro.es"
+      ],
+      "startUrls": [
+        "https://antaro.es/promociones/prado-de-noria/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Guadalix de la Sierra",
+      "municipalityHints": [
+        "Guadalix de la Sierra"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/promociones/prado-de-noria/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main h1"
+      },
+      "notes": "Gestora oficial revisada el 2026-07-23. Solo ficha pública; evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
+    },
+    {
+      "id": "antaro-los-trigales",
+      "name": "Antaro — Los Trigales",
+      "baseUrl": "https://antaro.es/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "antaro.es",
+        "www.antaro.es"
+      ],
+      "startUrls": [
+        "https://antaro.es/promociones/los-trigales/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Becerril de la Sierra",
+      "municipalityHints": [
+        "Becerril de la Sierra"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/promociones/los-trigales/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main h1"
+      },
+      "notes": "Gestora oficial revisada el 2026-07-23. Solo ficha pública; evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
+    },
+    {
+      "id": "grupo-index-sierra-bonita",
+      "name": "Grupo Index — El Mirador de Sierra Bonita",
+      "baseUrl": "https://grupoindexmadrid.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "grupoindexmadrid.com",
+        "www.grupoindexmadrid.com"
+      ],
+      "startUrls": [
+        "https://grupoindexmadrid.com/el-mirador-de-sierra-bonita-el-boalo"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "El Boalo",
+      "municipalityHints": [
+        "El Boalo"
+      ],
+      "contentSelector": "main article",
+      "includePatterns": [
+        "/el-mirador-de-sierra-bonita-el-boalo"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "acceso-clientes",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main article h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-23. Solo ficha pública; evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
+    },
+    {
+      "id": "vesari-el-tomillar",
+      "name": "Vesari — El Tomillar",
+      "baseUrl": "https://www.vesari.info/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "www.vesari.info",
+        "vesari.info"
+      ],
+      "startUrls": [
+        "https://www.vesari.info/guadalix"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 10000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Guadalix de la Sierra",
+      "municipalityHints": [
+        "Guadalix de la Sierra"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/guadalix"
+      ],
+      "excludePatterns": [
+        "contacto",
+        "lightbox",
+        "_files"
+      ],
+      "customSelectors": {
+        "name": "main h2"
+      },
+      "notes": "Gestora de cooperativas revisada el 2026-07-23. Solo ficha pública; evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
+    },
+    {
+      "id": "vesari-cuarteto",
+      "name": "Vesari — Cuarteto",
+      "baseUrl": "https://www.vesari.info/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "www.vesari.info",
+        "vesari.info"
+      ],
+      "startUrls": [
+        "https://www.vesari.info/cuarteto"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 10000,
+      "usePlaywright": false,
+      "fixedMunicipality": "San Lorenzo de El Escorial",
+      "municipalityHints": [
+        "San Lorenzo de El Escorial"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/cuarteto"
+      ],
+      "excludePatterns": [
+        "contacto",
+        "lightbox",
+        "_files"
+      ],
+      "customSelectors": {
+        "name": "main h2"
+      },
+      "notes": "Gestora de cooperativas revisada el 2026-07-23. Solo ficha pública; evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
+    },
+    {
+      "id": "vesari-luar-robledo",
+      "name": "Vesari — Luar Robledo de Chavela",
+      "baseUrl": "https://www.vesari.info/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "www.vesari.info",
+        "vesari.info"
+      ],
+      "startUrls": [
+        "https://www.vesari.info/robledo"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 10000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Robledo de Chavela",
+      "municipalityHints": [
+        "Robledo de Chavela"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/robledo"
+      ],
+      "excludePatterns": [
+        "contacto",
+        "lightbox",
+        "_files"
+      ],
+      "customSelectors": {
+        "name": "main h2"
+      },
+      "notes": "Gestora de cooperativas revisada el 2026-07-23. El municipio se fija por el título, la URL y el listado oficial; se documenta un texto residual contradictorio. Evaluación en docs/source-assessments/live-expansion-2026-07-23.md."
     }
   ]
 }

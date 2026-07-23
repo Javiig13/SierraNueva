@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
@@ -56,7 +57,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         }
 
         string pageText = TextNormalizer.CleanEvidence(
-            string.Join(' ', contentRoots.Distinct().Select(root => root.TextContent)),
+            string.Join(' ', contentRoots.Distinct().Select(ExtractTextWithBoundaries)),
             100_000);
         Uri canonicalUri = GetCanonicalUri(document, page.Url);
         List<Promotion> promotions = ExtractJsonLd(
@@ -123,6 +124,42 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                     promotion.PriceTo?.ToString(CultureInfo.InvariantCulture)),
                 StringComparer.OrdinalIgnoreCase)
             .ToArray();
+    }
+
+    private static string ExtractTextWithBoundaries(INode root)
+    {
+        StringBuilder builder = new();
+        AppendTextNodes(root, builder);
+        return builder.ToString();
+    }
+
+    private static void AppendTextNodes(INode node, StringBuilder builder)
+    {
+        if (node is IElement element &&
+            element.LocalName is "script" or "style" or "template" or "noscript")
+        {
+            return;
+        }
+
+        if (node is IText text)
+        {
+            if (!string.IsNullOrWhiteSpace(text.Data))
+            {
+                if (builder.Length > 0)
+                {
+                    builder.Append(' ');
+                }
+
+                builder.Append(text.Data);
+            }
+
+            return;
+        }
+
+        foreach (INode child in node.ChildNodes)
+        {
+            AppendTextNodes(child, builder);
+        }
     }
 
     private static void ApplyFixedMunicipality(
@@ -413,7 +450,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             propertyTypes.Add("Pareado");
         }
 
-        if (TownhouseRegex().IsMatch(normalized))
+        if (TownhouseRegex().IsMatch(normalized) &&
+            !NotTownhouseRegex().IsMatch(normalized))
         {
             propertyTypes.Add("Adosado");
         }
@@ -634,7 +672,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             propertyTypes.Add("Pareado");
         }
 
-        if (TownhouseRegex().IsMatch(value))
+        if (TownhouseRegex().IsMatch(value) &&
+            !NotTownhouseRegex().IsMatch(value))
         {
             propertyTypes.Add("Adosado");
         }
@@ -1097,7 +1136,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PriceRegex();
 
     [GeneratedRegex(
-        @"(?:(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
+        @"(?:(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)\s*(?:hasta|a|y|-)\s*(?:los?\s+)?(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BuiltAreaRegex();
 
@@ -1117,7 +1156,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex BathroomsRegex();
 
     [GeneratedRegex(
-        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+independientes?\b",
+        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}independientes?\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex IndependentRegex();
 
@@ -1126,6 +1165,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
 
     [GeneratedRegex(@"\badosad[oa]s?\b", RegexOptions.IgnoreCase)]
     private static partial Regex TownhouseRegex();
+
+    [GeneratedRegex(@"\bno\s+(?:son\s+)?adosad[oa]s?\b", RegexOptions.IgnoreCase)]
+    private static partial Regex NotTownhouseRegex();
 
     [GeneratedRegex(@"\bpiscina\s+privada\b", RegexOptions.IgnoreCase)]
     private static partial Regex PrivatePoolRegex();
@@ -1136,7 +1178,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     [GeneratedRegex(@"\b(?:agotad[oa]|vendid[oa]\s+al\s+100\s*%)\b", RegexOptions.IgnoreCase)]
     private static partial Regex SoldOutRegex();
 
-    [GeneratedRegex(@"\b[uú]ltimas?\s+(?:viviendas?|unidades?)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\b(?:[uú]ltimas?\s+(?:viviendas?|unidades?)|[uú]ltima\s+(?:villa|chalet))\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex LastUnitsRegex();
 
     [GeneratedRegex(@"\b(?:pr[oó]ximamente|pr[oó]xima\s+fase)\b", RegexOptions.IgnoreCase)]
@@ -1176,7 +1220,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex AvailableUnitsRegex();
 
     [GeneratedRegex(
-        @"\b(?:[uú]ltima|[uú]nica)\s+(?:(?:vivienda|villa|chalet)\s+(?:disponible|a\s+la\s+venta)|unidad)\b",
+        @"\b(?:[uú]ltima|[uú]nica)\s+(?:(?:vivienda|villa|chalet)(?:\s+(?:disponible|a\s+la\s+venta))?|unidad)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex SingleAvailableUnitRegex();
 

@@ -38,7 +38,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities` y
   `review-opportunity` con opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con ocho
+- Perfil predeterminado completamente offline y perfil live explícito con catorce
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -49,6 +49,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Extracción por JSON-LD, metadatos, OpenGraph, HTML/patrones, selectores y PDF.
   Los municipios obtenidos mediante selector se normalizan contra el catálogo;
   las superficies admiten formatos decimales españoles y límites plausibles.
+- El texto HTML preserva límites entre nodos para que un contador de galería no
+  se concatene con el número de viviendas. También reconoce rangos
+  “desde/hasta”, “última vivienda” y la negación “no adosadas”.
 - Las fichas live de una promoción fijan el municipio tras revisión y limitan
   el texto mediante un selector de contenido. Un cambio estructural hace fallar
   la fuente sin sustituir el último dataset válido.
@@ -115,17 +118,17 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:63 correctos
+Tests Infrastructure:70 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               84/84 correctos
+Total:               91/91 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
-Mapa live:           8/8 promociones; 7 centroides municipales y 1 exacta
+Live limitado:       14 fuentes; 14 promociones válidas, 0 fallos
+Mapa live:           14/14 promociones; 13 centroides municipales y 1 exacta
 Radar offline:       29 candidatos de fixtures; 29/29 fuentes
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -151,15 +154,22 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita manualmente ocho fuentes
+  perfil separado `sources.live.json` habilita explícitamente catorce fuentes
   limitadas y no se ejecuta por accidente.
 - El 23 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
-  conjunta con salida/estado aislados. Las ocho fuentes terminaron sin fallos,
-  se obtuvieron ocho promociones válidas y `validate-data` fue correcto.
+  conjunta con salida/estado aislados. Las catorce fuentes terminaron sin
+  fallos, se obtuvieron catorce promociones válidas y `validate-data` fue
+  correcto.
 - La búsqueda cubrió sistemáticamente los 29 municipios. La fotografía ofrece
-  fuente en 7 (24,1 %); los otros 22 constan con candidato descartado o ausencia
-  de candidata apta en `docs/source-coverage.md`.
+  fuente en 11 (37,9 %); los otros 18 constan con candidato descartado o
+  ausencia de candidata apta en `docs/source-coverage.md`.
+- La segunda ampliación añade Antaro — Prado de Noria y Los Trigales, Grupo
+  Index — Sierra Bonita y tres cooperativas de Vesari. La ficha de Luar conserva
+  una frase residual contradictoria, documentada, mientras título, URL,
+  descripción y listado oficial coinciden en Robledo de Chavela.
+- Vesari respondió HTTP 429 al probar cinco segundos entre tres fichas. La
+  configuración usa diez segundos y el recorrido conjunto 14/14 fue correcto.
 - Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
   periódica ni garantizan que las webs, disponibilidad o condiciones no
   cambien.
@@ -211,11 +221,12 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI ya se ejecutó realmente en GitHub y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las ocho fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las catorce fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
-  en GeoJSON. El smoke live confirmó 8/8 puntos: siete aproximados y uno exacto.
+  en GeoJSON. El smoke live confirmó 14/14 puntos: trece aproximados y uno
+  exacto.
 - Al cargar estado histórico, el pipeline completa coordenadas ausentes antes
   de conservar promociones no modificadas (por ejemplo, tras HTTP 304). Una
   prueba de integración cubre esta migración sin borrar estado ni historial.
@@ -233,7 +244,7 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Revalidar las ocho evaluaciones antes de cada cambio operativo o
+2. Revalidar las catorce evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
 3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.

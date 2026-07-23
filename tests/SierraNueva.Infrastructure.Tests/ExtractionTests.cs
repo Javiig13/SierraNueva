@@ -236,6 +236,43 @@ public sealed class ExtractionTests
         Assert.Contains("#missing", exception.Message, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public async Task TextExtractor_PreservesBoundariesBetweenAdjacentElements()
+    {
+        const string html = """
+            <html>
+              <body>
+                <main>
+                  <div>1/17</div>
+                  <p>18 viviendas unifamiliares en Moralzarzal.</p>
+                  <h1>Residencial Ladera</h1>
+                </main>
+              </body>
+            </html>
+            """;
+        LayeredPromotionExtractor extractor = new();
+        SourceDefinition source = new()
+        {
+            Id = "element-boundaries",
+            SourceKind = SourceKind.CooperativeManager,
+            StartUrls = ["https://promotora.example/ladera"],
+            ContentSelector = "main"
+        };
+
+        Promotion promotion = Assert.Single(await extractor.ExtractAsync(
+            new FetchedPage(
+                new("https://promotora.example/ladera"),
+                html,
+                "text/html",
+                DateTimeOffset.UtcNow,
+                "fixture"),
+            source,
+            Municipalities,
+            CancellationToken.None));
+
+        Assert.Equal(18, promotion.TotalUnits);
+    }
+
     private static SourceDefinition CreateSource()
     {
         return new()

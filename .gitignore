@@ -5,6 +5,7 @@ obj/
 .vscode/
 TestResults/
 artifacts/
+tmp/
 .runtime/
 playwright-report/
 src/SierraNueva.Web/wwwroot/data/

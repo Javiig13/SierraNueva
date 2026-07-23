@@ -62,6 +62,15 @@ requiere trabajo de producto.
 - **Hecho:** métricas de la fotografía live: 24,1 % de municipios con al menos
   una fuente, 75 % de promociones con precio y 100 % de fuentes/promociones
   finales válidas. La matriz no promete cobertura exhaustiva del mercado.
+- **Hecho:** segunda ampliación con Antaro, Grupo Index y Vesari: seis fixtures
+  y promociones adicionales. El perfil suma 14 fuentes/promociones en 11
+  municipios, un 75 % más de oportunidades y un 37,9 % de cobertura municipal.
+- **Hecho:** corrección de límites entre nodos HTML para impedir totales
+  concatenados como `1718`, rangos “desde/hasta”, estado singular “última
+  vivienda” y negación “no adosadas”, todo cubierto offline.
+- **Hecho:** control de frecuencia Vesari reforzado a diez segundos después de
+  observar HTTP 429 con cinco; el recorrido conjunto conserva las tres fichas
+  sin peticiones paralelas.
 
 ## P3 — Preparación operativa local
 
@@ -124,9 +133,9 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   summary; las acciones están fijadas por SHA.
 - **Hecho:** artefacto Pages con datos live solo tras éxito completo y
   comprobación de ausencia de `data/state`.
-- **Hecho:** cobertura de mapa exigida en el workflow; las ocho promociones
-  live aparecen en GeoJSON mediante siete centroides trazables y una ubicación
-  exacta, sin activar Nominatim.
+- **Hecho:** cobertura de mapa exigida en el workflow; el crawler exige que
+  todas las promociones live aparezcan en GeoJSON mediante centroides
+  trazables o ubicación exacta, sin activar Nominatim.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
 - **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
@@ -140,10 +149,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 84/84 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 91/91 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 14 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -168,7 +177,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 84/84 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 91/91 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
