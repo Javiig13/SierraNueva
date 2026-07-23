@@ -362,10 +362,10 @@ sigue funcionando.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
 - GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El
-  despliegue manual real terminó correctamente con dieciséis promociones de
-  dieciséis fuentes, cero fallos y sin publicar `data/state`; la vista activa
-  muestra trece opciones y las nuevas fichas de Alpedrete y Moralzarzal se
-  comprobaron en listado y mapa.
+  despliegue manual real `30051216349` terminó correctamente con 21 promociones
+  de 21 fuentes, cero fallos, 21 elementos GeoJSON y sin publicar `data/state`;
+  la vista activa muestra 18 opciones y las cinco fichas de la cuarta
+  ampliación se comprobaron en listado y mapa.
 
 ## Crawling responsable
 

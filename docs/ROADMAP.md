@@ -172,12 +172,12 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
 - **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
-  `30048051725` correcta y SPA disponible en
+  `30051216349` correcta y SPA disponible en
   `https://javiig13.github.io/SierraNueva/`.
-- **Hecho:** portada, mapa, filtro directo `?q=Galapagar`, dataset live de
-  dieciséis promociones en trece municipios, 16 elementos GeoJSON y exclusión
-  pública de `data/state` comprobados. La vista activa muestra trece opciones;
-  Alpedrete y Moralzarzal están presentes en listado y mapa.
+- **Hecho:** portada, mapa, dataset live de 21 promociones en 16 municipios, 21
+  elementos GeoJSON y exclusión pública de `data/state` comprobados. La vista
+  activa muestra 18 opciones; las cinco promociones de la cuarta ampliación
+  están presentes en listado y mapa.
 
 ## Matriz del encargo original
 
@@ -198,10 +198,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 13 | Mapa funciona | Hecho | E2E real y offline con lista/filtro compartido |
 | 14 | Mapa y lista comparten filtro | Hecho | colección única en la UI |
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
-| 16 | Enlaces a webs originales | Parcial | UI hecha; fixtures usan `.test` |
+| 16 | Enlaces a webs originales | Hecho | las 21 fichas live publican su URL oficial y la UI expone el enlace |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
-| 19 | Deploy Pages | Hecho | ejecución `30048051725` y URL pública verificadas |
+| 19 | Deploy Pages | Hecho | ejecución `30051216349` y URL pública verificadas |
 | 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
 | 21 | `.nojekyll` | Hecho | generado y verificado |
 | 22 | Fallback SPA | Hecho | `404.html` generado y verificado |

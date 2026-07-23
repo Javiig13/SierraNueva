@@ -138,9 +138,9 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 2 min 26 s para el commit a7d425a
-Crawl/deploy GitHub: correcto en la ejecución 30048051725
-Pages real:          correcto; 16 promociones, 16/16 fuentes y 0 fallos
+CI GitHub real:      correcto en 1 min 55 s para el commit 5e6c472
+Crawl/deploy GitHub: correcto en la ejecución 30051216349
+Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
 Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
 ```
 
@@ -247,7 +247,7 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI #13 se ejecutó para `a7d425a` y terminó correctamente en 2 min 26 s.
+- CI #15 se ejecutó para `5e6c472` y terminó correctamente en 1 min 55 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
@@ -261,14 +261,14 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30048051725` completó el crawl, validó las dieciséis fuentes, publicó
-  dieciséis promociones y desplegó correctamente
+  `30051216349` completó el crawl, validó las 21 fuentes, publicó 21
+  promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
-- Se comprobó en navegador la portada y el mapa, incluidas las nuevas fichas de
-  Alpedrete y Moralzarzal. La vista por defecto muestra trece promociones
-  comerciales activas y el resumen conserva las dieciséis. El JSON público
-  contiene 16 promociones en 13 municipios, el GeoJSON 16 elementos, el
-  `runId` es `20260723T215627275Z` y el estado privado devuelve 404.
+- Se comprobó en navegador la portada y el mapa, incluidas Essentia, Osnola,
+  Claveles, Cumbres de Navalafuente y Montemilano. La vista por defecto muestra
+  18 promociones comerciales activas y el resumen conserva las 21. El JSON
+  público contiene 21 promociones en 16 municipios, el GeoJSON 21 elementos,
+  el `runId` es `20260723T225026535Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
@@ -310,5 +310,6 @@ No hace falta Docker, npm, backend ni servicios externos para la baseline.
 - Los centroides nulos son preferibles a coordenadas inventadas.
 - Playwright y Nominatim son fallbacks, no el camino principal.
 - La lista sigue siendo plenamente útil si el mapa falla.
-- El repositorio remoto ya está fijado; la automatización y el hosting siguen
-  requiriendo una decisión operativa explícita.
+- El repositorio remoto, la automatización diaria y GitHub Pages ya están
+  configurados y verificados; cualquier infraestructura adicional requiere una
+  decisión operativa explícita.
