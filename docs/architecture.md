@@ -56,6 +56,9 @@ detrás de interfaces para que puedan sustituirse o probarse sin red.
 
 Si una fuente falla, no se cuentan ausencias para evitar bajas falsas. Si no
 queda ninguna fuente correcta, no se sustituye el último dataset válido.
+El estado privado conserva dos generaciones atómicas de
+`promotions-state.json`: la lectura intenta el principal, `backup-1` y
+`backup-2`; si todos son inválidos, aborta sin modificar ninguno.
 
 ## Persistencia JSON
 
@@ -106,8 +109,9 @@ con cierre mediante Escape.
 
 Leaflet recibe el GeoJSON generado y una lista de identificadores visibles.
 Los popups se construyen con nodos y `textContent`, nunca con HTML de terceros.
-Si Leaflet o las teselas fallan, se muestra un mensaje y el listado conserva
-toda su funcionalidad.
+La versión 1.9.4 se sirve desde el artefacto estático, sin CDN. Si Leaflet o las
+teselas fallan, se muestra un mensaje y el listado conserva toda su
+funcionalidad.
 
 ## Descubrimiento sin buscador comercial
 
@@ -129,6 +133,5 @@ permisos, concurrencia, programación, artefacto Pages, `base href`, `.nojekyll`
 y fallback SPA. Se diseñarán cuando se conozca el repositorio final para no
 codificar rutas o nombres provisionales.
 
-En esa fase también se decidirá si Leaflet se vendoriza, si el estado se
-versiona en Git o se mueve a almacenamiento externo y qué fuentes live se
-habilitan.
+En esa fase se decidirá si el estado se versiona en Git o se mueve a
+almacenamiento externo y qué fuentes live se habilitan.

@@ -51,9 +51,10 @@ requiere trabajo de producto.
   necesite.
 - **Pendiente:** ensayar caché y límites de Nominatim con identidad de contacto
   real, solo si hace falta.
-- **Pendiente:** decidir si Leaflet se sirve localmente o desde CDN.
-- **Pendiente:** documentar recuperación ante estado corrupto y rotación del
-  histórico con una prueba de fallo.
+- **Hecho:** Leaflet 1.9.4 se sirve desde el propio artefacto con licencia
+  BSD-2-Clause; el E2E usa la librería real sin depender de CDN.
+- **Hecho:** dos copias atómicas del estado, recuperación ordenada, advertencia
+  operativa y fallo seguro probado cuando todas las copias están corruptas.
 
 ## P4 — GitHub y hosting
 
@@ -80,7 +81,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 52/52 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 54/54 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Pendiente | Fase P2 |
@@ -108,7 +109,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Parcial | vertical local completa; ver P1/P2 |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 52/52 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 54/54 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

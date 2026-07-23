@@ -12,67 +12,6 @@ namespace SierraNueva.Web.E2ETests;
 
 public sealed class WebApplicationFixture : IAsyncLifetime
 {
-    private const string LeafletStub =
-        """
-        (() => {
-          let currentElement = null;
-          window.L = {
-            map(element) {
-              currentElement = element;
-              element.dataset.leafletInitialized = "true";
-              return {
-                setView() { return this; },
-                removeLayer(layer) { layer.remove(); },
-                fitBounds() {},
-                invalidateSize() {},
-                remove() { element.replaceChildren(); }
-              };
-            },
-            tileLayer() {
-              return { addTo() { return this; } };
-            },
-            circleMarker() {
-              return {};
-            },
-            geoJSON(collection, options) {
-              const markers = [];
-              for (const feature of collection.features || []) {
-                options.pointToLayer(feature, {});
-                const marker = document.createElement("button");
-                marker.type = "button";
-                marker.className = "leaflet-marker-icon e2e-map-marker";
-                marker.setAttribute("aria-label", `Abrir ${feature.properties.name}`);
-                const layer = {
-                  bindPopup(content) {
-                    marker.addEventListener("click", () => {
-                      currentElement.querySelector(".map-popup")?.remove();
-                      currentElement.appendChild(content);
-                    });
-                  }
-                };
-                options.onEachFeature(feature, layer);
-                currentElement.appendChild(marker);
-                markers.push(marker);
-              }
-              currentElement.dataset.featureCount = String(markers.length);
-              return {
-                addTo() { return this; },
-                getBounds() {
-                  return {
-                    isValid() { return markers.length > 0; },
-                    pad() { return this; }
-                  };
-                },
-                remove() {
-                  for (const marker of markers) marker.remove();
-                  currentElement.querySelector(".map-popup")?.remove();
-                }
-              };
-            }
-          };
-        })();
-        """;
-
     private WebApplication? _application;
     private IPlaywright? _playwright;
     private IBrowser? _browser;
@@ -173,7 +112,6 @@ public sealed class WebApplicationFixture : IAsyncLifetime
                 }
             };
         };
-        await context.AddInitScriptAsync(LeafletStub);
         await context.RouteAsync("**/*", async route =>
         {
             Uri uri = new(route.Request.Url);

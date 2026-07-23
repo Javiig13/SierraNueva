@@ -48,6 +48,8 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
   validación de calidad y change detection.
 - Tres ausencias completas para desactivar; un fallo parcial no cuenta bajas.
 - Conservación del último dataset válido si no hay resultados publicables.
+- Dos backups atómicos del estado; lectura con fallback y fallo sin
+  sobrescritura cuando todas las copias están corruptas.
 
 ### Datos y frontend
 
@@ -61,9 +63,10 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Detalle con datos, evidencias, cambios, advertencias y enlaces.
 - Explicación estructurada del score de confianza, con base y señales.
 - Leaflet/OpenStreetMap mediante JS interop, marcadores por precisión y
-  degradación al listado si falla el mapa.
-- E2E en navegador real con Kestrel loopback, Leaflet determinista y bloqueo de
-  toda solicitud externa.
+  degradación al listado si falla el mapa. Leaflet 1.9.4 está vendorizado con
+  su licencia.
+- E2E en navegador real con Kestrel loopback, Leaflet local real y bloqueo de
+  toda solicitud externa, incluidas teselas.
 - Tabs responsive con flechas, skip link funcional, diálogo cerrable con
   Escape y comprobaciones de semántica y contraste.
 - Salida `data/public` enlazada al `wwwroot/data` durante build/publish; el
@@ -78,10 +81,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:32 correctos
+Tests Infrastructure:34 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               52/52 correctos
+Total:               54/54 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios y 29 centroides trazables
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -115,7 +118,6 @@ porque el estado sintético ya está sembrado.
 
 - La auditoría automatizada cubre una baseline básica de accesibilidad, no una
   certificación WCAG ni pruebas con lectores de pantalla físicos.
-- Leaflet se carga desde CDN con versión fija; falta decidir si se vendoriza.
 - Los enlaces sintéticos usan el dominio reservado `.test`; el comportamiento
   de enlace está implementado, pero su destino no es navegable.
 

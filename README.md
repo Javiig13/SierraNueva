@@ -180,6 +180,8 @@ El estado interno, que nunca debe publicarse como parte del sitio, es:
 
 ```text
 data/state/promotions-state.json
+data/state/promotions-state.backup-1.json
+data/state/promotions-state.backup-2.json
 data/state/geocoding-cache.json
 data/state/http-cache.json
 ```
@@ -229,6 +231,12 @@ reemplazan los destinos. Si todas las fuentes fallan, el pipeline no escribe
 un dataset vacío. Conserva `data/public` y `data/state` de la última ejecución
 válida, corrige la fuente y usa `validate-data` antes de volver a publicar.
 
+Antes de reemplazar `promotions-state.json`, el repositorio rota dos copias
+atómicas. Si el estado principal está corrupto, intenta `backup-1` y después
+`backup-2`, registrando una advertencia. Si las tres copias fallan, aborta sin
+sobrescribirlas. Para recuperar manualmente, conserva primero los tres archivos,
+valida su JSON y copia la versión válida más reciente al nombre principal.
+
 ## Dependencias y licencias
 
 - AngleSharp 1.5.2 — MIT.
@@ -240,8 +248,10 @@ válida, corrige la fuente y usa `validate-data` antes de volver a publicar.
   Geográfico Nacional.
 - xUnit, bUnit y coverlet — dependencias de pruebas con licencias permisivas.
 
-Las versiones están centralizadas en `Directory.Packages.props`. Leaflet se
-carga en versión fija; si no está disponible, el listado sigue funcionando.
+Las versiones .NET están centralizadas en `Directory.Packages.props`. Leaflet
+1.9.4 se sirve desde `wwwroot/vendor/leaflet` con su licencia; las pruebas no
+dependen de una CDN. Si Leaflet o las teselas no están disponibles, el listado
+sigue funcionando.
 
 ## Límites actuales y siguiente fase
 
@@ -252,8 +262,6 @@ carga en versión fija; si no está disponible, el listado sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- El frontend usa una CDN fija para Leaflet; puede vendorizarse antes de
-  publicar.
 - No existen aún `.github/workflows`, Pages, base path de repositorio,
   `.nojekyll` ni fallback `404.html`. Son trabajo de la fase de infraestructura.
 

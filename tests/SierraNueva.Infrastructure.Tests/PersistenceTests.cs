@@ -73,6 +73,79 @@ public sealed class PersistenceTests
         }
     }
 
+    [Fact]
+    public async Task StateRepository_RecoversFromRotatedBackups()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            JsonPromotionStateRepository repository = new();
+            Promotion first = CreatePromotion();
+            first.Name = "Primera versión";
+            Promotion second = CreatePromotion();
+            second.Name = "Segunda versión";
+            Promotion third = CreatePromotion();
+            third.Name = "Tercera versión";
+
+            await repository.SaveAsync(directory, [first], CancellationToken.None);
+            await repository.SaveAsync(directory, [second], CancellationToken.None);
+            await repository.SaveAsync(directory, [third], CancellationToken.None);
+
+            string current = Path.Combine(directory, "promotions-state.json");
+            string backupOne = Path.Combine(
+                directory,
+                "promotions-state.backup-1.json");
+            await File.WriteAllTextAsync(current, "{corrupt");
+
+            Promotion recovered = Assert.Single(
+                await repository.LoadAsync(directory, CancellationToken.None));
+            Assert.Equal("Segunda versión", recovered.Name);
+
+            await File.WriteAllTextAsync(backupOne, "null");
+            recovered = Assert.Single(
+                await repository.LoadAsync(directory, CancellationToken.None));
+            Assert.Equal("Primera versión", recovered.Name);
+            Assert.Empty(Directory.GetFiles(directory, "*.tmp"));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task StateRepository_FailsWithoutOverwritingWhenEveryCopyIsCorrupt()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            string current = Path.Combine(directory, "promotions-state.json");
+            string backupOne = Path.Combine(
+                directory,
+                "promotions-state.backup-1.json");
+            string backupTwo = Path.Combine(
+                directory,
+                "promotions-state.backup-2.json");
+            await File.WriteAllTextAsync(current, "{current");
+            await File.WriteAllTextAsync(backupOne, "{backup-one");
+            await File.WriteAllTextAsync(backupTwo, "null");
+
+            InvalidDataException exception = await Assert.ThrowsAsync<InvalidDataException>(
+                () => new JsonPromotionStateRepository().LoadAsync(
+                    directory,
+                    CancellationToken.None));
+
+            Assert.Contains("todas sus copias", exception.Message, StringComparison.Ordinal);
+            Assert.Equal("{current", await File.ReadAllTextAsync(current));
+            Assert.Equal("{backup-one", await File.ReadAllTextAsync(backupOne));
+            Assert.Equal("null", await File.ReadAllTextAsync(backupTwo));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
     private static Promotion CreatePromotion()
     {
         return new()

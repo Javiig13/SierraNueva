@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <_PublishedPrivateState Include="$(_PublishedWwwroot)**/promotions-state.json;
+                                      $(_PublishedWwwroot)**/promotions-state.backup-*.json;
                                       $(_PublishedWwwroot)**/geocoding-cache.json;
                                       $(_PublishedWwwroot)**/http-cache.json;
                                       $(_PublishedWwwroot)**/data/state/**/*" />
@@ -37,6 +38,10 @@
            Text="El artefacto publicado no contiene wwwroot/index.html." />
     <Error Condition="!Exists('$(_PublishedWwwroot)_framework/blazor.webassembly.js')"
            Text="El artefacto publicado no contiene el runtime de Blazor WebAssembly." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)vendor/leaflet/leaflet.js')"
+           Text="El artefacto publicado no contiene Leaflet JavaScript local." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)vendor/leaflet/leaflet.css')"
+           Text="El artefacto publicado no contiene Leaflet CSS local." />
     <Error Condition="!Exists('$(_PublishedWwwroot)data/promotions.json')"
            Text="El artefacto publicado no contiene data/promotions.json." />
     <Error Condition="!Exists('$(_PublishedWwwroot)data/promotions.csv')"

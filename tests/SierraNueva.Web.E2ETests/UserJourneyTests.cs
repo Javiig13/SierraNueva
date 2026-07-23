@@ -31,10 +31,9 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
             @"[?&]q=Moralzarzal(?:&|$)",
             System.Text.RegularExpressions.RegexOptions.IgnoreCase));
 
-        await page.GetByRole(AriaRole.Button, new()
-        {
-            Name = "Abrir Residencial Cumbre"
-        }).ClickAsync();
+        ILocator marker = page.Locator(".leaflet-interactive");
+        await Expect(marker).ToHaveCountAsync(1);
+        await marker.ClickAsync();
         await page.Locator(".map-popup")
             .GetByRole(AriaRole.Button, new() { Name = "Ver ficha" })
             .ClickAsync();

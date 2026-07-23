@@ -8,6 +8,7 @@ artifacts/
 playwright-report/
 src/SierraNueva.Web/wwwroot/data/
 data/state/*.tmp
+data/state/promotions-state.backup-*.json
 data/public/*.tmp
 *.user
 *.suo

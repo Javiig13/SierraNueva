@@ -78,6 +78,7 @@
         type: "FeatureCollection",
         features: (geoJson.features || []).filter(feature => allowed.has(feature.id))
       };
+      element.dataset.featureCount = String(filtered.features.length);
       state.layer = L.geoJSON(filtered, {
         pointToLayer(feature, latlng) {
           return L.circleMarker(latlng, markerStyle(feature.properties.locationPrecision));
@@ -100,6 +101,7 @@
         state.map.remove();
         maps.delete(element);
       }
+      delete element.dataset.featureCount;
     }
   };
 })();
