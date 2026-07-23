@@ -222,10 +222,12 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30033934500` completó el crawl, validó las ocho fuentes, generó el artefacto
+  `30038059283` completó el crawl, validó las ocho fuentes, generó el artefacto
   y desplegó correctamente `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó en navegador la portada, el mapa y la URL directa
-  `?q=Galapagar`; también se verificó que el estado privado devuelve 404.
+  `?q=Galapagar`; la vista por defecto muestra las cinco promociones activas y,
+  al retirar ese filtro, aparecen ocho tarjetas y ocho marcadores. También se
+  verificó que el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
