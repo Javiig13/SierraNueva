@@ -19,9 +19,8 @@ repositorio `Javiig13/SierraNueva`, añadir Actions, programar el rastreo diario
 y publicar la SPA en GitHub Pages.
 
 La SPA está hecha con **Blazor WebAssembly standalone sobre .NET 10**. Es
-estática y el artefacto ya se adapta al subpath `/SierraNueva/`. Pages no puede
-activarse mientras el repositorio siga privado en el plan gratuito actual;
-hacerlo público requiere confirmación explícita del propietario.
+estática, se adapta al subpath `/SierraNueva/` y está publicada en
+`https://javiig13.github.io/SierraNueva/`.
 
 ## Qué está implementado
 
@@ -127,8 +126,10 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 65 entradas, 0 fallos y 1 candidato el 2026-07-23
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 2 min 36 s para el commit 9690959
-Pages real:          bloqueado por repositorio privado en plan gratuito
+CI GitHub real:      correcto en 1 min 38 s para el commit fe252db
+Crawl/deploy GitHub: correcto en la ejecución 30033934500
+Pages real:          correcto; 8 promociones, 8/8 fuentes y 0 fallos
+Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -194,7 +195,7 @@ porque el estado sintético ya está sembrado.
 
 ### Infraestructura y hosting
 
-- Existe el remoto privado `origin` en
+- Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
 - CI ya se ejecutó realmente en GitHub y terminó correctamente.
@@ -203,9 +204,11 @@ porque el estado sintético ya está sembrado.
   revisadas; un fallo conserva el último despliegue válido.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
-- La preparación local del artefacto Pages está comprobada, pero la ejecución
-  remota y la URL siguen bloqueadas: GitHub exige hacer público el repositorio
-  o contratar un plan compatible con Pages privadas.
+- Pages usa GitHub Actions como fuente. La ejecución manual
+  `30033934500` completó el crawl, validó las ocho fuentes, generó el artefacto
+  y desplegó correctamente `https://javiig13.github.io/SierraNueva/`.
+- Se comprobó en navegador la portada, el mapa y la URL directa
+  `?q=Galapagar`; también se verificó que el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
@@ -223,8 +226,8 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 7. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-8. Tras autorización expresa para hacer público el repositorio, activar Pages,
-   lanzar el workflow manual y validar la URL y una ruta profunda.
+8. Definir la protección y política de ramas cuando el propietario decida el
+   flujo de contribución.
 
 ## Cómo retomar en otro equipo
 

@@ -188,6 +188,7 @@ privado en caché de Actions, exige éxito completo antes de publicar y genera u
 artefacto estático con base `/SierraNueva/`, `.nojekyll` y fallback `404.html`.
 La caché nunca se copia al artefacto.
 
-La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. Pages no
-puede activarse todavía porque `Javiig13/SierraNueva` es privado y la cuenta
-usa un plan gratuito; la visibilidad no se cambia sin confirmación expresa.
+La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. El
+repositorio es público y Pages usa GitHub Actions como fuente. La ejecución
+manual `30033934500` comprobó el flujo completo y publicó la SPA en
+`https://javiig13.github.io/SierraNueva/` sin exponer `data/state`.

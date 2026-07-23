@@ -5,11 +5,10 @@ en la Sierra de Madrid. El repositorio contiene un crawler/ETL en .NET y una
 aplicación Blazor WebAssembly completamente estática. El MVP prioriza fuentes
 oficiales y excluye los grandes portales inmobiliarios.
 
-El repositorio privado oficial es
+El repositorio público oficial es
 `https://github.com/Javiig13/SierraNueva`. Incluye CI offline y un workflow
-manual/diario que genera el dataset live y prepara el artefacto de GitHub
-Pages. La publicación queda bloqueada mientras el repositorio siga siendo
-privado en el plan gratuito de GitHub.
+manual/diario que genera el dataset live y publica la SPA en
+`https://javiig13.github.io/SierraNueva/`.
 
 ## Continuar el proyecto
 
@@ -23,7 +22,7 @@ equipo o agente. La lectura recomendada es:
 5. [docs/architecture.md](docs/architecture.md), diseño y fronteras técnicas.
 
 La documentación distingue entre funcionalidad local, automatización
-comprobada y el bloqueo de activación de Pages.
+comprobada e integraciones live que aún requieren trabajo.
 
 ## Qué hace
 
@@ -357,9 +356,10 @@ sigue funcionando.
   `Europe/Madrid`; usa las ocho fuentes live revisadas y no versiona el estado.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
-- GitHub Pages no puede activarse en este repositorio privado con el plan
-  gratuito actual. Tras autorizar hacerlo público se debe ejecutar manualmente
-  el workflow y comprobar la URL publicada y una ruta profunda.
+- GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El
+  despliegue manual real terminó correctamente con ocho promociones de ocho
+  fuentes, cero fallos y sin publicar `data/state`; también se comprobó una URL
+  directa con filtro (`?q=Galapagar`).
 
 ## Crawling responsable
 

@@ -323,6 +323,7 @@ La implementación usa permisos mínimos, concurrencia, horario diario 06:17
 `data/state`. El estado live se mantiene en caché privada de Actions, no en
 commits del bot.
 
-La activación real de Pages depende de hacer público el repositorio o usar un
-plan que admita Pages privadas. Cambiar la visibilidad requiere confirmación
-expresa del propietario.
+El propietario autorizó hacer público el repositorio. Pages está activo con
+GitHub Actions como fuente y la ejecución manual real `30033934500` desplegó
+correctamente `https://javiig13.github.io/SierraNueva/`, sin incluir
+`data/state`.

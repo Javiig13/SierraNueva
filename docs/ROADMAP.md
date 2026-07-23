@@ -105,10 +105,9 @@ requiere trabajo de producto.
 ## P4 — GitHub y hosting
 
 El propietario autorizó el 23 de julio de 2026 el repositorio, Actions, la
-ejecución diaria y GitHub Pages. Cambiar la visibilidad privada requiere
-confirmación explícita.
+ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 
-- **Hecho:** repositorio privado `Javiig13/SierraNueva`, remoto `origin`,
+- **Hecho:** repositorio público `Javiig13/SierraNueva`, remoto `origin`,
   historial completo y `main` siguiendo `origin/main`.
 - **Pendiente:** definir protección y política de ramas.
 - **Hecho:** `ci.yml` reproduce restore, build, tests, formato, configuración,
@@ -123,9 +122,11 @@ confirmación explícita.
   comprobación de ausencia de `data/state`.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
-- **Pendiente bloqueado:** activar Pages y probar el URL publicado y rutas
-  profundas. El repositorio es privado y el plan gratuito exige hacerlo
-  público o actualizar el plan.
+- **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
+  `30033934500` correcta y SPA disponible en
+  `https://javiig13.github.io/SierraNueva/`.
+- **Hecho:** portada, mapa, filtro directo `?q=Galapagar`, dataset live de ocho
+  promociones y exclusión pública de `data/state` comprobados.
 
 ## Matriz del encargo original
 
@@ -149,7 +150,7 @@ confirmación explícita.
 | 16 | Enlaces a webs originales | Parcial | UI hecha; fixtures usan `.test` |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
-| 19 | Deploy Pages | Bloqueado | requiere repositorio público o plan compatible |
+| 19 | Deploy Pages | Hecho | ejecución `30033934500` y URL pública verificadas |
 | 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
 | 21 | `.nojekyll` | Hecho | generado y verificado |
 | 22 | Fallback SPA | Hecho | `404.html` generado y verificado |
