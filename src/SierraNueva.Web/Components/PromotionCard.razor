@@ -1,12 +1,20 @@
-<article class="promotion-card @(Promotion.Active ? null : "is-inactive")">
+<article class="promotion-card @(Promotion.Active ? null : "is-inactive") @(IsHighlighted ? "is-highlighted" : null)"
+         data-promotion-id="@Promotion.Id"
+         @onmouseenter="HighlightAsync"
+         @onmouseleave="ClearHighlightAsync"
+         @onfocusin="HighlightAsync"
+         @onfocusout="ClearHighlightAsync">
     <div class="card-topline">
-        <span class="municipality">@Promotion.Municipality</span>
+        <span class="municipality">
+            <i aria-hidden="true"></i>
+            @Promotion.Municipality
+        </span>
         <span class="status status-@Promotion.CommercialStatus.ToString().ToLowerInvariant()">
             @UiFormatting.Commercial(Promotion.CommercialStatus)
         </span>
     </div>
 
-    <div>
+    <div class="card-heading">
         <div class="badge-row" aria-label="Novedades">
             @if (IsNew)
             {
@@ -21,21 +29,31 @@
                 <span class="badge badge-muted">Ubicación aproximada</span>
             }
         </div>
-        <h3>@Promotion.Name</h3>
+        <h3>
+            <button class="card-title-button" type="button" @onclick="OpenAsync">
+                @Promotion.Name
+            </button>
+        </h3>
         <p class="developer">@(Promotion.DeveloperName ?? "Promotora no indicada")</p>
     </div>
 
-    <p class="price">
-        @if (Promotion.PriceFrom.HasValue)
-        {
-            <span>Desde</span>
-        }
-        @UiFormatting.Price(Promotion.PriceFrom)
-    </p>
+    <div class="price-row">
+        <p class="price">
+            @if (Promotion.PriceFrom.HasValue)
+            {
+                <span>Desde</span>
+            }
+            @UiFormatting.Price(Promotion.PriceFrom)
+        </p>
+        <span class="confidence" title="Confianza de la fuente">
+            <i style="--confidence: @Promotion.SourceConfidence.ToString("P0", System.Globalization.CultureInfo.InvariantCulture)"></i>
+            @Promotion.SourceConfidence.ToString("P0")
+        </span>
+    </div>
 
     <dl class="feature-grid">
         <div>
-            <dt>Tipología</dt>
+            <dt>Casa</dt>
             <dd>@(Promotion.PropertyTypes.Count > 0 ? string.Join(", ", Promotion.PropertyTypes) : "No indicada")</dd>
         </div>
         <div>
@@ -52,19 +70,19 @@
         </div>
     </dl>
 
-    <div class="card-meta">
-        <span>@UiFormatting.Source(Promotion.SourceKind)</span>
-        <span title="Confianza de la fuente">@Promotion.SourceConfidence.ToString("P0") confianza</span>
-        <span>Revisada @UiFormatting.Date(Promotion.LastSeenUtc)</span>
-    </div>
-
-    <div class="card-actions">
-        <button class="button button-secondary" type="button" @onclick="OpenAsync">
-            Ver ficha
-        </button>
-        <a class="source-link" href="@Promotion.CanonicalUrl" target="_blank" rel="noopener noreferrer">
-            Fuente directa <span aria-hidden="true">↗</span>
-        </a>
+    <div class="card-footer">
+        <div class="card-meta">
+            <span>@UiFormatting.Source(Promotion.SourceKind)</span>
+            <span>Revisada @UiFormatting.Date(Promotion.LastSeenUtc)</span>
+        </div>
+        <div class="card-actions">
+            <button class="card-open-button" type="button" @onclick="OpenAsync">
+                Ver ficha <span aria-hidden="true">→</span>
+            </button>
+            <a class="source-link" href="@Promotion.CanonicalUrl" target="_blank" rel="noopener noreferrer">
+                Fuente <span aria-hidden="true">↗</span>
+            </a>
+        </div>
     </div>
 </article>
 
@@ -79,10 +97,26 @@
     public bool IsChanged { get; set; }
 
     [Parameter]
+    public bool IsHighlighted { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> OnHighlight { get; set; }
+
+    [Parameter]
     public EventCallback<Promotion> OnOpen { get; set; }
 
     private Task OpenAsync()
     {
         return OnOpen.InvokeAsync(Promotion);
+    }
+
+    private Task HighlightAsync()
+    {
+        return OnHighlight.InvokeAsync(Promotion.Id);
+    }
+
+    private Task ClearHighlightAsync()
+    {
+        return OnHighlight.InvokeAsync((string?)null);
     }
 }

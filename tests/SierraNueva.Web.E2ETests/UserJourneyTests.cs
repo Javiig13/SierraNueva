@@ -13,11 +13,10 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         IPage page = await context.NewPageAsync();
 
         await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
-        await Expect(page.GetByRole(AriaRole.Heading, new()
-        {
-            Name = "Obra nueva con los pies en la sierra."
-        })).ToBeVisibleAsync();
+        await Expect(page.Locator(".hero h1"))
+            .ToContainTextAsync("Tu próxima casa");
         await Expect(page.Locator(".promotion-card")).ToHaveCountAsync(4);
+        await Expect(page.Locator(".price-marker")).ToHaveCountAsync(4);
 
         await page.GetByRole(AriaRole.Searchbox, new() { Name = "Buscar" })
             .FillAsync("Moralzarzal");
@@ -27,12 +26,16 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
             .ToHaveTextAsync("Residencial Cumbre");
         await Expect(page.Locator(".map"))
             .ToHaveAttributeAsync("data-feature-count", "1");
+        await page.Locator(".promotion-card").HoverAsync();
+        await Expect(page.Locator(".price-marker.is-active")).ToHaveCountAsync(1);
         await Expect(page).ToHaveURLAsync(new System.Text.RegularExpressions.Regex(
             @"[?&]q=Moralzarzal(?:&|$)",
             System.Text.RegularExpressions.RegexOptions.IgnoreCase));
 
         ILocator marker = page.Locator(".leaflet-interactive");
         await Expect(marker).ToHaveCountAsync(1);
+        await marker.HoverAsync();
+        await Expect(page.Locator(".promotion-card.is-highlighted")).ToHaveCountAsync(1);
         await marker.ClickAsync();
         await page.Locator(".map-popup")
             .GetByRole(AriaRole.Button, new() { Name = "Ver ficha" })
@@ -77,10 +80,8 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         IPage page = await context.NewPageAsync();
 
         await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
-        await Expect(page.GetByRole(AriaRole.Heading, new()
-        {
-            Name = "Obra nueva con los pies en la sierra."
-        })).ToBeVisibleAsync();
+        await Expect(page.Locator(".hero h1"))
+            .ToContainTextAsync("Tu próxima casa");
         await page.Keyboard.PressAsync("Tab");
         ILocator skipLink = page.GetByRole(AriaRole.Link, new() { Name = "Saltar al contenido" });
         await Expect(skipLink).ToBeFocusedAsync();
@@ -93,7 +94,7 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         string accessibilityTree = await page.Locator("body").AriaSnapshotAsync();
         Assert.Contains("Filtros de promociones", accessibilityTree, StringComparison.Ordinal);
         Assert.Contains("Mapa de promociones", accessibilityTree, StringComparison.Ordinal);
-        Assert.Contains("Descargar CSV", accessibilityTree, StringComparison.Ordinal);
+        Assert.Contains("Descargar datos", accessibilityTree, StringComparison.Ordinal);
 
         foreach (string selector in new[]
                  {

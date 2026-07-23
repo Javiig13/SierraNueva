@@ -87,15 +87,18 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   reducida, registro municipal, origen, hash del ZIP y atribución CC-BY 4.0.
   `validate-config` exige coincidencia entre coordenadas y procedencia.
 - SPA en español con estados de carga/error/vacío y avisos de frescura.
-- Filtros completos, ordenaciones y query parameters compartibles.
-- Una misma colección filtrada alimenta tarjetas y mapa.
+- Filtros completos en barra compacta y panel avanzado, ordenaciones y query
+  parameters compartibles.
+- Una misma colección filtrada alimenta tarjetas y mapa. Los marcadores muestran
+  el precio y el hover/foco destaca bidireccionalmente marcador y tarjeta.
 - Detalle con datos, evidencias, cambios, advertencias y enlaces.
 - Explicación estructurada del score de confianza, con base y señales.
 - Leaflet/OpenStreetMap mediante JS interop, marcadores por precisión y
   degradación al listado si falla el mapa. Leaflet 1.9.4 está vendorizado con
   su licencia.
 - E2E en navegador real con Kestrel loopback, Leaflet local real y bloqueo de
-  toda solicitud externa, incluidas teselas.
+  toda solicitud externa, incluidas teselas; cubre también los marcadores de
+  precio y su enlace visual con las tarjetas.
 - Tabs responsive con flechas, skip link funcional, diálogo cerrable con
   Escape y comprobaciones de semántica y contraste.
 - Salida `data/public` enlazada al `wwwroot/data` durante build/publish; el
@@ -188,6 +191,9 @@ porque el estado sintético ya está sembrado.
 
 ### Frontend y validación visual
 
+- El rediseño visual del 23 de julio de 2026 se comprobó en navegador real:
+  portada responsive, barra de filtros, mapa dominante, tarjetas, popups y
+  estados de hover/foco. No añade recursos visuales ni dependencias externas.
 - La auditoría automatizada cubre una baseline básica de accesibilidad, no una
   certificación WCAG ni pruebas con lectores de pantalla físicos.
 - Los enlaces sintéticos usan el dominio reservado `.test`; el comportamiento

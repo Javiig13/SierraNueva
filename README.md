@@ -39,7 +39,9 @@ comprobada e integraciones live que aún requieren trabajo.
   consecutivas en ejecuciones completas.
 - Genera JSON canónico, CSV, GeoJSON, historial de cambios y resumen de
   ejecución.
-- Muestra listado, filtros compartibles, detalle y mapa Leaflet/OpenStreetMap.
+- Presenta un explorador responsive con mapa Leaflet protagonista, precios
+  visibles sobre los marcadores, tarjetas vinculadas por hover/foco, filtros
+  compartibles y ficha detallada.
 - Funciona sin Internet usando fixtures sintéticos.
 
 No descarga imágenes, no resuelve CAPTCHA, no entra en áreas privadas, no usa

@@ -2,6 +2,10 @@
 @inject IJSRuntime JavaScript
 
 <section class="map-shell" aria-label="Mapa de promociones">
+    <div class="map-floating-title">
+        <span class="map-kicker">Mapa interactivo</span>
+        <strong>@VisibleIds.Count opciones en esta vista</strong>
+    </div>
     <div class="map-legend" aria-label="Leyenda del mapa">
         <span><i class="dot dot-exact"></i> Exacta</span>
         <span><i class="dot dot-approximate"></i> Aproximada</span>
@@ -22,6 +26,7 @@
 @code {
     private ElementReference _element;
     private string _signature = string.Empty;
+    private string? _highlightedId;
     private bool _rendered;
     private DotNetObjectReference<MapView>? _reference;
 
@@ -36,6 +41,12 @@
 
     [Parameter]
     public string Attribution { get; set; } = "© OpenStreetMap contributors";
+
+    [Parameter]
+    public string? HighlightedId { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> OnHighlight { get; set; }
 
     [Parameter]
     public EventCallback<string> OnOpen { get; set; }
@@ -57,12 +68,27 @@
                 _reference);
             _rendered = true;
         }
+
+        if (_highlightedId != HighlightedId)
+        {
+            _highlightedId = HighlightedId;
+            await JavaScript.InvokeVoidAsync(
+                "sierraMap.highlight",
+                _element,
+                HighlightedId);
+        }
     }
 
     [JSInvokable]
     public Task OpenPromotion(string promotionId)
     {
         return OnOpen.InvokeAsync(promotionId);
+    }
+
+    [JSInvokable]
+    public Task HighlightPromotion(string? promotionId)
+    {
+        return OnHighlight.InvokeAsync(promotionId);
     }
 
     public async ValueTask DisposeAsync()

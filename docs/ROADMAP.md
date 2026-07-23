@@ -22,6 +22,8 @@ requiere trabajo de producto.
   de `data/state`.
 - **Hecho:** E2E en navegador real para filtros, detalle, mapa y URL
   compartible; todo tráfico externo se aborta antes de salir.
+- **Hecho:** rediseño responsive con mapa dominante, precios sobre marcadores,
+  filtros compactos/avanzados y resaltado bidireccional entre mapa y tarjetas.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
   lector, incluida navegación por flechas en tabs y cierre de diálogo con
   Escape.

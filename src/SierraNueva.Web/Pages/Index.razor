@@ -11,12 +11,16 @@
         <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
         <span>
             <strong>SierraNueva</strong>
-            <small>Vivienda unifamiliar · Sierra de Madrid</small>
+            <small>Casas nuevas en la Sierra de Madrid</small>
         </span>
     </a>
-    <a class="download-link" href="data/promotions.csv" download>
-        Descargar CSV <span aria-hidden="true">↓</span>
-    </a>
+    <nav class="header-actions" aria-label="Acciones">
+        <a class="header-explore" href="#explorar">Explorar mapa</a>
+        <a class="download-link" href="data/promotions.csv" download>
+            <span>Descargar datos</span>
+            <span class="download-icon" aria-hidden="true">↓</span>
+        </a>
+    </nav>
 </header>
 
 <main id="contenido" tabindex="-1">
@@ -41,20 +45,41 @@
     else if (_data is not null)
     {
         <section class="hero">
+            <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+            <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
             <div class="hero-copy">
-                <p class="eyebrow">Datos directos de fuentes oficiales</p>
-                <h1>Obra nueva con los pies en la sierra.</h1>
-                <p>
-                    Localiza chalets, pareados y adosados sin ruido de portales.
-                    Cada dato conserva su fuente y su nivel de confianza.
+                <p class="eyebrow">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    Datos directos de fuentes verificadas
                 </p>
+                <h1>Tu próxima casa,<br><span>sobre el mapa.</span></h1>
+                <p>
+                    Descubre obra nueva unifamiliar en la Sierra de Madrid.
+                    Sin anuncios duplicados, sin ruido y con la fuente siempre visible.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary hero-button" href="#explorar">
+                        Ver @_data.Promotions.Statistics.Active promociones
+                        <span aria-hidden="true">→</span>
+                    </a>
+                    <span class="hero-proof">
+                        <i aria-hidden="true">✓</i>
+                        Revisión independiente
+                    </span>
+                </div>
             </div>
             <div class="hero-update">
-                <span>Última revisión</span>
-                <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
-                <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
-                    @RunStatusLabel(_data.Run.Status)
-                </small>
+                <div class="update-orbit" aria-hidden="true">
+                    <span></span>
+                    <i></i>
+                </div>
+                <div>
+                    <span>Última exploración</span>
+                    <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
+                    <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
+                        @RunStatusLabel(_data.Run.Status)
+                    </small>
+                </div>
             </div>
         </section>
 
@@ -75,28 +100,47 @@
 
         <section class="metric-strip" aria-label="Resumen de datos">
             <article>
-                <span>Promociones</span>
-                <strong>@_data.Promotions.Statistics.Total</strong>
-                <small>@_data.Promotions.Statistics.Active activas</small>
+                <span class="metric-icon" aria-hidden="true">⌂</span>
+                <div>
+                    <strong>@_data.Promotions.Statistics.Total</strong>
+                    <span>promociones</span>
+                </div>
             </article>
             <article>
-                <span>Nuevas</span>
-                <strong>@_data.Run.NewPromotions</strong>
-                <small>en esta revisión</small>
+                <span class="metric-icon metric-icon-new" aria-hidden="true">＋</span>
+                <div>
+                    <strong>@_data.Run.NewPromotions</strong>
+                    <span>nuevas hoy</span>
+                </div>
             </article>
             <article>
-                <span>Modificadas</span>
-                <strong>@_data.Run.ChangedPromotions</strong>
-                <small>cambios relevantes</small>
+                <span class="metric-icon" aria-hidden="true">↻</span>
+                <div>
+                    <strong>@_data.Run.ChangedPromotions</strong>
+                    <span>actualizadas</span>
+                </div>
             </article>
             <article>
-                <span>Fuentes con error</span>
-                <strong>@_data.Run.FailedSources</strong>
-                <small>de @_data.Run.TotalSources</small>
+                <span class="metric-icon metric-icon-source" aria-hidden="true">✓</span>
+                <div>
+                    <strong>@(_data.Run.TotalSources - _data.Run.FailedSources)/@_data.Run.TotalSources</strong>
+                    <span>fuentes correctas</span>
+                </div>
             </article>
         </section>
 
-        <div class="workspace">
+        <section class="workspace" id="explorar">
+            <div class="explorer-intro">
+                <div>
+                    <p class="eyebrow">Explora la Sierra</p>
+                    <h2>Elige primero el lugar.</h2>
+                </div>
+                <p>
+                    Acerca el mapa, compara precios y abre cada ficha sin perder
+                    de vista su ubicación.
+                </p>
+            </div>
+
             <FilterPanel Model="_filter"
                          Municipalities="_municipalities"
                          Localities="_localities"
@@ -106,14 +150,14 @@
             <section class="results-area" aria-live="polite">
                 <div class="results-toolbar">
                     <div>
-                        <p class="eyebrow">Resultados</p>
                         <h2>
                             @Filtered.Count
-                            <span>@(Filtered.Count == 1 ? "promoción" : "promociones")</span>
+                            <span>@(Filtered.Count == 1 ? "opción encontrada" : "opciones encontradas")</span>
                         </h2>
+                        <p>Pasa sobre una tarjeta para localizarla en el mapa.</p>
                     </div>
                     <label class="sort-field">
-                        <span>Ordenar</span>
+                        <span>Orden</span>
                         <select @bind="_filter.Sort" @bind:after="FiltersChangedAsync">
                             <option value="recent">Más recientes</option>
                             <option value="price-asc">Precio menor</option>
@@ -177,6 +221,8 @@
                                                Promotion="promotion"
                                                IsNew="_newIds.Contains(promotion.Id)"
                                                IsChanged="_changedIds.Contains(promotion.Id)"
+                                               IsHighlighted="_highlightedId == promotion.Id"
+                                               OnHighlight="SetHighlightedPromotion"
                                                OnOpen="OpenDetail" />
                             }
                         }
@@ -190,11 +236,13 @@
                                  VisibleIds="Filtered.Select(item => item.Id).ToArray()"
                                  TileUrl="@TileUrl"
                                  Attribution="@TileAttribution"
+                                 HighlightedId="_highlightedId"
+                                 OnHighlight="SetHighlightedPromotion"
                                  OnOpen="OpenDetailById" />
                     </div>
                 </div>
             </section>
-        </div>
+        </section>
 
         <footer class="site-footer">
             <p>
@@ -227,6 +275,7 @@
     private SiteData? _data;
     private Promotion? _selected;
     private string? _error;
+    private string? _highlightedId;
     private bool _loading = true;
     private string _mobileTab = "list";
     private ElementReference _listTab;
@@ -328,6 +377,11 @@
     {
         _selected = _data?.Promotions.Promotions.FirstOrDefault(
             promotion => promotion.Id == promotionId);
+    }
+
+    private void SetHighlightedPromotion(string? promotionId)
+    {
+        _highlightedId = promotionId;
     }
 
     private void ShowList()
