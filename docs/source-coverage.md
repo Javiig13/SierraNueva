@@ -11,10 +11,11 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 
 ## Resultado
 
-- 14 fuentes live revisadas y limitadas a una URL cada una.
-- 14 promociones válidas en 11 municipios distintos.
-- 6 promociones nuevas en esta ampliación, un incremento del 75 %.
-- 18 municipios sin fuente integrada: no se encontró una candidata apta o la
+- 16 fuentes live revisadas y limitadas a una URL cada una.
+- 16 promociones válidas en 13 municipios distintos.
+- 8 promociones añadidas en las ampliaciones, el doble de la fotografía de
+  ocho fuentes con la que comenzó la revisión sistemática.
+- 16 municipios sin fuente integrada: no se encontró una candidata apta o la
   candidata encontrada quedó descartada por un motivo documentado.
 - El perfil offline predeterminado no cambia y sigue usando solo fixtures.
 
@@ -22,7 +23,7 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 
 | Municipio | Estado al 2026-07-23 | Fuente o evidencia de descarte |
 |---|---|---|
-| Alpedrete | Sin fuente integrada | DC Inmobiliaria y Nordec publican referencias locales, pero no se pudo cerrar identidad legal, disponibilidad y condiciones con el rigor exigido. |
+| Alpedrete | **Integrada** | Residencial Alpedrete — La Bellota. Micrositio oficial de 9 unifamiliares; precio y estado comercial permanecen desconocidos. |
 | Becerril de la Sierra | **Integrada** | Antaro — Los Trigales. Sustituye como evidencia apta a Becerril Homes, cuyo aviso legal sigue incompleto. |
 | Bustarviejo | Descartada | Residencial Montemilano presenta una pantalla de registro y no ofrece una ficha pública suficiente. |
 | Cabanillas de la Sierra | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
@@ -30,7 +31,7 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 | Collado Mediano | Sin candidata apta | Solo se localizaron anuncios de terceros o autopromoción individual sin fuente oficial revisable. |
 | Collado Villalba | **Integrada** | Apremya Homes — Residencial Puerta de Villalba. |
 | El Boalo | **Integrada** | Grupo Index — El Mirador de Sierra Bonita. |
-| El Escorial | Sin candidata apta | Las referencias encontradas eran vagas, antiguas o multifamiliares. |
+| El Escorial | Candidata mixta descartada | Puerta de Abantos combina 26 chalets con 16 bajos y dúplex en una promoción única; el contrato actual no puede aislar con rigor el inventario unifamiliar. |
 | Fresnedillas de la Oliva | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
 | Galapagar | **Integradas (2)** | EXXACON — Living Natura y Altter — Residencial Navata Nature. |
 | Guadalix de la Sierra | **Integradas (2)** | Antaro — Prado de Noria y Vesari — El Tomillar. |
@@ -40,10 +41,10 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 | Los Molinos | Falso positivo descartado | “Residencial Los Molinos” de Impact Homes está en Seseña, no en el municipio madrileño. |
 | Manzanares el Real | **Integrada** | La Quinta de Manzanares — Residencial Manzanares el Real. |
 | Miraflores de la Sierra | **Integrada** | Urbanizadora Colmenar — Los Pinarejos, Manzana P-6. |
-| Moralzarzal | Fuera de alcance/sin vigencia | Plan Vive es multifamiliar en alquiler; otras referencias localizadas eran antiguas. |
+| Moralzarzal | **Integrada** | Hirimasa — C/ Pradillos, 13 unifamiliares. La página mixta se acota a tres bloques obligatorios; el rótulo visual de última vivienda no se publica como estado porque no existe en el HTML rastreable. |
 | Navacerrada | Sin candidata apta | Solo se localizaron agregadores o anuncios de terceros. |
 | Navalafuente | Fuera de alcance | La oferta municipal encontrada era de inmuebles existentes, no promoción de obra nueva. |
-| Navalagamella | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
+| Navalagamella | Sin fuente oficial apta | Se localizaron anuncios de 9 pareadas de Navalagamella S. Coop. Mad., pero no una ficha pública oficial de la cooperativa o gestora. |
 | Robledo de Chavela | **Integrada** | Vesari — Luar. La evaluación registra una frase residual contradictoria y la evidencia que fija Robledo. |
 | San Lorenzo de El Escorial | **Integradas (2)** | Trinosa — Etria y Vesari — Cuarteto. |
 | Santa María de la Alameda | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |

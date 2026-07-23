@@ -38,7 +38,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities` y
   `review-opportunity` con opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con catorce
+- Perfil predeterminado completamente offline y perfil live explícito con dieciséis
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -118,17 +118,17 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:70 correctos
+Tests Infrastructure:73 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               91/91 correctos
+Total:               94/94 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado:       14 fuentes; 14 promociones válidas, 0 fallos
-Mapa live:           14/14 promociones; 13 centroides municipales y 1 exacta
+Live limitado:       16 fuentes; 16 promociones válidas, 0 fallos
+Mapa live:           16/16 promociones; 15 centroides municipales y 1 exacta
 Radar offline:       29 candidatos de fixtures; 29/29 fuentes
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -154,22 +154,29 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente catorce fuentes
+  perfil separado `sources.live.json` habilita explícitamente dieciséis fuentes
   limitadas y no se ejecuta por accidente.
 - El 23 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
-  conjunta con salida/estado aislados. Las catorce fuentes terminaron sin
-  fallos, se obtuvieron catorce promociones válidas y `validate-data` fue
+  conjunta con salida/estado aislados. Las dieciséis fuentes terminaron sin
+  fallos, se obtuvieron dieciséis promociones válidas y `validate-data` fue
   correcto.
 - La búsqueda cubrió sistemáticamente los 29 municipios. La fotografía ofrece
-  fuente en 11 (37,9 %); los otros 18 constan con candidato descartado o
+  fuente en 13 (44,8 %); los otros 16 constan con candidato descartado o
   ausencia de candidata apta en `docs/source-coverage.md`.
 - La segunda ampliación añade Antaro — Prado de Noria y Los Trigales, Grupo
   Index — Sierra Bonita y tres cooperativas de Vesari. La ficha de Luar conserva
   una frase residual contradictoria, documentada, mientras título, URL,
   descripción y listado oficial coinciden en Robledo de Chavela.
-- Vesari respondió HTTP 429 al probar cinco segundos entre tres fichas. La
-  configuración usa diez segundos y el recorrido conjunto 14/14 fue correcto.
+- La tercera ampliación añade La Bellota en Alpedrete y C/ Pradillos en
+  Moralzarzal. Hirimasa mezcla varias promociones en una página: tres selectores
+  obligatorios aíslan la ficha y cualquier cambio estructural falla cerrado.
+  La señal visual de última vivienda se genera por CSS y no se publica como
+  estado comercial porque el rastreo HTML no puede revalidarla.
+- Vesari respondió HTTP 429 al probar cinco segundos y volvió a hacerlo con
+  diez segundos exactos en la tercera ficha. La configuración usa ahora veinte
+  segundos, una prueba impide reducir el mínimo y la repetición conjunta 16/16
+  fue correcta.
 - Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
   periódica ni garantizan que las webs, disponibilidad o condiciones no
   cambien.
@@ -246,7 +253,7 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Revalidar las catorce evaluaciones antes de cada cambio operativo o
+2. Revalidar las dieciséis evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
 3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.

@@ -22,8 +22,36 @@ public sealed class LiveSourceFixtureTests
             { "grupo-index-sierra-bonita", "grupo-index-sierra-bonita.html" },
             { "vesari-el-tomillar", "vesari-el-tomillar.html" },
             { "vesari-cuarteto", "vesari-cuarteto.html" },
-            { "vesari-luar-robledo", "vesari-luar-robledo.html" }
+            { "vesari-luar-robledo", "vesari-luar-robledo.html" },
+            {
+                "residencial-alpedrete-la-bellota",
+                "residencial-alpedrete-la-bellota.html"
+            },
+            {
+                "hirimasa-moralzarzal-pradillos",
+                "hirimasa-moralzarzal-pradillos.html"
+            }
         };
+
+    [Fact]
+    public async Task VesariSources_KeepObservedSafeSharedHostDelay()
+    {
+        ConfigurationLoader loader = new();
+        IReadOnlyList<SourceDefinition> sources = await loader.LoadSourcesAsync(
+            Path.Combine(AppContext.BaseDirectory, "config", "sources.live.json"),
+            CancellationToken.None);
+
+        SourceDefinition[] vesariSources = sources
+            .Where(source => source.AllowedHosts.Contains(
+                "www.vesari.info",
+                StringComparer.OrdinalIgnoreCase))
+            .ToArray();
+
+        Assert.Equal(3, vesariSources.Length);
+        Assert.All(
+            vesariSources,
+            source => Assert.True(source.RequestDelayMilliseconds >= 20_000));
+    }
 
     [Theory]
     [MemberData(nameof(ReviewedSources))]
@@ -152,6 +180,25 @@ public sealed class LiveSourceFixtureTests
                 break;
             case "vesari-luar-robledo":
                 Assert.Equal(7, promotion.TotalUnits);
+                break;
+            case "residencial-alpedrete-la-bellota":
+                Assert.Equal(9, promotion.TotalUnits);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal(
+                    ["Independiente", "Pareado"],
+                    promotion.PropertyTypes);
+                break;
+            case "hirimasa-moralzarzal-pradillos":
+                Assert.Equal(13, promotion.TotalUnits);
+                Assert.Equal(150m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(2, promotion.BathroomsMin);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal(CommercialStatus.Unknown, promotion.CommercialStatus);
+                Assert.Equal(
+                    ["Adosado", "Pareado"],
+                    promotion.PropertyTypes);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

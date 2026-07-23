@@ -1156,7 +1156,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex BathroomsRegex();
 
     [GeneratedRegex(
-        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}independientes?\b",
+        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}(?:independientes?|individual(?:es)?)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex IndependentRegex();
 
@@ -1172,7 +1172,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     [GeneratedRegex(@"\bpiscina\s+privada\b", RegexOptions.IgnoreCase)]
     private static partial Regex PrivatePoolRegex();
 
-    [GeneratedRegex(@"\bpiscina\s+(?:comunitaria|com[uú]n)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\b(?:piscina\s+(?:comunitaria|com[uú]n)|(?:urbanizaci[oó]n|zonas?\s+com(?:[uú]n|unes))\D{0,40}piscina)\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex CommunityPoolRegex();
 
     [GeneratedRegex(@"\b(?:agotad[oa]|vendid[oa]\s+al\s+100\s*%)\b", RegexOptions.IgnoreCase)]

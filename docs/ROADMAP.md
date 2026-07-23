@@ -71,6 +71,18 @@ requiere trabajo de producto.
 - **Hecho:** control de frecuencia Vesari reforzado a diez segundos después de
   observar HTTP 429 con cinco; el recorrido conjunto conserva las tres fichas
   sin peticiones paralelas.
+- **Hecho:** tercera ampliación con La Bellota (Alpedrete) y C/ Pradillos
+  (Moralzarzal): 16 fuentes/promociones en 13 municipios, 44,8 % de cobertura
+  municipal y 16/16 elementos GeoJSON en el recorrido aislado
+  `20260723T214132164Z`.
+- **Hecho:** página mixta de Hirimasa acotada a tres bloques obligatorios; la
+  fixture incluye promociones ajenas y comprueba que no contaminan nombre,
+  totales, superficies ni estado.
+- **Hecho:** reconocimiento normalizado de “chalet individual” y de piscina en
+  “zona común” o “urbanización”, con cobertura offline.
+- **Hecho:** pausa Vesari elevada de diez a veinte segundos tras reproducir un
+  nuevo HTTP 429 en la tercera ficha; una prueba fija el mínimo observado y la
+  repetición 16/16 terminó sin fallos.
 
 ## P3 — Preparación operativa local
 
@@ -150,10 +162,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 91/91 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 94/94 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 14 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 16 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -178,7 +190,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 91/91 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 94/94 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

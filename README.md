@@ -137,7 +137,7 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene catorce fuentes revisadas y limitadas, pero
+`config/sources.live.json` contiene dieciséis fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 29
@@ -355,7 +355,7 @@ sigue funcionando.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; usa las catorce fuentes live revisadas y no versiona el
+  `Europe/Madrid`; usa las dieciséis fuentes live revisadas y no versiona el
   estado.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
