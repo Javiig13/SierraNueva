@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sumario>
+  <metadatos>
+    <identificador>BOCM-20260521</identificador>
+    <numero>120</numero>
+    <fecha_publicacion>2026/05/21</fecha_publicacion>
+  </metadatos>
+  <diario numero="120">
+    <secciones>
+      <seccion nombre="III. ADMINISTRACIÓN LOCAL">
+        <apartado nombre="AYUNTAMIENTOS">
+          <organismo nombre="AYUNTAMIENTO DE SOTO DEL REAL">
+            <disposicion numero="42">
+              <identificador>BOCM-20260521-42</identificador>
+              <rango>URBANISMO</rango>
+              <titulo>Información pública del plan parcial del sector residencial Las Eras</titulo>
+              <url_html>https://www.bocm.es/bocm-20260521-42</url_html>
+            </disposicion>
+          </organismo>
+          <organismo nombre="AYUNTAMIENTO DE MADRID">
+            <disposicion numero="43">
+              <identificador>BOCM-20260521-43</identificador>
+              <rango>PERSONAL</rango>
+              <titulo>Convocatoria de una bolsa de empleo</titulo>
+              <url_html>https://www.bocm.es/bocm-20260521-43</url_html>
+            </disposicion>
+          </organismo>
+        </apartado>
+      </seccion>
+    </secciones>
+  </diario>
+</sumario>

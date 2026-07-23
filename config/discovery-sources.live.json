@@ -47,15 +47,15 @@
   ],
   "sources": [
     {
-      "id": "bocm-rss",
-      "name": "BOCM — órdenes del último boletín",
+      "id": "bocm-calendar",
+      "name": "BOCM — calendario y sumario XML",
       "enabled": true,
       "sourceKind": "regionalGazette",
-      "format": "rss",
-      "cadence": "once",
-      "urlTemplate": "https://www.bocm.es/ultimo-boletin.xml",
+      "format": "bocmCalendar",
+      "cadence": "daily",
+      "urlTemplate": "https://www.bocm.es/search-day-month?field_date%5Bdate%5D={date:dd%2FMM%2Fyyyy}",
       "allowedHosts": [ "www.bocm.es" ],
-      "maxItems": 500
+      "maxItems": 20000
     },
     {
       "id": "boe-sumario",
@@ -90,6 +90,66 @@
       "allowedHosts": [ "www.comunidad.madrid" ],
       "itemSelectors": [ ".component-carousel-item", ".accordion-content li" ],
       "maxItems": 2000
+    },
+    {
+      "id": "tablon-galapagar",
+      "name": "Ayuntamiento de Galapagar — tablón electrónico",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "eAdminHtml",
+      "cadence": "once",
+      "urlTemplate": "https://sede.galapagar.es/eAdmin/Tablon.do?action=verAnuncios",
+      "allowedHosts": [ "sede.galapagar.es" ],
+      "fixedMunicipality": "Galapagar",
+      "maxItems": 1000
+    },
+    {
+      "id": "tablon-alpedrete",
+      "name": "Ayuntamiento de Alpedrete — tablón electrónico",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "eAdminHtml",
+      "cadence": "once",
+      "urlTemplate": "https://carpeta.alpedrete.es/eAdmin/Tablon.do?action=verAnuncios&tipoTablon=1",
+      "allowedHosts": [ "carpeta.alpedrete.es" ],
+      "fixedMunicipality": "Alpedrete",
+      "maxItems": 1000
+    },
+    {
+      "id": "tablon-los-molinos",
+      "name": "Ayuntamiento de Los Molinos — tablón electrónico",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "eAdminHtml",
+      "cadence": "once",
+      "urlTemplate": "https://sede.ayuntamiento-losmolinos.es/eAdmin/Tablon.do?action=verAnuncios&tipoTablon=1",
+      "allowedHosts": [ "sede.ayuntamiento-losmolinos.es" ],
+      "fixedMunicipality": "Los Molinos",
+      "maxItems": 1000
+    },
+    {
+      "id": "tablon-moralzarzal",
+      "name": "Ayuntamiento de Moralzarzal — tablón electrónico",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "eAdminHtml",
+      "cadence": "once",
+      "urlTemplate": "https://carpeta.moralzarzal.es/eAdmin/Tablon.do?action=inicioTablon",
+      "allowedHosts": [ "carpeta.moralzarzal.es" ],
+      "fixedMunicipality": "Moralzarzal",
+      "maxItems": 1000
+    },
+    {
+      "id": "tablon-san-lorenzo",
+      "name": "Ayuntamiento de San Lorenzo de El Escorial — tablón electrónico",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "eAdminHtml",
+      "cadence": "once",
+      "urlTemplate": "https://sede.aytosanlorenzo.es/eAdmin/Tablon.do?action=verAnuncios",
+      "allowedHosts": [ "sede.aytosanlorenzo.es" ],
+      "fixedMunicipality": "San Lorenzo de El Escorial",
+      "maxItems": 1000
     }
   ]
 }

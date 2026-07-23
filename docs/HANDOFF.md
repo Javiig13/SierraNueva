@@ -60,8 +60,14 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Conservación del último dataset válido si no hay resultados publicables.
 - Dos backups atómicos del estado; lectura con fallback y fallo sin
   sobrescritura cuando todas las copias están corruptas.
-- Radar privado para BOCM, BOE, PCSP y Portal del Suelo, con cuatro formatos,
-  configuración offline/live separada, deduplicación y estados de revisión.
+- Radar privado para BOCM, BOE, PCSP, Portal del Suelo y cinco tablones
+  municipales, con configuración offline/live separada, deduplicación y
+  estados de revisión.
+- Backfill BOCM por calendario oficial y sumario XML diario, con lotes de hasta
+  367 días inclusivos y salto HTML → XML probado sin Internet.
+- Adaptador común de tablón `eAdmin` para Galapagar, Alpedrete, Los Molinos,
+  Moralzarzal y San Lorenzo de El Escorial; extrae solo filas y enlaces de
+  detalle, fija un municipio validado y no descarga adjuntos.
 - Filtro de radar por municipio, señal y contexto inmobiliario, con exclusiones
   para ruido administrativo. Los candidatos viven únicamente en `data/state`.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
@@ -97,18 +103,20 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:54 correctos
+Tests Infrastructure:58 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               74/74 correctos
+Total:               78/78 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 4 fuentes de radar
+validate-config:     1 fuente, 29 municipios, 29 centroides y 9 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
-Radar offline:       4 candidatos de 9 entradas sintéticas; 4/4 canales
-Radar live aislado:  4/4 canales; 1 candidato final tras filtrar 17.093 entradas/bloques
+Radar offline:       9 candidatos de fixtures; 9/9 fuentes
+BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
+Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
+Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -136,13 +144,19 @@ porque el estado sintético ya está sembrado.
 - Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
   periódica ni garantizan que las webs, disponibilidad o condiciones no
   cambien.
-- El radar central reduce puntos ciegos, pero no garantiza exhaustividad. Su
-  smoke live del 23 de julio de 2026 procesó 68 entradas BOCM, 184 BOE, 16.815
-  PCSP y 26 bloques del Portal del Suelo. Tras corregir cinco falsos positivos
-  de PCSP y uno de BOE quedó un candidato de suelo residencial para revisión.
-- BOCM solo se ha integrado mediante el RSS del último boletín. Falta una vía
-  oficial de backfill y siguen pendientes los portales heterogéneos de los 29
-  ayuntamientos.
+- El radar reduce puntos ciegos, pero no garantiza exhaustividad. El smoke
+  original procesó 68 entradas BOCM, 184 BOE, 16.815 PCSP y 26 bloques del
+  Portal del Suelo; tras corregir falsos positivos quedó un candidato para
+  revisión.
+- BOCM ya dispone de backfill oficial por calendario y sumario XML. La primera
+  cohorte de cinco tablones `eAdmin` procesó 335 entradas sin fallos; quedan 24
+  ayuntamientos por evaluar o integrar.
+- Los portales `sedelectronica.es/board` comprobados para Miraflores de la
+  Sierra, Manzanares el Real, Becerril de la Sierra y El Boalo prohíben
+  expresamente `/board` en `robots.txt` y no se incorporaron.
+- En la repetición del smoke conjunto PCSP respondió HTTP 200 con HTML de
+  denegación WAF en vez del ZIP. El lector lo informa ahora explícitamente y
+  conserva el resto como éxito parcial; no se intenta sortear la protección.
 - Un candidato del radar no demuestra disponibilidad comercial. Debe resolverse
   hasta una web oficial vigente y seguir la evaluación técnica/jurídica normal
   antes de incorporarse a `sources.live.json`.
@@ -174,14 +188,17 @@ porque el estado sintético ya está sembrado.
 1. Mantener verde la baseline offline.
 2. Revalidar las ocho evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-3. Revisar la cola del radar y mantener sus exclusiones con casos reales;
-   ampliar después los tablones municipales por formatos reutilizables.
-4. Diseñar un backfill oficial para BOCM sin raspar buscadores comerciales.
-5. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+   oficial devuelva la página WAF en vez del ZIP.
+4. Ampliar los 24 ayuntamientos restantes por formatos reutilizables, respetando
+   `robots.txt` y añadiendo evaluación y fixture por formato.
+5. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
+   operativa y siempre sobre estado privado aislado.
+6. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-6. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+7. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-7. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
+8. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
    descrita en `docs/ROADMAP.md`.
 
 ## Cómo retomar en otro equipo

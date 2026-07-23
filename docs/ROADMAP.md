@@ -72,10 +72,17 @@ requiere trabajo de producto.
 - **Hecho:** smoke live aislado de los cuatro canales: 68 entradas BOCM, 184
   BOE, 16.815 PCSP y 26 bloques del Portal del Suelo; cero fallos y un candidato
   final después del filtrado.
-- **Pendiente:** incorporar progresivamente tablones y portales urbanísticos de
-  los 29 ayuntamientos, siempre con evaluación y fixture por formato.
-- **Pendiente:** diseñar un backfill oficial para BOCM; el RSS comprobado solo
-  contiene el último boletín.
+- **Hecho:** backfill oficial BOCM mediante calendario diario y sumario XML,
+  con intervalo acotado, fixture y prueba del salto HTML → XML.
+- **Hecho:** primera cohorte municipal `eAdmin` para Galapagar, Alpedrete, Los
+  Molinos, Moralzarzal y San Lorenzo de El Escorial; 335 entradas live
+  procesadas sin fallos y sin candidatos el día de revisión.
+- **Hecho:** descarte de la familia `sedelectronica.es/board` donde
+  `robots.txt` prohíbe `/board`; no se fuerza ni se evita esa restricción.
+- **Pendiente:** ampliar los 24 ayuntamientos restantes por formatos
+  reutilizables, siempre con evaluación jurídica/técnica y fixture por formato.
+- **Pendiente:** revalidar PCSP: el último smoke recibió una denegación WAF en
+  HTML con HTTP 200. El lector la rechaza explícitamente como no-ZIP.
 
 - **Pendiente:** ensayar Playwright en una fuente autorizada que realmente lo
   necesite.
@@ -111,7 +118,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 65/65 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 78/78 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
@@ -139,7 +146,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 74/74 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 78/78 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

@@ -30,6 +30,12 @@ public sealed class OpportunityFeedParser
                 Decode(content),
                 sourceUri,
                 source.ItemSelectors),
+            OpportunityFeedFormat.BocmCalendar => ParseBocmSummary(
+                Decode(content),
+                documentDate),
+            OpportunityFeedFormat.EAdminHtml => ParseEAdminHtml(
+                Decode(content),
+                sourceUri),
             _ => throw new InvalidDataException(
                 $"Formato de radar no admitido: {source.Format}.")
         };
@@ -44,6 +50,23 @@ public sealed class OpportunityFeedParser
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
             .ToArray();
+    }
+
+    public Uri? FindBocmSummaryUri(ReadOnlyMemory<byte> content, Uri sourceUri)
+    {
+        IDocument document = _htmlParser.ParseDocument(Decode(content));
+        return document.QuerySelectorAll("a[href]")
+            .Select(element => element.GetAttribute("href"))
+            .Where(value =>
+                !string.IsNullOrWhiteSpace(value) &&
+                value.Contains(
+                    "/CM_Boletin_BOCM/",
+                    StringComparison.OrdinalIgnoreCase) &&
+                value.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+            .Select(value => ResolveUrl(sourceUri, value!))
+            .Where(value => value.Length > 0)
+            .Select(value => new Uri(value))
+            .FirstOrDefault();
     }
 
     private static IReadOnlyList<OpportunityFeedItem> ParseRss(string xml, Uri sourceUri)
@@ -238,6 +261,94 @@ public sealed class OpportunityFeedParser
             })
             .Where(item => item.OfficialUrl.Length > 0)
             .ToArray();
+    }
+
+    private static IReadOnlyList<OpportunityFeedItem> ParseBocmSummary(
+        string xml,
+        DateOnly documentDate)
+    {
+        XDocument document = ParseXml(xml);
+        return document.Descendants()
+            .Where(element => element.Name.LocalName == "disposicion")
+            .Select(disposition =>
+            {
+                string identifier = ChildValue(disposition, "identificador");
+                string title = ChildValue(disposition, "titulo");
+                string range = ChildValue(disposition, "rango");
+                string officialUrl = ChildValue(disposition, "url_html");
+                string authority = disposition.Ancestors()
+                    .FirstOrDefault(element => element.Name.LocalName == "organismo")
+                    ?.Attribute("nombre")
+                    ?.Value
+                    ?.Trim() ?? string.Empty;
+                string section = disposition.Ancestors()
+                    .FirstOrDefault(element => element.Name.LocalName == "seccion")
+                    ?.Attribute("nombre")
+                    ?.Value
+                    ?.Trim() ?? string.Empty;
+                return new OpportunityFeedItem
+                {
+                    ExternalId = identifier,
+                    Title = TextNormalizer.CleanEvidence(title, 500),
+                    Summary = TextNormalizer.CleanEvidence(
+                        $"{authority} {section} {range} {title}",
+                        4_000),
+                    OfficialUrl = officialUrl,
+                    PublishedAtUtc = new DateTimeOffset(
+                        documentDate.ToDateTime(TimeOnly.MinValue),
+                        TimeSpan.Zero)
+                };
+            })
+            .ToArray();
+    }
+
+    private IReadOnlyList<OpportunityFeedItem> ParseEAdminHtml(
+        string html,
+        Uri sourceUri)
+    {
+        IDocument document = _htmlParser.ParseDocument(html);
+        return document.QuerySelectorAll("tr")
+            .Select(row =>
+            {
+                IElement? linkElement = row.QuerySelector(
+                    "a[href*='Tablon.do?action=verAnuncio&id=']");
+                IElement[] cells = row.QuerySelectorAll("td").ToArray();
+                string link = linkElement?.GetAttribute("href") ?? string.Empty;
+                string resolved = ResolveUrl(sourceUri, link);
+                string title = cells.Length > 1
+                    ? cells[1].TextContent
+                    : row.TextContent;
+                return new OpportunityFeedItem
+                {
+                    ExternalId = resolved,
+                    Title = TextNormalizer.CleanEvidence(title, 500),
+                    Summary = TextNormalizer.CleanEvidence(row.TextContent, 4_000),
+                    OfficialUrl = resolved,
+                    PublishedAtUtc = ParseEAdminDate(row.TextContent)
+                };
+            })
+            .Where(item => item.OfficialUrl.Length > 0)
+            .ToArray();
+    }
+
+    private static DateTimeOffset? ParseEAdminDate(string value)
+    {
+        System.Text.RegularExpressions.Match match =
+            System.Text.RegularExpressions.Regex.Match(
+                value,
+                @"\b(?<date>\d{2}/\d{2}/\d{4})\b",
+                System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+        return match.Success &&
+               DateTime.TryParseExact(
+                   match.Groups["date"].Value,
+                   "dd/MM/yyyy",
+                   CultureInfo.InvariantCulture,
+                   DateTimeStyles.None,
+                   out DateTime date)
+            ? new DateTimeOffset(
+                DateTime.SpecifyKind(date, DateTimeKind.Utc),
+                TimeSpan.Zero)
+            : null;
     }
 
     private static XDocument ParseXml(string xml)

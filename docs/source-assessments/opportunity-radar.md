@@ -8,13 +8,21 @@ antes de poder entrar en `data/public`.
 
 ## BOCM
 
-- Fuente: `https://www.bocm.es/ultimo-boletin.xml`.
+- Fuente de calendario:
+  `https://www.bocm.es/search-day-month?field_date[date]=DD/MM/AAAA`.
+- Fuente de datos: el enlace `CM_Boletin_BOCM/.../BOCM-*.xml` que devuelve
+  la página oficial de cada fecha.
 - Identidad: Sede Oficial del Boletín de la Comunidad de Madrid.
-- Formato comprobado: RSS 2.0 con las órdenes del boletín del día.
-- Acceso comprobado: HTTP 200, 68 entradas el día de la revisión.
-- Resultado del smoke: cero candidatos tras el filtro endurecido.
-- Límite: el endpoint solo representa el último boletín; no proporciona por sí
-  solo backfill histórico.
+- Formato comprobado: HTML de calendario seguido del sumario XML estructurado.
+- Acceso comprobado: HTTP 200, 68 disposiciones el 23 de julio de 2026; un
+  recorrido del 17 al 23 de julio resolvió las seis ediciones existentes y
+  omitió correctamente el día sin boletín.
+- Resultado del smoke: cero candidatos en esos intervalos tras el filtro.
+- Backfill: la búsqueda oficial declara cobertura desde el 12 de febrero de
+  2010. La CLI admite intervalos inclusivos de hasta 367 días para que un
+  histórico largo se ejecute por lotes auditables.
+- Mitigación: solo se conservan título, organismo, sección, identificador,
+  fecha y enlace HTML oficial; no se descargan ni republican los PDF.
 
 ## BOE OpenData
 
@@ -43,6 +51,11 @@ antes de poder entrar en `data/public`.
   exclusiones.
 - Límite: una licitación puede aparecer varias veces por sus actualizaciones;
   la identidad externa evita candidatos duplicados dentro del estado.
+- Incidencia posterior: el 23 de julio de 2026 una repetición del smoke recibió
+  HTTP 200 con una página HTML de denegación del WAF en lugar del ZIP. La fuente
+  quedó como fallo parcial y no escribió estado. El lector rechaza ahora de
+  forma explícita tipos de contenido que no sean ZIP; no se intenta evadir el
+  WAF y la fuente debe revalidarse antes de una ejecución operativa.
 
 ## Portal del Suelo 4.0
 
@@ -58,11 +71,39 @@ antes de poder entrar en `data/public`.
   no sustituye al perfil del contratante y no produce efectos frente a
   terceros. El radar conserva el enlace al expediente oficial para revisión.
 
+## Tablones municipales eAdmin — primera cohorte
+
+Formato compartido comprobado en cinco sedes oficiales:
+
+| Municipio | Endpoint | Entradas el 2026-07-23 | `robots.txt` |
+|---|---|---:|---|
+| Galapagar | `sede.galapagar.es/eAdmin/Tablon.do?action=verAnuncios` | 255 | permite el tablón; excluye documentos |
+| Alpedrete | `carpeta.alpedrete.es/eAdmin/Tablon.do?action=verAnuncios&tipoTablon=1` | 18 | no publicado (404) |
+| Los Molinos | `sede.ayuntamiento-losmolinos.es/eAdmin/Tablon.do?action=verAnuncios&tipoTablon=1` | 19 | no publicado (404) |
+| Moralzarzal | `carpeta.moralzarzal.es/eAdmin/Tablon.do?action=inicioTablon` | 17 | no publicado (404) |
+| San Lorenzo de El Escorial | `sede.aytosanlorenzo.es/eAdmin/Tablon.do?action=verAnuncios` | 26 | permite el tablón; excluye documentos |
+
+- Identidad: sedes electrónicas rotuladas con el ayuntamiento correspondiente;
+  las URLs están además citadas por publicaciones oficiales BOCM/BOE.
+- Formato: HTML estático común `eAdmin`. El adaptador selecciona únicamente
+  filas con enlace de detalle `verAnuncio`, ignora enlaces `javascript:` y
+  extrae título y fecha de exposición.
+- Cada fuente fija un municipio ya validado contra el catálogo. Esto evita
+  depender de pies de página repetidos y no inventa la ubicación.
+- Resultado live aislado: 335 entradas en total, cero fallos y cero candidatos
+  el 23 de julio de 2026. Cero candidatos es un resultado válido, no evidencia
+  de ausencia histórica de oportunidades.
+- No se descargan adjuntos ni certificados y solo se conserva metadata breve.
+- Los tablones `sedelectronica.es/board` evaluados para Miraflores de la Sierra,
+  Manzanares el Real, Becerril de la Sierra y El Boalo se descartaron porque
+  su `robots.txt` prohíbe expresamente `/board`.
+
 ## Mitigaciones comunes
 
 - Perfil offline predeterminado con fixtures sintéticas reducidas.
 - Perfil live separado y explícito; HTTPS y hosts permitidos por fuente.
 - Resolución DNS segura, User-Agent identificable, timeout y límites de tamaño.
+- Métricas por fuente en la salida CLI: entradas leídas, candidatos y fallo.
 - Coincidencia obligatoria de municipio, señal administrativa y contexto
   inmobiliario; términos de ruido configurables.
 - Fragmentos saneados, sin HTML completo, documentos ni datos personales.

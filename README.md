@@ -138,9 +138,10 @@ tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
-El radar sigue el mismo principio. `config/discovery-sources.json` usa cuatro
-fixtures y es completamente offline. `config/discovery-sources.live.json`
-habilita de forma explícita los endpoints oficiales revisados:
+El radar sigue el mismo principio. `config/discovery-sources.json` usa nueve
+fuentes con fixtures y es completamente offline.
+`config/discovery-sources.live.json` habilita de forma explícita los cuatro
+canales centrales y una primera cohorte de cinco tablones municipales:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
@@ -153,6 +154,18 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 Los resultados se guardan únicamente en `data/state` o en la ruta aislada
 indicada. Un candidato no es una promoción ni se incorpora automáticamente al
 contrato público.
+
+BOCM admite backfill por intervalos de hasta 367 días inclusivos. Para recorrer
+varios años se ejecuta un lote por año, siempre con una ruta de estado privada:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  discover-opportunities `
+  --discovery-sources config/discovery-sources.live.json `
+  --source bocm-calendar `
+  --from 2025-01-01 --to 2025-12-31 `
+  --state tmp/bocm-2025
+```
 
 ## Configurar fuentes
 
@@ -327,10 +340,12 @@ sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- El radar central cubre cuatro canales oficiales, pero todavía no incluye los
-  tablones y portales urbanísticos heterogéneos de los 29 ayuntamientos. BOCM
-  solo expone el último boletín en su RSS, por lo que el backfill necesita otra
-  fuente oficial o un archivo manual.
+- El radar cubre cuatro canales centrales y cinco tablones municipales
+  `eAdmin`. Quedan 24 ayuntamientos por evaluar o integrar; algunos portales
+  comunes no se pueden automatizar porque su `robots.txt` bloquea el tablón.
+- BOCM dispone de backfill oficial por calendario y sumario XML. PCSP debe
+  revalidarse antes de operación porque su WAF devolvió HTML con HTTP 200 en el
+  último smoke; el fallo queda aislado y no se intenta evadir.
 - No existen aún `.github/workflows`, Pages, base path de repositorio,
   `.nojekyll` ni fallback `404.html`. Son trabajo de la fase de infraestructura.
 

@@ -164,7 +164,9 @@ internal static class CrawlerApplication
                 options.DiscoverySources,
                 cancellationToken);
         errors = errors.Concat(
-                configuration.Loader.ValidateOpportunityCatalog(opportunityCatalog))
+                configuration.Loader.ValidateOpportunityCatalog(
+                    opportunityCatalog,
+                    configuration.Municipalities))
             .ToArray();
         if (errors.Count == 0)
         {
@@ -258,7 +260,11 @@ internal static class CrawlerApplication
         OpportunityDiscoveryCatalog catalog = await loader.LoadOpportunityCatalogAsync(
             options.DiscoverySources,
             cancellationToken);
-        IReadOnlyList<string> errors = loader.ValidateOpportunityCatalog(catalog);
+        IReadOnlyList<MunicipalityDefinition> municipalities =
+            await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        IReadOnlyList<string> errors = loader.ValidateOpportunityCatalog(
+            catalog,
+            municipalities);
         if (errors.Count > 0)
         {
             foreach (string error in errors)
@@ -269,8 +275,6 @@ internal static class CrawlerApplication
             return 2;
         }
 
-        IReadOnlyList<MunicipalityDefinition> municipalities =
-            await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
         CrawlerSettings settings = await loader.LoadSettingsAsync(
             options.Config,
             cancellationToken);
@@ -299,6 +303,13 @@ internal static class CrawlerApplication
             $"Radar {result.Run.RunId}: {result.Run.NewCandidates} candidatos nuevos, " +
             $"{result.Run.UpdatedCandidates} actualizados, " +
             $"{result.State.Candidates.Count} acumulados; {failed} fuentes fallidas.");
+        foreach (OpportunitySourceRun source in result.Run.Sources)
+        {
+            Console.WriteLine(
+                $"  {source.SourceId}: {(source.Success ? "ok" : "fallo")}, " +
+                $"{source.ItemsRead} entradas, {source.CandidatesMatched} candidatos.");
+        }
+
         foreach (OpportunitySourceRun source in result.Run.Sources.Where(source => !source.Success))
         {
             Console.Error.WriteLine($"ERROR radar {source.SourceId}: {source.Error}");

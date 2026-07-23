@@ -74,7 +74,8 @@ public sealed class ConfigurationLoader
     }
 
     public IReadOnlyList<string> ValidateOpportunityCatalog(
-        OpportunityDiscoveryCatalog catalog)
+        OpportunityDiscoveryCatalog catalog,
+        IReadOnlyList<MunicipalityDefinition>? municipalities = null)
     {
         List<string> errors = [];
         if (catalog.SchemaVersion != "1.0")
@@ -135,7 +136,11 @@ public sealed class ConfigurationLoader
             {
                 string sampleUrl = source.UrlTemplate
                     .Replace("{date:yyyyMMdd}", "20260101", StringComparison.Ordinal)
-                    .Replace("{date:yyyyMM}", "202601", StringComparison.Ordinal);
+                    .Replace("{date:yyyyMM}", "202601", StringComparison.Ordinal)
+                    .Replace(
+                        "{date:dd%2FMM%2Fyyyy}",
+                        "01%2F01%2F2026",
+                        StringComparison.Ordinal);
                 if (!Uri.TryCreate(sampleUrl, UriKind.Absolute, out Uri? uri) ||
                     uri.Scheme != Uri.UriSchemeHttps)
                 {
@@ -148,6 +153,33 @@ public sealed class ConfigurationLoader
                 {
                     errors.Add($"El host de '{source.Id}' no figura en allowedHosts.");
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&
+                source.SourceKind != OpportunitySourceKind.MunicipalNoticeBoard)
+            {
+                errors.Add(
+                    $"Solo un tablón municipal puede fijar municipio en '{source.Id}'.");
+            }
+
+            if (source.SourceKind == OpportunitySourceKind.MunicipalNoticeBoard &&
+                string.IsNullOrWhiteSpace(source.FixedMunicipality))
+            {
+                errors.Add($"El tablón municipal '{source.Id}' debe fijar municipio.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&
+                municipalities is not null &&
+                !municipalities.Any(municipality =>
+                    municipality.Enabled &&
+                    string.Equals(
+                        municipality.OfficialName,
+                        source.FixedMunicipality,
+                        StringComparison.OrdinalIgnoreCase)))
+            {
+                errors.Add(
+                    $"El tablón '{source.Id}' fija un municipio desconocido o deshabilitado: " +
+                    $"'{source.FixedMunicipality}'.");
             }
         }
 

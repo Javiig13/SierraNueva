@@ -23,7 +23,7 @@ El descubrimiento administrativo forma un flujo paralelo y privado:
 
 ```mermaid
 flowchart LR
-    F["BOCM · BOE · PCSP · Portal del Suelo"] --> A["Adaptadores RSS · JSON · Atom/ZIP · HTML"]
+    F["BOCM · BOE · PCSP · Portal del Suelo · tablones municipales"] --> A["Calendario/XML · JSON · Atom/ZIP · HTML · eAdmin"]
     A --> R["Municipio + señal + contexto − exclusiones"]
     R --> S["data/state/opportunity-candidates.json"]
     S --> V["Revisión humana"]
@@ -85,8 +85,12 @@ El estado privado conserva dos generaciones atómicas de
 
 `discover-opportunities` lee un catálogo independiente. La configuración
 predeterminada usa fixtures; el perfil live debe indicarse expresamente. El
-lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom y bloques HTML
-acotados por selector.
+lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom, bloques HTML
+acotados por selector, el calendario/sumario XML de BOCM y tablones `eAdmin`.
+BOCM se recorre por día: la página de calendario descubre el XML oficial de la
+edición y los días sin boletín no producen entradas. Los tablones municipales
+usan una única página, extraen solo enlaces de detalle y fijan un municipio
+validado por configuración.
 
 Una entrada solo se convierte en candidato si contiene un municipio del
 catálogo, una señal administrativa y contexto inmobiliario. Las exclusiones
@@ -101,7 +105,8 @@ atómica, rota dos backups y nunca toca `data/public`.
 
 Los ZIP mensuales de PCSP se descargan a un temporal con límite de 512 MiB y se
 procesan entrada a entrada para no mantenerlos completos en memoria. El
-temporal se elimina incluso ante fallo.
+temporal se elimina incluso ante fallo. Una respuesta HTML del WAF aunque use
+HTTP 200 se rechaza por tipo de contenido y queda como fallo parcial.
 
 ## Persistencia JSON
 

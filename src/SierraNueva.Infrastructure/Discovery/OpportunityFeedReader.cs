@@ -57,6 +57,30 @@ public sealed class OpportunityFeedReader(
                 continue;
             }
 
+            if (source.Format == OpportunityFeedFormat.BocmCalendar)
+            {
+                Uri? summaryUri = parser.FindBocmSummaryUri(content, uri);
+                if (summaryUri is null)
+                {
+                    continue;
+                }
+
+                ValidateUri(source, summaryUri);
+                byte[]? summary = await DownloadAsync(summaryUri, cancellationToken);
+                if (summary is null)
+                {
+                    continue;
+                }
+
+                items.AddRange(parser.Parse(source, summary, summaryUri, date));
+                if (items.Count >= source.MaxItems)
+                {
+                    break;
+                }
+
+                continue;
+            }
+
             items.AddRange(parser.Parse(source, content, uri, date));
             if (items.Count >= source.MaxItems)
             {
@@ -92,6 +116,18 @@ public sealed class OpportunityFeedReader(
         }
 
         response.EnsureSuccessStatusCode();
+        string? mediaType = response.Content.Headers.ContentType?.MediaType;
+        if (!string.IsNullOrWhiteSpace(mediaType) &&
+            !mediaType.Contains("zip", StringComparison.OrdinalIgnoreCase) &&
+            !mediaType.Equals(
+                "application/octet-stream",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidDataException(
+                $"El archivo '{uri}' debía ser ZIP, pero el servidor devolvió " +
+                $"'{mediaType}'.");
+        }
+
         if (response.Content.Headers.ContentLength > MaximumArchiveBytes)
         {
             throw new InvalidDataException(
@@ -216,6 +252,13 @@ public sealed class OpportunityFeedReader(
                     .Replace(
                         "{date:yyyyMM}",
                         date.ToString("yyyyMM", System.Globalization.CultureInfo.InvariantCulture),
+                        StringComparison.Ordinal)
+                    .Replace(
+                        "{date:dd%2FMM%2Fyyyy}",
+                        date.ToString(
+                                "dd/MM/yyyy",
+                                System.Globalization.CultureInfo.InvariantCulture)
+                            .Replace("/", "%2F", StringComparison.Ordinal),
                         StringComparison.Ordinal);
                 return Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
                     ? (Uri: uri, Date: date)

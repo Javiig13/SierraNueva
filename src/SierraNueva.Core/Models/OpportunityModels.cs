@@ -5,7 +5,8 @@ public enum OpportunitySourceKind
     RegionalGazette,
     StateGazette,
     PublicProcurement,
-    PublicLandPortal
+    PublicLandPortal,
+    MunicipalNoticeBoard
 }
 
 public enum OpportunityFeedFormat
@@ -14,7 +15,9 @@ public enum OpportunityFeedFormat
     BoeJson,
     Atom,
     ZipAtom,
-    Html
+    Html,
+    BocmCalendar,
+    EAdminHtml
 }
 
 public enum OpportunityFeedCadence
@@ -72,6 +75,8 @@ public sealed class OpportunitySourceDefinition
     public IReadOnlyList<string> AllowedHosts { get; init; } = [];
 
     public IReadOnlyList<string> ItemSelectors { get; init; } = [];
+
+    public string? FixedMunicipality { get; init; }
 
     public int MaxItems { get; init; } = 2_000;
 }

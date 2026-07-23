@@ -148,7 +148,15 @@ public sealed class OpportunityDiscoveryPipeline(
     {
         string searchable = TextNormalizer.NormalizeForComparison(
             $"{item.Title} {item.Summary}");
-        MunicipalityDefinition? municipality = FindMunicipality(searchable, municipalities);
+        MunicipalityDefinition? municipality = string.IsNullOrWhiteSpace(
+            source.FixedMunicipality)
+            ? FindMunicipality(searchable, municipalities)
+            : municipalities.FirstOrDefault(candidate =>
+                candidate.Enabled &&
+                string.Equals(
+                    candidate.OfficialName,
+                    source.FixedMunicipality,
+                    StringComparison.OrdinalIgnoreCase));
         OpportunityTermRule[] matchedRules = rules
             .Where(rule => ContainsTerm(searchable, rule.Term))
             .ToArray();
