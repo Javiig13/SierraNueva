@@ -138,9 +138,9 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 65 entradas, 0 fallos y 1 candidato el 2026-07-23
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 2 min 6 s para el commit 47e67ec
-Crawl/deploy GitHub: correcto en la ejecución 30042299941
-Pages real:          correcto; 14 promociones, 14/14 fuentes y 0 fallos
+CI GitHub real:      correcto en 2 min 26 s para el commit a7d425a
+Crawl/deploy GitHub: correcto en la ejecución 30048051725
+Pages real:          correcto; 16 promociones, 16/16 fuentes y 0 fallos
 Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
 ```
 
@@ -234,13 +234,13 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI #10 se ejecutó para `47e67ec` y terminó correctamente en 2 min 6 s.
+- CI #13 se ejecutó para `a7d425a` y terminó correctamente en 2 min 26 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las catorce fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las dieciséis fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
-  en GeoJSON. El smoke live confirmó 14/14 puntos: trece aproximados y uno
+  en GeoJSON. El smoke live confirmó 16/16 puntos: quince aproximados y uno
   exacto.
 - Al cargar estado histórico, el pipeline completa coordenadas ausentes antes
   de conservar promociones no modificadas (por ejemplo, tras HTTP 304). Una
@@ -248,14 +248,14 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30042299941` completó el crawl, validó las catorce fuentes, publicó catorce
-  promociones y desplegó correctamente
+  `30048051725` completó el crawl, validó las dieciséis fuentes, publicó
+  dieciséis promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
-- Se comprobó en navegador la portada, el mapa y la URL directa
-  `?q=Galapagar`; la vista por defecto muestra once promociones comerciales
-  activas y el resumen conserva las catorce. El JSON público contiene 14
-  promociones en 11 municipios, el GeoJSON 14 elementos y el estado privado
-  devuelve 404.
+- Se comprobó en navegador la portada y el mapa, incluidas las nuevas fichas de
+  Alpedrete y Moralzarzal. La vista por defecto muestra trece promociones
+  comerciales activas y el resumen conserva las dieciséis. El JSON público
+  contiene 16 promociones en 13 municipios, el GeoJSON 16 elementos, el
+  `runId` es `20260723T215627275Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
