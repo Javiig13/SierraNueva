@@ -186,6 +186,59 @@ public sealed class PipelineIntegrationTests
         }
     }
 
+    [Fact]
+    public async Task Pipeline_GeocodesPreviousStateWhenSourceReturnsNoPage()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            string stateDirectory = Path.Combine(root, "state");
+            Promotion previous = new()
+            {
+                Id = "sn-existing",
+                Name = "Residencial Cumbre",
+                Municipality = "Moralzarzal",
+                CanonicalUrl = "https://example.com/cumbre",
+                SourceKind = SourceKind.OfficialPromoter,
+                SourceConfidence = 0.9m,
+                FirstSeenUtc = new DateTimeOffset(2026, 7, 20, 8, 0, 0, TimeSpan.Zero),
+                LastSeenUtc = new DateTimeOffset(2026, 7, 22, 8, 0, 0, TimeSpan.Zero),
+                LastChangedUtc = new DateTimeOffset(2026, 7, 20, 8, 0, 0, TimeSpan.Zero),
+                Active = true
+            };
+            await new JsonPromotionStateRepository().SaveAsync(
+                stateDirectory,
+                [previous],
+                CancellationToken.None);
+
+            CrawlPipeline pipeline = new(
+                new MutablePageSource(),
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                new FakeClock(new DateTimeOffset(2026, 7, 23, 8, 0, 0, TimeSpan.Zero)));
+
+            CrawlResult result = await pipeline.RunAsync(
+                CreateRequest(root),
+                CancellationToken.None);
+
+            Promotion located = Assert.Single(result.Dataset.Promotions);
+            Assert.Equal(40.675, located.Latitude);
+            Assert.Equal(-3.969, located.Longitude);
+            Assert.Equal(LocationPrecision.MunicipalityCentroid, located.LocationPrecision);
+            Assert.Equal(1, result.Dataset.Statistics.WithCoordinates);
+
+            using JsonDocument geoJson = JsonDocument.Parse(
+                await File.ReadAllTextAsync(Path.Combine(root, "public", "promotions.geojson")));
+            Assert.Single(geoJson.RootElement.GetProperty("features").EnumerateArray());
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
     private static CrawlRequest CreateRequest(
         string root,
         SourceDefinition? source = null)

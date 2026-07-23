@@ -109,9 +109,21 @@ public sealed class CrawlPipeline(
         }
 
         IReadOnlyList<Promotion> deduplicated = _deduplicator.Deduplicate(extracted);
-        IReadOnlyList<Promotion> previous = await stateRepository.LoadAsync(
+        IReadOnlyList<Promotion> previousState = await stateRepository.LoadAsync(
             request.StateDirectory,
             cancellationToken);
+        List<Promotion> previous = new(previousState.Count);
+        foreach (Promotion old in previousState)
+        {
+            Promotion located = request.DisableGeocoding
+                ? old
+                : await geocoder.GeocodeAsync(
+                    old,
+                    request.Municipalities,
+                    cancellationToken);
+            previous.Add(located);
+        }
+
         Dictionary<string, Promotion> previousById = previous.ToDictionary(
             promotion => promotion.Id,
             StringComparer.Ordinal);

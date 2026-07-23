@@ -113,10 +113,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:62 correctos
+Tests Infrastructure:63 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               82/82 correctos
+Total:               83/83 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -212,6 +212,9 @@ porque el estado sintético ya está sembrado.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live confirmó 8/8 puntos: siete aproximados y uno exacto.
+- Al cargar estado histórico, el pipeline completa coordenadas ausentes antes
+  de conservar promociones no modificadas (por ejemplo, tras HTTP 304). Una
+  prueba de integración cubre esta migración sin borrar estado ni historial.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
