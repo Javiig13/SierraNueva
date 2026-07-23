@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:cac="urn:dgpe:names:draft:codice:schema:xsd:CommonAggregateComponents-2"
+      xmlns:cbc="urn:dgpe:names:draft:codice:schema:xsd:CommonBasicComponents-2">
+  <title>Licitaciones publicadas</title>
+  <entry>
+    <id>https://contrataciondelsectorpublico.gob.es/entry/fixture-001</id>
+    <author><name>Ayuntamiento de Miraflores de la Sierra</name></author>
+    <link href="https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&amp;idEvl=fixture001" />
+    <title>Enajenación de 8 parcelas del Patrimonio Municipal del Suelo de Miraflores de la Sierra</title>
+    <summary>Uso residencial unifamiliar en la urbanización Los Pinarejos.</summary>
+    <updated>2026-05-21T09:15:00Z</updated>
+    <cac:ProcurementProject>
+      <cbc:ContractFolderID>2026/PARCELAS/001</cbc:ContractFolderID>
+      <cbc:Name>Venta de parcelas residenciales</cbc:Name>
+      <cac:RealizedLocation>
+        <cbc:CountrySubentity>Madrid</cbc:CountrySubentity>
+        <cbc:CityName>Miraflores de la Sierra</cbc:CityName>
+      </cac:RealizedLocation>
+    </cac:ProcurementProject>
+  </entry>
+  <entry>
+    <id>https://contrataciondelsectorpublico.gob.es/entry/fixture-002</id>
+    <link href="https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&amp;idEvl=fixture002" />
+    <title>Servicio de mantenimiento de equipos informáticos</title>
+    <summary>Contrato de servicios para un organismo estatal.</summary>
+    <updated>2026-05-21T10:00:00Z</updated>
+  </entry>
+  <entry>
+    <id>https://contrataciondelsectorpublico.gob.es/entry/fixture-003</id>
+    <link href="https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&amp;idEvl=noise003" />
+    <title>Concesión demanial para la explotación de una cafetería en Cercedilla</title>
+    <summary>Servicio de hostelería en un edificio municipal.</summary>
+    <updated>2026-05-21T11:00:00Z</updated>
+    <cac:RealizedLocation>
+      <cbc:CountrySubentity>Madrid</cbc:CountrySubentity>
+      <cbc:CityName>Cercedilla</cbc:CityName>
+    </cac:RealizedLocation>
+  </entry>
+</feed>

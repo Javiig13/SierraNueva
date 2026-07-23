@@ -54,6 +54,7 @@ dotnet build SierraNueva.sln -c Release --no-restore
 dotnet test SierraNueva.sln -c Release --no-build
 dotnet format SierraNueva.sln --verify-no-changes --no-restore
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-config
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- discover-opportunities --dry-run
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- crawl --no-playwright
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-data
 ```

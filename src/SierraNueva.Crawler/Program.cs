@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Crawling;
+using SierraNueva.Core.Discovery;
 using SierraNueva.Core.Models;
 using SierraNueva.Core.Quality;
 using SierraNueva.Infrastructure.Browser;
@@ -56,6 +57,12 @@ internal static class CrawlerApplication
                 "crawl" => await CrawlAsync(options, shutdown.Token),
                 "validate-config" => await ValidateConfigAsync(options, shutdown.Token),
                 "validate-data" => await ValidateDataAsync(options, shutdown.Token),
+                "discover-opportunities" => await DiscoverOpportunitiesAsync(
+                    options,
+                    shutdown.Token),
+                "review-opportunity" => await ReviewOpportunityAsync(
+                    options,
+                    shutdown.Token),
                 _ => throw new ArgumentException($"Comando desconocido: {options.Command}")
             };
         }
@@ -152,12 +159,20 @@ internal static class CrawlerApplication
             configuration.Sources,
             configuration.Municipalities,
             configuration.CentroidCatalog);
+        OpportunityDiscoveryCatalog opportunityCatalog =
+            await configuration.Loader.LoadOpportunityCatalogAsync(
+                options.DiscoverySources,
+                cancellationToken);
+        errors = errors.Concat(
+                configuration.Loader.ValidateOpportunityCatalog(opportunityCatalog))
+            .ToArray();
         if (errors.Count == 0)
         {
             Console.WriteLine(
                 $"Configuración válida: {configuration.Sources.Count} fuentes y " +
                 $"{configuration.Municipalities.Count} municipios; " +
-                $"{configuration.CentroidCatalog.Sources.Count} centroides trazables.");
+                $"{configuration.CentroidCatalog.Sources.Count} centroides trazables; " +
+                $"{opportunityCatalog.Sources.Count} fuentes de radar.");
             return 0;
         }
 
@@ -233,6 +248,135 @@ internal static class CrawlerApplication
 
         Console.WriteLine($"Datos válidos: {dataset.Promotions.Count} promociones.");
         return 0;
+    }
+
+    private static async Task<int> DiscoverOpportunitiesAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        ConfigurationLoader loader = new();
+        OpportunityDiscoveryCatalog catalog = await loader.LoadOpportunityCatalogAsync(
+            options.DiscoverySources,
+            cancellationToken);
+        IReadOnlyList<string> errors = loader.ValidateOpportunityCatalog(catalog);
+        if (errors.Count > 0)
+        {
+            foreach (string error in errors)
+            {
+                Console.Error.WriteLine($"ERROR radar: {error}");
+            }
+
+            return 2;
+        }
+
+        IReadOnlyList<MunicipalityDefinition> municipalities =
+            await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        CrawlerSettings settings = await loader.LoadSettingsAsync(
+            options.Config,
+            cancellationToken);
+        DateOnly to = options.To ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        DateOnly from = options.From ??
+                        to.AddDays(-Math.Max(0, catalog.DefaultLookbackDays - 1));
+
+        await using ServiceProvider services = BuildOpportunityServices(settings);
+        OpportunityDiscoveryPipeline pipeline =
+            services.GetRequiredService<OpportunityDiscoveryPipeline>();
+        OpportunityDiscoveryResult result = await pipeline.RunAsync(
+            new()
+            {
+                Catalog = catalog,
+                Municipalities = municipalities,
+                StateDirectory = options.State,
+                From = from,
+                To = to,
+                SourceFilter = options.Source,
+                DryRun = options.DryRun
+            },
+            cancellationToken);
+
+        int failed = result.Run.Sources.Count(source => !source.Success);
+        Console.WriteLine(
+            $"Radar {result.Run.RunId}: {result.Run.NewCandidates} candidatos nuevos, " +
+            $"{result.Run.UpdatedCandidates} actualizados, " +
+            $"{result.State.Candidates.Count} acumulados; {failed} fuentes fallidas.");
+        foreach (OpportunitySourceRun source in result.Run.Sources.Where(source => !source.Success))
+        {
+            Console.Error.WriteLine($"ERROR radar {source.SourceId}: {source.Error}");
+        }
+
+        if (options.DryRun)
+        {
+            Console.WriteLine("Dry-run: no se ha escrito estado privado.");
+        }
+
+        return failed == 0 ? 0 : result.Run.Sources.Any(source => source.Success) ? 1 : 3;
+    }
+
+    private static async Task<int> ReviewOpportunityAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(options.Candidate) ||
+            !options.OpportunityStatus.HasValue)
+        {
+            Console.Error.WriteLine(
+                "review-opportunity requiere --candidate <id> y --status <estado>.");
+            return 2;
+        }
+
+        JsonOpportunityStateRepository repository = new();
+        OpportunityRadarState state = await repository.LoadAsync(
+            options.State,
+            cancellationToken);
+        OpportunityCandidate? target = state.Candidates.FirstOrDefault(candidate =>
+            string.Equals(candidate.Id, options.Candidate, StringComparison.Ordinal));
+        if (target is null)
+        {
+            Console.Error.WriteLine($"No existe el candidato '{options.Candidate}'.");
+            return 2;
+        }
+
+        OpportunityCandidate reviewed = CopyWithStatus(
+            target,
+            options.OpportunityStatus.Value);
+        OpportunityRadarState updated = new()
+        {
+            UpdatedAtUtc = DateTimeOffset.UtcNow,
+            LastRun = state.LastRun,
+            Candidates = state.Candidates
+                .Select(candidate => candidate.Id == reviewed.Id ? reviewed : candidate)
+                .ToArray()
+        };
+        await repository.SaveAsync(options.State, updated, cancellationToken);
+        Console.WriteLine(
+            $"Candidato {reviewed.Id}: estado {reviewed.Status} guardado en " +
+            $"'{options.State}'.");
+        return 0;
+    }
+
+    private static OpportunityCandidate CopyWithStatus(
+        OpportunityCandidate candidate,
+        OpportunityCandidateStatus status)
+    {
+        return new()
+        {
+            Id = candidate.Id,
+            SourceId = candidate.SourceId,
+            SourceName = candidate.SourceName,
+            SourceKind = candidate.SourceKind,
+            ExternalId = candidate.ExternalId,
+            Title = candidate.Title,
+            Summary = candidate.Summary,
+            OfficialUrl = candidate.OfficialUrl,
+            PublishedAtUtc = candidate.PublishedAtUtc,
+            Municipality = candidate.Municipality,
+            Kind = candidate.Kind,
+            Confidence = candidate.Confidence,
+            MatchedTerms = candidate.MatchedTerms,
+            FirstSeenUtc = candidate.FirstSeenUtc,
+            LastSeenUtc = candidate.LastSeenUtc,
+            Status = status
+        };
     }
 
     private static async Task<ConfigurationBundle> LoadConfigurationAsync(
@@ -314,6 +458,29 @@ internal static class CrawlerApplication
         return services.BuildServiceProvider(validateScopes: true);
     }
 
+    private static ServiceProvider BuildOpportunityServices(CrawlerSettings settings)
+    {
+        ServiceCollection services = new();
+        services.AddLogging(builder => builder.AddSimpleConsole());
+        services.AddSingleton<IDnsResolver, SystemDnsResolver>();
+        services.AddSingleton<DnsRebindingSafeHandlerFactory>();
+        services.AddHttpClient(
+                "opportunity-discovery",
+                client =>
+                {
+                    client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent);
+                })
+            .ConfigurePrimaryHttpMessageHandler(provider =>
+                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(5));
+        services.AddSingleton<IClock, SystemClock>();
+        services.AddSingleton<OpportunityFeedParser>();
+        services.AddSingleton<IOpportunityFeedReader, OpportunityFeedReader>();
+        services.AddSingleton<IOpportunityStateRepository, JsonOpportunityStateRepository>();
+        services.AddSingleton<OpportunityDiscoveryPipeline>();
+        return services.BuildServiceProvider(validateScopes: true);
+    }
+
     private static void PrintHelp()
     {
         Console.WriteLine(
@@ -324,6 +491,8 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- crawl [opciones]
               dotnet run --project src/SierraNueva.Crawler -- validate-config [opciones]
               dotnet run --project src/SierraNueva.Crawler -- validate-data [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- discover-opportunities [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
 
             Opciones:
               --config <ruta>          config/appsettings.json
@@ -331,11 +500,16 @@ internal static class CrawlerApplication
               --municipalities <ruta>  config/municipalities.json
               --centroid-sources <ruta> config/municipality-centroids.json
               --exclusions <ruta>      config/domain-exclusions.json
+              --discovery-sources <ruta> config/discovery-sources.json
               --output <ruta>          data/public
               --state <ruta>           data/state
               --municipality <nombre>  Filtrar municipio
               --source <id>            Filtrar fuente
               --max-pages <n>          Sobrescribir máximo
+              --from <aaaa-mm-dd>      Inicio de ventana del radar
+              --to <aaaa-mm-dd>        Fin de ventana del radar
+              --candidate <id>         Candidato privado que revisar
+              --status <estado>        new, monitoring, rejected, verifiedSource o stale
               --no-playwright          Deshabilitar fallback JavaScript
               --no-geocoding           Deshabilitar geocodificación
               --dry-run                Procesar sin escribir
@@ -381,6 +555,9 @@ internal sealed class CliOptions
 
     public string Exclusions { get; private init; } = "config/domain-exclusions.json";
 
+    public string DiscoverySources { get; private init; } =
+        "config/discovery-sources.json";
+
     public string Output { get; private init; } = "data/public";
 
     public string State { get; private init; } = "data/state";
@@ -390,6 +567,14 @@ internal sealed class CliOptions
     public string? Source { get; private init; }
 
     public int? MaxPages { get; private init; }
+
+    public DateOnly? From { get; private init; }
+
+    public DateOnly? To { get; private init; }
+
+    public string? Candidate { get; private init; }
+
+    public OpportunityCandidateStatus? OpportunityStatus { get; private init; }
 
     public bool NoPlaywright { get; private init; }
 
@@ -404,7 +589,12 @@ internal sealed class CliOptions
     public static CliOptions Parse(string[] args)
     {
         string command = args.FirstOrDefault(value => !value.StartsWith('-')) ?? "crawl";
-        if (command is not ("crawl" or "validate-config" or "validate-data"))
+        if (command is not (
+            "crawl" or
+            "validate-config" or
+            "validate-data" or
+            "discover-opportunities" or
+            "review-opportunity"))
         {
             throw new ArgumentException($"Comando desconocido: {command}");
         }
@@ -440,6 +630,21 @@ internal sealed class CliOptions
             maxPages = int.Parse(maxPagesText, System.Globalization.CultureInfo.InvariantCulture);
         }
 
+        DateOnly? from = ParseDate(values, "--from");
+        DateOnly? to = ParseDate(values, "--to");
+        OpportunityCandidateStatus? opportunityStatus = null;
+        if (values.TryGetValue("--status", out string? statusText) &&
+            !Enum.TryParse(statusText, ignoreCase: true, out OpportunityCandidateStatus parsedStatus))
+        {
+            throw new ArgumentException("--status no es un estado de candidato válido.");
+        }
+        else if (statusText is not null)
+        {
+            opportunityStatus = Enum.Parse<OpportunityCandidateStatus>(
+                statusText,
+                ignoreCase: true);
+        }
+
         return new()
         {
             Command = command,
@@ -451,11 +656,19 @@ internal sealed class CliOptions
                 "--centroid-sources",
                 "config/municipality-centroids.json"),
             Exclusions = Get(values, "--exclusions", "config/domain-exclusions.json"),
+            DiscoverySources = Get(
+                values,
+                "--discovery-sources",
+                "config/discovery-sources.json"),
             Output = Get(values, "--output", "data/public"),
             State = Get(values, "--state", "data/state"),
             Municipality = GetNullable(values, "--municipality"),
             Source = GetNullable(values, "--source"),
             MaxPages = maxPages,
+            From = from,
+            To = to,
+            Candidate = GetNullable(values, "--candidate"),
+            OpportunityStatus = opportunityStatus,
             NoPlaywright = switches.Contains("--no-playwright"),
             NoGeocoding = switches.Contains("--no-geocoding"),
             DryRun = switches.Contains("--dry-run"),
@@ -477,5 +690,24 @@ internal sealed class CliOptions
         string key)
     {
         return values.TryGetValue(key, out string? value) ? value : null;
+    }
+
+    private static DateOnly? ParseDate(
+        IReadOnlyDictionary<string, string> values,
+        string key)
+    {
+        if (!values.TryGetValue(key, out string? value))
+        {
+            return null;
+        }
+
+        return DateOnly.TryParseExact(
+            value,
+            "yyyy-MM-dd",
+            System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.None,
+            out DateOnly parsed)
+            ? parsed
+            : throw new ArgumentException($"{key} debe usar el formato aaaa-mm-dd.");
     }
 }

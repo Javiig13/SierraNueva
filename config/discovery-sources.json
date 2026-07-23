@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0",
+  "defaultLookbackDays": 7,
+  "contextTerms": [
+    "residencial",
+    "vivienda",
+    "viviendas",
+    "unifamiliar",
+    "unifamiliares",
+    "parcela",
+    "parcelas",
+    "suelo",
+    "urbanístico",
+    "urbanística",
+    "urbanización",
+    "reparcelación",
+    "plan parcial",
+    "estudio de detalle",
+    "licencia de obra"
+  ],
+  "exclusionTerms": [
+    "aparcamiento",
+    "cafetería",
+    "hostelería",
+    "mantenimiento",
+    "peluquería",
+    "reparación",
+    "restauración",
+    "daños causados",
+    "instalaciones interiores"
+  ],
+  "terms": [
+    { "term": "enajenación de", "kind": "landDisposal" },
+    { "term": "venta de parcelas", "kind": "landDisposal" },
+    { "term": "derecho de superficie", "kind": "surfaceRight" },
+    { "term": "concesión demanial", "kind": "surfaceRight" },
+    { "term": "plan parcial", "kind": "planning" },
+    { "term": "estudio de detalle", "kind": "planning" },
+    { "term": "reparcelación", "kind": "planning" },
+    { "term": "información pública", "kind": "planning" },
+    { "term": "proyecto de urbanización", "kind": "urbanizationWorks" },
+    { "term": "obras de urbanización", "kind": "urbanizationWorks" },
+    { "term": "licencia de obra", "kind": "buildingPermit" },
+    { "term": "uso residencial unifamiliar", "kind": "residentialDevelopment" },
+    { "term": "promoción de viviendas", "kind": "residentialDevelopment" },
+    { "term": "viviendas unifamiliares", "kind": "residentialDevelopment" }
+  ],
+  "sources": [
+    {
+      "id": "bocm-rss",
+      "name": "BOCM — órdenes del último boletín",
+      "enabled": true,
+      "sourceKind": "regionalGazette",
+      "format": "rss",
+      "cadence": "once",
+      "urlTemplate": "https://www.bocm.es/ultimo-boletin.xml",
+      "fixturePath": "test-data/discovery/bocm-rss.xml",
+      "allowedHosts": [ "www.bocm.es" ],
+      "maxItems": 500
+    },
+    {
+      "id": "boe-sumario",
+      "name": "BOE — sumario diario OpenData",
+      "enabled": true,
+      "sourceKind": "stateGazette",
+      "format": "boeJson",
+      "cadence": "daily",
+      "urlTemplate": "https://www.boe.es/datosabiertos/api/boe/sumario/{date:yyyyMMdd}",
+      "fixturePath": "test-data/discovery/boe-sumario.json",
+      "allowedHosts": [ "www.boe.es" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "pcsp-open-data",
+      "name": "PCSP — licitaciones en Atom",
+      "enabled": true,
+      "sourceKind": "publicProcurement",
+      "format": "atom",
+      "cadence": "monthly",
+      "urlTemplate": "https://contrataciondelsectorpublico.gob.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3_{date:yyyyMM}.zip",
+      "fixturePath": "test-data/discovery/pcsp-licitaciones.atom",
+      "allowedHosts": [ "contrataciondelsectorpublico.gob.es" ],
+      "maxItems": 2000
+    },
+    {
+      "id": "portal-suelo-madrid",
+      "name": "Comunidad de Madrid — Portal del Suelo 4.0",
+      "enabled": true,
+      "sourceKind": "publicLandPortal",
+      "format": "html",
+      "cadence": "once",
+      "urlTemplate": "https://www.comunidad.madrid/inversion-empresa/portal-suelo-40",
+      "fixturePath": "test-data/discovery/portal-suelo.html",
+      "allowedHosts": [ "www.comunidad.madrid" ],
+      "itemSelectors": [ ".component-carousel-item", ".accordion-content li" ],
+      "maxItems": 1000
+    }
+  ]
+}

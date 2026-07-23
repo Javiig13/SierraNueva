@@ -8,6 +8,9 @@ archivos públicos → SPA Blazor. Este documento separa lo comprobado de lo que
 aún requiere trabajo para evitar que el siguiente agente dé por terminadas
 integraciones que no se han ensayado en condiciones reales.
 
+También existe un radar administrativo paralelo: genera candidatos privados a
+partir de fuentes oficiales, pero nunca los publica como promociones.
+
 ## Contexto de producto
 
 La petición original incluía producto e infraestructura. El propietario decidió
@@ -32,8 +35,8 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 
 ### Crawler
 
-- CLI `crawl`, `validate-config` y `validate-data` con opciones y códigos de
-  salida documentados.
+- CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities` y
+  `review-opportunity` con opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con ocho
   fuentes revisadas, una URL y una página por fuente.
@@ -57,6 +60,12 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Conservación del último dataset válido si no hay resultados publicables.
 - Dos backups atómicos del estado; lectura con fallback y fallo sin
   sobrescritura cuando todas las copias están corruptas.
+- Radar privado para BOCM, BOE, PCSP y Portal del Suelo, con cuatro formatos,
+  configuración offline/live separada, deduplicación y estados de revisión.
+- Filtro de radar por municipio, señal y contexto inmobiliario, con exclusiones
+  para ruido administrativo. Los candidatos viven únicamente en `data/state`.
+- Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
+  atómicos adicionales para la cola de oportunidades.
 
 ### Datos y frontend
 
@@ -88,16 +97,18 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:45 correctos
+Tests Infrastructure:54 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               65/65 correctos
+Total:               74/74 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios y 29 centroides trazables
+validate-config:     1 fuente, 29 municipios, 29 centroides y 4 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
+Radar offline:       4 candidatos de 9 entradas sintéticas; 4/4 canales
+Radar live aislado:  4/4 canales; 1 candidato final tras filtrar 17.093 entradas/bloques
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -125,6 +136,16 @@ porque el estado sintético ya está sembrado.
 - Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
   periódica ni garantizan que las webs, disponibilidad o condiciones no
   cambien.
+- El radar central reduce puntos ciegos, pero no garantiza exhaustividad. Su
+  smoke live del 23 de julio de 2026 procesó 68 entradas BOCM, 184 BOE, 16.815
+  PCSP y 26 bloques del Portal del Suelo. Tras corregir cinco falsos positivos
+  de PCSP y uno de BOE quedó un candidato de suelo residencial para revisión.
+- BOCM solo se ha integrado mediante el RSS del último boletín. Falta una vía
+  oficial de backfill y siguen pendientes los portales heterogéneos de los 29
+  ayuntamientos.
+- Un candidato del radar no demuestra disponibilidad comercial. Debe resolverse
+  hasta una web oficial vigente y seguir la evaluación técnica/jurídica normal
+  antes de incorporarse a `sources.live.json`.
 - Playwright, Nominatim y ETag/Last-Modified tienen implementación y pruebas
   aisladas, pero no una prueba operacional live. La fuente incorporada no
   necesita Playwright ni Nominatim.
@@ -153,11 +174,14 @@ porque el estado sintético ya está sembrado.
 1. Mantener verde la baseline offline.
 2. Revalidar las ocho evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-3. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+3. Revisar la cola del radar y mantener sus exclusiones con casos reales;
+   ampliar después los tablones municipales por formatos reutilizables.
+4. Diseñar un backfill oficial para BOCM sin raspar buscadores comerciales.
+5. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-4. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+6. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-5. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
+7. Solo cuando el propietario lo indique, ejecutar la fase GitHub/Pages
    descrita en `docs/ROADMAP.md`.
 
 ## Cómo retomar en otro equipo

@@ -19,6 +19,18 @@ flowchart LR
     W --> M["Leaflet · OpenStreetMap"]
 ```
 
+El descubrimiento administrativo forma un flujo paralelo y privado:
+
+```mermaid
+flowchart LR
+    F["BOCM · BOE · PCSP · Portal del Suelo"] --> A["Adaptadores RSS · JSON · Atom/ZIP · HTML"]
+    A --> R["Municipio + señal + contexto − exclusiones"]
+    R --> S["data/state/opportunity-candidates.json"]
+    S --> V["Revisión humana"]
+    V --> O["Fuente comercial oficial revisada"]
+    O --> C["Pipeline público de promociones"]
+```
+
 ## Fronteras de proyectos
 
 | Proyecto | Responsabilidad | Dependencias permitidas |
@@ -31,6 +43,10 @@ flowchart LR
 
 Core desconoce AngleSharp, PdfPig y Playwright. Las integraciones se sitúan
 detrás de interfaces para que puedan sustituirse o probarse sin red.
+
+Los modelos y la orquestación del radar pertenecen a Core. Infrastructure
+descarga, interpreta y persiste los feeds. Crawler compone los comandos y
+Contracts/Web no conocen candidatos administrativos.
 
 ## Flujo de una ejecución
 
@@ -64,6 +80,28 @@ queda ninguna fuente correcta, no se sustituye el último dataset válido.
 El estado privado conserva dos generaciones atómicas de
 `promotions-state.json`: la lectura intenta el principal, `backup-1` y
 `backup-2`; si todos son inválidos, aborta sin modificar ninguno.
+
+## Radar de oportunidades
+
+`discover-opportunities` lee un catálogo independiente. La configuración
+predeterminada usa fixtures; el perfil live debe indicarse expresamente. El
+lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom y bloques HTML
+acotados por selector.
+
+Una entrada solo se convierte en candidato si contiene un municipio del
+catálogo, una señal administrativa y contexto inmobiliario. Las exclusiones
+eliminan contratos de mantenimiento, hostelería, aparcamientos y otras
+coincidencias conocidas. La regla reduce ruido, pero no demuestra que la
+actuación vaya a comercializar viviendas.
+
+La identidad combina fuente, identificador externo o URL y municipio. Una
+ejecución posterior actualiza el candidato sin perder su estado humano:
+`new`, `monitoring`, `rejected`, `verifiedSource` o `stale`. La escritura es
+atómica, rota dos backups y nunca toca `data/public`.
+
+Los ZIP mensuales de PCSP se descargan a un temporal con límite de 512 MiB y se
+procesan entrada a entrada para no mantenerlos completos en memoria. El
+temporal se elimina incluso ante fallo.
 
 ## Persistencia JSON
 

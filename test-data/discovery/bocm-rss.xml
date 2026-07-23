@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Órdenes del último boletín</title>
+    <item>
+      <title>Orden Nº 41 / Boletín Nº 120 año 2026</title>
+      <link>https://www.bocm.es/bocm-20260521-41</link>
+      <description>&lt;p&gt;Soto del Real. Urbanismo&lt;br /&gt;Información pública del Plan Parcial del sector residencial Las Eras.&lt;/p&gt;</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 +0200</pubDate>
+      <guid>BOCM-20260521-41</guid>
+    </item>
+    <item>
+      <title>Orden Nº 42 / Boletín Nº 120 año 2026</title>
+      <link>https://www.bocm.es/bocm-20260521-42</link>
+      <description>Convocatoria de una plaza de técnico de administración.</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 +0200</pubDate>
+      <guid>BOCM-20260521-42</guid>
+    </item>
+  </channel>
+</rss>

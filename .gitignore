@@ -9,6 +9,7 @@ playwright-report/
 src/SierraNueva.Web/wwwroot/data/
 data/state/*.tmp
 data/state/promotions-state.backup-*.json
+data/state/opportunity-candidates*.json
 data/public/*.tmp
 *.user
 *.suo

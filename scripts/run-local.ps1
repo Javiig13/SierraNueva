@@ -51,6 +51,10 @@ Invoke-Dotnet @(
     'run', '--project', 'src/SierraNueva.Crawler', '-c', 'Release',
     '--no-build', '--', 'validate-config'
 )
+Invoke-Dotnet @(
+    'run', '--project', 'src/SierraNueva.Crawler', '-c', 'Release',
+    '--no-build', '--', 'discover-opportunities', '--dry-run'
+)
 
 $crawlerArguments = @(
     'run',

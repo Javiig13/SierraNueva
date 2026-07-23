@@ -31,6 +31,8 @@ interprete la ausencia de GitHub Actions o Pages como contexto perdido.
 - Procesa HTML estático con JSON-LD, metadatos y patrones españoles.
 - Incluye descubrimiento por URLs configuradas, archivo manual, sitemap e
   hipervínculos internos.
+- Ejecuta un radar privado y separado para señales de BOCM, BOE, contratación
+  pública y suelo público, sin confundirlas con promociones verificadas.
 - Respeta `robots.txt`, limita solicitudes y bloquea portales, esquemas
   peligrosos y direcciones privadas.
 - Mantiene estado y evita desactivar una promoción hasta tres ausencias
@@ -81,6 +83,7 @@ dotnet build SierraNueva.sln -c Release --no-restore
 dotnet test SierraNueva.sln -c Release --no-build
 dotnet format SierraNueva.sln --verify-no-changes --no-restore
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-config
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- discover-opportunities --dry-run
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- crawl --no-playwright
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-data
 dotnet publish src/SierraNueva.Web/SierraNueva.Web.csproj -c Release --no-restore
@@ -112,6 +115,19 @@ SierraNueva.Crawler crawl
 
 SierraNueva.Crawler validate-config
 SierraNueva.Crawler validate-data
+SierraNueva.Crawler discover-opportunities
+  --discovery-sources <ruta>
+  --municipalities <ruta>
+  --state <ruta>
+  --source <id>
+  --from <aaaa-mm-dd>
+  --to <aaaa-mm-dd>
+  --dry-run
+
+SierraNueva.Crawler review-opportunity
+  --state <ruta>
+  --candidate <id>
+  --status <new|monitoring|rejected|verifiedSource|stale>
 ```
 
 Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida,
@@ -121,6 +137,22 @@ La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
+
+El radar sigue el mismo principio. `config/discovery-sources.json` usa cuatro
+fixtures y es completamente offline. `config/discovery-sources.live.json`
+habilita de forma explícita los endpoints oficiales revisados:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  discover-opportunities `
+  --discovery-sources config/discovery-sources.live.json `
+  --from 2026-07-23 --to 2026-07-23 `
+  --state tmp/opportunity-live
+```
+
+Los resultados se guardan únicamente en `data/state` o en la ruta aislada
+indicada. Un candidato no es una promoción ni se incorpora automáticamente al
+contrato público.
 
 ## Configurar fuentes
 
@@ -208,7 +240,13 @@ data/state/promotions-state.backup-1.json
 data/state/promotions-state.backup-2.json
 data/state/geocoding-cache.json
 data/state/http-cache.json
+data/state/opportunity-candidates.json
+data/state/opportunity-candidates.backup-1.json
+data/state/opportunity-candidates.backup-2.json
 ```
+
+Los archivos `opportunity-candidates*` están ignorados por Git para reducir el
+riesgo de publicar accidentalmente una cola live.
 
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se
@@ -241,6 +279,8 @@ coordenadas, precios y URLs antes de publicar.
   dominio permanecen en configuración.
 - Un nuevo mecanismo de descubrimiento implementa `IUrlDiscoveryProvider` y se
   registra junto a los proveedores existentes.
+- Un nuevo canal administrativo implementa `IOpportunityFeedReader`; su salida
+  permanece en el contrato privado del radar y nunca se entrega al frontend.
 - La extracción de PDF está aislada por `IPdfTextExtractor`.
 - El render dinámico está aislado por `IDynamicPageRenderer`.
 - La geocodificación está aislada por `IGeocoder`.
@@ -287,6 +327,10 @@ sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
+- El radar central cubre cuatro canales oficiales, pero todavía no incluye los
+  tablones y portales urbanísticos heterogéneos de los 29 ayuntamientos. BOCM
+  solo expone el último boletín en su RSS, por lo que el backfill necesita otra
+  fuente oficial o un archivo manual.
 - No existen aún `.github/workflows`, Pages, base path de repositorio,
   `.nojekyll` ni fallback `404.html`. Son trabajo de la fase de infraestructura.
 

@@ -27,6 +27,8 @@
     <Content Include="..\..\config\municipalities.json" Link="config\municipalities.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\config\municipality-centroids.json" Link="config\municipality-centroids.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\config\sources.live.json" Link="config\sources.live.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\config\discovery-sources.json" Link="config\discovery-sources.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\config\discovery-sources.live.json" Link="config\discovery-sources.live.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

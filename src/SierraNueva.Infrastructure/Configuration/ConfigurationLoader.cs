@@ -1,5 +1,6 @@
 using System.Text.Json;
 using SierraNueva.Contracts;
+using SierraNueva.Core.Models;
 using SierraNueva.Infrastructure.Serialization;
 
 namespace SierraNueva.Infrastructure.Configuration;
@@ -56,6 +57,101 @@ public sealed class ConfigurationLoader
                    JsonDefaults.Compact,
                    cancellationToken)
                ?? new();
+    }
+
+    public async Task<OpportunityDiscoveryCatalog> LoadOpportunityCatalogAsync(
+        string path,
+        CancellationToken cancellationToken)
+    {
+        await using FileStream stream = File.OpenRead(path);
+        OpportunityDiscoveryCatalog? catalog =
+            await JsonSerializer.DeserializeAsync<OpportunityDiscoveryCatalog>(
+                stream,
+                JsonDefaults.Compact,
+                cancellationToken);
+        return catalog ?? throw new InvalidDataException(
+            $"El archivo '{path}' no contiene un catálogo de radar.");
+    }
+
+    public IReadOnlyList<string> ValidateOpportunityCatalog(
+        OpportunityDiscoveryCatalog catalog)
+    {
+        List<string> errors = [];
+        if (catalog.SchemaVersion != "1.0")
+        {
+            errors.Add("El catálogo del radar debe usar el contrato 1.0.");
+        }
+
+        if (catalog.DefaultLookbackDays is < 0 or > 366)
+        {
+            errors.Add("defaultLookbackDays debe estar entre 0 y 366.");
+        }
+
+        if (catalog.Terms.Count == 0 ||
+            catalog.Terms.Any(rule => string.IsNullOrWhiteSpace(rule.Term)))
+        {
+            errors.Add("El radar necesita términos de oportunidad no vacíos.");
+        }
+
+        if (catalog.ContextTerms.Count == 0 ||
+            catalog.ContextTerms.Any(string.IsNullOrWhiteSpace))
+        {
+            errors.Add("El radar necesita términos de contexto inmobiliario.");
+        }
+
+        foreach (IGrouping<string, OpportunitySourceDefinition> duplicate in catalog.Sources
+                     .GroupBy(source => source.Id, StringComparer.OrdinalIgnoreCase)
+                     .Where(group => group.Count() > 1))
+        {
+            errors.Add($"Id de fuente de radar duplicado: {duplicate.Key}.");
+        }
+
+        foreach (OpportunitySourceDefinition source in catalog.Sources.Where(item => item.Enabled))
+        {
+            if (string.IsNullOrWhiteSpace(source.Id) ||
+                string.IsNullOrWhiteSpace(source.Name))
+            {
+                errors.Add("Toda fuente de radar habilitada necesita id y nombre.");
+            }
+
+            if (string.IsNullOrWhiteSpace(source.FixturePath) &&
+                string.IsNullOrWhiteSpace(source.UrlTemplate))
+            {
+                errors.Add($"La fuente de radar '{source.Id}' no tiene URL ni fixture.");
+            }
+
+            if (source.MaxItems is < 1 or > 20_000)
+            {
+                errors.Add($"maxItems de '{source.Id}' debe estar entre 1 y 20000.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.FixturePath) &&
+                !File.Exists(source.FixturePath))
+            {
+                errors.Add($"No existe la fixture de radar '{source.FixturePath}'.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(source.UrlTemplate))
+            {
+                string sampleUrl = source.UrlTemplate
+                    .Replace("{date:yyyyMMdd}", "20260101", StringComparison.Ordinal)
+                    .Replace("{date:yyyyMM}", "202601", StringComparison.Ordinal);
+                if (!Uri.TryCreate(sampleUrl, UriKind.Absolute, out Uri? uri) ||
+                    uri.Scheme != Uri.UriSchemeHttps)
+                {
+                    errors.Add($"URL de radar inválida en '{source.Id}'.");
+                }
+                else if (source.AllowedHosts.Count == 0 ||
+                         !source.AllowedHosts.Contains(
+                             uri.IdnHost,
+                             StringComparer.OrdinalIgnoreCase))
+                {
+                    errors.Add($"El host de '{source.Id}' no figura en allowedHosts.");
+                }
+            }
+        }
+
+        return errors;
     }
 
     public IReadOnlyList<string> Validate(

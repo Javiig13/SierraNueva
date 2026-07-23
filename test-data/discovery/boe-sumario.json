@@ -1,0 +1,40 @@
+{
+  "status": { "code": "200", "text": "ok" },
+  "data": {
+    "sumario": {
+      "metadatos": { "publicacion": "BOE", "fecha_publicacion": "20260521" },
+      "diario": [
+        {
+          "seccion": [
+            {
+              "departamento": [
+                {
+                  "epigrafe": [
+                    {
+                      "nombre": "Urbanismo",
+                      "item": {
+                        "identificador": "BOE-B-2026-12001",
+                        "titulo": "Anuncio de información pública del proyecto de urbanización de un sector de Galapagar (Madrid).",
+                        "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-B-2026-12001"
+                      }
+                    },
+                    {
+                      "nombre": "Personal",
+                      "item": [
+                        {
+                          "identificador": "BOE-A-2026-12002",
+                          "titulo": "Resolución relativa a un nombramiento administrativo.",
+                          "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-12002"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -76,3 +76,24 @@ public interface IClock
 {
     DateTimeOffset UtcNow { get; }
 }
+
+public interface IOpportunityFeedReader
+{
+    Task<IReadOnlyList<OpportunityFeedItem>> ReadAsync(
+        OpportunitySourceDefinition source,
+        DateOnly fromDate,
+        DateOnly toDate,
+        CancellationToken cancellationToken);
+}
+
+public interface IOpportunityStateRepository
+{
+    Task<OpportunityRadarState> LoadAsync(
+        string stateDirectory,
+        CancellationToken cancellationToken);
+
+    Task SaveAsync(
+        string stateDirectory,
+        OpportunityRadarState state,
+        CancellationToken cancellationToken);
+}

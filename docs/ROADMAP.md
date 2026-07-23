@@ -61,6 +61,22 @@ requiere trabajo de producto.
 
 ## P3 — Preparación operativa local
 
+- **Hecho:** radar privado de oportunidades con perfiles offline/live
+  separados para BOCM, BOE, PCSP y Portal del Suelo 4.0.
+- **Hecho:** adaptadores RSS, JSON BOE, Atom/ZIP y HTML acotado, cada uno con
+  fixture y pruebas sin Internet.
+- **Hecho:** filtro por los 29 municipios, señal, contexto inmobiliario y
+  exclusiones; la prueba incluye ruido administrativo que no debe pasar.
+- **Hecho:** identidad estable, deduplicación, estados de revisión y escritura
+  atómica con dos backups exclusivamente bajo `data/state`.
+- **Hecho:** smoke live aislado de los cuatro canales: 68 entradas BOCM, 184
+  BOE, 16.815 PCSP y 26 bloques del Portal del Suelo; cero fallos y un candidato
+  final después del filtrado.
+- **Pendiente:** incorporar progresivamente tablones y portales urbanísticos de
+  los 29 ayuntamientos, siempre con evaluación y fixture por formato.
+- **Pendiente:** diseñar un backfill oficial para BOCM; el RSS comprobado solo
+  contiene el último boletín.
+
 - **Pendiente:** ensayar Playwright en una fuente autorizada que realmente lo
   necesite.
 - **Pendiente:** ensayar caché y límites de Nominatim con identidad de contacto
@@ -121,9 +137,9 @@ definitivo.
 | 25 | Portales excluidos bloqueados | Hecho | blocklist y pruebas |
 | 26 | Fallo parcial no destruye dataset | Hecho | reglas y pruebas de estado |
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
-| 28 | Sin código esencial pendiente | Hecho | vertical local y cobertura P1/P2 completas; P3 es operacional |
+| 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 65/65 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 74/74 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
