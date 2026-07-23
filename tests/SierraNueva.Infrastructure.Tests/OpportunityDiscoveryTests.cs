@@ -21,6 +21,9 @@ public sealed class OpportunityDiscoveryTests
     [InlineData("bocm-sumario.xml", OpportunityFeedFormat.BocmCalendar, 2)]
     [InlineData("eadmin-tablon.html", OpportunityFeedFormat.EAdminHtml, 2)]
     [InlineData("cercedilla-noticias.rss.xml", OpportunityFeedFormat.Rss, 2)]
+    [InlineData("collado-villalba-actualidad.html", OpportunityFeedFormat.Html, 2)]
+    [InlineData("guadalix-noticias.rss.xml", OpportunityFeedFormat.Rss, 2)]
+    [InlineData("navalafuente-noticias.rss.xml", OpportunityFeedFormat.Rss, 2)]
     public async Task Parser_ReadsEachOfficialFormatFixture(
         string fixture,
         OpportunityFeedFormat format,
@@ -32,7 +35,8 @@ public sealed class OpportunityDiscoveryTests
             Name = "Test",
             Enabled = true,
             Format = format,
-            ItemSelectors = [".component-carousel-item", ".accordion-content li"],
+            ItemSelectors =
+                [".component-carousel-item", ".accordion-content li", ".carousel-item"],
             MaxItems = 100
         };
         byte[] content = await File.ReadAllBytesAsync(FixturePath(fixture));
@@ -254,7 +258,7 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(29, first.Run.NewCandidates);
+            Assert.Equal(32, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
@@ -268,6 +272,7 @@ public sealed class OpportunityDiscoveryTests
                     "El Escorial",
                     "Fresnedillas de la Oliva",
                     "Galapagar",
+                    "Guadalix de la Sierra",
                     "Guadarrama",
                     "Hoyo de Manzanares",
                     "La Cabrera",
@@ -276,6 +281,7 @@ public sealed class OpportunityDiscoveryTests
                     "Miraflores de la Sierra",
                     "Moralzarzal",
                     "Navacerrada",
+                    "Navalafuente",
                     "Navalagamella",
                     "San Lorenzo de El Escorial",
                     "Santa María de la Alameda",
@@ -308,7 +314,7 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(29, second.Run.UpdatedCandidates);
+            Assert.Equal(32, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);

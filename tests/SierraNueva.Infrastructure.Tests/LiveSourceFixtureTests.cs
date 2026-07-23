@@ -30,6 +30,26 @@ public sealed class LiveSourceFixtureTests
             {
                 "hirimasa-moralzarzal-pradillos",
                 "hirimasa-moralzarzal-pradillos.html"
+            },
+            {
+                "nuvare-cumbres-navalafuente",
+                "nuvare-cumbres-navalafuente.html"
+            },
+            {
+                "nuvare-claveles-zarzalejo",
+                "nuvare-claveles-zarzalejo.html"
+            },
+            {
+                "stance-essentia-galapagar",
+                "stance-essentia-galapagar.html"
+            },
+            {
+                "stance-osnola-zarzalejo",
+                "stance-osnola-zarzalejo.html"
+            },
+            {
+                "residencial-montemilano-bustarviejo",
+                "residencial-montemilano-bustarviejo.html"
             }
         };
 
@@ -50,7 +70,7 @@ public sealed class LiveSourceFixtureTests
         Assert.Equal(3, vesariSources.Length);
         Assert.All(
             vesariSources,
-            source => Assert.True(source.RequestDelayMilliseconds >= 20_000));
+            source => Assert.True(source.RequestDelayMilliseconds >= 30_000));
     }
 
     [Theory]
@@ -199,6 +219,54 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(
                     ["Adosado", "Pareado"],
                     promotion.PropertyTypes);
+                break;
+            case "nuvare-cumbres-navalafuente":
+                Assert.Null(promotion.TotalUnits);
+                Assert.Equal(2, promotion.AvailableUnits);
+                Assert.Equal(512_500m, promotion.PriceFrom);
+                Assert.Equal(543_000m, promotion.PriceTo);
+                Assert.Equal(500m, promotion.PlotAreaMinSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Contains("Pareado", promotion.PropertyTypes);
+                break;
+            case "nuvare-claveles-zarzalejo":
+                Assert.Equal(399_000m, promotion.PriceFrom);
+                Assert.Equal(460_000m, promotion.PriceTo);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Equal(150m, promotion.PlotAreaMinSqm);
+                Assert.Equal(250m, promotion.PlotAreaMaxSqm);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.True(promotion.HasCommunityPool);
+                break;
+            case "stance-essentia-galapagar":
+                Assert.Equal(4, promotion.TotalUnits);
+                Assert.Equal(4, promotion.AvailableUnits);
+                Assert.Equal(875_000m, promotion.PriceFrom);
+                Assert.Equal(985_000m, promotion.PriceTo);
+                Assert.Equal(340m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(500m, promotion.BuiltAreaMaxSqm);
+                Assert.Equal(512m, promotion.PlotAreaMinSqm);
+                Assert.Equal(1131m, promotion.PlotAreaMaxSqm);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.True(promotion.HasPrivatePool);
+                Assert.Contains("Independiente", promotion.PropertyTypes);
+                break;
+            case "stance-osnola-zarzalejo":
+                Assert.Equal(221m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(250m, promotion.PlotAreaMinSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(3, promotion.BathroomsMin);
+                Assert.Equal("Concedida", promotion.BuildingLicenceStatus);
+                Assert.Equal(ConstructionStatus.UnderConstruction, promotion.ConstructionStatus);
+                Assert.Contains("Adosado", promotion.PropertyTypes);
+                break;
+            case "residencial-montemilano-bustarviejo":
+                Assert.Equal(5, promotion.TotalUnits);
+                Assert.Equal(106.45m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(425m, promotion.PlotAreaMinSqm);
+                Assert.Equal(450m, promotion.PlotAreaMaxSqm);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Null(promotion.PriceFrom);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

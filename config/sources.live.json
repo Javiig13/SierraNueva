@@ -457,7 +457,7 @@
       "followInternalLinks": false,
       "maxDepth": 0,
       "maxPages": 1,
-      "requestDelayMilliseconds": 20000,
+      "requestDelayMilliseconds": 30000,
       "usePlaywright": false,
       "fixedMunicipality": "Guadalix de la Sierra",
       "municipalityHints": [
@@ -495,7 +495,7 @@
       "followInternalLinks": false,
       "maxDepth": 0,
       "maxPages": 1,
-      "requestDelayMilliseconds": 20000,
+      "requestDelayMilliseconds": 30000,
       "usePlaywright": false,
       "fixedMunicipality": "San Lorenzo de El Escorial",
       "municipalityHints": [
@@ -533,7 +533,7 @@
       "followInternalLinks": false,
       "maxDepth": 0,
       "maxPages": 1,
-      "requestDelayMilliseconds": 20000,
+      "requestDelayMilliseconds": 30000,
       "usePlaywright": false,
       "fixedMunicipality": "Robledo de Chavela",
       "municipalityHints": [
@@ -634,6 +634,217 @@
         "name": "[data-id='b6c39b6'] h3"
       },
       "notes": "Promotora oficial revisada el 2026-07-23. La página contiene varias promociones: se exigen los tres bloques exclusivos de Moralzarzal y se falla de forma cerrada si cambia alguno. La señal visual de última vivienda se genera por CSS y no se publica como dato rastreado. Evaluación en docs/source-assessments/live-expansion-followup-2026-07-23.md."
+    },
+    {
+      "id": "nuvare-cumbres-navalafuente",
+      "name": "Nuvare — Cumbres de Navalafuente",
+      "baseUrl": "https://nuvare.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "nuvare.es",
+        "www.nuvare.es"
+      ],
+      "startUrls": [
+        "https://nuvare.es/promocion-cumbres-de-navalafuente/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Navalafuente",
+      "municipalityHints": [
+        "Navalafuente"
+      ],
+      "contentSelector": "[data-elementor-type='wp-page'] > [data-id='27c1b20']",
+      "additionalContentSelectors": [
+        "[data-elementor-type='wp-page'] > [data-id='229b876']",
+        "[data-elementor-type='wp-page'] > [data-id='c5abffe']",
+        "[data-elementor-type='wp-page'] > [data-id='dbc86ab']"
+      ],
+      "includePatterns": [
+        "/promocion-cumbres-de-navalafuente/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-24. Solo se rastrean los bloques públicos de identidad, descripción, disponibilidad y precios; no se descargan planos, imágenes ni formularios. La tabla mezcla una vivienda acabada y otra con entrega futura, por lo que no se publica un único estado de construcción para toda la promoción. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "nuvare-claveles-zarzalejo",
+      "name": "Nuvare — Residencial Claveles",
+      "baseUrl": "https://nuvare.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "nuvare.es",
+        "www.nuvare.es"
+      ],
+      "startUrls": [
+        "https://nuvare.es/promocion-residencial-claveles/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Zarzalejo",
+      "municipalityHints": [
+        "Zarzalejo"
+      ],
+      "contentSelector": "[data-elementor-type='wp-page'] > [data-id='27c1b20']",
+      "additionalContentSelectors": [
+        "[data-elementor-type='wp-page'] > [data-id='c5abffe']",
+        "[data-elementor-type='wp-page'] > [data-id='92bba19']",
+        "[data-elementor-type='wp-page'] > [data-id='dbc86ab']"
+      ],
+      "includePatterns": [
+        "/promocion-residencial-claveles/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-24. La disponibilidad procede de la tabla pública, pero no se infiere un contador de filas; solo se publican los campos que el extractor puede sostener explícitamente. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "stance-essentia-galapagar",
+      "name": "STANCE Homes — Essentia Galapagar",
+      "baseUrl": "https://stancehomes.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "stancehomes.es",
+        "www.stancehomes.es"
+      ],
+      "startUrls": [
+        "https://stancehomes.es/promocion-essentia-galapagar"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Galapagar",
+      "municipalityHints": [
+        "Galapagar"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/promocion-essentia-galapagar"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-24. Solo la ficha HTML pública y una URL; no se descargan dossier, planos, imágenes ni formularios. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "stance-osnola-zarzalejo",
+      "name": "STANCE Homes — Residencial Osnola",
+      "baseUrl": "https://stancehomes.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "stancehomes.es",
+        "www.stancehomes.es"
+      ],
+      "startUrls": [
+        "https://stancehomes.es/promocion-osnola-zarzalejo"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Zarzalejo",
+      "municipalityHints": [
+        "Zarzalejo"
+      ],
+      "contentSelector": "main",
+      "includePatterns": [
+        "/promocion-osnola-zarzalejo"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "main h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-24. La licencia obtenida y la obra en curso se publican porque aparecen en el HTML; precio y número total permanecen desconocidos. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "residencial-montemilano-bustarviejo",
+      "name": "Residencial Montemilano — Bustarviejo",
+      "baseUrl": "https://residencialmontemilano.es/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "residencialmontemilano.es",
+        "www.residencialmontemilano.es"
+      ],
+      "startUrls": [
+        "https://residencialmontemilano.es/registro"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Bustarviejo",
+      "municipalityHints": [
+        "Bustarviejo"
+      ],
+      "contentSelector": "#section-bgd9TRt1ab",
+      "additionalContentSelectors": [
+        "#col-A-JRYVH2qT",
+        "#col-UKCHGDqKqq",
+        "#section-0Bzga__gcT",
+        "#section-JAzQFm85oL",
+        "#section-TZaopJA1Kv"
+      ],
+      "includePatterns": [
+        "/registro"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies"
+      ],
+      "customSelectors": {
+        "name": "#section-bgd9TRt1ab h1"
+      },
+      "notes": "Micrositio público revisado el 2026-07-24. Se acota a bloques obligatorios sin formularios para evitar interpretar sus bandas de presupuesto como precios. Los identificadores de bloque fallan de forma cerrada si cambia la página. GEYN Construcciones Técnicas figura como ejecutora identificable; el micrositio no atribuye una promotora distinta. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
     }
   ]
 }

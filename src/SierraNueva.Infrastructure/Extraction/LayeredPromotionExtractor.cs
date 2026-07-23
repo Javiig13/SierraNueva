@@ -464,12 +464,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         promotion.HasCommunityPool ??= CommunityPoolRegex().IsMatch(normalized) ? true : null;
         promotion.CommercialStatus = DetectCommercialStatus(normalized, promotion.CommercialStatus);
         promotion.ConstructionStatus = DetectConstructionStatus(normalized, promotion.ConstructionStatus);
-        if (promotion.ConstructionStatus == ConstructionStatus.Licensed)
+        if (LicensedRegex().IsMatch(normalized))
         {
             promotion.BuildingLicenceStatus ??= "Concedida";
         }
-        else if (promotion.ConstructionStatus == ConstructionStatus.Planned &&
-                 LicenceRequestedRegex().IsMatch(normalized))
+        else if (LicenceRequestedRegex().IsMatch(normalized))
         {
             promotion.BuildingLicenceStatus ??= "Solicitada";
         }
@@ -1131,7 +1130,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PromotionTermsRegex();
 
     [GeneratedRegex(
-        @"(?:desde|precio(?:\s+desde)?|a\s+partir\s+de)?\s*(?<value>\d{2,3}(?:[.\s]\d{3})+|\d{5,7})(?:,\d{1,2})?\s*(?:€|EUR|euros?)",
+        @"(?:desde|precio(?:\s+desde)?|a\s+partir\s+de)?\s*(?<value>\d{1,3}(?:\.\d{3})+|\d{2,3}\s\d{3}|\d{5,7})(?:,\d{1,2})?\s*(?:€|EUR|euros?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PriceRegex();
 
@@ -1141,7 +1140,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex BuiltAreaRegex();
 
     [GeneratedRegex(
-        @"parcelas?\D{0,35}(?<min>\d{2,5}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,5}(?:[.,]\d+)?))?\s*m(?:²|2)",
+        @"(?:parcelas?\D{0,35}|parcelas?\s+privadas?\s*:\s*terrenos?\s+exclusivos?\s+desde\s+)(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+)))?\s*m(?:²|2)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PlotAreaRegex();
 
@@ -1173,7 +1172,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PrivatePoolRegex();
 
     [GeneratedRegex(
-        @"\b(?:piscina\s+(?:comunitaria|com[uú]n)|(?:urbanizaci[oó]n|zonas?\s+com(?:[uú]n|unes))\D{0,40}piscina)\b",
+        @"\b(?:piscina\s+(?:comunitaria|com[uú]n)|(?:urbanizaci[oó]n|parcelas?\s+comunitarias?|zonas?\s+com(?:[uú]n|unes))\D{0,40}piscina)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex CommunityPoolRegex();
 
@@ -1202,7 +1201,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         RegexOptions.IgnoreCase)]
     private static partial Regex UnderConstructionRegex();
 
-    [GeneratedRegex(@"\blicencia\s+(?:concedida|otorgada)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\blicencia\s+(?:concedida|otorgada|obtenida)\b", RegexOptions.IgnoreCase)]
     private static partial Regex LicensedRegex();
 
     [GeneratedRegex(@"\blicencia\s+de\s+obra\s+solicitada\b", RegexOptions.IgnoreCase)]
@@ -1214,11 +1213,13 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex DeliveryRegex();
 
     [GeneratedRegex(
-        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?(?:viviendas?|chalets?)",
+        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?(?:viviendas?|chalets?)\b(?!\s+disponibles?)",
         RegexOptions.IgnoreCase)]
     private static partial Regex UnitsRegex();
 
-    [GeneratedRegex(@"(?<value>\d{1,3})\s+(?:viviendas?|unidades?)\s+disponibles?", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"(?:(?<value>\d{1,3})\s+(?:viviendas?|unidades?)|(?:viviendas?|unidades?)\s*:?\s*(?<value>\d{1,3}))\s+disponibles?",
+        RegexOptions.IgnoreCase)]
     private static partial Regex AvailableUnitsRegex();
 
     [GeneratedRegex(

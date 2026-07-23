@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Ayuntamiento de Guadalix de la Sierra</title>
+    <link>https://www.guadalixdelasierra.com/</link>
+    <item>
+      <guid>guadalix-estudio-detalle-2026</guid>
+      <title>Información pública del estudio de detalle residencial</title>
+      <link>https://www.guadalixdelasierra.com/urbanismo/estudio-detalle-2026</link>
+      <description>Ordenación de parcelas para viviendas unifamiliares.</description>
+    </item>
+    <item>
+      <guid>guadalix-verano-2026</guid>
+      <title>Programa cultural de verano</title>
+      <link>https://www.guadalixdelasierra.com/cultura/verano-2026</link>
+      <description>Actividades culturales municipales.</description>
+    </item>
+  </channel>
+</rss>

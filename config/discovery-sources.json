@@ -438,6 +438,46 @@
       "allowedHosts": [ "cercedilla.es" ],
       "fixedMunicipality": "Cercedilla",
       "maxItems": 50
+    },
+    {
+      "id": "actualidad-collado-villalba",
+      "name": "Ayuntamiento de Collado Villalba — actualidad oficial",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "html",
+      "cadence": "daily",
+      "urlTemplate": "https://www.colladovillalba.es/",
+      "fixturePath": "test-data/discovery/collado-villalba-actualidad.html",
+      "allowedHosts": [ "www.colladovillalba.es", "colladovillalba.es" ],
+      "itemSelectors": [ ".carousel-item" ],
+      "fixedMunicipality": "Collado Villalba",
+      "maxItems": 10
+    },
+    {
+      "id": "noticias-guadalix",
+      "name": "Ayuntamiento de Guadalix de la Sierra — actualidad oficial RSS",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "rss",
+      "cadence": "daily",
+      "urlTemplate": "https://www.guadalixdelasierra.com/index.php?format=feed&type=rss",
+      "fixturePath": "test-data/discovery/guadalix-noticias.rss.xml",
+      "allowedHosts": [ "www.guadalixdelasierra.com", "guadalixdelasierra.com" ],
+      "fixedMunicipality": "Guadalix de la Sierra",
+      "maxItems": 50
+    },
+    {
+      "id": "noticias-navalafuente",
+      "name": "Ayuntamiento de Navalafuente — actualidad oficial RSS",
+      "enabled": true,
+      "sourceKind": "municipalNoticeBoard",
+      "format": "rss",
+      "cadence": "daily",
+      "urlTemplate": "https://www.navalafuente.org/feed/",
+      "fixturePath": "test-data/discovery/navalafuente-noticias.rss.xml",
+      "allowedHosts": [ "www.navalafuente.org", "navalafuente.org" ],
+      "fixedMunicipality": "Navalafuente",
+      "maxItems": 50
     }
   ]
 }

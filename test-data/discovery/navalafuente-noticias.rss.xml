@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Ayuntamiento de Navalafuente</title>
+    <link>https://www.navalafuente.org/</link>
+    <item>
+      <guid>navalafuente-plan-parcial-2026</guid>
+      <title>Aprobación inicial del plan parcial residencial</title>
+      <link>https://www.navalafuente.org/urbanismo/plan-parcial-2026/</link>
+      <description>Información pública de suelo para uso residencial unifamiliar.</description>
+    </item>
+    <item>
+      <guid>navalafuente-deportes-2026</guid>
+      <title>Inscripciones para actividades deportivas</title>
+      <link>https://www.navalafuente.org/deportes/inscripciones-2026/</link>
+      <description>Oferta deportiva municipal.</description>
+    </item>
+  </channel>
+</rss>

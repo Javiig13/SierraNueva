@@ -246,7 +246,8 @@ public sealed class OpportunityFeedParser
         return document.QuerySelectorAll(selector)
             .Select(element =>
             {
-                string title = element.QuerySelector("h2, h3, .heading, strong")?.TextContent ??
+                string title = element.QuerySelector(
+                    "h2, h3, .heading, .title-text, strong")?.TextContent ??
                                element.TextContent;
                 IElement? linkElement = element.QuerySelector("a[href]");
                 string link = linkElement?.GetAttribute("href") ?? string.Empty;

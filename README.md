@@ -137,15 +137,16 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene dieciséis fuentes revisadas y limitadas, pero
+`config/sources.live.json` contiene 21 fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
-El radar sigue el mismo principio. `config/discovery-sources.json` usa 29
+El radar sigue el mismo principio. `config/discovery-sources.json` usa 32
 fuentes con fixtures y es completamente offline.
 `config/discovery-sources.live.json` habilita de forma explícita los cuatro
-canales centrales y 25 fuentes municipales: cinco tablones `eAdmin`, 18
+canales centrales y 28 fuentes municipales: cinco tablones `eAdmin`, 18
 portadas públicas de sedes `sedelectronica.es`, el tablón de transparencia de
-Bustarviejo y el RSS oficial de Cercedilla:
+Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y Navalafuente y la
+actualidad oficial de Collado Villalba:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
@@ -344,18 +345,19 @@ sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- El radar cubre cuatro canales centrales y 25 municipios. Quedan cuatro
-  ayuntamientos sin adaptador municipal: Collado Villalba, Guadalix de la
-  Sierra, Navalafuente y Robledo de Chavela. Sus portales actuales requieren
-  JavaScript o sesión, o están inactivos. Las portadas muestran únicamente los
-  anuncios más recientes y no sustituyen al tablón histórico bloqueado.
+- El radar cubre cuatro canales centrales y 28 municipios. Robledo de Chavela
+  sigue sin adaptador municipal directo: su RSS devuelve 403 al `HttpClient`
+  identificado, la sede anterior está inactiva y la actual exige JavaScript.
+  BOCM, BOE y PCSP mantienen vigilancia central. Las portadas municipales
+  muestran únicamente los anuncios más recientes y no sustituyen al tablón
+  histórico.
 - BOCM dispone de backfill oficial por calendario y sumario XML. PCSP debe
   revalidarse antes de operación porque su WAF devolvió HTML con HTTP 200 en el
   último smoke; el fallo queda aislado y no se intenta evadir.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; usa las dieciséis fuentes live revisadas y no versiona el
+  `Europe/Madrid`; usa las 21 fuentes live revisadas y no versiona el
   estado.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.

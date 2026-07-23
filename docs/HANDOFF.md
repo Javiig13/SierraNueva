@@ -1,6 +1,6 @@
 # Entrega y continuidad
 
-Fecha de corte: **23 de julio de 2026**.
+Fecha de corte: **24 de julio de 2026**.
 
 SierraNueva dispone de una vertical local completa y determinista: fixtures →
 descubrimiento → extracción → normalización → geolocalización → cambios →
@@ -38,7 +38,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities` y
   `review-opportunity` con opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con dieciséis
+- Perfil predeterminado completamente offline y perfil live explícito con 21
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -66,7 +66,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Conservación del último dataset válido si no hay resultados publicables.
 - Dos backups atómicos del estado; lectura con fallback y fallo sin
   sobrescritura cuando todas las copias están corruptas.
-- Radar privado para BOCM, BOE, PCSP, Portal del Suelo y 25 fuentes
+- Radar privado para BOCM, BOE, PCSP, Portal del Suelo y 28 fuentes
   municipales, con configuración offline/live separada, deduplicación y
   estados de revisión.
 - Backfill BOCM por calendario oficial y sumario XML diario, con lotes de hasta
@@ -121,22 +121,22 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:74 correctos
+Tests Infrastructure:82 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               95/95 correctos
+Total:               103/103 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
+validate-config:     1 fuente, 29 municipios, 29 centroides y 32 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado:       16 fuentes; 16 promociones válidas, 0 fallos
-Mapa live:           16/16 promociones; 15 centroides municipales y 1 exacta
-Radar offline:       29 candidatos de fixtures; 29/29 fuentes
+Live limitado:       21 fuentes; 21 promociones válidas, 0 fallos
+Mapa live:           21/21 promociones; 20 centroides municipales y 1 exacta
+Radar offline:       32 candidatos de fixtures; 32/32 fuentes
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
-Fuentes nuevas live: 65 entradas, 0 fallos y 1 candidato el 2026-07-23
+Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 2 min 26 s para el commit a7d425a
 Crawl/deploy GitHub: correcto en la ejecución 30048051725
@@ -157,15 +157,15 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente dieciséis fuentes
+  perfil separado `sources.live.json` habilita explícitamente 21 fuentes
   limitadas y no se ejecuta por accidente.
-- El 23 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
+- El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
-  conjunta con salida/estado aislados. Las dieciséis fuentes terminaron sin
-  fallos, se obtuvieron dieciséis promociones válidas y `validate-data` fue
+  conjunta con salida/estado aislados. Las 21 fuentes terminaron sin fallos,
+  se obtuvieron 21 promociones válidas y `validate-data` fue
   correcto.
 - La búsqueda cubrió sistemáticamente los 29 municipios. La fotografía ofrece
-  fuente en 13 (44,8 %); los otros 16 constan con candidato descartado o
+  fuente en 16 (55,2 %); los otros 13 constan con candidato descartado o
   ausencia de candidata apta en `docs/source-coverage.md`.
 - La segunda ampliación añade Antaro — Prado de Noria y Los Trigales, Grupo
   Index — Sierra Bonita y tres cooperativas de Vesari. La ficha de Luar conserva
@@ -176,10 +176,16 @@ porque el estado sintético ya está sembrado.
   obligatorios aíslan la ficha y cualquier cambio estructural falla cerrado.
   La señal visual de última vivienda se genera por CSS y no se publica como
   estado comercial porque el rastreo HTML no puede revalidarla.
-- Vesari respondió HTTP 429 al probar cinco segundos y volvió a hacerlo con
-  diez segundos exactos en la tercera ficha. La configuración usa ahora veinte
-  segundos, una prueba impide reducir el mínimo y la repetición conjunta 16/16
-  fue correcta.
+- La cuarta ampliación añade Cumbres de Navalafuente, Claveles y Osnola en
+  Zarzalejo, Essentia en Galapagar y Montemilano en Bustarviejo. Montemilano
+  excluye los formularios porque sus bandas de inversión no son precios; la
+  fixture comprueba que el precio queda nulo.
+- Las tablas Nuvare motivaron correcciones para no concatenar columnas como
+  precios, distinguir unidades totales y disponibles y admitir millares en
+  parcelas. Osnola añade la variante explícita “licencia obtenida”.
+- Vesari respondió HTTP 429 al probar cinco, diez y finalmente veinte segundos
+  exactos entre fichas. La configuración usa ahora treinta segundos, una
+  prueba impide reducir el mínimo y la repetición conjunta 21/21 fue correcta.
 - La ejecución GitHub `30047521921` reveló que un timeout de Gilmar en el último
   reintento se propagaba como cancelación global. El timeout live se elevó de
   30 a 60 segundos y el crawler distingue ahora el agotamiento interno de una
@@ -200,6 +206,13 @@ porque el estado sintético ya está sembrado.
   transparencia de Bustarviejo y el RSS oficial de Cercedilla. Sus smokes
   individuales procesaron 65 entradas sin fallos y elevaron la vigilancia
   municipal a 25/29 (86,2 %).
+- La cuarta cohorte añade la actualidad oficial de Collado Villalba y los RSS
+  de Guadalix de la Sierra y Navalafuente. Procesó 20 entradas live sin fallos
+  ni candidatos y eleva la vigilancia municipal directa a 28/29 (96,6 %).
+- Robledo de Chavela sigue sin canal municipal directo: el RSS devuelve 403 al
+  cliente identificado, la sede anterior declara estar inactiva y la nueva
+  sede es una aplicación JavaScript sin avisos en el HTML. No se evade el
+  filtro; BOCM, BOE y PCSP mantienen cobertura central.
 - Esas portadas muestran solo los dos o tres anuncios más recientes. El
   histórico `/board` sigue prohibido y no se consulta; por tanto, la ampliación
   reduce el punto ciego pero no ofrece exhaustividad histórica.
@@ -236,12 +249,12 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #13 se ejecutó para `a7d425a` y terminó correctamente en 2 min 26 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las dieciséis fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
-  en GeoJSON. El smoke live confirmó 16/16 puntos: quince aproximados y uno
-  exacto.
+  en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
+  puntos: veinte centroides municipales y uno exacto.
 - Al cargar estado histórico, el pipeline completa coordenadas ausentes antes
   de conservar promociones no modificadas (por ejemplo, tras HTTP 304). Una
   prueba de integración cubre esta migración sin borrar estado ni historial.
@@ -261,12 +274,12 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Revalidar las dieciséis evaluaciones antes de cada cambio operativo o
+2. Revalidar las 21 evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
 3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-4. Resolver los cuatro ayuntamientos restantes por formatos reutilizables:
-   Collado Villalba, Guadalix de la Sierra, Navalafuente y Robledo de Chavela.
+4. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+   apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
 5. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
    operativa y siempre sobre estado privado aislado.
 6. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una

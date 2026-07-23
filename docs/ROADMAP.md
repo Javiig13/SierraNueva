@@ -83,6 +83,18 @@ requiere trabajo de producto.
 - **Hecho:** pausa Vesari elevada de diez a veinte segundos tras reproducir un
   nuevo HTTP 429 en la tercera ficha; una prueba fija el mínimo observado y la
   repetición 16/16 terminó sin fallos.
+- **Hecho:** cuarta ampliación con Nuvare — Cumbres y Claveles, STANCE —
+  Essentia y Osnola, y Residencial Montemilano: 21 fuentes/promociones en 16
+  municipios, 55,2 % de cobertura municipal y cinco fixtures reducidas.
+- **Hecho:** tablas live acotadas por bloques para impedir truncamiento y
+  contaminación de formularios; correcciones con regresión para precios entre
+  columnas, millares de parcela, licencia obtenida y contadores de
+  disponibilidad.
+- **Hecho:** Montemilano excluye deliberadamente las bandas de presupuesto de
+  sus formularios; precio permanece nulo y un cambio de sus bloques
+  obligatorios falla de forma cerrada.
+- **Hecho:** pausa compartida de Vesari elevada a treinta segundos después de
+  observar un nuevo HTTP 429 con veinte segundos en el recorrido de 21 fuentes.
 
 ## P3 — Preparación operativa local
 
@@ -112,9 +124,14 @@ requiere trabajo de producto.
   Bustarviejo por tablón de transparencia y Cercedilla por RSS municipal.
   Los smokes individuales procesaron 65 entradas live, cero fallos y un
   candidato; la cobertura municipal alcanza 25/29.
-- **Pendiente:** integrar Collado Villalba, Guadalix de la Sierra, Navalafuente
-  y Robledo de Chavela. Las sedes observadas requieren JavaScript o sesión, o
-  están inactivas; cualquier adaptador nuevo exige fixture y prueba offline.
+- **Hecho:** cuarta cohorte municipal con actualidad HTML de Collado Villalba
+  y RSS oficiales de Guadalix de la Sierra y Navalafuente; 20 entradas live,
+  cero fallos y cero candidatos. El radar directo alcanza 28/29 municipios y
+  el catálogo suma 32 fuentes.
+- **Pendiente:** resolver Robledo de Chavela por un canal municipal apto. El
+  RSS devuelve 403 al cliente identificado, la antigua sede responde que está
+  inactiva y la nueva sede entrega una aplicación JavaScript sin avisos en el
+  HTML. No se evade la restricción; los canales centrales siguen cubriéndolo.
 - **Pendiente:** revalidar PCSP: el último smoke recibió una denegación WAF en
   HTML con HTTP 200. El lector la rechaza explícitamente como no-ZIP.
 
@@ -167,10 +184,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 95/95 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 103/103 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 16 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -195,7 +212,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 95/95 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 103/103 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
