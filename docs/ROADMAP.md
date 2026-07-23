@@ -14,7 +14,8 @@ requiere trabajo de producto.
 
 ## P1 — Cerrar la baseline local
 
-- **Pendiente:** integración de pipeline contra un servidor HTTP local real.
+- **Hecho:** integración de pipeline contra un servidor HTTP local real,
+  totalmente offline y basada en una fixture versionada.
 - **Pendiente:** fixture PDF reducida dentro de `test-data/pdfs`.
 - **Pendiente:** smoke test automatizado del directorio publicado.
 - **Pendiente:** prueba E2E de navegador para filtros, detalle y mapa.
@@ -72,7 +73,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 34/34 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 35/35 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Pendiente | Fase P2 |

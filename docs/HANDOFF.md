@@ -37,6 +37,8 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
+- Prueba de integración del pipeline mediante un servidor HTTP real en
+  loopback, con fixture versionada y sin acceso externo.
 - Rastreo HTTP con validación de esquema/host/red, robots, demora, timeout,
   reintentos, límites, ETag y Last-Modified.
 - Extracción por JSON-LD, metadatos, OpenGraph, HTML/patrones, selectores y PDF.
@@ -66,19 +68,25 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 La última comprobación completa antes de esta entrega obtuvo:
 
 ```text
-SDK:                 10.0.103
+SDK usado:           10.0.301
+SDK fijado:          10.0.103 (no instalado en esta máquina)
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          12 correctos
-Tests Infrastructure:18 correctos
+Tests Infrastructure:19 correctos
 Tests Web:           4 correctos
-Total:               34/34 correctos
+Total:               35/35 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente y 29 municipios válidos
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         correcto; data/public incluido y data/state ausente
-Script PowerShell:   comprobado con fixtures y sin Playwright
 ```
+
+El `global.json` continúa fijando `10.0.103` con `latestPatch`. Esta máquina
+solo tenía instalados `10.0.101` y `10.0.301`; por ello la revalidación se hizo
+con un cambio local temporal a `10.0.301` y se restauró el archivo antes de la
+entrega. No se volvió a ejecutar el script PowerShell completo en esta
+continuación.
 
 `data/public/run.json` conserva el último `runId` concreto. Una nueva ejecución
 offline actualizará marcas temporales y normalmente informará cero altas
@@ -94,8 +102,6 @@ porque el estado sintético ya está sembrado.
 - Playwright, Nominatim, ETag/Last-Modified y robots tienen implementación y
   pruebas aisladas, pero no una prueba operacional live.
 - Solo hay tres centroides verificados de 29 municipios.
-- La integración del pipeline usa un `IPageSource` en memoria, no un servidor
-  HTTP local real como pedía el encargo original.
 - La prueba de PDF genera el documento en memoria; `test-data/pdfs` no contiene
   aún una fixture binaria versionada.
 - El procesamiento de fuentes es deliberadamente secuencial. Los ajustes de
@@ -127,8 +133,8 @@ porque el estado sintético ya está sembrado.
 ## Próximo trabajo recomendado
 
 1. Mantener verde la baseline offline.
-2. Cerrar las lagunas de pruebas locales: servidor HTTP real, fixture PDF,
-   smoke del artefacto publicado y navegador E2E.
+2. Cerrar las lagunas de pruebas locales: fixture PDF, smoke automatizado del
+   artefacto publicado y navegador E2E.
 3. Completar y documentar el modelo de confianza con explicación de señales.
 4. Verificar centroides restantes con procedencia reproducible.
 5. Incorporar **una** fuente oficial real después de revisar URL, aviso legal,

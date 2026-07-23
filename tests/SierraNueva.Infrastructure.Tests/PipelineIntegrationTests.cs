@@ -1,15 +1,137 @@
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Logging.Abstractions;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Crawling;
 using SierraNueva.Core.Models;
+using SierraNueva.Core.Normalization;
+using SierraNueva.Infrastructure.Crawling;
+using SierraNueva.Infrastructure.Discovery;
+using SierraNueva.Infrastructure.Documents;
 using SierraNueva.Infrastructure.Extraction;
 using SierraNueva.Infrastructure.Geocoding;
 using SierraNueva.Infrastructure.Persistence;
+using SierraNueva.Infrastructure.Serialization;
 
 namespace SierraNueva.Infrastructure.Tests;
 
 public sealed class PipelineIntegrationTests
 {
+    [Fact]
+    public async Task Pipeline_FetchesFixtureThroughRealLoopbackHttpAndPublishesOutputs()
+    {
+        string root = CreateTempDirectory();
+        string fixturePath = Path.Combine(
+            AppContext.BaseDirectory,
+            "test-data",
+            "html",
+            "01-jsonld-promotion.html");
+        await using LoopbackFixtureServer server = await LoopbackFixtureServer.StartAsync(fixturePath);
+        try
+        {
+            string stateDirectory = Path.Combine(root, "state");
+            using HttpClient httpClient = new(new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false,
+                UseProxy = false
+            })
+            {
+                Timeout = TimeSpan.FromSeconds(5)
+            };
+            using FileHttpMetadataCache metadataCache = new(stateDirectory);
+            RespectfulPageSource pages = new(
+                new SingleHttpClientFactory(httpClient),
+                [new ConfiguredUrlDiscoveryProvider()],
+                new LoopbackOnlyUrlPolicy(server.PromotionUri),
+                new InternalLinkDiscoveryProvider(),
+                new NullDynamicPageRenderer(),
+                new PdfPigTextExtractor(),
+                metadataCache,
+                NullLogger<RespectfulPageSource>.Instance);
+            FakeClock clock = new(new DateTimeOffset(2026, 7, 23, 8, 0, 0, TimeSpan.Zero));
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                clock);
+            string outputDirectory = Path.Combine(root, "public");
+            CrawlRequest request = CreateRequest(
+                root,
+                new SourceDefinition
+                {
+                    Id = "http-local",
+                    Name = "Servidor HTTP local de fixtures",
+                    BaseUrl = server.Origin.AbsoluteUri,
+                    Enabled = true,
+                    SourceKind = SourceKind.OfficialPromoter,
+                    AllowedHosts = [server.PromotionUri.Host],
+                    StartUrls = [server.PromotionUri.AbsoluteUri],
+                    UseRobots = false,
+                    UseSitemaps = false,
+                    FollowInternalLinks = false,
+                    MaxPages = 1,
+                    RequestDelayMilliseconds = 0,
+                    UsePlaywright = false
+                });
+
+            CrawlResult result = await pipeline.RunAsync(request, CancellationToken.None);
+
+            Assert.True(result.HasPublishableData);
+            Assert.Equal(RunStatus.Success, result.Run.Status);
+            Assert.Equal(1, result.Run.DiscoveredUrls);
+            Assert.Equal(1, result.Run.FetchedUrls);
+            Promotion promotion = Assert.Single(result.Dataset.Promotions);
+            Assert.Equal("Residencial Cumbre", promotion.Name);
+            Assert.Equal("Moralzarzal", promotion.Municipality);
+            Assert.Equal(475_000m, promotion.PriceFrom);
+            Assert.Equal(
+                UrlNormalizer.Normalize(server.PromotionUri.AbsoluteUri),
+                promotion.CanonicalUrl);
+            Assert.Equal(LocationPrecision.ExactCoordinates, promotion.LocationPrecision);
+
+            Assert.Equal("GET /residencial-cumbre HTTP/1.1", server.RequestLine);
+            Assert.Contains("SierraNueva.Tests/1.0", server.UserAgent, StringComparison.Ordinal);
+
+            string[] publicFiles =
+            [
+                "changes.json",
+                "promotions.csv",
+                "promotions.geojson",
+                "promotions.json",
+                "run.json"
+            ];
+            Assert.All(publicFiles, filename =>
+                Assert.True(File.Exists(Path.Combine(outputDirectory, filename)), filename));
+            Assert.False(Directory.Exists(Path.Combine(outputDirectory, "state")));
+            Assert.Empty(Directory.EnumerateFiles(root, "*.tmp", SearchOption.AllDirectories));
+
+            PromotionDataset? persistedDataset = JsonSerializer.Deserialize<PromotionDataset>(
+                await File.ReadAllTextAsync(Path.Combine(outputDirectory, "promotions.json")),
+                JsonDefaults.Compact);
+            Assert.Equal(result.Run.RunId, Assert.IsType<PromotionDataset>(persistedDataset).RunId);
+
+            IReadOnlyList<Promotion> persistedState =
+                await new JsonPromotionStateRepository().LoadAsync(
+                    stateDirectory,
+                    CancellationToken.None);
+            Assert.Equal(promotion.Id, Assert.Single(persistedState).Id);
+
+            string metadataJson = await File.ReadAllTextAsync(
+                Path.Combine(stateDirectory, "http-cache.json"));
+            Assert.Contains(server.PromotionUri.AbsoluteUri, metadataJson, StringComparison.Ordinal);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
     [Fact]
     public async Task Pipeline_PreservesThenDeactivatesMissingPromotionAfterThreeRuns()
     {
@@ -64,13 +186,15 @@ public sealed class PipelineIntegrationTests
         }
     }
 
-    private static CrawlRequest CreateRequest(string root)
+    private static CrawlRequest CreateRequest(
+        string root,
+        SourceDefinition? source = null)
     {
         return new()
         {
             Sources =
             [
-                new SourceDefinition
+                source ?? new SourceDefinition
                 {
                     Id = "fixture",
                     Name = "Fixture",
@@ -91,6 +215,9 @@ public sealed class PipelineIntegrationTests
             ],
             Settings = new()
             {
+                UserAgent = "SierraNueva.Tests/1.0",
+                RequestDelayMilliseconds = 0,
+                MaxRetries = 0,
                 DeactivateAfterMisses = 3,
                 PublicChangeLimit = 100
             },
@@ -104,6 +231,34 @@ public sealed class PipelineIntegrationTests
         string path = Path.Combine(Path.GetTempPath(), $"sierranueva-pipeline-{Guid.NewGuid():N}");
         Directory.CreateDirectory(path);
         return path;
+    }
+
+    private sealed class SingleHttpClientFactory(HttpClient client) : IHttpClientFactory
+    {
+        public HttpClient CreateClient(string name)
+        {
+            return client;
+        }
+    }
+
+    private sealed class LoopbackOnlyUrlPolicy(Uri allowedUri) : IUrlPolicy
+    {
+        public bool IsAllowed(Uri url, SourceDefinition source, out SkipReason reason)
+        {
+            bool isAllowed = url.Scheme == Uri.UriSchemeHttp &&
+                             url.Host == allowedUri.Host &&
+                             url.Port == allowedUri.Port;
+            reason = isAllowed ? SkipReason.None : SkipReason.PrivateNetwork;
+            return isAllowed;
+        }
+    }
+
+    private sealed class NullDynamicPageRenderer : IDynamicPageRenderer
+    {
+        public Task<string?> RenderAsync(Uri url, CancellationToken cancellationToken)
+        {
+            throw new InvalidOperationException("Playwright no debe ejecutarse en esta prueba.");
+        }
     }
 
     private sealed class MutablePageSource : IPageSource
@@ -133,6 +288,93 @@ public sealed class PipelineIntegrationTests
         public void Advance(TimeSpan valueToAdd)
         {
             UtcNow += valueToAdd;
+        }
+    }
+
+    private sealed class LoopbackFixtureServer : IAsyncDisposable
+    {
+        private readonly TcpListener _listener;
+        private readonly CancellationTokenSource _shutdown = new();
+        private readonly Task _serveTask;
+        private readonly byte[] _responseBody;
+
+        private LoopbackFixtureServer(string html)
+        {
+            _listener = new(IPAddress.Loopback, 0);
+            _listener.Start();
+            int port = ((IPEndPoint)_listener.LocalEndpoint).Port;
+            Origin = new($"http://127.0.0.1:{port}/");
+            PromotionUri = new(Origin, "residencial-cumbre");
+            _responseBody = Encoding.UTF8.GetBytes(
+                html.Replace(
+                    "https://fixtures.sierranueva.test/residencial-cumbre",
+                    PromotionUri.AbsoluteUri,
+                    StringComparison.Ordinal));
+            _serveTask = ServeOnceAsync(_shutdown.Token);
+        }
+
+        public Uri Origin { get; }
+
+        public Uri PromotionUri { get; }
+
+        public string? RequestLine { get; private set; }
+
+        public string? UserAgent { get; private set; }
+
+        public static async Task<LoopbackFixtureServer> StartAsync(string fixturePath)
+        {
+            string html = await File.ReadAllTextAsync(fixturePath);
+            return new(html);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await _shutdown.CancelAsync();
+            _listener.Stop();
+            try
+            {
+                await _serveTask;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            catch (SocketException exception) when (
+                exception.SocketErrorCode == SocketError.OperationAborted)
+            {
+            }
+
+            _shutdown.Dispose();
+        }
+
+        private async Task ServeOnceAsync(CancellationToken cancellationToken)
+        {
+            using TcpClient client = await _listener.AcceptTcpClientAsync(cancellationToken);
+            await using NetworkStream stream = client.GetStream();
+            using StreamReader reader = new(
+                stream,
+                Encoding.ASCII,
+                detectEncodingFromByteOrderMarks: false,
+                leaveOpen: true);
+            RequestLine = await reader.ReadLineAsync(cancellationToken);
+            while (await reader.ReadLineAsync(cancellationToken) is { Length: > 0 } header)
+            {
+                if (header.StartsWith("User-Agent:", StringComparison.OrdinalIgnoreCase))
+                {
+                    UserAgent = header["User-Agent:".Length..].Trim();
+                }
+            }
+
+            string headers =
+                "HTTP/1.1 200 OK\r\n" +
+                "Content-Type: text/html; charset=utf-8\r\n" +
+                $"Content-Length: {_responseBody.Length}\r\n" +
+                "ETag: \"fixture-v1\"\r\n" +
+                "Connection: close\r\n\r\n";
+            await stream.WriteAsync(Encoding.ASCII.GetBytes(headers), cancellationToken);
+            await stream.WriteAsync(_responseBody, cancellationToken);
         }
     }
 }
