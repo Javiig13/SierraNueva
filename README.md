@@ -6,9 +6,10 @@ aplicación Blazor WebAssembly completamente estática. El MVP prioriza fuentes
 oficiales y excluye los grandes portales inmobiliarios.
 
 El repositorio privado oficial es
-`https://github.com/Javiig13/SierraNueva`. No incluye todavía GitHub Actions,
-GitHub Pages ni hosting; esas piezas se añadirán sobre la base local ya
-comprobada.
+`https://github.com/Javiig13/SierraNueva`. Incluye CI offline y un workflow
+manual/diario que genera el dataset live y prepara el artefacto de GitHub
+Pages. La publicación queda bloqueada mientras el repositorio siga siendo
+privado en el plan gratuito de GitHub.
 
 ## Continuar el proyecto
 
@@ -21,9 +22,8 @@ equipo o agente. La lectura recomendada es:
 4. [docs/ROADMAP.md](docs/ROADMAP.md), pendientes y criterios de aceptación.
 5. [docs/architecture.md](docs/architecture.md), diseño y fronteras técnicas.
 
-La documentación distingue entre funcionalidad local pendiente e
-infraestructura aplazada expresamente, para que el siguiente agente no
-interprete la ausencia de GitHub Actions o Pages como contexto perdido.
+La documentación distingue entre funcionalidad local, automatización
+comprobada y el bloqueo de activación de Pages.
 
 ## Qué hace
 
@@ -139,11 +139,12 @@ tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene ocho fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
-El radar sigue el mismo principio. `config/discovery-sources.json` usa 22
+El radar sigue el mismo principio. `config/discovery-sources.json` usa 29
 fuentes con fixtures y es completamente offline.
 `config/discovery-sources.live.json` habilita de forma explícita los cuatro
-canales centrales y 18 fuentes municipales: cinco tablones `eAdmin` y 13
-portadas públicas de sedes `sedelectronica.es`:
+canales centrales y 25 fuentes municipales: cinco tablones `eAdmin`, 18
+portadas públicas de sedes `sedelectronica.es`, el tablón de transparencia de
+Bustarviejo y el RSS oficial de Cercedilla:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
@@ -342,20 +343,23 @@ sigue funcionando.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
   requiere paralelismo: el recorrido es secuencial y no expone ajustes de
   concurrencia que no aplique.
-- El radar cubre cuatro canales centrales y 18 municipios: cinco tablones
-  `eAdmin` y 13 portadas públicas de sedes `sedelectronica.es`. Quedan 11
-  ayuntamientos por evaluar o integrar. Las portadas muestran únicamente los
+- El radar cubre cuatro canales centrales y 25 municipios. Quedan cuatro
+  ayuntamientos sin adaptador municipal: Collado Villalba, Guadalix de la
+  Sierra, Navalafuente y Robledo de Chavela. Sus portales actuales requieren
+  JavaScript o sesión, o están inactivos. Las portadas muestran únicamente los
   anuncios más recientes y no sustituyen al tablón histórico bloqueado.
 - BOCM dispone de backfill oficial por calendario y sumario XML. PCSP debe
   revalidarse antes de operación porque su WAF devolvió HTML con HTTP 200 en el
   último smoke; el fallo queda aislado y no se intenta evadir.
-- No existen aún `.github/workflows`, Pages, base path de repositorio,
-  `.nojekyll` ni fallback `404.html`. Son trabajo de la fase de infraestructura.
-
-La futura migración a GitHub Pages, Firebase Hosting, Azure Static Web Apps o
-almacenamiento externo no necesita cambiar el contrato `promotions.json`. La
-fase siguiente añadirá CI/CD, despliegue y operación programada cuando se haya
-decidido el nombre final del repositorio.
+- `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
+  request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
+  manualmente y está programado cada día a las 06:17, zona
+  `Europe/Madrid`; usa las ocho fuentes live revisadas y no versiona el estado.
+- `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
+  `404.html`, y rechaza cualquier `data/state` en el artefacto.
+- GitHub Pages no puede activarse en este repositorio privado con el plan
+  gratuito actual. Tras autorizar hacerlo público se debe ejecutar manualmente
+  el workflow y comprobar la URL publicada y una ruta profunda.
 
 ## Crawling responsable
 

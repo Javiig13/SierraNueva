@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Ayuntamiento de Cercedilla</title>
+    <link>https://cercedilla.es/</link>
+    <description>Actualidad municipal</description>
+    <item>
+      <title>Información pública del estudio de detalle para viviendas unifamiliares</title>
+      <link>https://cercedilla.es/informacion-publica-estudio-detalle/</link>
+      <guid>https://cercedilla.es/?p=1001</guid>
+      <description>Planeamiento residencial sometido a información pública.</description>
+      <pubDate>Thu, 21 May 2026 08:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Programación cultural del fin de semana</title>
+      <link>https://cercedilla.es/programacion-cultural/</link>
+      <guid>https://cercedilla.es/?p=1002</guid>
+      <description>Agenda cultural municipal.</description>
+      <pubDate>Wed, 20 May 2026 08:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

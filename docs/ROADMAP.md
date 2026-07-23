@@ -83,8 +83,13 @@ requiere trabajo de producto.
   permitidas de 13 sedes `sedelectronica.es`; 37 entradas live, cero fallos y
   cero candidatos el día de revisión. Las cookies de sesión necesarias para
   sus redirecciones son efímeras y exclusivas del cliente del radar.
-- **Pendiente:** ampliar los 11 ayuntamientos restantes por formatos
-  reutilizables, siempre con evaluación jurídica/técnica y fixture por formato.
+- **Hecho:** tercera cohorte con cinco portadas oficiales adicionales,
+  Bustarviejo por tablón de transparencia y Cercedilla por RSS municipal.
+  Los smokes individuales procesaron 65 entradas live, cero fallos y un
+  candidato; la cobertura municipal alcanza 25/29.
+- **Pendiente:** integrar Collado Villalba, Guadalix de la Sierra, Navalafuente
+  y Robledo de Chavela. Las sedes observadas requieren JavaScript o sesión, o
+  están inactivas; cualquier adaptador nuevo exige fixture y prueba offline.
 - **Pendiente:** revalidar PCSP: el último smoke recibió una denegación WAF en
   HTML con HTTP 200. El lector la rechaza explícitamente como no-ZIP.
 
@@ -99,32 +104,35 @@ requiere trabajo de producto.
 
 ## P4 — GitHub y hosting
 
-El propietario autorizó el 23 de julio de 2026 crear y subir el repositorio
-privado. Las mutaciones operativas restantes requieren autorización expresa.
+El propietario autorizó el 23 de julio de 2026 el repositorio, Actions, la
+ejecución diaria y GitHub Pages. Cambiar la visibilidad privada requiere
+confirmación explícita.
 
 - **Hecho:** repositorio privado `Javiig13/SierraNueva`, remoto `origin`,
   historial completo y `main` siguiendo `origin/main`.
-- **Pendiente acordado:** definir protección y política de ramas.
-- **Pendiente acordado:** `ci.yml` para restore, build, test, formato y
-  configuración sin crawling live.
-- **Pendiente acordado:** `crawl-and-deploy.yml` con `workflow_dispatch`,
-  lunes/jueves 06:17 Madrid y push de código sin crawling accidental.
-- **Pendiente acordado:** permisos mínimos, concurrencia, timeout, commits de
-  `github-actions[bot]` y step summary.
-- **Pendiente acordado:** Pages con acciones oficiales, artefacto estático,
-  datos públicos y exclusión comprobada del estado.
-- **Pendiente acordado:** configurar `base href` según el slug, `.nojekyll` y
-  `404.html`.
-- **Pendiente acordado:** documentar cambio de nombre, activación de Pages y
-  actualización segura de acciones.
-- **Pendiente acordado:** prueba real del URL publicado y rutas profundas.
+- **Pendiente:** definir protección y política de ramas.
+- **Hecho:** `ci.yml` reproduce restore, build, tests, formato, configuración,
+  radar/crawl de fixtures, validación y publish sin crawling live.
+- **Hecho:** primera ejecución real de CI correcta en GitHub para `9690959`
+  (2 min 36 s).
+- **Hecho:** `crawl-and-deploy.yml` con `workflow_dispatch` y ejecución diaria
+  a las 06:17 `Europe/Madrid`, sin crawling provocado por cada push.
+- **Hecho:** permisos mínimos, concurrencia, timeout, caché privada y step
+  summary; las acciones están fijadas por SHA.
+- **Hecho:** artefacto Pages con datos live solo tras éxito completo y
+  comprobación de ausencia de `data/state`.
+- **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
+  comprobados localmente.
+- **Pendiente bloqueado:** activar Pages y probar el URL publicado y rutas
+  profundas. El repositorio es privado y el plan gratuito exige hacerlo
+  público o actualizar el plan.
 
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 80/80 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 82/82 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 8 fuentes revisadas, perfil manual limitado |
@@ -139,12 +147,12 @@ privado. Las mutaciones operativas restantes requieren autorización expresa.
 | 14 | Mapa y lista comparten filtro | Hecho | colección única en la UI |
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
 | 16 | Enlaces a webs originales | Parcial | UI hecha; fixtures usan `.test` |
-| 17 | Action manual | Pendiente acordado | Fase P4 |
-| 18 | Action programada | Pendiente acordado | Fase P4 |
-| 19 | Deploy Pages | Pendiente acordado | Fase P4 |
-| 20 | Subpath del repositorio | Pendiente acordado | Requiere slug final |
-| 21 | `.nojekyll` | Pendiente acordado | Fase P4 |
-| 22 | Fallback SPA | Pendiente acordado | Fase P4 |
+| 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
+| 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
+| 19 | Deploy Pages | Bloqueado | requiere repositorio público o plan compatible |
+| 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
+| 21 | `.nojekyll` | Hecho | generado y verificado |
+| 22 | Fallback SPA | Hecho | `404.html` generado y verificado |
 | 23 | Sin API keys obligatorias | Hecho | baseline offline |
 | 24 | Sin secretos en el repo | Hecho | configuración no sensible |
 | 25 | Portales excluidos bloqueados | Hecho | blocklist y pruebas |
@@ -152,7 +160,7 @@ privado. Las mutaciones operativas restantes requieren autorización expresa.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y radar central completos; ampliación municipal incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 80/80 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 82/82 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

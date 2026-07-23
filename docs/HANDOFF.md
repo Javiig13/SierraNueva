@@ -15,12 +15,13 @@ partir de fuentes oficiales, pero nunca los publica como promociones.
 
 La petición original incluía producto e infraestructura. Tras completar la
 fase local, el propietario autorizó el 23 de julio de 2026 crear y subir el
-repositorio privado `Javiig13/SierraNueva`. Actions, Pages, hosting y operación
-programada siguen aplazados; no es un olvido, sino la siguiente fase.
+repositorio `Javiig13/SierraNueva`, añadir Actions, programar el rastreo diario
+y publicar la SPA en GitHub Pages.
 
 La SPA está hecha con **Blazor WebAssembly standalone sobre .NET 10**. Es
-estática y compatible conceptualmente con GitHub Pages. Aún no está adaptada al
-subpath de un repositorio ni tiene los archivos/workflows de Pages.
+estática y el artefacto ya se adapta al subpath `/SierraNueva/`. Pages no puede
+activarse mientras el repositorio siga privado en el plan gratuito actual;
+hacerlo público requiere confirmación explícita del propietario.
 
 ## Qué está implementado
 
@@ -60,7 +61,7 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Conservación del último dataset válido si no hay resultados publicables.
 - Dos backups atómicos del estado; lectura con fallback y fallo sin
   sobrescritura cuando todas las copias están corruptas.
-- Radar privado para BOCM, BOE, PCSP, Portal del Suelo y 18 fuentes
+- Radar privado para BOCM, BOE, PCSP, Portal del Suelo y 25 fuentes
   municipales, con configuración offline/live separada, deduplicación y
   estados de revisión.
 - Backfill BOCM por calendario oficial y sumario XML diario, con lotes de hasta
@@ -68,13 +69,17 @@ subpath de un repositorio ni tiene los archivos/workflows de Pages.
 - Adaptador común de tablón `eAdmin` para Galapagar, Alpedrete, Los Molinos,
   Moralzarzal y San Lorenzo de El Escorial; extrae solo filas y enlaces de
   detalle, fija un municipio validado y no descarga adjuntos.
-- Adaptador HTML acotado para las portadas públicas permitidas de 13 sedes
+- Adaptador HTML acotado para las portadas públicas permitidas de 18 sedes
   `sedelectronica.es`; no accede a `/board`, conserva solo enlaces de vista
   previa y usa cookies públicas de sesión únicamente en memoria.
 - Filtro de radar por municipio, señal y contexto inmobiliario, con exclusiones
   para ruido administrativo. Los candidatos viven únicamente en `data/state`.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
   atómicos adicionales para la cola de oportunidades.
+- CI offline en GitHub Actions y workflow manual/diario de crawl y despliegue,
+  con acciones fijadas, permisos mínimos, concurrencia y resumen de ejecución.
+- Preparación de Pages con base `/SierraNueva/`, `.nojekyll`, fallback
+  `404.html` y rechazo explícito de cualquier estado privado.
 
 ### Datos y frontend
 
@@ -106,21 +111,24 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:60 correctos
+Tests Infrastructure:62 correctos
 Tests Web:           4 correctos
 Tests Web E2E:       3 correctos
-Total:               80/80 correctos
+Total:               82/82 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 22 fuentes de radar
+validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       8 fuentes; 8 promociones válidas, 0 fallos
-Radar offline:       22 candidatos de fixtures; 22/22 fuentes
+Radar offline:       29 candidatos de fixtures; 29/29 fuentes
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
+Fuentes nuevas live: 65 entradas, 0 fallos y 1 candidato el 2026-07-23
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
+CI GitHub real:      correcto en 2 min 36 s para el commit 9690959
+Pages real:          bloqueado por repositorio privado en plan gratuito
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -155,8 +163,11 @@ porque el estado sintético ya está sembrado.
 - BOCM ya dispone de backfill oficial por calendario y sumario XML. La primera
   cohorte de cinco tablones `eAdmin` procesó 335 entradas sin fallos. Una
   segunda cohorte aprovecha solo la portada explícitamente permitida por
-  `robots.txt` de 13 sedes `sedelectronica.es`: procesó 37 entradas sin fallos
-  y eleva la vigilancia municipal a 18/29 (62,1 %). Quedan 11 ayuntamientos.
+  `robots.txt` de 13 sedes `sedelectronica.es`: procesó 37 entradas sin fallos.
+  Una tercera cohorte añadió cinco portadas del mismo formato, el tablón de
+  transparencia de Bustarviejo y el RSS oficial de Cercedilla. Sus smokes
+  individuales procesaron 65 entradas sin fallos y elevaron la vigilancia
+  municipal a 25/29 (86,2 %).
 - Esas portadas muestran solo los dos o tres anuncios más recientes. El
   histórico `/board` sigue prohibido y no se consulta; por tanto, la ampliación
   reduce el punto ciego pero no ofrece exhaustividad histórica.
@@ -181,16 +192,21 @@ porque el estado sintético ya está sembrado.
 - Los enlaces sintéticos usan el dominio reservado `.test`; el comportamiento
   de enlace está implementado, pero su destino no es navegable.
 
-### Infraestructura aplazada
+### Infraestructura y hosting
 
 - Existe el remoto privado `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- No existe todavía carpeta `.github`.
-- Faltan CI, crawling programado, despliegue, permisos y resúmenes.
-- Faltan `base href` de project site, `.nojekyll` y fallback `404.html`.
-- El slug final es `SierraNueva`; falta decidir la estrategia de estado a largo
-  plazo.
+- CI ya se ejecutó realmente en GitHub y terminó correctamente.
+- El workflow live se ejecuta manualmente o cada día a las 06:17
+  `Europe/Madrid`. Publica solo tras éxito completo de las ocho fuentes
+  revisadas; un fallo conserva el último despliegue válido.
+- El estado live se restaura mediante caché privada de Actions y nunca se
+  incorpora al artefacto ni se confirma en Git.
+- La preparación local del artefacto Pages está comprobada, pero la ejecución
+  remota y la URL siguen bloqueadas: GitHub exige hacer público el repositorio
+  o contratar un plan compatible con Pages privadas.
+- La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
 
@@ -199,16 +215,16 @@ porque el estado sintético ya está sembrado.
    automatización; conservar la salida y el estado live separados.
 3. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-4. Ampliar los 11 ayuntamientos restantes por formatos reutilizables, respetando
-   `robots.txt` y añadiendo evaluación y fixture por formato.
+4. Resolver los cuatro ayuntamientos restantes por formatos reutilizables:
+   Collado Villalba, Guadalix de la Sierra, Navalafuente y Robledo de Chavela.
 5. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
    operativa y siempre sobre estado privado aislado.
 6. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
 7. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-8. Continuar la fase GitHub descrita en `docs/ROADMAP.md` solo por autorización
-   expresa: CI offline primero y Pages/operación después.
+8. Tras autorización expresa para hacer público el repositorio, activar Pages,
+   lanzar el workflow manual y validar la URL y una ruta profunda.
 
 ## Cómo retomar en otro equipo
 

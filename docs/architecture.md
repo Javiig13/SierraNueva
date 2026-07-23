@@ -93,6 +93,9 @@ edición y los días sin boletín no producen entradas. Los tablones municipales
 usan una única página, extraen solo enlaces de detalle y fijan un municipio
 validado por configuración. En `sedelectronica.es` solo se consulta la portada
 permitida por `robots.txt`; nunca se accede al tablón `/board` bloqueado.
+Los formatos municipales adicionales se mantienen aislados por selector o
+feed: el portal de transparencia de Bustarviejo y el RSS del Ayuntamiento de
+Cercedilla no amplían las reglas generales del parser.
 
 Una entrada solo se convierte en candidato si contiene un municipio del
 catálogo, una señal administrativa y contexto inmobiliario. Las exclusiones
@@ -177,12 +180,14 @@ exigirá un endpoint controlado por el operador y permanecerá inactiva cuando n
 exista configuración. Common Crawl, BOCM y transparencia municipal seguirán la
 misma frontera.
 
-## Decisiones pendientes de infraestructura
+## Automatización y publicación
 
-El repositorio privado definitivo es `Javiig13/SierraNueva`. GitHub Pages sigue
-siendo el destino previsto porque puede servir Blazor y los datos sin backend,
-pero aún faltan workflows, permisos, concurrencia, programación, artefacto
-Pages, `base href`, `.nojekyll` y fallback SPA.
+`ci.yml` ejecuta solo fixtures y reproduce la baseline offline. El workflow
+`crawl-and-deploy.yml` usa explícitamente el perfil live, conserva el estado
+privado en caché de Actions, exige éxito completo antes de publicar y genera un
+artefacto estático con base `/SierraNueva/`, `.nojekyll` y fallback `404.html`.
+La caché nunca se copia al artefacto.
 
-Antes de automatizar se decidirá si el estado se versiona en Git o se mueve a
-almacenamiento externo y qué fuentes live se habilitan.
+La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. Pages no
+puede activarse todavía porque `Javiig13/SierraNueva` es privado y la cuenta
+usa un plan gratuito; la visibilidad no se cambia sin confirmación expresa.

@@ -20,6 +20,7 @@ public sealed class OpportunityDiscoveryTests
     [InlineData("portal-suelo.html", OpportunityFeedFormat.Html, 2)]
     [InlineData("bocm-sumario.xml", OpportunityFeedFormat.BocmCalendar, 2)]
     [InlineData("eadmin-tablon.html", OpportunityFeedFormat.EAdminHtml, 2)]
+    [InlineData("cercedilla-noticias.rss.xml", OpportunityFeedFormat.Rss, 2)]
     public async Task Parser_ReadsEachOfficialFormatFixture(
         string fixture,
         OpportunityFeedFormat format,
@@ -183,6 +184,42 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Parser_ReadsOnlyBustarviejoNoticeBoardContent()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "tablon-bustarviejo",
+            Name = "Tablón de Bustarviejo",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.MunicipalNoticeBoard,
+            Format = OpportunityFeedFormat.Html,
+            ItemSelectors =
+                ["#ContentBody_divContenidoEstructura .enlaceAppWeb li"],
+            FixedMunicipality = "Bustarviejo",
+            MaxItems = 100
+        };
+        byte[] content = await File.ReadAllBytesAsync(
+            FixturePath("bustarviejo-tablon.html"));
+
+        IReadOnlyList<OpportunityFeedItem> items = new OpportunityFeedParser().Parse(
+            source,
+            content,
+            new(
+                "https://transparenciabustarviejo.eadministracion.es/" +
+                "transparencia/tablon-de-anuncios"),
+            FixtureDate);
+
+        Assert.Equal(2, items.Count);
+        Assert.All(
+            items,
+            item => Assert.StartsWith(
+                "https://transparenciabustarviejo.eadministracion.es/" +
+                "transparencia/tablon-de-anuncios/",
+                item.OfficialUrl,
+                StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task Pipeline_FiltersNoisePersistsPrivatelyAndPreservesReview()
     {
         string directory = CreateTempDirectory();
@@ -217,17 +254,21 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(22, first.Run.NewCandidates);
+            Assert.Equal(29, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
                     "Becerril de la Sierra",
+                    "Bustarviejo",
                     "Cabanillas de la Sierra",
+                    "Cercedilla",
+                    "Collado Mediano",
                     "Collado Villalba",
                     "El Boalo",
                     "El Escorial",
                     "Fresnedillas de la Oliva",
                     "Galapagar",
+                    "Guadarrama",
                     "Hoyo de Manzanares",
                     "La Cabrera",
                     "Los Molinos",
@@ -235,10 +276,12 @@ public sealed class OpportunityDiscoveryTests
                     "Miraflores de la Sierra",
                     "Moralzarzal",
                     "Navacerrada",
+                    "Navalagamella",
                     "San Lorenzo de El Escorial",
                     "Santa María de la Alameda",
                     "Soto del Real",
                     "Torrelodones",
+                    "Valdemaqueda",
                     "Zarzalejo"
                 ],
                 first.State.Candidates
@@ -265,7 +308,7 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(22, second.Run.UpdatedCandidates);
+            Assert.Equal(29, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);

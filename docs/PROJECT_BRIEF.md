@@ -2,9 +2,8 @@
 
 Este documento conserva el contexto funcional del encargo original dentro del
 repositorio. Es la referencia para continuar el producto sin depender del chat
-inicial. La única modificación de alcance acordada después es que **GitHub,
-Actions, Pages, hosting y la infraestructura remota quedan aplazados hasta la
-fase final**.
+inicial. GitHub, Actions, Pages y la operación diaria fueron autorizados
+expresamente el 23 de julio de 2026 después de cerrar la baseline local.
 
 ## 1. Producto
 
@@ -310,18 +309,20 @@ hipotecas, redes sociales, proxies, CAPTCHA y multiusuario.
 La arquitectura puede admitirlos en el futuro, pero no deben introducirse por
 anticipado.
 
-## 16. Infraestructura final aplazada
+## 16. Infraestructura final
 
-Cuando el propietario reabra esta fase se añadirán dos workflows:
+La fase incorpora dos workflows:
 
 - CI para restore, build, test, formato y configuración, siempre con fixtures.
 - Crawl y despliegue manual/programado, actualización segura de datos y
   publicación con GitHub Pages.
 
-La fase deberá resolver permisos mínimos, concurrencia, horario lunes/jueves
-06:17 en Madrid, commits de bot, resumen, acciones fijadas, `base href` para
-project site, `.nojekyll`, `404.html`, artefacto con `data/public` y exclusión
-de `data/state`.
+La implementación usa permisos mínimos, concurrencia, horario diario 06:17
+`Europe/Madrid`, resumen, acciones fijadas, `base href` para project site,
+`.nojekyll`, `404.html`, artefacto con `data/public` y exclusión de
+`data/state`. El estado live se mantiene en caché privada de Actions, no en
+commits del bot.
 
-No se deben codificar esos detalles hasta conocer el repositorio y recibir
-autorización.
+La activación real de Pages depende de hacer público el repositorio o usar un
+plan que admita Pages privadas. Cambiar la visibilidad requiere confirmación
+expresa del propietario.
