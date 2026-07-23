@@ -133,6 +133,80 @@ public sealed class PipelineIntegrationTests
     }
 
     [Fact]
+    public async Task Pipeline_TreatsExhaustedRequestTimeoutAsPartialSourceFailure()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            using HttpClient httpClient = new(new TimeoutRoutingHandler())
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
+            using FileHttpMetadataCache metadataCache = new(Path.Combine(root, "state"));
+            RespectfulPageSource pages = new(
+                new SingleHttpClientFactory(httpClient),
+                [new ConfiguredUrlDiscoveryProvider()],
+                new AllowAllUrlPolicy(),
+                new InternalLinkDiscoveryProvider(),
+                new NullDynamicPageRenderer(),
+                new PdfPigTextExtractor(),
+                metadataCache,
+                NullLogger<RespectfulPageSource>.Instance);
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                new FakeClock(new DateTimeOffset(2026, 7, 23, 8, 0, 0, TimeSpan.Zero)));
+            CrawlRequest request = new()
+            {
+                Sources =
+                [
+                    CreateHttpSource("a-timeout", "https://sources.example/slow"),
+                    CreateHttpSource("b-valid", "https://sources.example/valid")
+                ],
+                Municipalities =
+                [
+                    new MunicipalityDefinition
+                    {
+                        OfficialName = "Moralzarzal",
+                        Latitude = 40.675,
+                        Longitude = -3.969
+                    }
+                ],
+                Settings = new()
+                {
+                    UserAgent = "SierraNueva.Tests/1.0",
+                    RequestDelayMilliseconds = 0,
+                    TimeoutSeconds = 1,
+                    MaxRetries = 0,
+                    DeactivateAfterMisses = 3,
+                    PublicChangeLimit = 100
+                },
+                OutputDirectory = Path.Combine(root, "public"),
+                StateDirectory = Path.Combine(root, "state")
+            };
+
+            CrawlResult result = await pipeline.RunAsync(request, CancellationToken.None);
+
+            Assert.True(result.HasPublishableData);
+            Assert.Equal(RunStatus.PartialSuccess, result.Run.Status);
+            Assert.Equal(SourceRunStatus.Failed, result.Run.SourceResults[0].Status);
+            Assert.Contains(
+                "Tiempo de espera agotado",
+                Assert.Single(result.Run.SourceResults[0].Errors),
+                StringComparison.Ordinal);
+            Assert.Equal(SourceRunStatus.Success, result.Run.SourceResults[1].Status);
+            Assert.Equal("Residencial Resiliente", Assert.Single(result.Dataset.Promotions).Name);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_PreservesThenDeactivatesMissingPromotionAfterThreeRuns()
     {
         string root = CreateTempDirectory();
@@ -279,6 +353,31 @@ public sealed class PipelineIntegrationTests
         };
     }
 
+    private static SourceDefinition CreateHttpSource(string id, string url)
+    {
+        return new()
+        {
+            Id = id,
+            Name = id,
+            BaseUrl = "https://sources.example/",
+            Enabled = true,
+            SourceKind = SourceKind.OfficialPromoter,
+            AllowedHosts = ["sources.example"],
+            StartUrls = [url],
+            UseRobots = false,
+            UseSitemaps = false,
+            FollowInternalLinks = false,
+            MaxPages = 1,
+            RequestDelayMilliseconds = 0,
+            FixedMunicipality = "Moralzarzal",
+            ContentSelector = "main",
+            CustomSelectors = new Dictionary<string, string>
+            {
+                ["name"] = "main h1"
+            }
+        };
+    }
+
     private static string CreateTempDirectory()
     {
         string path = Path.Combine(Path.GetTempPath(), $"sierranueva-pipeline-{Guid.NewGuid():N}");
@@ -303,6 +402,47 @@ public sealed class PipelineIntegrationTests
                              url.Port == allowedUri.Port;
             reason = isAllowed ? SkipReason.None : SkipReason.PrivateNetwork;
             return isAllowed;
+        }
+    }
+
+    private sealed class AllowAllUrlPolicy : IUrlPolicy
+    {
+        public bool IsAllowed(Uri url, SourceDefinition source, out SkipReason reason)
+        {
+            reason = SkipReason.None;
+            return true;
+        }
+    }
+
+    private sealed class TimeoutRoutingHandler : HttpMessageHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            if (request.RequestUri?.AbsolutePath == "/slow")
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                throw new InvalidOperationException("El timeout debe cancelar la espera.");
+            }
+
+            return new(HttpStatusCode.OK)
+            {
+                Content = new StringContent(
+                    """
+                    <!doctype html>
+                    <html lang="es">
+                    <body>
+                      <main>
+                        <h1>Residencial Resiliente</h1>
+                        <p>Promoción de 3 chalets pareados en Moralzarzal.</p>
+                      </main>
+                    </body>
+                    </html>
+                    """,
+                    Encoding.UTF8,
+                    "text/html")
+            };
         }
     }
 

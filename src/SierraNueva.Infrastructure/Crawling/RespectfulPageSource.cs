@@ -327,6 +327,13 @@ public sealed class RespectfulPageSource(
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(300 * Math.Pow(2, attempt)), cancellationToken);
             }
+            catch (OperationCanceledException exception) when (
+                !cancellationToken.IsCancellationRequested)
+            {
+                throw new HttpRequestException(
+                    $"Tiempo de espera agotado al descargar '{url}'.",
+                    exception);
+            }
             catch (HttpRequestException) when (attempt < settings.MaxRetries)
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(300 * Math.Pow(2, attempt)), cancellationToken);

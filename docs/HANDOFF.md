@@ -60,6 +60,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Normalización, identidad determinista, deduplicación conservadora, confianza,
   validación de calidad y change detection.
 - Tres ausencias completas para desactivar; un fallo parcial no cuenta bajas.
+- Un timeout HTTP interno agotado se convierte en fallo de esa fuente, no en
+  cancelación global. La integración offline conserva una segunda fuente
+  válida y produce `PartialSuccess`; solo una cancelación externa detiene todo.
 - Conservación del último dataset válido si no hay resultados publicables.
 - Dos backups atómicos del estado; lectura con fallback y fallo sin
   sobrescritura cuando todas las copias están corruptas.
@@ -118,10 +121,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:73 correctos
+Tests Infrastructure:74 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               94/94 correctos
+Total:               95/95 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 29 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -177,6 +180,11 @@ porque el estado sintético ya está sembrado.
   diez segundos exactos en la tercera ficha. La configuración usa ahora veinte
   segundos, una prueba impide reducir el mínimo y la repetición conjunta 16/16
   fue correcta.
+- La ejecución GitHub `30047521921` reveló que un timeout de Gilmar en el último
+  reintento se propagaba como cancelación global. El timeout live se elevó de
+  30 a 60 segundos y el crawler distingue ahora el agotamiento interno de una
+  cancelación externa; la prueba de integración demuestra que las demás
+  fuentes continúan y el resultado queda parcial, nunca falsamente completo.
 - Las evaluaciones están en `docs/source-assessments`; no equivalen a cobertura
   periódica ni garantizan que las webs, disponibilidad o condiciones no
   cambien.
