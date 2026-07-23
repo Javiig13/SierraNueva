@@ -135,9 +135,9 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 65 entradas, 0 fallos y 1 candidato el 2026-07-23
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 1 min 38 s para el commit fe252db
-Crawl/deploy GitHub: correcto en la ejecución 30033934500
-Pages real:          correcto; 8 promociones, 8/8 fuentes y 0 fallos
+CI GitHub real:      correcto en 2 min 6 s para el commit 47e67ec
+Crawl/deploy GitHub: correcto en la ejecución 30042299941
+Pages real:          correcto; 14 promociones, 14/14 fuentes y 0 fallos
 Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
 ```
 
@@ -219,7 +219,7 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI ya se ejecutó realmente en GitHub y terminó correctamente.
+- CI #10 se ejecutó para `47e67ec` y terminó correctamente en 2 min 6 s.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las catorce fuentes
   revisadas; un fallo conserva el último despliegue válido.
@@ -233,12 +233,14 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30038059283` completó el crawl, validó las ocho fuentes, generó el artefacto
-  y desplegó correctamente `https://javiig13.github.io/SierraNueva/`.
+  `30042299941` completó el crawl, validó las catorce fuentes, publicó catorce
+  promociones y desplegó correctamente
+  `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó en navegador la portada, el mapa y la URL directa
-  `?q=Galapagar`; la vista por defecto muestra las cinco promociones activas y,
-  al retirar ese filtro, aparecen ocho tarjetas y ocho marcadores. También se
-  verificó que el estado privado devuelve 404.
+  `?q=Galapagar`; la vista por defecto muestra once promociones comerciales
+  activas y el resumen conserva las catorce. El JSON público contiene 14
+  promociones en 11 municipios, el GeoJSON 14 elementos y el estado privado
+  devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado

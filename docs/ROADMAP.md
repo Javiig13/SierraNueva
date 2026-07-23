@@ -139,10 +139,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** `base href` `/SierraNueva/`, `.nojekyll` y `404.html` preparados y
   comprobados localmente.
 - **Hecho:** Pages activado con GitHub Actions como fuente; ejecución manual
-  `30033934500` correcta y SPA disponible en
+  `30042299941` correcta y SPA disponible en
   `https://javiig13.github.io/SierraNueva/`.
-- **Hecho:** portada, mapa, filtro directo `?q=Galapagar`, dataset live de ocho
-  promociones y exclusión pública de `data/state` comprobados.
+- **Hecho:** portada, mapa, filtro directo `?q=Galapagar`, dataset live de
+  catorce promociones en once municipios, 14 elementos GeoJSON y exclusión
+  pública de `data/state` comprobados.
 
 ## Matriz del encargo original
 
@@ -166,7 +167,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 16 | Enlaces a webs originales | Parcial | UI hecha; fixtures usan `.test` |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
-| 19 | Deploy Pages | Hecho | ejecución `30033934500` y URL pública verificadas |
+| 19 | Deploy Pages | Hecho | ejecución `30042299941` y URL pública verificadas |
 | 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
 | 21 | `.nojekyll` | Hecho | generado y verificado |
 | 22 | Fallback SPA | Hecho | `404.html` generado y verificado |
