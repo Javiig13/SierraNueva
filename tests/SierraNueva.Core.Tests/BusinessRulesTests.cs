@@ -92,6 +92,40 @@ public sealed class BusinessRulesTests
             SourceConfidenceScorer.Score(unknown, promotion));
     }
 
+    [Fact]
+    public void Confidence_ExplainsEachAppliedSignal()
+    {
+        Promotion promotion = CreatePromotion("https://example.com/promo", 450_000m);
+        promotion.DeveloperName = "Promotora Sierra";
+        promotion.BrochureUrls = ["https://example.com/dossier.pdf"];
+        promotion.Evidence =
+        [
+            new(), new(), new(), new()
+        ];
+        SourceDefinition source = new()
+        {
+            SourceKind = SourceKind.OfficialPromoter,
+            StartUrls = ["https://example.com/inicio"]
+        };
+
+        SourceConfidenceExplanation explanation =
+            SourceConfidenceScorer.Assess(source, promotion);
+
+        Assert.Equal(0.82m, explanation.BaseScore);
+        Assert.Equal(1m, explanation.FinalScore);
+        Assert.Equal(
+            [
+                "source-kind",
+                "brochure",
+                "developer-identified",
+                "evidence-rich",
+                "configured-domain-match"
+            ],
+            explanation.Signals.Select(signal => signal.Code));
+        Assert.Equal(explanation.FinalScore, explanation.Signals.Sum(signal => signal.Impact));
+        Assert.Contains("dominio canónico", explanation.Summary, StringComparison.Ordinal);
+    }
+
     private static Promotion CreatePromotion(string url, decimal price)
     {
         return new()

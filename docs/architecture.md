@@ -34,7 +34,8 @@ detrás de interfaces para que puedan sustituirse o probarse sin red.
 
 ## Flujo de una ejecución
 
-1. La CLI carga y valida ajustes, municipios, fuentes y exclusiones.
+1. La CLI carga y valida ajustes, municipios, procedencia de centroides,
+   fuentes y exclusiones.
 2. Cada fuente habilitada aporta URLs configuradas, manuales y de sitemap.
 3. El rastreador valida esquema, host, blocklist y red privada; consulta
    `robots.txt`; aplica espera, tamaño, contenido, reintentos y cancelación.
@@ -81,22 +82,26 @@ preparado para que una fase futura alimente notificaciones.
 - Solo `http` y `https`.
 - Hosts permitidos por fuente y blocklist global.
 - Bloqueo de localhost, IP privadas, link-local y esquemas alternativos.
+- Resolución DNS validada al abrir cada conexión; una respuesta mixta o no
+  pública se rechaza y la conexión se fija a una IP ya comprobada.
 - Sin certificados inválidos, cookies persistentes ni ejecución de scripts
   descargados.
 - Límite de redirecciones, respuesta HTML y PDF.
 - JSON con `System.Text.Json`, sin deserialización polimórfica arbitraria.
 - Texto de evidencia reducido y normalizado.
 
-Para un entorno de producción, la validación de SSRF debe reforzarse en la
-conexión DNS para impedir DNS rebinding. En el MVP las URLs de arranque son
-configuración administrada y los enlaces descubiertos quedan sujetos a host.
+La validación en URL y la validación en conexión son deliberadamente
+independientes: la primera descarta literales peligrosos y la segunda impide
+que un host autorizado cambie a una red privada mediante DNS rebinding.
 
 ## Frontend
 
 Blazor carga cuatro recursos en paralelo lógico: promociones, cambios, run y
 GeoJSON. El filtro se ejecuta completamente en cliente y produce una única
 colección que alimenta listado y mapa. Los parámetros relevantes se guardan en
-la query para compartir la vista.
+la query para compartir la vista. La ficha detalla las señales de confianza;
+el patrón de tabs móvil admite teclado y el detalle se presenta como diálogo
+con cierre mediante Escape.
 
 Leaflet recibe el GeoJSON generado y una lista de identificadores visibles.
 Los popups se construyen con nodos y `textContent`, nunca con HTML de terceros.

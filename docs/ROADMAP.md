@@ -3,7 +3,9 @@
 Estados usados: **Hecho** significa comprobado en local; **Parcial** significa
 implementado pero sin toda la verificación exigida; **Pendiente acordado**
 corresponde a la infraestructura que el propietario aplazó; **Pendiente**
-requiere trabajo de producto.
+requiere trabajo de producto; **Bloqueado por fuente** significa que la
+implementación local está preparada, pero faltan datos externos trazables que
+no pueden obtenerse durante una fase estrictamente offline.
 
 ## P0 — Entrega portable
 
@@ -16,16 +18,24 @@ requiere trabajo de producto.
 
 - **Hecho:** integración de pipeline contra un servidor HTTP local real,
   totalmente offline y basada en una fixture versionada.
-- **Pendiente:** fixture PDF reducida dentro de `test-data/pdfs`.
-- **Pendiente:** smoke test automatizado del directorio publicado.
-- **Pendiente:** prueba E2E de navegador para filtros, detalle y mapa.
-- **Pendiente:** auditoría básica responsive, teclado, contraste y lector.
-- **Pendiente:** explicación estructurada de señales de `SourceConfidence`.
-- **Pendiente:** decidir e implementar concurrencia real o retirar los ajustes
-  que aparentan gobernarla.
-- **Pendiente:** endurecer la resolución DNS frente a rebinding antes de una
-  operación no supervisada.
-- **Pendiente:** completar centroides solo con fuentes trazables.
+- **Hecho:** fixture PDF sintética y reducida dentro de `test-data/pdfs`,
+  comprobada con PdfPig y el extractor por capas.
+- **Hecho:** smoke automatizado del directorio publicado, incluida la exclusión
+  de `data/state`.
+- **Hecho:** E2E en navegador real para filtros, detalle, mapa y URL
+  compartible; todo tráfico externo se aborta antes de salir.
+- **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
+  lector, incluida navegación por flechas en tabs y cierre de diálogo con
+  Escape.
+- **Hecho:** explicación estructurada de señales de `SourceConfidence` en
+  contrato y ficha.
+- **Hecho:** retirada de ajustes de concurrencia que no gobernaban el pipeline;
+  el recorrido secuencial queda explícito.
+- **Hecho:** resolución DNS validada y fijada por conexión frente a rebinding.
+- **Bloqueado por fuente:** 3 de 29 centroides tienen procedencia versionada;
+  los 26 restantes permanecen nulos porque el repositorio no contiene una
+  fuente autorizada para obtenerlos offline. `validate-config` impide publicar
+  un centroide sin procedencia coincidente.
 
 ## P2 — Incorporar cobertura real
 
@@ -73,7 +83,7 @@ definitivo.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 35/35 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 51/51 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Pendiente | Fase P2 |
@@ -84,7 +94,7 @@ definitivo.
 | 10 | `changes.json` | Hecho | salida versionada |
 | 11 | Frontend carga archivos | Hecho | servicio y pruebas de componentes |
 | 12 | Filtros funcionan | Hecho | modelo y componentes probados |
-| 13 | Mapa funciona | Parcial | integración hecha; falta E2E real |
+| 13 | Mapa funciona | Hecho | E2E real y offline con lista/filtro compartido |
 | 14 | Mapa y lista comparten filtro | Hecho | colección única en la UI |
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
 | 16 | Enlaces a webs originales | Parcial | UI hecha; fixtures usan `.test` |
@@ -101,7 +111,7 @@ definitivo.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Parcial | vertical local completa; ver P1/P2 |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 34/34 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 51/51 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

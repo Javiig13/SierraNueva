@@ -1,6 +1,19 @@
 @inherits LayoutComponentBase
+@inject IJSRuntime JavaScript
 
-<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<a class="skip-link"
+   href="#contenido"
+   @onclick="SkipToContentAsync"
+   @onclick:preventDefault="true">
+    Saltar al contenido
+</a>
 <div class="app-shell">
     @Body
 </div>
+
+@code {
+    private async Task SkipToContentAsync()
+    {
+        await JavaScript.InvokeVoidAsync("sierraAccessibility.focusById", "contenido");
+    }
+}

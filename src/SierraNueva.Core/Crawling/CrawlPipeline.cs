@@ -254,7 +254,10 @@ public sealed class CrawlPipeline(
             .Order(StringComparer.Ordinal)
             .ToArray();
         promotion.SourceKind = source.SourceKind;
-        promotion.SourceConfidence = SourceConfidenceScorer.Score(source, promotion);
+        SourceConfidenceExplanation confidence =
+            SourceConfidenceScorer.Assess(source, promotion);
+        promotion.SourceConfidence = confidence.FinalScore;
+        promotion.SourceConfidenceExplanation = confidence;
         promotion.Evidence = promotion.Evidence
             .Select(item => new EvidenceItem
             {

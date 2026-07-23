@@ -42,6 +42,10 @@ if [[ "$skip_playwright" == false ]]; then
   fi
 fi
 
+dotnet test SierraNueva.sln -c Release --no-build
+dotnet format SierraNueva.sln --verify-no-changes --no-restore
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-config
+
 crawler_args=(
   run --project src/SierraNueva.Crawler -c Release --no-build --
   crawl --no-playwright
@@ -59,7 +63,7 @@ if (( crawler_exit > 1 )); then
 fi
 
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-data
-dotnet build src/SierraNueva.Web/SierraNueva.Web.csproj -c Release --no-restore
+dotnet publish src/SierraNueva.Web/SierraNueva.Web.csproj -c Release --no-restore
 
 if [[ "$no_frontend" == false ]]; then
   echo "SierraNueva estará disponible en la URL que indique el servidor."

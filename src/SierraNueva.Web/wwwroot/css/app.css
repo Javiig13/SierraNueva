@@ -7,7 +7,7 @@
     --sage-light: #f2f6f3;
     --paper: #fbfaf6;
     --white: #ffffff;
-    --terracotta: #ce6539;
+    --terracotta: #a84d27;
     --terracotta-soft: #f6e5dc;
     --gold: #b89858;
     --line: #dbe2dc;
@@ -53,8 +53,21 @@ a {
 }
 
 :focus-visible {
-    outline: 3px solid rgba(206, 101, 57, 0.65);
+    outline: 3px solid rgba(168, 77, 39, 0.78);
     outline-offset: 3px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 .skip-link {

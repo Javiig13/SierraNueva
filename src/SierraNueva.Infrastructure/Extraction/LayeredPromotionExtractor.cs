@@ -1033,7 +1033,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex MonthlyRegex();
 
     [GeneratedRegex(
-        @"(?:residencial|promoci[oó]n)\s+(?<name>[\p{L}\d .&'-]{3,100})",
+        @"(?<name>(?:residencial|promoci[oó]n)\s+[\p{L}\d .&'-]{3,100}?)(?=\s*[:\r\n]|$)",
         RegexOptions.IgnoreCase)]
     private static partial Regex PdfTitleRegex();
 

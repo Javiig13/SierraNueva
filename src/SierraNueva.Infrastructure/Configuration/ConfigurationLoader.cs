@@ -33,6 +33,19 @@ public sealed class ConfigurationLoader
         return LoadListAsync<MunicipalityDefinition>(path, "municipalities", cancellationToken);
     }
 
+    public async Task<MunicipalityCentroidCatalog> LoadCentroidSourcesAsync(
+        string path,
+        CancellationToken cancellationToken)
+    {
+        await using FileStream stream = File.OpenRead(path);
+        return await JsonSerializer.DeserializeAsync<MunicipalityCentroidCatalog>(
+                   stream,
+                   JsonDefaults.Compact,
+                   cancellationToken)
+               ?? throw new InvalidDataException(
+                   $"El archivo '{path}' no contiene un catálogo de centroides.");
+    }
+
     public async Task<DomainExclusions> LoadExclusionsAsync(
         string path,
         CancellationToken cancellationToken)
@@ -48,19 +61,10 @@ public sealed class ConfigurationLoader
     public IReadOnlyList<string> Validate(
         CrawlerSettings settings,
         IReadOnlyList<SourceDefinition> sources,
-        IReadOnlyList<MunicipalityDefinition> municipalities)
+        IReadOnlyList<MunicipalityDefinition> municipalities,
+        MunicipalityCentroidCatalog? centroidCatalog = null)
     {
         List<string> errors = [];
-        if (settings.MaxConcurrencyGlobal < 1 || settings.MaxConcurrencyPerHost < 1)
-        {
-            errors.Add("Los límites de concurrencia deben ser mayores que cero.");
-        }
-
-        if (settings.MaxConcurrencyPerHost > settings.MaxConcurrencyGlobal)
-        {
-            errors.Add("MaxConcurrencyPerHost no puede superar MaxConcurrencyGlobal.");
-        }
-
         if (settings.TimeoutSeconds < 1 || settings.MaxRetries is < 0 or > 5)
         {
             errors.Add("TimeoutSeconds o MaxRetries están fuera de rango.");
@@ -107,7 +111,115 @@ public sealed class ConfigurationLoader
             errors.Add($"Municipio duplicado: {duplicate.Key}.");
         }
 
+        ValidateCentroids(municipalities, centroidCatalog, errors);
         return errors;
+    }
+
+    private static void ValidateCentroids(
+        IReadOnlyList<MunicipalityDefinition> municipalities,
+        MunicipalityCentroidCatalog? catalog,
+        ICollection<string> errors)
+    {
+        if (catalog is null)
+        {
+            return;
+        }
+
+        if (catalog.SchemaVersion != "1.0" ||
+            !string.Equals(
+                catalog.CoordinateReferenceSystem,
+                "WGS84",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            errors.Add("El catálogo de centroides debe usar el contrato 1.0 y WGS84.");
+        }
+
+        foreach (IGrouping<string, MunicipalityCentroidSource> duplicate in catalog.Sources
+                     .GroupBy(item => item.Municipality, StringComparer.OrdinalIgnoreCase)
+                     .Where(group => group.Count() > 1))
+        {
+            errors.Add($"Procedencia de centroide duplicada: {duplicate.Key}.");
+        }
+
+        Dictionary<string, MunicipalityCentroidSource> provenance = catalog.Sources
+            .GroupBy(item => item.Municipality, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                group => group.Key,
+                group => group.First(),
+                StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, MunicipalityDefinition> definitions = municipalities
+            .GroupBy(item => item.OfficialName, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                group => group.Key,
+                group => group.First(),
+                StringComparer.OrdinalIgnoreCase);
+
+        foreach (MunicipalityDefinition municipality in municipalities)
+        {
+            bool hasLatitude = municipality.Latitude.HasValue;
+            bool hasLongitude = municipality.Longitude.HasValue;
+            if (hasLatitude != hasLongitude)
+            {
+                errors.Add(
+                    $"El municipio '{municipality.OfficialName}' debe tener ambas coordenadas o ninguna.");
+                continue;
+            }
+
+            if (!hasLatitude)
+            {
+                continue;
+            }
+
+            if (municipality.Latitude is < -90 or > 90 ||
+                municipality.Longitude is < -180 or > 180)
+            {
+                errors.Add($"Centroide fuera de rango: {municipality.OfficialName}.");
+            }
+
+            if (!provenance.TryGetValue(municipality.OfficialName, out MunicipalityCentroidSource? source))
+            {
+                errors.Add(
+                    $"Falta procedencia para el centroide de '{municipality.OfficialName}'.");
+                continue;
+            }
+
+            if (municipality.Latitude != source.Latitude ||
+                municipality.Longitude != source.Longitude)
+            {
+                errors.Add(
+                    $"Las coordenadas y la procedencia no coinciden para '{municipality.OfficialName}'.");
+            }
+        }
+
+        foreach (MunicipalityCentroidSource source in catalog.Sources)
+        {
+            if (!definitions.TryGetValue(source.Municipality, out MunicipalityDefinition? municipality))
+            {
+                errors.Add(
+                    $"La procedencia referencia un municipio desconocido: '{source.Municipality}'.");
+                continue;
+            }
+
+            if (!municipality.Latitude.HasValue || !municipality.Longitude.HasValue)
+            {
+                errors.Add(
+                    $"La procedencia de '{source.Municipality}' no tiene coordenadas publicadas.");
+            }
+
+            if (!Uri.TryCreate(source.SourceUrl, UriKind.Absolute, out Uri? sourceUri) ||
+                sourceUri.Scheme != Uri.UriSchemeHttps)
+            {
+                errors.Add(
+                    $"La procedencia de '{source.Municipality}' necesita una URL HTTPS válida.");
+            }
+
+            if (source.CheckedAtUtc == default ||
+                source.CheckedAtUtc.Offset != TimeSpan.Zero)
+            {
+                errors.Add(
+                    $"La fecha de comprobación de '{source.Municipality}' debe estar en UTC.");
+            }
+        }
     }
 
     private static async Task<IReadOnlyList<T>> LoadListAsync<T>(

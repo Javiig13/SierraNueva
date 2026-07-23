@@ -21,4 +21,36 @@
              CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <Target Name="ValidatePublishedArtifact" AfterTargets="Publish">
+    <PropertyGroup>
+      <_PublishedWwwroot>$(PublishDir)wwwroot/</_PublishedWwwroot>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_PublishedPrivateState Include="$(_PublishedWwwroot)**/promotions-state.json;
+                                      $(_PublishedWwwroot)**/geocoding-cache.json;
+                                      $(_PublishedWwwroot)**/http-cache.json;
+                                      $(_PublishedWwwroot)**/data/state/**/*" />
+    </ItemGroup>
+
+    <Error Condition="!Exists('$(_PublishedWwwroot)index.html')"
+           Text="El artefacto publicado no contiene wwwroot/index.html." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)_framework/blazor.webassembly.js')"
+           Text="El artefacto publicado no contiene el runtime de Blazor WebAssembly." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)data/promotions.json')"
+           Text="El artefacto publicado no contiene data/promotions.json." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)data/promotions.csv')"
+           Text="El artefacto publicado no contiene data/promotions.csv." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)data/promotions.geojson')"
+           Text="El artefacto publicado no contiene data/promotions.geojson." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)data/changes.json')"
+           Text="El artefacto publicado no contiene data/changes.json." />
+    <Error Condition="!Exists('$(_PublishedWwwroot)data/run.json')"
+           Text="El artefacto publicado no contiene data/run.json." />
+    <Error Condition="'@(_PublishedPrivateState)' != ''"
+           Text="El artefacto publicado contiene estado privado: @(_PublishedPrivateState)." />
+    <Message Importance="high"
+             Text="Smoke del artefacto publicado correcto: SPA y datos públicos presentes; estado privado ausente." />
+  </Target>
+
 </Project>

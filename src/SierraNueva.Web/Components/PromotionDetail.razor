@@ -1,8 +1,11 @@
 <div class="detail-backdrop" role="presentation" @onclick="CloseAsync">
     <aside class="detail-panel"
+           @ref="_panel"
            role="dialog"
            aria-modal="true"
            aria-labelledby="detail-title"
+           tabindex="-1"
+           @onkeydown="HandleKeyDownAsync"
            @onclick:stopPropagation="true">
         <button class="detail-close" type="button" aria-label="Cerrar ficha" @onclick="CloseAsync">×</button>
         <p class="eyebrow">@Promotion.Municipality</p>
@@ -46,6 +49,23 @@
                 <div><dt>Disponibles</dt><dd>@Promotion.AvailableUnits</dd></div>
             }
         </dl>
+
+        @if (Promotion.SourceConfidenceExplanation is { } confidence)
+        {
+            <section class="detail-section confidence-explanation" aria-labelledby="confidence-title">
+                <h3 id="confidence-title">Cómo se calcula la confianza</h3>
+                <p class="detail-subtle">@confidence.Summary</p>
+                <ul>
+                    @foreach (SourceConfidenceSignal signal in confidence.Signals)
+                    {
+                        <li>
+                            @signal.Label
+                            <strong>@Impact(signal.Impact)</strong>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
 
         <section class="detail-section">
             <h3>Fuentes relacionadas</h3>
@@ -117,6 +137,8 @@
 </div>
 
 @code {
+    private ElementReference _panel;
+
     [Parameter, EditorRequired]
     public Promotion Promotion { get; set; } = null!;
 
@@ -131,9 +153,29 @@
         return OnClose.InvokeAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _panel.FocusAsync();
+        }
+    }
+
+    private Task HandleKeyDownAsync(KeyboardEventArgs eventArgs)
+    {
+        return eventArgs.Key == "Escape"
+            ? CloseAsync()
+            : Task.CompletedTask;
+    }
+
     private static string TextOrDash(IReadOnlyList<string> values)
     {
         return values.Count == 0 ? "—" : string.Join(", ", values);
+    }
+
+    private static string Impact(decimal value)
+    {
+        return value.ToString("+0%;-0%;0%", System.Globalization.CultureInfo.GetCultureInfo("es-ES"));
     }
 
     private static string ChangeLabel(ChangeKind kind)

@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -93,7 +92,8 @@ internal static class CrawlerApplication
         IReadOnlyList<string> errors = configuration.Loader.Validate(
             configuration.Settings,
             configuration.Sources,
-            configuration.Municipalities);
+            configuration.Municipalities,
+            configuration.CentroidCatalog);
         if (errors.Count > 0)
         {
             foreach (string error in errors)
@@ -150,12 +150,14 @@ internal static class CrawlerApplication
         IReadOnlyList<string> errors = configuration.Loader.Validate(
             configuration.Settings,
             configuration.Sources,
-            configuration.Municipalities);
+            configuration.Municipalities,
+            configuration.CentroidCatalog);
         if (errors.Count == 0)
         {
             Console.WriteLine(
                 $"Configuración válida: {configuration.Sources.Count} fuentes y " +
-                $"{configuration.Municipalities.Count} municipios.");
+                $"{configuration.Municipalities.Count} municipios; " +
+                $"{configuration.CentroidCatalog.Sources.Count} centroides trazables.");
             return 0;
         }
 
@@ -244,10 +246,12 @@ internal static class CrawlerApplication
             cancellationToken);
         IReadOnlyList<MunicipalityDefinition> municipalities =
             await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        MunicipalityCentroidCatalog centroidCatalog =
+            await loader.LoadCentroidSourcesAsync(options.CentroidSources, cancellationToken);
         DomainExclusions exclusions = await loader.LoadExclusionsAsync(
             options.Exclusions,
             cancellationToken);
-        return new(loader, settings, sources, municipalities, exclusions);
+        return new(loader, settings, sources, municipalities, centroidCatalog, exclusions);
     }
 
     private static ServiceProvider BuildServices(
@@ -270,25 +274,15 @@ internal static class CrawlerApplication
                 client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
                 client.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent);
             })
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                AllowAutoRedirect = true,
-                MaxAutomaticRedirections = 5,
-                AutomaticDecompression = DecompressionMethods.All,
-                UseCookies = false,
-                ConnectTimeout = TimeSpan.FromSeconds(10)
-            });
+            .ConfigurePrimaryHttpMessageHandler(provider =>
+                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(5));
         services.AddHttpClient("nominatim")
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                AllowAutoRedirect = true,
-                MaxAutomaticRedirections = 2,
-                AutomaticDecompression = DecompressionMethods.All,
-                UseCookies = false,
-                ConnectTimeout = TimeSpan.FromSeconds(10)
-            });
+            .ConfigurePrimaryHttpMessageHandler(provider =>
+                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(2));
 
         services.AddSingleton(exclusions);
+        services.AddSingleton<IDnsResolver, SystemDnsResolver>();
+        services.AddSingleton<DnsRebindingSafeHandlerFactory>();
         services.AddSingleton<IUrlPolicy, BlocklistUrlPolicy>();
         services.AddSingleton(new FileHttpMetadataCache(options.State));
         services.AddSingleton<IClock, SystemClock>();
@@ -335,6 +329,7 @@ internal static class CrawlerApplication
               --config <ruta>          config/appsettings.json
               --sources <ruta>         config/sources.json
               --municipalities <ruta>  config/municipalities.json
+              --centroid-sources <ruta> config/municipality-centroids.json
               --exclusions <ruta>      config/domain-exclusions.json
               --output <ruta>          data/public
               --state <ruta>           data/state
@@ -356,6 +351,7 @@ internal static class CrawlerApplication
         CrawlerSettings Settings,
         IReadOnlyList<SourceDefinition> Sources,
         IReadOnlyList<MunicipalityDefinition> Municipalities,
+        MunicipalityCentroidCatalog CentroidCatalog,
         DomainExclusions Exclusions);
 }
 
@@ -379,6 +375,9 @@ internal sealed class CliOptions
     public string Sources { get; private init; } = "config/sources.json";
 
     public string Municipalities { get; private init; } = "config/municipalities.json";
+
+    public string CentroidSources { get; private init; } =
+        "config/municipality-centroids.json";
 
     public string Exclusions { get; private init; } = "config/domain-exclusions.json";
 
@@ -447,6 +446,10 @@ internal sealed class CliOptions
             Config = Get(values, "--config", "config/appsettings.json"),
             Sources = Get(values, "--sources", "config/sources.json"),
             Municipalities = Get(values, "--municipalities", "config/municipalities.json"),
+            CentroidSources = Get(
+                values,
+                "--centroid-sources",
+                "config/municipality-centroids.json"),
             Exclusions = Get(values, "--exclusions", "config/domain-exclusions.json"),
             Output = Get(values, "--output", "data/public"),
             State = Get(values, "--state", "data/state"),

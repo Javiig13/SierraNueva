@@ -78,7 +78,14 @@ public sealed class PromotionDeduplicator
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Order(StringComparer.OrdinalIgnoreCase)
             .ToArray();
-        target.SourceConfidence = Math.Max(target.SourceConfidence, source.SourceConfidence);
+        if (source.SourceConfidence > target.SourceConfidence ||
+            (source.SourceConfidence == target.SourceConfidence &&
+             (source.SourceConfidenceExplanation?.Signals.Count ?? 0) >
+             (target.SourceConfidenceExplanation?.Signals.Count ?? 0)))
+        {
+            target.SourceConfidence = source.SourceConfidence;
+            target.SourceConfidenceExplanation = source.SourceConfidenceExplanation;
+        }
         target.PriceFrom ??= source.PriceFrom;
         target.PriceTo ??= source.PriceTo;
         target.Latitude ??= source.Latitude;

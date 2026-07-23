@@ -9,8 +9,17 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location -LiteralPath $repoRoot
 
-dotnet restore SierraNueva.sln
-dotnet build SierraNueva.sln -c Release --no-restore
+function Invoke-Dotnet {
+    param([Parameter(Mandatory)][string[]]$Arguments)
+
+    & dotnet @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "dotnet terminó con código ${LASTEXITCODE}: $($Arguments -join ' ')"
+    }
+}
+
+Invoke-Dotnet @('restore', 'SierraNueva.sln')
+Invoke-Dotnet @('build', 'SierraNueva.sln', '-c', 'Release', '--no-restore')
 
 if (-not $SkipPlaywrightInstall) {
     $browserRoot = Join-Path $env:LOCALAPPDATA 'ms-playwright'
@@ -28,8 +37,20 @@ if (-not $SkipPlaywrightInstall) {
         }
 
         & $playwrightScript.FullName install chromium
+        if ($LASTEXITCODE -ne 0) {
+            throw "La instalación de Chromium terminó con código $LASTEXITCODE."
+        }
     }
 }
+
+Invoke-Dotnet @('test', 'SierraNueva.sln', '-c', 'Release', '--no-build')
+Invoke-Dotnet @(
+    'format', 'SierraNueva.sln', '--verify-no-changes', '--no-restore'
+)
+Invoke-Dotnet @(
+    'run', '--project', 'src/SierraNueva.Crawler', '-c', 'Release',
+    '--no-build', '--', 'validate-config'
+)
 
 $crawlerArguments = @(
     'run',
@@ -49,8 +70,14 @@ if ($LASTEXITCODE -gt 1) {
     throw "El crawler terminó con código $LASTEXITCODE."
 }
 
-dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-data
-dotnet build src/SierraNueva.Web/SierraNueva.Web.csproj -c Release --no-restore
+Invoke-Dotnet @(
+    'run', '--project', 'src/SierraNueva.Crawler', '-c', 'Release',
+    '--no-build', '--', 'validate-data'
+)
+Invoke-Dotnet @(
+    'publish', 'src/SierraNueva.Web/SierraNueva.Web.csproj',
+    '-c', 'Release', '--no-restore'
+)
 
 if (-not $NoFrontend) {
     Write-Host 'SierraNueva estará disponible en la URL que indique el servidor.'

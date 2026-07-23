@@ -51,6 +51,8 @@ public sealed class Promotion
 
     public decimal SourceConfidence { get; set; }
 
+    public SourceConfidenceExplanation? SourceConfidenceExplanation { get; set; }
+
     public string? DeveloperName { get; set; }
 
     public string? MarketerName { get; set; }
@@ -122,6 +124,26 @@ public sealed class Promotion
     public IReadOnlyList<EvidenceItem> Evidence { get; set; } = [];
 
     public IReadOnlyList<string> Warnings { get; set; } = [];
+}
+
+public sealed class SourceConfidenceExplanation
+{
+    public decimal BaseScore { get; init; }
+
+    public decimal FinalScore { get; init; }
+
+    public string Summary { get; init; } = string.Empty;
+
+    public IReadOnlyList<SourceConfidenceSignal> Signals { get; init; } = [];
+}
+
+public sealed class SourceConfidenceSignal
+{
+    public string Code { get; init; } = string.Empty;
+
+    public string Label { get; init; } = string.Empty;
+
+    public decimal Impact { get; init; }
 }
 
 public sealed class EvidenceItem

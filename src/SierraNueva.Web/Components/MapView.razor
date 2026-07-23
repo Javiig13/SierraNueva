@@ -7,7 +7,15 @@
         <span><i class="dot dot-approximate"></i> Aproximada</span>
         <span><i class="dot dot-centroid"></i> Centro municipal</span>
     </div>
-    <div @ref="_element" class="map" role="application" aria-label="Mapa interactivo"></div>
+    <p id="map-help" class="visually-hidden">
+        El mapa y el listado muestran las mismas promociones filtradas.
+        Los puntos aproximados se distinguen en la leyenda.
+    </p>
+    <div @ref="_element"
+         class="map"
+         role="application"
+         aria-label="Mapa interactivo"
+         aria-describedby="map-help"></div>
     <noscript>El mapa necesita JavaScript. El listado sigue estando disponible.</noscript>
 </section>
 

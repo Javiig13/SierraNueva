@@ -1,5 +1,6 @@
 # Fixture PDF
 
-`GeocodingAndPdfTests.PdfExtractor_ReadsCommercialText` crea en memoria un PDF
-mínimo con PdfPig y lo procesa inmediatamente. Así se prueba un PDF real sin
-versionar capturas ni contenido de terceros.
+`residencial-cumbre-fixture.pdf` es un dossier comercial completamente
+sintético, reducido a una página y sin imágenes ni contenido de terceros.
+`GeocodingAndPdfTests.PdfFixture_ExtractsCommercialPromotion` comprueba el
+binario versionado con PdfPig y recorre también el extractor por capas.

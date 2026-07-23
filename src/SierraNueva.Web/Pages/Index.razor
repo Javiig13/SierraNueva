@@ -19,7 +19,7 @@
     </a>
 </header>
 
-<main id="contenido">
+<main id="contenido" tabindex="-1">
     @if (_loading)
     {
         <section class="loading-state" aria-live="polite" aria-busy="true">
@@ -128,23 +128,36 @@
 
                 <div class="mobile-tabs" role="tablist" aria-label="Vista">
                     <button type="button"
+                            id="tab-list"
+                            @ref="_listTab"
                             role="tab"
-                            aria-selected="@(_mobileTab == "list")"
+                            aria-controls="panel-list"
+                            aria-selected="@(_mobileTab == "list" ? "true" : "false")"
+                            tabindex="@(_mobileTab == "list" ? 0 : -1)"
                             class="@(_mobileTab == "list" ? "active" : null)"
+                            @onkeydown="HandleTabKeyDownAsync"
                             @onclick="ShowList">
                         Resultados
                     </button>
                     <button type="button"
+                            id="tab-map"
+                            @ref="_mapTab"
                             role="tab"
-                            aria-selected="@(_mobileTab == "map")"
+                            aria-controls="panel-map"
+                            aria-selected="@(_mobileTab == "map" ? "true" : "false")"
+                            tabindex="@(_mobileTab == "map" ? 0 : -1)"
                             class="@(_mobileTab == "map" ? "active" : null)"
+                            @onkeydown="HandleTabKeyDownAsync"
                             @onclick="ShowMap">
                         Mapa
                     </button>
                 </div>
 
                 <div class="results-layout">
-                    <div class="cards-column mobile-@_mobileTab">
+                    <div id="panel-list"
+                         class="cards-column mobile-@_mobileTab"
+                         role="tabpanel"
+                         aria-labelledby="tab-list">
                         @if (Filtered.Count == 0)
                         {
                             <div class="empty-results">
@@ -169,7 +182,10 @@
                         }
                     </div>
 
-                    <div class="map-column mobile-@_mobileTab">
+                    <div id="panel-map"
+                         class="map-column mobile-@_mobileTab"
+                         role="tabpanel"
+                         aria-labelledby="tab-map">
                         <MapView GeoJson="_data.GeoJson"
                                  VisibleIds="Filtered.Select(item => item.Id).ToArray()"
                                  TileUrl="@TileUrl"
@@ -205,6 +221,8 @@
     private string? _error;
     private bool _loading = true;
     private string _mobileTab = "list";
+    private ElementReference _listTab;
+    private ElementReference _mapTab;
     private IReadOnlyList<string> _municipalities = [];
     private IReadOnlyList<string> _localities = [];
     private HashSet<string> _newIds = new(StringComparer.Ordinal);
@@ -312,6 +330,22 @@
     private void ShowMap()
     {
         _mobileTab = "map";
+    }
+
+    private async Task HandleTabKeyDownAsync(KeyboardEventArgs eventArgs)
+    {
+        if (eventArgs.Key is "ArrowLeft" or "ArrowUp" or "Home")
+        {
+            _mobileTab = "list";
+            await InvokeAsync(StateHasChanged);
+            await _listTab.FocusAsync();
+        }
+        else if (eventArgs.Key is "ArrowRight" or "ArrowDown" or "End")
+        {
+            _mobileTab = "map";
+            await InvokeAsync(StateHasChanged);
+            await _mapTab.FocusAsync();
+        }
     }
 
     private static string RunStatusLabel(RunStatus status)

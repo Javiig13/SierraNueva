@@ -46,9 +46,10 @@ ausentes como si fueran conocidos.
 
 ## Requisitos
 
-- SDK .NET `10.0.103` o un parche compatible de .NET 10.
+- SDK .NET `10.0.301` o un parche compatible de esa feature band.
 - Windows PowerShell 5.1 o posterior en Windows; Bash en Linux/macOS.
-- Chromium de Playwright solo si se habilita una fuente dinámica.
+- Edge, Chrome o Chromium para la suite E2E; Chromium de Playwright si se
+  habilita además una fuente dinámica.
 
 ## Puesta en marcha local
 
@@ -64,9 +65,9 @@ En Linux o macOS:
 bash ./scripts/run-local.sh
 ```
 
-Los scripts restauran, compilan, instalan Chromium si falta, ejecutan el
-crawler local, validan los datos, los enlazan en la salida de Blazor e inician el
-frontend. Para una ejecución rápida que no revise Playwright:
+Los scripts restauran, compilan, instalan Chromium si falta, ejecutan pruebas y
+formato, validan configuración, recorren las fixtures, validan datos, publican
+la SPA y finalmente inician el frontend. Para omitir la instalación:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File ./scripts/run-local.ps1 -SkipPlaywrightInstall
@@ -78,8 +79,11 @@ Comandos manuales equivalentes:
 dotnet restore SierraNueva.sln
 dotnet build SierraNueva.sln -c Release --no-restore
 dotnet test SierraNueva.sln -c Release --no-build
-dotnet run --project src/SierraNueva.Crawler -c Release -- crawl --no-playwright
-dotnet run --project src/SierraNueva.Crawler -c Release -- validate-data
+dotnet format SierraNueva.sln --verify-no-changes --no-restore
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-config
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- crawl --no-playwright
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- validate-data
+dotnet publish src/SierraNueva.Web/SierraNueva.Web.csproj -c Release --no-restore
 dotnet run --project src/SierraNueva.Web
 ```
 
@@ -94,6 +98,7 @@ SierraNueva.Crawler crawl
   --config <ruta>
   --sources <ruta>
   --municipalities <ruta>
+  --centroid-sources <ruta>
   --exclusions <ruta>
   --output <ruta>
   --state <ruta>
@@ -151,7 +156,8 @@ localidades de El Boalo.
 Solo se incluyen centroides cuya procedencia se ha registrado. Los demás
 permanecen como `null`; es preferible no mostrar un punto a inventar una
 coordenada. La trazabilidad está en
-[config/municipality-centroids.json](config/municipality-centroids.json).
+[config/municipality-centroids.json](config/municipality-centroids.json) y
+`validate-config` comprueba automáticamente que ambos archivos coinciden.
 
 Nominatim está deshabilitado por defecto. Si se habilita, usa caché persistente,
 una sola solicitud simultánea y un máximo inicial de cuatro solicitudes por
@@ -180,7 +186,8 @@ data/state/http-cache.json
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se
 serializan como texto. Cada promoción conserva evidencias breves con fuente,
-extractor, calidad y confianza. La UI presenta moneda y fechas en cultura
+extractor, calidad y confianza. `sourceConfidenceExplanation` enumera la base y
+cada señal aplicada al score. La UI presenta moneda y fechas en cultura
 española y zona de Madrid.
 
 En local, la URL de datos esperada es:
@@ -194,7 +201,8 @@ http://localhost:<puerto>/data/promotions.json
 `sourceConfidence` mide la confianza en la identidad y cercanía de la fuente;
 no es una garantía comercial ni jurídica. Una fuente oficial configurada parte
 de una puntuación superior. Dossier, identidad de promotora, evidencias y
-coincidencia de dominio pueden aumentarla.
+coincidencia de dominio pueden aumentarla. La ficha muestra esas señales y su
+impacto de forma estructurada.
 
 `run.json` diferencia promociones válidas, inválidas y advertencias. Una
 ubicación por centroide se etiqueta como aproximada. El pipeline valida rangos,
@@ -239,7 +247,8 @@ carga en versión fija; si no está disponible, el listado sigue funcionando.
 - La interpretación de lenguaje comercial es heurística y debe ampliarse con
   fixtures cuando aparezcan formatos nuevos.
 - El crawler procesa las fuentes de forma conservadora; el volumen inicial no
-  requiere paralelismo agresivo.
+  requiere paralelismo: el recorrido es secuencial y no expone ajustes de
+  concurrencia que no aplique.
 - Los centroides no verificados siguen vacíos.
 - El frontend usa una CDN fija para Leaflet; puede vendorizarse antes de
   publicar.

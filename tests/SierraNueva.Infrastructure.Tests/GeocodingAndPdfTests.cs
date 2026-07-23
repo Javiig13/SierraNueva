@@ -1,10 +1,8 @@
 using SierraNueva.Contracts;
+using SierraNueva.Core.Models;
 using SierraNueva.Infrastructure.Documents;
+using SierraNueva.Infrastructure.Extraction;
 using SierraNueva.Infrastructure.Geocoding;
-using UglyToad.PdfPig.Content;
-using UglyToad.PdfPig.Core;
-using UglyToad.PdfPig.Fonts.Standard14Fonts;
-using UglyToad.PdfPig.Writer;
 
 namespace SierraNueva.Infrastructure.Tests;
 
@@ -38,21 +36,41 @@ public sealed class GeocodingAndPdfTests
     }
 
     [Fact]
-    public void PdfExtractor_ReadsCommercialText()
+    public async Task PdfFixture_ExtractsCommercialPromotion()
     {
-        PdfDocumentBuilder builder = new();
-        PdfPageBuilder page = builder.AddPage(PageSize.A4);
-        PdfDocumentBuilder.AddedFont font =
-            builder.AddStandard14Font(Standard14Font.Helvetica);
-        page.AddText(
-            "Residencial Cumbre - precio 475000 EUR",
-            12,
-            new PdfPoint(40, 750),
-            font);
+        string path = Path.Combine(
+            AppContext.BaseDirectory,
+            "test-data",
+            "pdfs",
+            "residencial-cumbre-fixture.pdf");
+        byte[] content = await File.ReadAllBytesAsync(path);
 
-        string text = new PdfPigTextExtractor().Extract(builder.Build());
+        Assert.Equal("%PDF", System.Text.Encoding.ASCII.GetString(content, 0, 4));
+        string text = new PdfPigTextExtractor().Extract(content);
+        IReadOnlyList<Promotion> promotions = await new LayeredPromotionExtractor().ExtractAsync(
+            new FetchedPage(
+                new("https://fixtures.sierranueva.test/residencial-cumbre.pdf"),
+                text,
+                "text/plain",
+                new DateTimeOffset(2026, 7, 23, 8, 0, 0, TimeSpan.Zero),
+                "pdf"),
+            new SourceDefinition
+            {
+                Id = "pdf-fixture",
+                SourceKind = SourceKind.OfficialPromoter,
+                MunicipalityHints = ["Moralzarzal"]
+            },
+            [new MunicipalityDefinition { OfficialName = "Moralzarzal" }],
+            CancellationToken.None);
 
         Assert.Contains("Residencial Cumbre", text, StringComparison.Ordinal);
-        Assert.Contains("475000 EUR", text, StringComparison.Ordinal);
+        Assert.Contains("475.000 EUR", text, StringComparison.Ordinal);
+        Promotion promotion = Assert.Single(promotions);
+        Assert.Equal("Residencial Cumbre", promotion.Name);
+        Assert.Equal("Moralzarzal", promotion.Municipality);
+        Assert.Equal(475_000m, promotion.PriceFrom);
+        Assert.Contains(
+            "https://fixtures.sierranueva.test/residencial-cumbre.pdf",
+            promotion.BrochureUrls);
     }
 }

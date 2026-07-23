@@ -1,4 +1,3 @@
-using System.Net;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 
@@ -53,29 +52,11 @@ public sealed class BlocklistUrlPolicy(DomainExclusions exclusions) : IUrlPolicy
 
     private static bool IsPrivateAddress(string host)
     {
-        if (!IPAddress.TryParse(host, out IPAddress? address))
+        if (!System.Net.IPAddress.TryParse(host, out System.Net.IPAddress? address))
         {
             return false;
         }
 
-        if (IPAddress.IsLoopback(address) ||
-            address.Equals(IPAddress.Any) ||
-            address.Equals(IPAddress.IPv6Any))
-        {
-            return true;
-        }
-
-        byte[] bytes = address.GetAddressBytes();
-        if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-        {
-            return bytes[0] == 10 ||
-                   bytes[0] == 127 ||
-                   bytes[0] == 0 ||
-                   (bytes[0] == 169 && bytes[1] == 254) ||
-                   (bytes[0] == 172 && bytes[1] is >= 16 and <= 31) ||
-                   (bytes[0] == 192 && bytes[1] == 168);
-        }
-
-        return address.IsIPv6LinkLocal || address.IsIPv6SiteLocal || address.IsIPv6Multicast;
+        return !NetworkAddressPolicy.IsPublic(address);
     }
 }

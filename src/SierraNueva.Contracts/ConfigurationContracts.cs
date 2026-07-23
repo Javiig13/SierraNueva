@@ -5,10 +5,6 @@ public sealed class CrawlerSettings
     public string UserAgent { get; init; } =
         "SierraNueva/1.0 (+https://localhost; contacto: local@example.invalid)";
 
-    public int MaxConcurrencyGlobal { get; init; } = 4;
-
-    public int MaxConcurrencyPerHost { get; init; } = 1;
-
     public int RequestDelayMilliseconds { get; init; } = 2_000;
 
     public int MaxPagesPerSource { get; init; } = 100;
@@ -115,6 +111,28 @@ public sealed class MunicipalityDefinition
     public bool Enabled { get; init; } = true;
 
     public IReadOnlyList<string> SearchTerms { get; init; } = [];
+}
+
+public sealed class MunicipalityCentroidCatalog
+{
+    public string SchemaVersion { get; init; } = string.Empty;
+
+    public string CoordinateReferenceSystem { get; init; } = string.Empty;
+
+    public IReadOnlyList<MunicipalityCentroidSource> Sources { get; init; } = [];
+}
+
+public sealed class MunicipalityCentroidSource
+{
+    public string Municipality { get; init; } = string.Empty;
+
+    public double Latitude { get; init; }
+
+    public double Longitude { get; init; }
+
+    public string SourceUrl { get; init; } = string.Empty;
+
+    public DateTimeOffset CheckedAtUtc { get; init; }
 }
 
 public sealed class DomainExclusions

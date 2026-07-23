@@ -1,3 +1,4 @@
+using System.Net;
 using SierraNueva.Contracts;
 using SierraNueva.Infrastructure.Crawling;
 using SierraNueva.Infrastructure.Discovery;
@@ -70,5 +71,49 @@ public sealed class DiscoveryAndSecurityTests
 
         Assert.False(allowed);
         Assert.Equal(SkipReason.BlockedDomain, reason);
+    }
+
+    [Theory]
+    [InlineData("8.8.8.8", true)]
+    [InlineData("127.0.0.1", false)]
+    [InlineData("169.254.169.254", false)]
+    [InlineData("192.168.1.20", false)]
+    [InlineData("100.64.0.1", false)]
+    [InlineData("203.0.113.10", false)]
+    [InlineData("::1", false)]
+    [InlineData("fc00::1", false)]
+    [InlineData("2001:db8::1", false)]
+    public void NetworkAddressPolicy_AllowsOnlyPublicAddresses(
+        string value,
+        bool expected)
+    {
+        Assert.Equal(expected, NetworkAddressPolicy.IsPublic(IPAddress.Parse(value)));
+    }
+
+    [Fact]
+    public async Task DnsSafeHandler_RejectsMixedPublicAndPrivateResolution()
+    {
+        DnsRebindingSafeHandlerFactory factory = new(new StubDnsResolver(
+            IPAddress.Parse("8.8.8.8"),
+            IPAddress.Loopback));
+
+        HttpRequestException exception = await Assert.ThrowsAsync<HttpRequestException>(
+            () => factory.ResolvePublicAddressesAsync(
+                "rebind.example",
+                CancellationToken.None));
+
+        Assert.Contains("dirección no pública", exception.Message, StringComparison.Ordinal);
+        Assert.NotNull(factory.Create(5).ConnectCallback);
+    }
+
+    private sealed class StubDnsResolver(params IPAddress[] addresses) : IDnsResolver
+    {
+        public Task<IPAddress[]> GetHostAddressesAsync(
+            string host,
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(addresses);
+        }
     }
 }
