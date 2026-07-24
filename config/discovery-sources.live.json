@@ -200,7 +200,13 @@
       "allowedHosts": [ "elboalo.sedelectronica.es" ],
       "itemSelectors": [ ".AdvertisementBoardHomeListPanel tr" ],
       "fixedMunicipality": "El Boalo",
-      "maxItems": 10
+      "maxItems": 10,
+      "reviewRules": [
+        {
+          "urlPattern": "https://elboalo.sedelectronica.es/preview-document/363658c9-edde-47d3-b988-1c6da994d6b8",
+          "status": "rejected"
+        }
+      ]
     },
     {
       "id": "portada-el-escorial",

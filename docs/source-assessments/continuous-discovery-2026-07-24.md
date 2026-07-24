@@ -92,6 +92,13 @@ Las tres coincidencias restantes eran Cumbres, Essentia y Osnola y conservan
 `verifiedSource`. Un smoke aislado reprodujo exactamente la distribución
 esperada: 4 en monitorización, 8 rechazadas, 2 obsoletas y 3 verificadas.
 
+La primera ejecución integral posterior (`30077326296`) detectó además un
+candidato nuevo en la portada de El Boalo. El anuncio es una provisión de plaza
+de coordinador de deportes por **promoción interna**, no una oportunidad
+residencial. Se revisó y rechazó mediante su URL exacta; la regla evita
+reinterpretar el término laboral sin convertirlo en una exclusión global que
+pudiera ocultar otros anuncios legítimos.
+
 ## Recuperación de los cinco canales municipales
 
 Se repitieron individualmente y sobre estado temporal los cinco canales
