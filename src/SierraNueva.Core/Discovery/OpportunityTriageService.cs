@@ -200,9 +200,9 @@ public sealed class OpportunityTriageService
             : hasAdministrativeTerms
                 ? OpportunityTriageBand.AdministrativeSignal
                 : OpportunityTriageBand.GeneralSignal;
-        OpportunityTriagePriority priority = score >= 75
+        OpportunityTriagePriority priority = score >= 85
             ? OpportunityTriagePriority.High
-            : score >= 60
+            : score >= 65
                 ? OpportunityTriagePriority.Medium
                 : OpportunityTriagePriority.Low;
         if (!string.IsNullOrWhiteSpace(duplicateOfCandidateId))
