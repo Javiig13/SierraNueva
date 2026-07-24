@@ -151,17 +151,119 @@ public sealed class OpportunityOperationsTests
         Assert.Equal(OpportunityAuditReason.ZeroSignalControl, report.Sample[0].Reason);
     }
 
+    [Fact]
+    public void Triage_PrioritizesSignalsAndMarksProbableDuplicatesWithoutChangingState()
+    {
+        DateTimeOffset timestamp = new(2026, 7, 24, 10, 0, 0, TimeSpan.Zero);
+        OpportunityCandidate direct = Candidate(
+            "Galapagar",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            timestamp.AddDays(-2),
+            "Residencial Sierra, chalets de obra nueva",
+            "https://promotora.example/residencial-sierra",
+            0.65m,
+            ["obra nueva", "chalets"]);
+        OpportunityCandidate duplicate = Candidate(
+            "Galapagar",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            timestamp.AddDays(-1),
+            direct.Title,
+            "https://otra.example/residencial-sierra",
+            0.45m,
+            ["obra nueva"]);
+        OpportunityCandidate administrative = Candidate(
+            "Alpedrete",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.Monitoring,
+            timestamp.AddDays(-5),
+            "Aprobación del plan parcial del sector norte",
+            "https://sede.madrid.org/plan-parcial",
+            0.45m,
+            ["plan parcial"]);
+        OpportunityCandidate low = Candidate(
+            "Moralzarzal",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            timestamp.AddDays(-100),
+            "Actualidad local",
+            "https://medio.example/noticia",
+            0.45m);
+        OpportunityCandidate rejected = Candidate(
+            "Moralzarzal",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.Rejected,
+            timestamp,
+            "Promoción descartada",
+            "https://noise.example/item",
+            0.9m);
+        OpportunityRadarState state = new()
+        {
+            UpdatedAtUtc = timestamp.AddMinutes(-1),
+            Candidates = [direct, duplicate, administrative, low, rejected]
+        };
+
+        OpportunityTriageReport report = new OpportunityTriageService().Create(
+            state,
+            timestamp);
+
+        Assert.Equal(4, report.PendingCandidates);
+        Assert.Equal(1, report.HighPriority);
+        Assert.Equal(1, report.MediumPriority);
+        Assert.Equal(1, report.LowPriority);
+        Assert.Equal(1, report.PossibleDuplicates);
+        OpportunityTriageItem directItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == direct.Id);
+        Assert.Equal(OpportunityTriageBand.DirectPromotion, directItem.Band);
+        Assert.Equal(OpportunityTriagePriority.High, directItem.Priority);
+        OpportunityTriageItem administrativeItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == administrative.Id);
+        Assert.Equal(
+            OpportunityTriageBand.AdministrativeSignal,
+            administrativeItem.Band);
+        Assert.Contains(
+            OpportunityTriageReason.PublicAdministrationHost,
+            administrativeItem.Reasons);
+        OpportunityTriageItem duplicateItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == duplicate.Id);
+        Assert.Equal(OpportunityTriagePriority.Duplicate, duplicateItem.Priority);
+        Assert.Equal(direct.Id, duplicateItem.DuplicateOfCandidateId);
+        Assert.DoesNotContain(
+            report.Items,
+            item => item.CandidateId == rejected.Id);
+        Assert.Equal(OpportunityCandidateStatus.New, direct.Status);
+        Assert.Equal(OpportunityCandidateStatus.New, duplicate.Status);
+        Assert.Equal(OpportunityCandidateStatus.Monitoring, administrative.Status);
+        Assert.Equal(OpportunityCandidateStatus.Rejected, rejected.Status);
+    }
+
     private static OpportunityCandidate Candidate(
         string municipality,
         OpportunitySourceKind sourceKind,
         OpportunityCandidateStatus status,
-        DateTimeOffset? publishedAtUtc = null)
+        DateTimeOffset? publishedAtUtc = null,
+        string title = "",
+        string officialUrl = "",
+        decimal confidence = 0m,
+        IReadOnlyList<string>? matchedTerms = null)
     {
         return new()
         {
             Id = Guid.NewGuid().ToString("N"),
             Municipality = municipality,
             SourceKind = sourceKind,
+            Title = title,
+            OfficialUrl = officialUrl,
+            Confidence = confidence,
+            MatchedTerms = matchedTerms ?? [],
+            FirstSeenUtc = publishedAtUtc ??
+                           new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
+            LastSeenUtc = publishedAtUtc ??
+                          new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
             PublishedAtUtc = publishedAtUtc ??
                              new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
             Status = status

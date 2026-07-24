@@ -78,6 +78,32 @@ public enum OpportunityAuditReason
     CrossChannelControl
 }
 
+public enum OpportunityTriageBand
+{
+    DirectPromotion,
+    AdministrativeSignal,
+    GeneralSignal,
+    PossibleDuplicate
+}
+
+public enum OpportunityTriagePriority
+{
+    High,
+    Medium,
+    Low,
+    Duplicate
+}
+
+public enum OpportunityTriageReason
+{
+    DirectPromotionTerms,
+    AdministrativeTerms,
+    PublicAdministrationHost,
+    MultipleMatchedTerms,
+    RecentlyPublished,
+    PossibleDuplicate
+}
+
 public sealed class OpportunityTermRule
 {
     public string Term { get; init; } = string.Empty;
@@ -364,6 +390,85 @@ public sealed class OpportunityRadarState
     public IReadOnlyList<OpportunitySourceHealth> SourceHealth { get; init; } = [];
 
     public OpportunityCoverageSnapshot Coverage { get; init; } = new();
+}
+
+public sealed class OpportunityTriageItem
+{
+    public string CandidateId { get; init; } = string.Empty;
+
+    public string SourceId { get; init; } = string.Empty;
+
+    public OpportunitySourceKind SourceKind { get; init; }
+
+    public string Title { get; init; } = string.Empty;
+
+    public string Summary { get; init; } = string.Empty;
+
+    public string OfficialUrl { get; init; } = string.Empty;
+
+    public string Domain { get; init; } = string.Empty;
+
+    public string Municipality { get; init; } = string.Empty;
+
+    public OpportunityKind Kind { get; init; }
+
+    public decimal Confidence { get; init; }
+
+    public DateTimeOffset? PublishedAtUtc { get; init; }
+
+    public DateTimeOffset FirstSeenUtc { get; init; }
+
+    public DateTimeOffset LastSeenUtc { get; init; }
+
+    public OpportunityCandidateStatus Status { get; init; }
+
+    public OpportunityTriageBand Band { get; init; }
+
+    public OpportunityTriagePriority Priority { get; init; }
+
+    public int PriorityScore { get; init; }
+
+    public IReadOnlyList<OpportunityTriageReason> Reasons { get; init; } = [];
+
+    public string? DuplicateOfCandidateId { get; init; }
+}
+
+public sealed class OpportunityTriageDomain
+{
+    public string Domain { get; init; } = string.Empty;
+
+    public int Candidates { get; init; }
+
+    public int HighPriority { get; init; }
+
+    public int MediumPriority { get; init; }
+
+    public int LowPriority { get; init; }
+
+    public int PossibleDuplicates { get; init; }
+}
+
+public sealed class OpportunityTriageReport
+{
+    public string SchemaVersion { get; init; } = "1.0";
+
+    public DateTimeOffset GeneratedAtUtc { get; init; }
+
+    public DateTimeOffset StateUpdatedAtUtc { get; init; }
+
+    public int PendingCandidates { get; init; }
+
+    public int HighPriority { get; init; }
+
+    public int MediumPriority { get; init; }
+
+    public int LowPriority { get; init; }
+
+    public int PossibleDuplicates { get; init; }
+
+    public IReadOnlyList<OpportunityTriageDomain> Domains { get; init; } = [];
+
+    public IReadOnlyList<OpportunityTriageItem> Items { get; init; } = [];
 }
 
 public sealed class OpportunityDiscoveryRequest

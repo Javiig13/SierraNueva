@@ -611,6 +611,61 @@ public sealed class EnrichmentPipelineTests
         }
     }
 
+    [Fact]
+    public async Task OpportunityExport_RoundTripsAndRejectsEnrichmentPurpose()
+    {
+        string root = Path.Combine(
+            Path.GetTempPath(),
+            $"sierranueva-opportunity-export-{Guid.NewGuid():N}");
+        try
+        {
+            string input = Path.Combine(root, "opportunity-triage.json");
+            string encrypted = Path.Combine(root, "opportunity-triage.encrypted.json");
+            string decrypted = Path.Combine(root, "restored", "opportunity-triage.json");
+            string wrongPurpose = Path.Combine(root, "wrong-purpose.json");
+            string privateKey = Path.Combine(root, "private.pem");
+            string publicKey = Path.Combine(root, "public.txt");
+            const string json = "{\"schemaVersion\":\"1.0\",\"pendingCandidates\":2}\n";
+            Directory.CreateDirectory(root);
+            await File.WriteAllTextAsync(input, json);
+
+            await OpportunityExportProtector.GenerateKeyPairAsync(
+                privateKey,
+                publicKey,
+                CancellationToken.None);
+            await OpportunityExportProtector.EncryptAsync(
+                input,
+                encrypted,
+                await File.ReadAllTextAsync(publicKey),
+                CancellationToken.None);
+
+            await Assert.ThrowsAsync<InvalidDataException>(
+                () => EnrichmentExportProtector.DecryptAsync(
+                    encrypted,
+                    wrongPurpose,
+                    privateKey,
+                    deletePrivateKey: false,
+                    CancellationToken.None));
+            await OpportunityExportProtector.DecryptAsync(
+                encrypted,
+                decrypted,
+                privateKey,
+                deletePrivateKey: true,
+                CancellationToken.None);
+
+            Assert.Equal(json, await File.ReadAllTextAsync(decrypted));
+            Assert.False(File.Exists(privateKey));
+            Assert.False(File.Exists(wrongPurpose));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
     private sealed class CapturingHandler(string response) : HttpMessageHandler
     {
         public string? RequestJson { get; private set; }

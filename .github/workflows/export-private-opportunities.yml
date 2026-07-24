@@ -1,0 +1,113 @@
+name: Export private opportunity triage
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipient_public_key:
+        description: "Clave pública RSA-3072 efímera en Base64"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-opportunity-export
+  cancel-in-progress: false
+
+jobs:
+  export:
+    name: Classify and encrypt cached opportunity candidates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install .NET from global.json
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+
+      - name: Restore private crawler state without saving a new cache
+        uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: opportunity-export-${{ github.run_id }}
+          restore-keys: |
+            crawler-state-
+
+      - name: Verify private opportunity state
+        shell: pwsh
+        run: |
+          $path = '.runtime/state/opportunity-candidates.json'
+          if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw 'La caché no contiene opportunity-candidates.json.'
+          }
+          $state = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
+          $pending = @($state.candidates |
+            Where-Object { $_.status -in @('new', 'monitoring') }).Count
+          if ($pending -eq 0) {
+            throw 'La cola restaurada no contiene candidatos pendientes.'
+          }
+          "Caché privada encontrada con $pending candidatos pendientes." |
+            Write-Output
+
+      - name: Build private triage command
+        run: >-
+          dotnet build src/SierraNueva.Crawler/SierraNueva.Crawler.csproj
+          -c Release
+
+      - name: Create deterministic private triage
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler
+          -c Release --no-build --
+          triage-opportunities
+          --state .runtime/state
+
+      - name: Verify private triage report
+        shell: pwsh
+        run: |
+          $path = '.runtime/state/opportunity-triage.json'
+          if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw 'No se generó opportunity-triage.json.'
+          }
+          $report = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
+          if ($report.schemaVersion -ne '1.0' -or
+              [int]$report.pendingCandidates -lt 1 -or
+              @($report.items).Count -ne [int]$report.pendingCandidates) {
+            throw 'El informe privado de triaje no es coherente.'
+          }
+          "Triaje: $($report.highPriority) alta, " +
+            "$($report.mediumPriority) media, $($report.lowPriority) baja y " +
+            "$($report.possibleDuplicates) duplicados." | Write-Output
+
+      - name: Encrypt private triage report
+        env:
+          RECIPIENT_PUBLIC_KEY: ${{ inputs.recipient_public_key }}
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          protect-opportunity-export
+          --mode encrypt
+          --export-input .runtime/state/opportunity-triage.json
+          --export-output .runtime/export/opportunity-triage.encrypted.json
+          --public-key "${RECIPIENT_PUBLIC_KEY}"
+
+      - name: Upload encrypted triage only
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: private-opportunity-triage-${{ github.run_id }}
+          path: .runtime/export/opportunity-triage.encrypted.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Remove restored plaintext from the runner
+        if: always()
+        shell: pwsh
+        run: |
+          foreach ($path in @('.runtime/state', '.runtime/export')) {
+            if (Test-Path -LiteralPath $path) {
+              Remove-Item -LiteralPath $path -Recurse -Force
+            }
+          }

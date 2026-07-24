@@ -10,6 +10,8 @@ public sealed class JsonOpportunityReportWriter
 
     public const string BackfillFileName = "opportunity-backfill.json";
 
+    public const string TriageFileName = "opportunity-triage.json";
+
     public Task SaveAuditAsync(
         string stateDirectory,
         OpportunityAuditReport report,
@@ -28,6 +30,17 @@ public sealed class JsonOpportunityReportWriter
     {
         return SaveAsync(
             Path.Combine(stateDirectory, BackfillFileName),
+            report,
+            cancellationToken);
+    }
+
+    public Task SaveTriageAsync(
+        string stateDirectory,
+        OpportunityTriageReport report,
+        CancellationToken cancellationToken)
+    {
+        return SaveAsync(
+            Path.Combine(stateDirectory, TriageFileName),
             report,
             cancellationToken);
     }

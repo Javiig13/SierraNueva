@@ -327,6 +327,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   independiente y no presenta como métrica una exhaustividad no observada. La
   ejecución real `30081195579` verificó ambos pasos, 21/21 fuentes comerciales,
   Pages correcto y HTTP 404 para el informe privado.
+- **Hecho offline:** `triage-opportunities` ordena candidatos pendientes por
+  evidencia explicable, resume dominios y marca duplicados probables sin
+  cambiar estados. El contrato privado 1.0 y la escritura atómica tienen
+  pruebas deterministas.
+- **Hecho offline:** exportación manual del triaje con RSA-OAEP-SHA256 +
+  AES-256-GCM, AAD separado del enriquecimiento, clave privada efímera local,
+  artefacto cifrado de un día y borrado del texto claro en el runner.
+- **Pendiente live:** ejecutar `export-private-opportunities.yml` sobre la cola
+  real de 334 candidatos, analizar la distribución y convertir solo decisiones
+  justificadas en reglas reproducibles o revisiones explícitas.
 
 ## P6 — Enriquecimiento verificable de fichas
 

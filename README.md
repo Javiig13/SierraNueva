@@ -149,6 +149,9 @@ SierraNueva.Crawler audit-opportunities
   --to <aaaa-mm-dd>
   --sample-size <n>
 
+SierraNueva.Crawler triage-opportunities
+  --state <ruta>
+
 SierraNueva.Crawler review-opportunity
   --state <ruta>
   --candidate <id>
@@ -178,6 +181,15 @@ SierraNueva.Crawler review-enrichment
   --decision <accepted|rejected>
 
 SierraNueva.Crawler protect-enrichment-export
+  --mode <new-key|encrypt|decrypt>
+  --export-input <ruta>
+  --export-output <ruta>
+  --public-key <base64>
+  --public-key-file <ruta>
+  --private-key <ruta>
+  --delete-private-key
+
+SierraNueva.Crawler protect-opportunity-export
   --mode <new-key|encrypt|decrypt>
   --export-input <ruta>
   --export-output <ruta>
@@ -304,6 +316,17 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
   --state tmp/bocm-audit `
   --from 2025-01-01 --to 2025-12-31 `
   --sample-size 10
+```
+
+La cola pendiente puede proyectarse a un triaje privado determinista. Ordena
+por señales de promoción, planeamiento, autoridad pública, actualidad y
+confianza; resume dominios y marca títulos repetidos dentro del mismo
+municipio como duplicados probables. El informe es de solo lectura: no cambia
+estados ni descarta oportunidades.
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  triage-opportunities --state data/state
 ```
 
 ## Configurar fuentes
@@ -492,6 +515,29 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 El descifrado verifica autenticidad, valida el JSON, escribe atómicamente y
 solo entonces elimina la clave efímera. El ciphertext puede estar en el
 artefacto de un repositorio público; el JSON y la clave privada no.
+
+`Export private opportunity triage` aplica el mismo patrón a la cola del
+radar, con un contexto criptográfico independiente. Restaura la caché, genera
+el triaje determinista y sube durante un día únicamente
+`opportunity-triage.encrypted.json`. La clave privada efímera permanece local.
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  protect-opportunity-export --mode new-key `
+  --private-key tmp/opportunity-triage/private.pem `
+  --public-key-file tmp/opportunity-triage/public.txt
+```
+
+Después de descargar el artefacto cifrado:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  protect-opportunity-export --mode decrypt `
+  --export-input tmp/opportunity-triage/opportunity-triage.encrypted.json `
+  --export-output data/state/opportunity-triage.json `
+  --private-key tmp/opportunity-triage/private.pem `
+  --delete-private-key
+```
 
 Las instrucciones del proveedor distinguen expresamente total de viviendas y
 disponibilidad actual, precio mínimo de máximo y régimen de cooperativa de su

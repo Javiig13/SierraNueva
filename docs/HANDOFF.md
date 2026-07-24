@@ -109,6 +109,12 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   es fuente canónica ni publica candidatos.
 - Reglas de revisión por URL que aplican `monitoring`, `rejected` o `stale` a
   candidatos nuevos o ya existentes sin poder otorgar `verifiedSource`.
+- Triaje privado determinista de candidatos pendientes por señales, confianza,
+  actualidad y dominio, con detección conservadora de duplicados por título y
+  municipio. Solo genera un informe; no cambia decisiones humanas.
+- Exportación manual cifrada del triaje desde la caché de Actions, con clave
+  RSA-3072 efímera local, AAD independiente, artefacto de un día y borrado del
+  texto claro en el runner.
 - Radar web privado mediante SearXNG efímero: cuatro familias por cada uno de
   los 29 municipios, 116 consultas diarias completas, API JSON local,
   deduplicación por URL y exclusión de portales/redes. Los resultados parten de
@@ -206,11 +212,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          22 correctos
-Tests Infrastructure:106 correctos
+Tests Core:          23 correctos
+Tests Infrastructure:107 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               136/136 correctos
+Total:               138/138 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -222,6 +228,7 @@ Mapa live local:     22/22 promociones; 21 centroides municipales y 1 exacta
 Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
+Triaje offline:      34/34 pendientes clasificados; estado original intacto
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -266,6 +273,10 @@ porque el estado sintético ya está sembrado.
   resultados y el filtro creó 340 candidatos. El daemon Docker local no estaba
   iniciado, por lo que ese mismo smoke no se repitió en la máquina de
   desarrollo.
+- La exportación cifrada del triaje y su separación criptográfica están
+  verificadas offline. Falta ejecutar el workflow manual contra la caché real
+  de 334 candidatos y comprobar la distribución antes de fijar reglas de
+  revisión masiva.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin

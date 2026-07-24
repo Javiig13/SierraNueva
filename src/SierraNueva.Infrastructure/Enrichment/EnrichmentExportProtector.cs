@@ -59,6 +59,21 @@ public static class EnrichmentExportProtector
         string publicKeyBase64,
         CancellationToken cancellationToken)
     {
+        await EncryptWithAadAsync(
+            inputPath,
+            outputPath,
+            publicKeyBase64,
+            AdditionalAuthenticatedData,
+            cancellationToken);
+    }
+
+    internal static async Task EncryptWithAadAsync(
+        string inputPath,
+        string outputPath,
+        string publicKeyBase64,
+        string additionalAuthenticatedData,
+        CancellationToken cancellationToken)
+    {
         string fullInputPath = Path.GetFullPath(inputPath);
         if (!File.Exists(fullInputPath))
         {
@@ -83,7 +98,7 @@ public static class EnrichmentExportProtector
             byte[] nonce = RandomNumberGenerator.GetBytes(NonceSizeBytes);
             byte[] tag = new byte[TagSizeBytes];
             byte[] cipherText = new byte[plainText.Length];
-            byte[] aad = Encoding.UTF8.GetBytes(AdditionalAuthenticatedData);
+            byte[] aad = Encoding.UTF8.GetBytes(additionalAuthenticatedData);
             using (AesGcm aes = new(aesKey, TagSizeBytes))
             {
                 aes.Encrypt(nonce, plainText, cipherText, tag, aad);
@@ -95,6 +110,7 @@ public static class EnrichmentExportProtector
                 EncryptedKey = Convert.ToBase64String(encryptedKey),
                 Nonce = Convert.ToBase64String(nonce),
                 Tag = Convert.ToBase64String(tag),
+                Aad = additionalAuthenticatedData,
                 CipherText = Convert.ToBase64String(cipherText)
             };
             await WriteAtomicTextAsync(
@@ -114,6 +130,23 @@ public static class EnrichmentExportProtector
         string outputPath,
         string privateKeyPath,
         bool deletePrivateKey,
+        CancellationToken cancellationToken)
+    {
+        await DecryptWithAadAsync(
+            inputPath,
+            outputPath,
+            privateKeyPath,
+            deletePrivateKey,
+            AdditionalAuthenticatedData,
+            cancellationToken);
+    }
+
+    internal static async Task DecryptWithAadAsync(
+        string inputPath,
+        string outputPath,
+        string privateKeyPath,
+        bool deletePrivateKey,
+        string additionalAuthenticatedData,
         CancellationToken cancellationToken)
     {
         string fullInputPath = Path.GetFullPath(inputPath);
@@ -137,7 +170,7 @@ public static class EnrichmentExportProtector
                 await File.ReadAllTextAsync(fullInputPath, cancellationToken),
                 JsonDefaults.Compact) ??
             throw new InvalidDataException("La exportación cifrada contiene null.");
-        ValidateEnvelope(envelope);
+        ValidateEnvelope(envelope, additionalAuthenticatedData);
 
         using RSA rsa = RSA.Create();
         rsa.ImportFromPem(await File.ReadAllTextAsync(
@@ -155,7 +188,7 @@ public static class EnrichmentExportProtector
         byte[] plainText = new byte[cipherText.Length];
         try
         {
-            byte[] aad = Encoding.UTF8.GetBytes(AdditionalAuthenticatedData);
+            byte[] aad = Encoding.UTF8.GetBytes(additionalAuthenticatedData);
             using (AesGcm aes = new(aesKey, TagSizeBytes))
             {
                 aes.Decrypt(
@@ -180,12 +213,14 @@ public static class EnrichmentExportProtector
         }
     }
 
-    private static void ValidateEnvelope(EncryptedEnrichmentEnvelope envelope)
+    private static void ValidateEnvelope(
+        EncryptedEnrichmentEnvelope envelope,
+        string additionalAuthenticatedData)
     {
         if (envelope.Version != 1 ||
             envelope.KeyAlgorithm != "RSA-OAEP-SHA256" ||
             envelope.ContentAlgorithm != "AES-256-GCM" ||
-            envelope.Aad != AdditionalAuthenticatedData ||
+            envelope.Aad != additionalAuthenticatedData ||
             string.IsNullOrWhiteSpace(envelope.EncryptedKey) ||
             string.IsNullOrWhiteSpace(envelope.Nonce) ||
             string.IsNullOrWhiteSpace(envelope.Tag) ||

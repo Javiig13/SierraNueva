@@ -199,6 +199,13 @@ cobertura y controles sin señal. Descarta candidatos rechazados u obsoletos y
 escribe únicamente agregados en `opportunity-audit.json`; no publica títulos,
 URLs ni una estimación de exhaustividad sin observaciones independientes.
 
+`triage-opportunities` proyecta únicamente candidatos `new` o `monitoring` a
+un informe privado ordenado. La puntuación es determinista y explicable:
+confianza de origen más señales de promoción directa, planeamiento,
+administración pública, coincidencias múltiples y actualidad. Los posibles
+duplicados se detectan por título normalizado y municipio, pero ninguna
+clasificación modifica el estado humano.
+
 El mismo estado privado mantiene un registro por fuente con primer y último
 chequeo, último éxito y fallo, última respuesta no vacía, contadores de fallos
 y vacíos consecutivos, siguiente revisión prevista y la incidencia saneada. El
@@ -329,8 +336,10 @@ Common Crawl puede añadirse en el futuro detrás de la misma frontera privada.
 crawler. Primero levanta SearXNG y ejecuta la matriz web completa; después
 actualiza candidatos, salud y cobertura dentro del estado
 privado restaurado desde la caché de Actions. Un fallo parcial administrativo
-se informa en el resumen sin sustituir ni bloquear el dataset comercial; este
-último sigue exigiendo éxito completo antes de publicar. El workflow genera un
+se informa en el resumen sin sustituir ni bloquear el dataset comercial. El
+crawler comercial admite `PartialSuccess` solo cuando conserva datos
+publicables; después siguen siendo obligatorias la validación de datos, la
+cobertura del mapa y las barreras anti-fixture/estado privado. El workflow genera un
 artefacto estático con base `/SierraNueva/`, `.nojekyll` y fallback `404.html`.
 La caché nunca se copia al artefacto. Nominatim permanece deshabilitado; las
 promociones sin coordenada exacta usan el centroide municipal trazable y el
@@ -347,6 +356,11 @@ autenticado. Su job elimina el texto claro restaurado incluso si falla.
 repositorio. Restaura la caché, aplica únicamente decisiones sin contenido
 privado, guarda una clave de caché nueva y elimina el estado del runner incluso
 si falla.
+
+`export-private-opportunities.yml` es manual y de solo lectura. Genera el
+triaje dentro del runner, lo cifra con RSA-OAEP-SHA256 + AES-256-GCM usando el
+AAD específico `SierraNueva/opportunity-triage/v1`, sube solo el sobre durante
+un día y elimina tanto el estado restaurado como el informe claro.
 
 La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. El
 repositorio es público y Pages usa GitHub Actions como fuente. La ejecución

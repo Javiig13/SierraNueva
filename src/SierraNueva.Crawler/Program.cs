@@ -67,6 +67,9 @@ internal static class CrawlerApplication
                 "audit-opportunities" => await AuditOpportunitiesAsync(
                     options,
                     shutdown.Token),
+                "triage-opportunities" => await TriageOpportunitiesAsync(
+                    options,
+                    shutdown.Token),
                 "review-opportunity" => await ReviewOpportunityAsync(
                     options,
                     shutdown.Token),
@@ -80,6 +83,9 @@ internal static class CrawlerApplication
                     options,
                     shutdown.Token),
                 "protect-enrichment-export" => await ProtectEnrichmentExportAsync(
+                    options,
+                    shutdown.Token),
+                "protect-opportunity-export" => await ProtectOpportunityExportAsync(
                     options,
                     shutdown.Token),
                 _ => throw new ArgumentException($"Comando desconocido: {options.Command}")
@@ -586,6 +592,39 @@ internal static class CrawlerApplication
             StringComparison.Ordinal));
     }
 
+    private static async Task<int> TriageOpportunitiesAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        OpportunityRadarState state = await new JsonOpportunityStateRepository().LoadAsync(
+            options.State,
+            cancellationToken);
+        if (state.UpdatedAtUtc == default)
+        {
+            Console.Error.WriteLine(
+                "Todavía no existe estado privado que clasificar en la ruta indicada.");
+            return 1;
+        }
+
+        OpportunityTriageReport report = new OpportunityTriageService().Create(
+            state,
+            DateTimeOffset.UtcNow);
+        await new JsonOpportunityReportWriter().SaveTriageAsync(
+            options.State,
+            report,
+            cancellationToken);
+        Console.WriteLine(
+            $"Triaje privado: {report.PendingCandidates} pendientes; " +
+            $"{report.HighPriority} prioridad alta, " +
+            $"{report.MediumPriority} media, {report.LowPriority} baja y " +
+            $"{report.PossibleDuplicates} posibles duplicados.");
+        Console.WriteLine(
+            $"Informe privado en '{Path.Combine(
+                options.State,
+                JsonOpportunityReportWriter.TriageFileName)}'.");
+        return 0;
+    }
+
     private static async Task<int> ReviewOpportunityAsync(
         CliOptions options,
         CancellationToken cancellationToken)
@@ -960,6 +999,70 @@ internal static class CrawlerApplication
         return 0;
     }
 
+    private static async Task<int> ProtectOpportunityExportAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        switch (options.ExportMode)
+        {
+            case "new-key":
+                RequireExportOption(options.PrivateKey, "--private-key", options.ExportMode);
+                RequireExportOption(
+                    options.PublicKeyFile,
+                    "--public-key-file",
+                    options.ExportMode);
+                await OpportunityExportProtector.GenerateKeyPairAsync(
+                    options.PrivateKey!,
+                    options.PublicKeyFile!,
+                    cancellationToken);
+                Console.WriteLine(
+                    "Par efímero creado. La clave privada no se ha mostrado.");
+                break;
+            case "encrypt":
+                RequireExportOption(
+                    options.ExportInput,
+                    "--export-input",
+                    options.ExportMode);
+                RequireExportOption(
+                    options.ExportOutput,
+                    "--export-output",
+                    options.ExportMode);
+                RequireExportOption(options.PublicKey, "--public-key", options.ExportMode);
+                await OpportunityExportProtector.EncryptAsync(
+                    options.ExportInput!,
+                    options.ExportOutput!,
+                    options.PublicKey!,
+                    cancellationToken);
+                Console.WriteLine("Triaje privado cifrado correctamente.");
+                break;
+            case "decrypt":
+                RequireExportOption(
+                    options.ExportInput,
+                    "--export-input",
+                    options.ExportMode);
+                RequireExportOption(
+                    options.ExportOutput,
+                    "--export-output",
+                    options.ExportMode);
+                RequireExportOption(options.PrivateKey, "--private-key", options.ExportMode);
+                await OpportunityExportProtector.DecryptAsync(
+                    options.ExportInput!,
+                    options.ExportOutput!,
+                    options.PrivateKey!,
+                    options.DeletePrivateKey,
+                    cancellationToken);
+                Console.WriteLine("Triaje privado descifrado y JSON validado.");
+                break;
+            default:
+                Console.Error.WriteLine(
+                    "protect-opportunity-export requiere --mode " +
+                    "new-key|encrypt|decrypt.");
+                return 2;
+        }
+
+        return 0;
+    }
+
     private static void RequireExportOption(string? value, string name, string mode)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -1088,11 +1191,13 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- discover-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- backfill-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- audit-opportunities [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- triage-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
               dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
               dotnet run --project src/SierraNueva.Crawler -- enrich-promotions [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-enrichment [opciones]
               dotnet run --project src/SierraNueva.Crawler -- protect-enrichment-export [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- protect-opportunity-export [opciones]
 
             Opciones:
               --config <ruta>          config/appsettings.json
@@ -1265,11 +1370,13 @@ internal sealed class CliOptions
             "discover-opportunities" or
             "backfill-opportunities" or
             "audit-opportunities" or
+            "triage-opportunities" or
             "review-opportunity" or
             "coverage-status" or
             "enrich-promotions" or
             "review-enrichment" or
-            "protect-enrichment-export"))
+            "protect-enrichment-export" or
+            "protect-opportunity-export"))
         {
             throw new ArgumentException($"Comando desconocido: {command}");
         }
