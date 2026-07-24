@@ -391,6 +391,12 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   selectores cerrados existentes. Una fixture y una integración de pipeline
   elevan la baseline a 145 pruebas; los smokes live aislados recuperan la
   promoción y dejan sano su sitemap directo de dos páginas.
+- **Resuelto sin evasión:** `30132324597` confirmó que GitHub recibe HTTP 403
+  también en la API REST y el sitemap. La definición comercial, su fixture y
+  su evidencia se conservan para comprobación manual, pero se deshabilitan
+  tanto la extracción como el canal de radar automáticos. El estado operativo
+  queda en 26 fuentes comerciales y 55 canales; no se usa proxy, CAPTCHA,
+  navegador evasivo ni copia estática presentada como live.
 
 ## P6 — Enriquecimiento verificable de fichas
 
@@ -470,7 +476,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 2 | Todos los tests pasan | Hecho | 140/140 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 27 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 27 revisadas; 26 automáticas y 1 manual por bloqueo |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |

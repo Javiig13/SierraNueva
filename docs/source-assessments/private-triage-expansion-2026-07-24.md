@@ -60,6 +60,14 @@ se transforma `content.rendered`, y `link` solo se acepta como canónica si es
 HTTPS y conserva el mismo host. El smoke live posterior recuperó una promoción
 sin Playwright y el sitemap directo procesó dos páginas sin fallos.
 
+La repetición `30132324597` confirmó que desde GitHub también quedan bloqueados
+el endpoint REST y el sitemap directo. No existe un canal oficial alternativo
+automatizable desde ese runner que se haya verificado. Para no normalizar un
+fallo diario ni recurrir a proxies o evasión, las dos definiciones se conservan
+deshabilitadas como evidencia y comprobación manual. Miraflores Villas no se
+publica en Pages mientras persista esta restricción; una señal futura de la
+matriz web puede reabrir la revisión.
+
 ## Candidatos clasificados
 
 Las siguientes decisiones se codifican en `reviewRules` para que se apliquen

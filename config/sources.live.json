@@ -1071,7 +1071,7 @@
       "id": "miraflores-villas",
       "name": "Miraflores Villas — Miraflores de la Sierra",
       "baseUrl": "https://mirafloresvillas.es/",
-      "enabled": true,
+      "enabled": false,
       "sourceKind": "officialMicrosite",
       "allowedHosts": [
         "mirafloresvillas.es",
@@ -1110,7 +1110,7 @@
       "customSelectors": {
         "name": "title"
       },
-      "notes": "Micrositio oficial revisado el 2026-07-24. El runner usa la página equivalente de la API REST pública porque la portada devolvió HTTP 403 desde GitHub. Solo se procesa la descripción de las villas; se excluyen formularios, imágenes y el bloque de personalización para no convertir opciones configurables en prestaciones confirmadas. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
+      "notes": "Micrositio oficial revisado el 2026-07-24 y conservado para comprobación manual. La portada, la API REST pública y el sitemap devolvieron HTTP 403 de forma reiterada desde GitHub aunque funcionan localmente; la fuente queda deshabilitada en automatización para no usar proxies ni evasión anti-bot. Solo se procesa la descripción de las villas; se excluyen formularios, imágenes y el bloque de personalización. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
     }
   ]
 }

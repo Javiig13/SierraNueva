@@ -41,7 +41,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con 27
-  fuentes revisadas, una URL y una página por fuente.
+  definiciones revisadas: 26 automatizadas y Miraflores Villas retenida como
+  comprobación manual por bloqueo reiterado del runner.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
 - Prueba de integración del pipeline mediante un servidor HTTP real en
@@ -273,9 +274,11 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente 27 fuentes
-  limitadas y no se ejecuta por accidente.
-- El perfil del radar suma 56 fuentes con `zz-web-search-matrix`. La baseline
+  perfil separado `sources.live.json` habilita explícitamente 26 fuentes
+  limitadas, conserva una definición manual deshabilitada y no se ejecuta por
+  accidente.
+- El perfil del radar suma 56 definiciones, 55 habilitadas, con
+  `zz-web-search-matrix`. La baseline
   usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
   consultas. GitHub Actions `30119685200` verificó la imagen real, `/healthz`,
   las 116 consultas y la destrucción del contenedor: SearXNG devolvió 567
@@ -478,7 +481,7 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las 27 fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 26 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow actualizado ejecuta antes `discover-opportunities` con las 52
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
@@ -548,6 +551,13 @@ porque el estado sintético ya está sembrado.
   `wordpressPageJson`, limitado a `content.rendered` y a una canónica HTTPS del
   mismo host; fixture, prueba de pipeline y smokes live aislados confirmaron
   una promoción y dos entradas de sitemap sin Playwright ni IA.
+- La repetición remota `30132324597` demostró que el bloqueo abarca también la
+  API REST y el sitemap desde GitHub: volvió a publicar 26 promociones en
+  `partialSuccess` y el canal pasó a fallo reiterado. No se añadió proxy,
+  navegador evasivo ni intermediario. La ficha y su fixture se conservan para
+  revisión manual, pero ambas definiciones quedan deshabilitadas en la
+  automatización; el estado operativo honesto pasa a 26 fuentes comerciales y
+  55 canales de radar.
 - El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
   tres fichas ya gobernadas por reglas y los índices municipales detectaron
   `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
@@ -621,7 +631,8 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Vigilar las 27 fichas comerciales y las decisiones de triaje. Reabrir un
+1. Vigilar las 26 fichas comerciales automatizadas, la ficha manual de
+   Miraflores Villas y las decisiones de triaje. Reabrir un
    descarte solo ante una ficha oficial nueva, un cambio real de producto o
    disponibilidad verificable.
 2. Mantener en observación el estudio de detalle de Collado Mediano y la

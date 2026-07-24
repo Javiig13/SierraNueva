@@ -830,7 +830,7 @@
     {
       "id": "sitemap-miraflores-villas",
       "name": "Miraflores Villas — sitemap oficial",
-      "enabled": true,
+      "enabled": false,
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
