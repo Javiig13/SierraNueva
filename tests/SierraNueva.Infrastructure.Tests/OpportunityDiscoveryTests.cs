@@ -1,4 +1,6 @@
 using System.IO.Compression;
+using System.Net;
+using System.Text.Json;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Discovery;
@@ -12,6 +14,71 @@ namespace SierraNueva.Infrastructure.Tests;
 public sealed class OpportunityDiscoveryTests
 {
     private static readonly DateOnly FixtureDate = new(2026, 5, 21);
+
+    [Fact]
+    public async Task Reader_ParsesAndFiltersSearxngFixtureWithoutNetwork()
+    {
+        OpportunitySourceDefinition source = SearchSource(
+            FixturePath("searxng-search.json"));
+        OpportunityFeedReader reader = new(
+            new UnusedHttpClientFactory(),
+            new OpportunityFeedParser());
+
+        OpportunityFeedItem item = Assert.Single(await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            [new() { OfficialName = "Galapagar" }],
+            CancellationToken.None));
+
+        Assert.Equal("Galapagar", item.MunicipalityHint);
+        Assert.Equal(
+            "https://promotora-fixture.test/promocion-bosque-galapagar",
+            item.OfficialUrl);
+        Assert.Equal([item.OfficialUrl], item.RelatedUrls);
+        Assert.Equal(
+            new DateTimeOffset(2026, 5, 20, 9, 15, 0, TimeSpan.Zero),
+            item.PublishedAtUtc);
+    }
+
+    [Fact]
+    public async Task Reader_ExecutesEveryMunicipalityAndQueryAndDeduplicatesResults()
+    {
+        OpportunitySourceDefinition source = SearchSource(
+            fixturePath: null,
+            searchQueryTemplates:
+            [
+                "\"{municipality}\" obra nueva",
+                "\"{municipality}\" promoción de viviendas"
+            ]);
+        using SearxngHttpClientFactory factory = new();
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+
+        IReadOnlyList<OpportunityFeedItem> items = await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            [
+                new() { OfficialName = "Alpedrete" },
+                new() { OfficialName = "Galapagar" }
+            ],
+            CancellationToken.None);
+
+        Assert.Equal(4, factory.Requests.Count);
+        Assert.Equal(2, items.Count);
+        Assert.Equal(
+            ["Alpedrete", "Galapagar"],
+            items.Select(item => item.MunicipalityHint!).Order().ToArray());
+        Assert.All(
+            factory.Requests,
+            request => Assert.Equal("opportunity-search", request.ClientName));
+        Assert.Equal(
+            4,
+            factory.Requests
+                .Select(request => request.Uri.Query)
+                .Distinct(StringComparer.Ordinal)
+                .Count());
+    }
 
     [Theory]
     [InlineData("bocm-rss.xml", OpportunityFeedFormat.Rss, 2)]
@@ -76,6 +143,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None);
 
         Assert.Equal(2, items.Count);
@@ -116,6 +184,7 @@ public sealed class OpportunityDiscoveryTests
                 source,
                 FixtureDate,
                 FixtureDate,
+                [],
                 CancellationToken.None));
 
         Assert.Contains("debía ser ZIP", exception.Message, StringComparison.Ordinal);
@@ -247,6 +316,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None);
 
         Assert.Equal(2, items.Count);
@@ -297,6 +367,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None);
 
         Assert.Equal(2, items.Count);
@@ -350,6 +421,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None));
 
         Assert.Contains("Galapagar", item.Summary, StringComparison.Ordinal);
@@ -405,6 +477,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None));
 
         Assert.Contains("Galapagar", item.Summary, StringComparison.Ordinal);
@@ -444,6 +517,7 @@ public sealed class OpportunityDiscoveryTests
             source,
             FixtureDate,
             FixtureDate,
+            [],
             CancellationToken.None);
 
         Assert.Equal(2, items.Count);
@@ -610,7 +684,7 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(33, first.Run.NewCandidates);
+            Assert.Equal(34, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
@@ -648,7 +722,15 @@ public sealed class OpportunityDiscoveryTests
                     .Order(StringComparer.Ordinal)
                     .ToArray());
             Assert.True(File.Exists(Path.Combine(directory, "opportunity-candidates.json")));
-            Assert.Equal(33, first.State.SourceHealth.Count);
+            OpportunityCandidate searchCandidate = Assert.Single(
+                first.State.Candidates,
+                candidate => candidate.SourceKind == OpportunitySourceKind.WebSearch);
+            Assert.Equal("Galapagar", searchCandidate.Municipality);
+            Assert.InRange(searchCandidate.Confidence, 0.45m, 0.7m);
+            Assert.Equal(
+                OpportunityCandidateStatus.New,
+                searchCandidate.Status);
+            Assert.Equal(34, first.State.SourceHealth.Count);
             Assert.All(
                 first.State.SourceHealth,
                 source => Assert.Equal(
@@ -658,12 +740,12 @@ public sealed class OpportunityDiscoveryTests
             Assert.Equal(28, first.State.Coverage.MunicipalitiesWithDirectSource);
             Assert.Equal(28, first.State.Coverage.MunicipalitiesWithHealthyDirectSource);
             Assert.Equal(29, first.State.Coverage.MunicipalitiesWithHealthyCoverage);
-            Assert.Equal(33, first.State.Coverage.PendingCandidates);
+            Assert.Equal(34, first.State.Coverage.PendingCandidates);
             Assert.Equal(1, first.State.Coverage.CommercialSources);
             Assert.Equal(1, first.State.Coverage.HealthyCommercialSources);
             Assert.Equal(1, first.State.Coverage.CommercialDomainsMonitored);
             Assert.Equal(1, first.State.Coverage.HealthyCommercialDomains);
-            Assert.Equal(33, first.State.Coverage.NewCandidates);
+            Assert.Equal(34, first.State.Coverage.NewCandidates);
             Assert.Equal(0, first.State.Coverage.MonitoringCandidates);
             Assert.Equal(0, first.State.Coverage.RejectedCandidates);
             Assert.Equal(0, first.State.Coverage.VerifiedSourceCandidates);
@@ -697,11 +779,11 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(33, second.Run.UpdatedCandidates);
+            Assert.Equal(34, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);
-            Assert.Equal(33, second.State.SourceHealth.Count);
+            Assert.Equal(34, second.State.SourceHealth.Count);
             Assert.Equal(29, second.State.Coverage.MunicipalitiesWithHealthyCoverage);
         }
         finally
@@ -971,6 +1053,20 @@ public sealed class OpportunityDiscoveryTests
                 directories,
                 source => source.Format == OpportunityFeedFormat.Sitemap)
                 .DetailUrlIncludes.Count);
+        OpportunitySourceDefinition offlineSearch = Assert.Single(
+            offline.Sources,
+            source => source.SourceKind == OpportunitySourceKind.WebSearch);
+        OpportunitySourceDefinition liveSearch = Assert.Single(
+            live.Sources,
+            source => source.SourceKind == OpportunitySourceKind.WebSearch);
+        Assert.Equal(OpportunityFeedFormat.SearxngJson, liveSearch.Format);
+        Assert.Equal(4, liveSearch.SearchQueryTemplates.Count);
+        Assert.Equal(
+            116,
+            liveSearch.SearchQueryTemplates.Count *
+            municipalities.Count(municipality => municipality.Enabled));
+        Assert.NotNull(offlineSearch.FixturePath);
+        Assert.Null(liveSearch.FixturePath);
 
         OpportunitySourceDefinition portal =
             Assert.Single(live.Sources, source => source.Id == "portal-suelo-madrid");
@@ -1123,6 +1219,31 @@ public sealed class OpportunityDiscoveryTests
     private static string FixturePath(string file)
     {
         return Path.Combine(AppContext.BaseDirectory, "test-data", "discovery", file);
+    }
+
+    private static OpportunitySourceDefinition SearchSource(
+        string? fixturePath,
+        IReadOnlyList<string>? searchQueryTemplates = null)
+    {
+        return new()
+        {
+            Id = "zz-web-search-matrix",
+            Name = "SearXNG privado",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.WebSearch,
+            Format = OpportunityFeedFormat.SearxngJson,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate =
+                "http://127.0.0.1:8888/search?q={query}&format=json",
+            FixturePath = fixturePath,
+            AllowedHosts = ["127.0.0.1"],
+            SearchQueryTemplates = searchQueryTemplates ??
+                                   ["\"{municipality}\" obra nueva"],
+            ResultExcludedHosts = ["idealista.com"],
+            MaxResultsPerQuery = 10,
+            SearchDelayMilliseconds = 0,
+            MaxItems = 100
+        };
     }
 
     private static string ConfigPath(string file)
@@ -1304,6 +1425,92 @@ public sealed class OpportunityDiscoveryTests
         }
     }
 
+    private sealed class SearxngHttpClientFactory : IHttpClientFactory, IDisposable
+    {
+        private readonly HttpMessageHandler _handler = new SearxngHandler();
+
+        public List<(string ClientName, Uri Uri)> Requests { get; } = [];
+
+        public HttpClient CreateClient(string name)
+        {
+            return new HttpClient(
+                new SearxngRecorder(_handler, name, Requests),
+                disposeHandler: true);
+        }
+
+        public void Dispose()
+        {
+            _handler.Dispose();
+        }
+
+        private sealed class SearxngRecorder(
+            HttpMessageHandler innerHandler,
+            string clientName,
+            ICollection<(string ClientName, Uri Uri)> requests) :
+            DelegatingHandler(innerHandler)
+        {
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                requests.Add((clientName, request.RequestUri!));
+                return base.SendAsync(request, cancellationToken);
+            }
+        }
+
+        private sealed class SearxngHandler : HttpMessageHandler
+        {
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                string query = ReadQueryParameter(request.RequestUri!, "q");
+                string municipality = query.Contains(
+                    "Alpedrete",
+                    StringComparison.Ordinal)
+                    ? "Alpedrete"
+                    : "Galapagar";
+                string slug = municipality.ToLowerInvariant();
+                string response = JsonSerializer.Serialize(new
+                {
+                    query,
+                    results = new[]
+                    {
+                        new
+                        {
+                            url = $"https://promotora-fixture.test/{slug}",
+                            title = $"Promoción de viviendas en {municipality}",
+                            content = "Promoción residencial de obra nueva"
+                        }
+                    },
+                    unresponsive_engines = Array.Empty<string>()
+                });
+                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    RequestMessage = request,
+                    Content = new StringContent(
+                        response,
+                        System.Text.Encoding.UTF8,
+                        "application/json")
+                });
+            }
+
+            private static string ReadQueryParameter(Uri uri, string name)
+            {
+                return uri.Query.TrimStart('?')
+                    .Split('&', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(pair => pair.Split('=', 2))
+                    .Where(pair => pair.Length == 2)
+                    .Where(pair => string.Equals(
+                        pair[0],
+                        name,
+                        StringComparison.Ordinal))
+                    .Select(pair => WebUtility.UrlDecode(pair[1]))
+                    .First();
+            }
+        }
+    }
+
     private sealed class FixedClock(DateTimeOffset utcNow) : IClock
     {
         public DateTimeOffset UtcNow { get; } = utcNow;
@@ -1315,6 +1522,7 @@ public sealed class OpportunityDiscoveryTests
             OpportunitySourceDefinition source,
             DateOnly fromDate,
             DateOnly toDate,
+            IReadOnlyList<MunicipalityDefinition> municipalities,
             CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("No debe leer feeds.");
@@ -1329,6 +1537,7 @@ public sealed class OpportunityDiscoveryTests
             OpportunitySourceDefinition source,
             DateOnly fromDate,
             DateOnly toDate,
+            IReadOnlyList<MunicipalityDefinition> municipalities,
             CancellationToken cancellationToken)
         {
             object result = _results.Dequeue();

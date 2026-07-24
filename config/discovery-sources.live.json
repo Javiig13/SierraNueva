@@ -53,6 +53,48 @@
   ],
   "sources": [
     {
+      "id": "zz-web-search-matrix",
+      "name": "SearXNG privado — matriz web completa",
+      "enabled": true,
+      "sourceKind": "webSearch",
+      "format": "searxngJson",
+      "cadence": "daily",
+      "urlTemplate": "http://127.0.0.1:8888/search?q={query}&format=json&language=es-ES&safesearch=1&categories=general",
+      "allowedHosts": [ "127.0.0.1" ],
+      "searchQueryTemplates": [
+        "\"{municipality}\" (\"obra nueva\" OR \"nueva promoción\" OR chalets OR \"viviendas unifamiliares\")",
+        "\"{municipality}\" (promotora OR promoción OR residencial OR cooperativa) (chalets OR viviendas)",
+        "\"{municipality}\" (\"licencia de obra\" OR \"estudio de detalle\" OR \"plan parcial\" OR urbanización) residencial",
+        "\"{municipality}\" (\"venta de parcelas\" OR \"adjudicación de parcelas\" OR \"suelo residencial\" OR \"derecho de superficie\")"
+      ],
+      "resultExcludedHosts": [
+        "idealista.com",
+        "fotocasa.es",
+        "pisos.com",
+        "yaencontre.com",
+        "habitaclia.com",
+        "milanuncios.com",
+        "trovit.es",
+        "indomio.es",
+        "thinkspain.com",
+        "kyero.com",
+        "spainhouses.net",
+        "facebook.com",
+        "instagram.com",
+        "linkedin.com",
+        "youtube.com",
+        "tiktok.com",
+        "x.com",
+        "twitter.com",
+        "google.com",
+        "bing.com",
+        "duckduckgo.com"
+      ],
+      "maxResultsPerQuery": 10,
+      "searchDelayMilliseconds": 750,
+      "maxItems": 2000
+    },
+    {
       "id": "bocm-calendar",
       "name": "BOCM — calendario y sumario XML",
       "enabled": true,

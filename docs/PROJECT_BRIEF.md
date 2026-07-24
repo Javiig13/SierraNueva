@@ -152,8 +152,10 @@ como ejemplo; nunca se inventa ni se habilita silenciosamente.
 - enlaces internos relevantes, normalizados y sin bucles;
 - archivo manual JSON o TXT.
 
-La extensión futura prevista incluye SearXNG propio, Common Crawl, BOCM y
-transparencia municipal. No se raspan resultados de Google, Bing o DuckDuckGo.
+La extensión aprobada incluye un SearXNG propio y efímero dentro de Actions,
+con API JSON y matriz completa diaria. SierraNueva no raspa directamente las
+páginas HTML de Google, Bing o DuckDuckGo. Common Crawl queda como extensión
+futura; BOCM y transparencia municipal ya forman parte del radar.
 
 La blocklist es configurable, se aplica antes de descargar y también a enlaces
 descubiertos.

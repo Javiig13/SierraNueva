@@ -33,6 +33,9 @@ comprobada e integraciones live que aún requieren trabajo.
   hipervínculos internos.
 - Ejecuta un radar privado y separado para señales de BOCM, BOE, contratación
   pública y suelo público, sin confundirlas con promociones verificadas.
+- Recorre diariamente una matriz web completa mediante un SearXNG privado y
+  efímero: 29 municipios por cuatro familias de consulta, sin raspar HTML de
+  buscadores ni publicar sus resultados.
 - Mantiene un registro privado de salud por fuente y una instantánea de
   cobertura por municipio; detecta fallos repetidos y respuestas vacías
   anómalas sin retirar el último estado válido.
@@ -194,10 +197,11 @@ nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` habilita de forma explícita 50 fuentes:
+`config/discovery-sources.live.json` habilita de forma explícita 51 fuentes:
 cuatro canales centrales, 28 fuentes municipales, 13 sitemaps de dominios
 comerciales oficiales, dos índices HTML comerciales acotados y tres canales
-privados de descubrimiento sectorial de SIMA. La parte
+privados de descubrimiento sectorial de SIMA, más una matriz web privada
+SearXNG. La parte
 municipal comprende cinco tablones
 `eAdmin`, 18 portadas públicas de sedes `sedelectronica.es`, el tablón de
 transparencia de Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y
@@ -257,6 +261,20 @@ sola en fuente oficial ni en promoción pública; requiere revisión y evidencia
 independiente. La revisión incluye comprobar que el producto siga siendo
 unifamiliar: una fuente oficial técnicamente apta no se integra si publica
 pisos o cualquier otro producto fuera del alcance de SierraNueva.
+
+El canal `zz-web-search-matrix` levanta SearXNG únicamente durante la ejecución
+live y consulta su API JSON local. Cruza los 29 municipios con cuatro familias
+de búsqueda —producto, promotor/cooperativa, planeamiento/licencias y
+suelo/parcelas—: **116 consultas diarias completas**. Deduplica por URL, limita
+cada consulta a diez resultados, descarta portales y redes sociales y exige que
+el título o fragmento contenga señales reales del radar. La consulta solo
+aporta el municipio; no se conserva como evidencia ni basta para publicar.
+
+La baseline procesa
+`test-data/discovery/searxng-search.json` y nunca necesita Docker. Para una
+ejecución live completa fuera de Actions se necesita una instancia SearXNG
+controlada en `http://127.0.0.1:8888`; la configuración empleada por el
+workflow está en `config/searxng/settings.yml`.
 
 `backfill-opportunities` divide automáticamente cualquier intervalo temporal
 en lotes contiguos de hasta 367 días inclusivos. Exige una fuente temporal y
@@ -519,6 +537,9 @@ coordenadas, precios y URLs antes de publicar.
   registra junto a los proveedores existentes.
 - Un nuevo canal administrativo implementa `IOpportunityFeedReader`; su salida
   permanece en el contrato privado del radar y nunca se entrega al frontend.
+- Una nueva familia de búsqueda web se declara mediante plantillas
+  `{municipality}` en un origen `SearxngJson`; solo el adaptador aislado puede
+  usar el endpoint loopback.
 - La extracción de PDF está aislada por `IPdfTextExtractor`.
 - El render dinámico está aislado por `IDynamicPageRenderer`.
 - La geocodificación está aislada por `IGeocoder`.
@@ -577,7 +598,8 @@ sigue funcionando.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; actualiza primero el radar y su cobertura privada, usa las
+  `Europe/Madrid`; levanta SearXNG, ejecuta las 116 consultas, actualiza después
+  el resto del radar y su cobertura privada, usa las
   22 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último

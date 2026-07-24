@@ -39,7 +39,7 @@ jobs:
   build:
     name: Crawl and build Pages artifact
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    timeout-minutes: 75
 
     steps:
       - name: Checkout
@@ -80,6 +80,39 @@ jobs:
           --sources config/sources.live.json
           --discovery-sources config/discovery-sources.live.json
 
+      - name: Start private SearXNG search radar
+        id: private-search
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .runtime/searxng-data
+          search_secret="$(openssl rand -hex 32)"
+          docker run \
+            --detach \
+            --rm \
+            --name sierranueva-searxng \
+            --platform linux/amd64 \
+            --publish 127.0.0.1:8888:8080 \
+            --volume "$GITHUB_WORKSPACE/config/searxng:/etc/searxng:ro" \
+            --volume "$GITHUB_WORKSPACE/.runtime/searxng-data:/var/cache/searxng" \
+            --env "FORCE_OWNERSHIP=false" \
+            --env "SEARXNG_BASE_URL=http://127.0.0.1:8888/" \
+            --env "SEARXNG_SECRET=$search_secret" \
+            ghcr.io/searxng/searxng@sha256:c3487408922e1d2673b76c244d5a400f74c489842b73c48269ae90392ff9c579
+          for attempt in $(seq 1 30); do
+            if curl \
+              --fail \
+              --silent \
+              --show-error \
+              http://127.0.0.1:8888/healthz; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs sierranueva-searxng
+          exit 1
+
       - name: Discover opportunities and update private coverage
         id: opportunity-radar
         continue-on-error: true
@@ -91,6 +124,11 @@ jobs:
           --sources config/sources.live.json
           --municipalities config/municipalities.json
           --state .runtime/state
+
+      - name: Stop private SearXNG search radar
+        if: always()
+        shell: bash
+        run: docker rm --force sierranueva-searxng 2>/dev/null || true
 
       - name: Backfill the last 31 BOCM days weekly
         id: opportunity-backfill
@@ -224,6 +262,7 @@ jobs:
         shell: pwsh
         env:
           RADAR_OUTCOME: ${{ steps.opportunity-radar.outcome }}
+          SEARCH_OUTCOME: ${{ steps.private-search.outcome }}
           BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
@@ -238,6 +277,7 @@ jobs:
             $coverage = $radar.coverage
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
+          - SearXNG privado (116 consultas): $env:SEARCH_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
@@ -248,6 +288,7 @@ jobs:
           } else {
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
+          - SearXNG privado (116 consultas): $env:SEARCH_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME

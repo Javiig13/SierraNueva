@@ -1055,6 +1055,18 @@ internal static class CrawlerApplication
                 provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(
                     5,
                     useSessionCookies: true));
+        services.AddHttpClient(
+                "opportunity-search",
+                client =>
+                {
+                    client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent);
+                })
+            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                AllowAutoRedirect = false,
+                UseCookies = false
+            });
         services.AddSingleton<IClock, SystemClock>();
         services.AddSingleton<OpportunityFeedParser>();
         services.AddSingleton<IOpportunityFeedReader, OpportunityFeedReader>();

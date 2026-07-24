@@ -109,6 +109,10 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   es fuente canónica ni publica candidatos.
 - Reglas de revisión por URL que aplican `monitoring`, `rejected` o `stale` a
   candidatos nuevos o ya existentes sin poder otorgar `verifiedSource`.
+- Radar web privado mediante SearXNG efímero: cuatro familias por cada uno de
+  los 29 municipios, 116 consultas diarias completas, API JSON local,
+  deduplicación por URL y exclusión de portales/redes. Los resultados parten de
+  confianza reducida, viven solo en la cola privada y requieren fuente oficial.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
   atómicos adicionales para la cola de oportunidades.
 - CI offline en GitHub Actions y workflow manual/diario de crawl y despliegue,
@@ -203,10 +207,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          22 correctos
-Tests Infrastructure:104 correctos
+Tests Infrastructure:106 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               134/134 correctos
+Total:               136/136 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -215,7 +219,8 @@ Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado local: 22 fuentes; 22 promociones válidas y activas, 0 fallos
 Mapa live local:     22/22 promociones; 21 centroides municipales y 1 exacta
-Radar offline:       33 candidatos; 33/33 fuentes sanas; cobertura 29/29
+Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
+Matriz web offline:  1 candidato filtrado; sin red ni Docker
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -253,6 +258,11 @@ porque el estado sintético ya está sembrado.
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
   perfil separado `sources.live.json` habilita explícitamente 22 fuentes
   limitadas y no se ejecuta por accidente.
+- El perfil del radar suma 51 fuentes con `zz-web-search-matrix`. La baseline
+  usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
+  consultas. El daemon Docker local no estaba iniciado durante la
+  implementación: el contenedor real y los motores agregados deben verificarse
+  en GitHub Actions antes de declarar la integración live.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin
@@ -548,7 +558,7 @@ porque el estado sintético ya está sembrado.
     confirmado por HTTP 200; la clave no está cargada ni se expone en la
     terminal local.
 12. Definir la protección y política de ramas cuando el propietario decida el
-   flujo de contribución.
+    flujo de contribución.
 
 ## Cómo retomar en otro equipo
 

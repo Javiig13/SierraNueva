@@ -1,4 +1,5 @@
 using System.Net;
+using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Models;
 
@@ -17,6 +18,7 @@ public sealed class OpportunityFeedReader(
         OpportunitySourceDefinition source,
         DateOnly fromDate,
         DateOnly toDate,
+        IReadOnlyList<MunicipalityDefinition> municipalities,
         CancellationToken cancellationToken)
     {
         if (!string.IsNullOrWhiteSpace(source.FixturePath))
@@ -25,16 +27,31 @@ public sealed class OpportunityFeedReader(
                 source.FixturePath,
                 cancellationToken);
             IReadOnlyList<(Uri Uri, DateOnly Date)> fixtureUris =
-                BuildUris(source, toDate, toDate);
-            Uri baseUri = fixtureUris.Count > 0
-                ? fixtureUris[0].Uri
-                : new Uri("https://fixtures.invalid/");
+                source.Format == OpportunityFeedFormat.SearxngJson
+                    ? []
+                    : BuildUris(source, toDate, toDate);
+            Uri baseUri = source.Format == OpportunityFeedFormat.SearxngJson
+                ? new Uri("http://127.0.0.1:8888/search")
+                : fixtureUris.Count > 0
+                    ? fixtureUris[0].Uri
+                    : new Uri("https://fixtures.invalid/");
             IReadOnlyList<OpportunityFeedItem> fixtureItems =
-                parser.Parse(source, fixture, baseUri, toDate);
+                parser.Parse(source, fixture, baseUri, toDate, municipalities);
             return source.Format is
                 OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks
                 ? FilterCommercialItems(source, fixtureItems)
-                : fixtureItems;
+                : source.Format == OpportunityFeedFormat.SearxngJson
+                    ? FilterSearchItems(source, fixtureItems)
+                    : fixtureItems;
+        }
+
+        if (source.Format == OpportunityFeedFormat.SearxngJson)
+        {
+            return await ReadSearxngAsync(
+                source,
+                toDate,
+                municipalities,
+                cancellationToken);
         }
 
         List<OpportunityFeedItem> items = [];
@@ -138,6 +155,94 @@ public sealed class OpportunityFeedReader(
                     : item.ExternalId,
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
+            .ToArray();
+    }
+
+    private async Task<IReadOnlyList<OpportunityFeedItem>> ReadSearxngAsync(
+        OpportunitySourceDefinition source,
+        DateOnly documentDate,
+        IReadOnlyList<MunicipalityDefinition> municipalities,
+        CancellationToken cancellationToken)
+    {
+        string[] matrix = municipalities
+            .Where(municipality => municipality.Enabled)
+            .OrderBy(municipality => municipality.OfficialName, StringComparer.Ordinal)
+            .SelectMany(municipality => source.SearchQueryTemplates.Select(template =>
+                template.Replace(
+                    "{municipality}",
+                    municipality.OfficialName,
+                    StringComparison.Ordinal)))
+            .ToArray();
+        List<OpportunityFeedItem> items = [];
+        for (int index = 0; index < matrix.Length; index++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Uri uri = BuildSearchUri(source, matrix[index]);
+            ValidateUri(source, uri);
+            byte[]? content = await DownloadAsync(
+                uri,
+                cancellationToken,
+                "opportunity-search");
+            if (content is not null)
+            {
+                IReadOnlyList<OpportunityFeedItem> parsed = parser.Parse(
+                    source,
+                    content,
+                    uri,
+                    documentDate,
+                    municipalities);
+                items.AddRange(
+                    FilterSearchItems(source, parsed)
+                        .Take(source.MaxResultsPerQuery));
+            }
+
+            if (index < matrix.Length - 1 &&
+                source.SearchDelayMilliseconds > 0)
+            {
+                await Task.Delay(
+                    source.SearchDelayMilliseconds,
+                    cancellationToken);
+            }
+        }
+
+        return items
+            .DistinctBy(
+                item => item.OfficialUrl,
+                StringComparer.OrdinalIgnoreCase)
+            .Take(source.MaxItems)
+            .ToArray();
+    }
+
+    private static Uri BuildSearchUri(
+        OpportunitySourceDefinition source,
+        string query)
+    {
+        string value = source.UrlTemplate?.Replace(
+            "{query}",
+            Uri.EscapeDataString(query),
+            StringComparison.Ordinal) ?? string.Empty;
+        return Uri.TryCreate(value, UriKind.Absolute, out Uri? uri)
+            ? uri
+            : throw new InvalidDataException(
+                $"La fuente '{source.Id}' genera una búsqueda inválida.");
+    }
+
+    private static IReadOnlyList<OpportunityFeedItem> FilterSearchItems(
+        OpportunitySourceDefinition source,
+        IEnumerable<OpportunityFeedItem> items)
+    {
+        return items.Where(item =>
+                !string.IsNullOrWhiteSpace(item.MunicipalityHint) &&
+                Uri.TryCreate(item.OfficialUrl, UriKind.Absolute, out Uri? uri) &&
+                uri.Scheme == Uri.UriSchemeHttps &&
+                !source.ResultExcludedHosts.Any(excluded =>
+                    string.Equals(
+                        uri.IdnHost,
+                        excluded,
+                        StringComparison.OrdinalIgnoreCase) ||
+                    uri.IdnHost.EndsWith(
+                        $".{excluded}",
+                        StringComparison.OrdinalIgnoreCase)))
             .ToArray();
     }
 
@@ -350,9 +455,12 @@ public sealed class OpportunityFeedReader(
         }
     }
 
-    private async Task<byte[]?> DownloadAsync(Uri uri, CancellationToken cancellationToken)
+    private async Task<byte[]?> DownloadAsync(
+        Uri uri,
+        CancellationToken cancellationToken,
+        string clientName = "opportunity-discovery")
     {
-        HttpClient client = httpClientFactory.CreateClient("opportunity-discovery");
+        HttpClient client = httpClientFactory.CreateClient(clientName);
         using HttpRequestMessage request = new(HttpMethod.Get, uri);
         request.Headers.Accept.ParseAdd(
             uri.AbsolutePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
@@ -461,7 +569,11 @@ public sealed class OpportunityFeedReader(
 
     private static void ValidateUri(OpportunitySourceDefinition source, Uri uri)
     {
-        if (uri.Scheme != Uri.UriSchemeHttps)
+        bool isPrivateSearxng =
+            source.Format == OpportunityFeedFormat.SearxngJson &&
+            uri.Scheme == Uri.UriSchemeHttp &&
+            string.Equals(uri.IdnHost, "127.0.0.1", StringComparison.Ordinal);
+        if (uri.Scheme != Uri.UriSchemeHttps && !isPrivateSearxng)
         {
             throw new InvalidDataException(
                 $"La fuente de radar '{source.Id}' debe usar HTTPS.");

@@ -113,6 +113,7 @@ public interface IOpportunityFeedReader
         OpportunitySourceDefinition source,
         DateOnly fromDate,
         DateOnly toDate,
+        IReadOnlyList<MunicipalityDefinition> municipalities,
         CancellationToken cancellationToken);
 }
 

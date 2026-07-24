@@ -23,7 +23,7 @@ El descubrimiento administrativo forma un flujo paralelo y privado:
 
 ```mermaid
 flowchart LR
-    F["BOCM · BOE · PCSP · Portal del Suelo · tablones municipales"] --> A["Calendario/XML · JSON · Atom/ZIP · HTML · eAdmin"]
+    F["BOCM · BOE · PCSP · suelo · municipios · SearXNG privado"] --> A["XML · JSON · Atom/ZIP · HTML · eAdmin · matriz web"]
     A --> R["Municipio + señal + contexto − exclusiones"]
     R --> S["Cola privada de candidatos"]
     A --> H["Salud de fuentes"]
@@ -220,6 +220,14 @@ marca `verifiedSource`; el resto permanece `new`. Esta comparación reduce
 ruido sin convertir un enlace nuevo en promoción ni saltarse la revisión
 jurídica y técnica.
 
+El formato `searxngJson` ejecuta una matriz determinista formada por cada
+municipio habilitado y cada plantilla configurada. El lector consulta
+secuencialmente la API JSON, limita resultados, rechaza hosts excluidos y
+deduplica URLs normalizadas. El municipio procede de la consulta, pero las
+señales y el contexto deben existir en el título o fragmento devuelto; por
+tanto, el texto de la consulta nunca se convierte en evidencia. Los candidatos
+web parten de una confianza inferior y continúan sujetos a revisión.
+
 La fotografía privada agrega también cuántos dominios externos ha referido el
 embudo sectorial y cuántos aún no tienen una fuente comercial configurada. El
 cálculo considera solo candidatos `new`, `monitoring` o `verifiedSource`; los
@@ -271,6 +279,8 @@ preparado para que una fase futura alimente notificaciones.
 - Límite de redirecciones, respuesta HTML y PDF.
 - JSON con `System.Text.Json`, sin deserialización polimórfica arbitraria.
 - Texto de evidencia reducido y normalizado.
+- La única excepción loopback es `http://127.0.0.1` para `searxngJson`. Usa un
+  cliente sin cookies ni redirecciones y no puede apuntar a otro host privado.
 
 La validación en URL y la validación en conexión son deliberadamente
 independientes: la primera descarta literales peligrosos y la segunda impide
@@ -300,23 +310,24 @@ copias visuales desplazadas en un radio pequeño antes de pasarlas a Leaflet.
 El GeoJSON, la ficha y la precisión declarada no se modifican: el desplazamiento
 solo evita que los marcadores se tapen.
 
-## Descubrimiento sin buscador comercial
+## Descubrimiento web privado
 
-El MVP no raspa Google, Bing ni DuckDuckGo y no depende de una API de búsqueda.
-Esto reduce cobertura, pero hace el proceso legalmente más conservador y
-reproducible. Las fuentes se incorporan mediante registro explícito, sitemaps,
-enlaces internos y archivos manuales.
+SierraNueva no raspa Google, Bing ni DuckDuckGo directamente. El workflow live
+levanta una imagen oficial SearXNG fijada por digest, accesible solo desde el
+runner, habilita su API JSON y la destruye después del radar. La matriz actual
+ejecuta 29 municipios por cuatro familias, 116 consultas al día. Un fallo se
+registra como degradación y nunca borra candidatos ni bloquea por sí mismo el
+último dataset comercial.
 
-Una integración futura con SearXNG implementará `IUrlDiscoveryProvider`,
-exigirá un endpoint controlado por el operador y permanecerá inactiva cuando no
-exista configuración. Common Crawl, BOCM y transparencia municipal seguirán la
-misma frontera.
+La baseline usa una fixture SearXNG y no necesita Docker, Internet ni claves.
+Common Crawl puede añadirse en el futuro detrás de la misma frontera privada.
 
 ## Automatización y publicación
 
 `ci.yml` ejecuta solo fixtures y reproduce la baseline offline. El workflow
 `crawl-and-deploy.yml` usa explícitamente los perfiles live del radar y del
-crawler. Primero actualiza candidatos, salud y cobertura dentro del estado
+crawler. Primero levanta SearXNG y ejecuta la matriz web completa; después
+actualiza candidatos, salud y cobertura dentro del estado
 privado restaurado desde la caché de Actions. Un fallo parcial administrativo
 se informa en el resumen sin sustituir ni bloquear el dataset comercial; este
 último sigue exigiendo éxito completo antes de publicar. El workflow genera un

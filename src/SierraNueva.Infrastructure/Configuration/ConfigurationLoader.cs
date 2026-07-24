@@ -140,9 +140,21 @@ public sealed class ConfigurationLoader
                     .Replace(
                         "{date:dd%2FMM%2Fyyyy}",
                         "01%2F01%2F2026",
+                        StringComparison.Ordinal)
+                    .Replace(
+                        "{query}",
+                        Uri.EscapeDataString("\"Galapagar\" obra nueva"),
+                        StringComparison.Ordinal);
+                bool isPrivateSearxng =
+                    source.Format == OpportunityFeedFormat.SearxngJson &&
+                    Uri.TryCreate(sampleUrl, UriKind.Absolute, out Uri? searchUri) &&
+                    searchUri.Scheme == Uri.UriSchemeHttp &&
+                    string.Equals(
+                        searchUri.IdnHost,
+                        "127.0.0.1",
                         StringComparison.Ordinal);
                 if (!Uri.TryCreate(sampleUrl, UriKind.Absolute, out Uri? uri) ||
-                    uri.Scheme != Uri.UriSchemeHttps)
+                    (uri.Scheme != Uri.UriSchemeHttps && !isPrivateSearxng))
                 {
                     errors.Add($"URL de radar inválida en '{source.Id}'.");
                 }
@@ -187,6 +199,20 @@ public sealed class ConfigurationLoader
                     "o directorio sectorial.");
             }
 
+            if (source.SourceKind == OpportunitySourceKind.WebSearch &&
+                source.Format != OpportunityFeedFormat.SearxngJson)
+            {
+                errors.Add(
+                    $"La búsqueda web '{source.Id}' debe usar SearxngJson.");
+            }
+
+            if (source.Format == OpportunityFeedFormat.SearxngJson &&
+                source.SourceKind != OpportunitySourceKind.WebSearch)
+            {
+                errors.Add(
+                    $"La fuente SearXNG '{source.Id}' debe declararse como búsqueda web.");
+            }
+
             if (source.SourceKind == OpportunitySourceKind.IndustryDirectory &&
                 (source.Format is not
                     (OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks) ||
@@ -204,6 +230,53 @@ public sealed class ConfigurationLoader
                 errors.Add(
                     $"Solo un directorio residencial acotado puede omitir exclusiones en " +
                     $"'{source.Id}'.");
+            }
+
+            if (source.Format == OpportunityFeedFormat.SearxngJson)
+            {
+                if (source.SearchQueryTemplates is { Count: < 1 or > 12 } ||
+                    source.SearchQueryTemplates.Any(template =>
+                        string.IsNullOrWhiteSpace(template) ||
+                        !template.Contains(
+                            "{municipality}",
+                            StringComparison.Ordinal)))
+                {
+                    errors.Add(
+                        $"La búsqueda web '{source.Id}' necesita entre 1 y 12 " +
+                        "consultas con {municipality}.");
+                }
+
+                if (source.MaxResultsPerQuery is < 1 or > 50)
+                {
+                    errors.Add(
+                        $"maxResultsPerQuery de '{source.Id}' debe estar entre 1 y 50.");
+                }
+
+                if (source.SearchDelayMilliseconds is < 0 or > 5_000)
+                {
+                    errors.Add(
+                        $"searchDelayMilliseconds de '{source.Id}' debe estar entre " +
+                        "0 y 5000.");
+                }
+
+                if (source.ResultExcludedHosts.Count == 0 ||
+                    source.ResultExcludedHosts.Any(host =>
+                        string.IsNullOrWhiteSpace(host) ||
+                        host.Contains('/')))
+                {
+                    errors.Add(
+                        $"La búsqueda web '{source.Id}' necesita hosts de resultado " +
+                        "excluidos válidos.");
+                }
+            }
+            else if (source.SearchQueryTemplates.Count > 0 ||
+                     source.ResultExcludedHosts.Count > 0 ||
+                     source.MaxResultsPerQuery != 10 ||
+                     source.SearchDelayMilliseconds != 750)
+            {
+                errors.Add(
+                    $"Los ajustes de búsqueda web de '{source.Id}' solo son válidos " +
+                    "para SearxngJson.");
             }
 
             if (source.Format == OpportunityFeedFormat.HtmlLinks &&

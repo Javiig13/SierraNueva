@@ -8,7 +8,8 @@ public enum OpportunitySourceKind
     PublicLandPortal,
     MunicipalNoticeBoard,
     OfficialCommercialWebsite,
-    IndustryDirectory
+    IndustryDirectory,
+    WebSearch
 }
 
 public enum OpportunityFeedFormat
@@ -21,7 +22,8 @@ public enum OpportunityFeedFormat
     BocmCalendar,
     EAdminHtml,
     Sitemap,
-    HtmlLinks
+    HtmlLinks,
+    SearxngJson
 }
 
 public enum OpportunityFeedCadence
@@ -128,6 +130,14 @@ public sealed class OpportunitySourceDefinition
 
     public IReadOnlyList<OpportunityReviewRule> ReviewRules { get; init; } = [];
 
+    public IReadOnlyList<string> SearchQueryTemplates { get; init; } = [];
+
+    public IReadOnlyList<string> ResultExcludedHosts { get; init; } = [];
+
+    public int MaxResultsPerQuery { get; init; } = 10;
+
+    public int SearchDelayMilliseconds { get; init; } = 750;
+
     public string? FixedMunicipality { get; init; }
 
     public int MaxItems { get; init; } = 2_000;
@@ -159,6 +169,8 @@ public sealed class OpportunityFeedItem
     public string OfficialUrl { get; init; } = string.Empty;
 
     public IReadOnlyList<string> RelatedUrls { get; init; } = [];
+
+    public string? MunicipalityHint { get; init; }
 
     public DateTimeOffset? PublishedAtUtc { get; init; }
 }

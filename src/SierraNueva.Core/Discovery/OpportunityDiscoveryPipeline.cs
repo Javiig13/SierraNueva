@@ -84,6 +84,7 @@ public sealed class OpportunityDiscoveryPipeline(
                     source,
                     request.From,
                     request.To,
+                    request.Municipalities,
                     cancellationToken);
                 int matched = 0;
                 foreach (OpportunityFeedItem item in items)
@@ -502,10 +503,17 @@ public sealed class OpportunityDiscoveryPipeline(
     {
         string searchable = TextNormalizer.NormalizeForComparison(
             $"{item.Title} {item.Summary}");
-        MunicipalityDefinition? municipality = string.IsNullOrWhiteSpace(
-            source.FixedMunicipality)
-            ? FindMunicipality(searchable, municipalities)
-            : municipalities.FirstOrDefault(candidate =>
+        MunicipalityDefinition? municipality = !string.IsNullOrWhiteSpace(
+            item.MunicipalityHint)
+            ? municipalities.FirstOrDefault(candidate =>
+                candidate.Enabled &&
+                string.Equals(
+                    candidate.OfficialName,
+                    item.MunicipalityHint,
+                    StringComparison.OrdinalIgnoreCase))
+            : string.IsNullOrWhiteSpace(source.FixedMunicipality)
+                ? FindMunicipality(searchable, municipalities)
+                : municipalities.FirstOrDefault(candidate =>
                 candidate.Enabled &&
                 string.Equals(
                     candidate.OfficialName,
@@ -534,7 +542,13 @@ public sealed class OpportunityDiscoveryPipeline(
             string.IsNullOrWhiteSpace(item.ExternalId) ? item.OfficialUrl : item.ExternalId,
             municipality.OfficialName);
         byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(identity));
-        decimal confidence = Math.Min(0.9m, 0.65m + ((matchedRules.Length - 1) * 0.05m));
+        decimal confidenceBase =
+            source.SourceKind == OpportunitySourceKind.WebSearch ? 0.45m : 0.65m;
+        decimal confidenceMaximum =
+            source.SourceKind == OpportunitySourceKind.WebSearch ? 0.7m : 0.9m;
+        decimal confidence = Math.Min(
+            confidenceMaximum,
+            confidenceBase + ((matchedRules.Length - 1) * 0.05m));
 
         return new()
         {

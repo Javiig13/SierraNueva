@@ -203,6 +203,21 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 
 ## P5 — Cobertura continua
 
+- **Hecho:** proveedor SearXNG privado con formato JSON aislado, municipio
+  asociado a la consulta sin contaminar evidencias, destinos exclusivamente
+  HTTPS, blocklist de portales/redes, confianza reducida y deduplicación por
+  URL.
+- **Hecho:** matriz completa configurable de 29 municipios por cuatro familias
+  —producto, promotor/cooperativa, planeamiento/licencias y suelo/parcelas—:
+  116 consultas en cada ejecución diaria, sin rotación ni muestreo.
+- **Hecho offline:** fixture SearXNG y dos pruebas específicas para parseo,
+  filtros, expansión íntegra de municipio × consulta, cliente aislado y
+  deduplicación. El radar offline pasa a 34 fuentes.
+- **Parcial live:** el workflow levanta la imagen oficial fijada por digest,
+  comprueba `/healthz`, ejecuta el radar y destruye el contenedor. El daemon
+  Docker local no estaba iniciado; falta confirmar la imagen y los motores en
+  una ejecución real de GitHub Actions.
+
 - **Hecho:** registro privado de salud para todas las fuentes del radar con
   último intento, éxito, fallo, respuesta no vacía, contadores consecutivos e
   incidencia saneada; la siguiente revisión prevista permite detectar canales

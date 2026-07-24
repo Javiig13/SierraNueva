@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Xml.Linq;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+using SierraNueva.Contracts;
 using SierraNueva.Core.Models;
 using SierraNueva.Core.Normalization;
 
@@ -18,7 +19,8 @@ public sealed class OpportunityFeedParser
         OpportunitySourceDefinition source,
         ReadOnlyMemory<byte> content,
         Uri sourceUri,
-        DateOnly documentDate)
+        DateOnly documentDate,
+        IReadOnlyList<MunicipalityDefinition>? municipalities = null)
     {
         IReadOnlyList<OpportunityFeedItem> items = source.Format switch
         {
@@ -44,6 +46,9 @@ public sealed class OpportunityFeedParser
                 sourceUri,
                 source.Name,
                 source.ItemSelectors),
+            OpportunityFeedFormat.SearxngJson => ParseSearxngJson(
+                content,
+                municipalities ?? []),
             _ => throw new InvalidDataException(
                 $"Formato de radar no admitido: {source.Format}.")
         };
@@ -58,6 +63,92 @@ public sealed class OpportunityFeedParser
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
             .ToArray();
+    }
+
+    private static IReadOnlyList<OpportunityFeedItem> ParseSearxngJson(
+        ReadOnlyMemory<byte> content,
+        IReadOnlyList<MunicipalityDefinition> municipalities)
+    {
+        using JsonDocument document = JsonDocument.Parse(content);
+        JsonElement root = document.RootElement;
+        if (!root.TryGetProperty("query", out JsonElement queryElement) ||
+            queryElement.ValueKind != JsonValueKind.String ||
+            !root.TryGetProperty("results", out JsonElement resultsElement) ||
+            resultsElement.ValueKind != JsonValueKind.Array)
+        {
+            throw new InvalidDataException(
+                "La respuesta SearXNG no contiene query y results válidos.");
+        }
+
+        string query = queryElement.GetString() ?? string.Empty;
+        string? municipalityHint = FindMunicipalityHint(query, municipalities);
+        List<OpportunityFeedItem> items = [];
+        foreach (JsonElement result in resultsElement.EnumerateArray())
+        {
+            string? url = GetString(result, "url");
+            string? title = GetString(result, "title");
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) ||
+                uri.Scheme != Uri.UriSchemeHttps ||
+                string.IsNullOrWhiteSpace(title))
+            {
+                continue;
+            }
+
+            string? publishedText =
+                GetString(result, "publishedDate") ??
+                GetString(result, "published_date");
+            DateTimeOffset? publishedAtUtc =
+                DateTimeOffset.TryParse(
+                    publishedText,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                    out DateTimeOffset published)
+                    ? published
+                    : null;
+            string normalizedUrl = UrlNormalizer.Normalize(uri.AbsoluteUri);
+            items.Add(new()
+            {
+                ExternalId = normalizedUrl,
+                Title = title,
+                Summary = GetString(result, "content") ?? string.Empty,
+                OfficialUrl = normalizedUrl,
+                RelatedUrls = [normalizedUrl],
+                MunicipalityHint = municipalityHint,
+                PublishedAtUtc = publishedAtUtc
+            });
+        }
+
+        return items;
+    }
+
+    private static string? FindMunicipalityHint(
+        string query,
+        IReadOnlyList<MunicipalityDefinition> municipalities)
+    {
+        string normalizedQuery = TextNormalizer.NormalizeForComparison(query);
+        return municipalities
+            .Where(municipality => municipality.Enabled)
+            .OrderByDescending(municipality => municipality.OfficialName.Length)
+            .FirstOrDefault(municipality =>
+                ContainsNormalizedTerm(
+                    normalizedQuery,
+                    TextNormalizer.NormalizeForComparison(
+                        municipality.OfficialName)))
+            ?.OfficialName;
+    }
+
+    private static bool ContainsNormalizedTerm(string searchable, string term)
+    {
+        return term.Length > 0 &&
+               $" {searchable} ".Contains($" {term} ", StringComparison.Ordinal);
+    }
+
+    private static string? GetString(JsonElement element, string propertyName)
+    {
+        return element.TryGetProperty(propertyName, out JsonElement property) &&
+               property.ValueKind == JsonValueKind.String
+            ? property.GetString()
+            : null;
     }
 
     public OpportunityFeedItem ParseDetailPage(
