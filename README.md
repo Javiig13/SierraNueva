@@ -407,6 +407,25 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
   --proposal enr-... --field priceFrom --decision accepted
 ```
 
+`--quiet` registra una decisión sin imprimir la cola. El workflow manual
+`Review private enrichment` usa ese modo para aplicar sobre la caché únicamente
+un JSON de identificadores, campos y decisiones:
+
+```json
+[
+  {
+    "proposal": "enr-sn-...",
+    "field": "priceFrom",
+    "decision": "accepted"
+  }
+]
+```
+
+El input no incluye valores, citas ni URLs. El workflow restaura la caché más
+reciente, valida cada token, aplica las decisiones campo a campo y guarda un
+nuevo `crawler-state-*`; así el siguiente crawl puede usar solo los campos
+aceptados sin publicar el estado privado.
+
 La caché privada de Actions no dispone de descarga directa. El workflow manual
 `Export private enrichment` restaura la última caché `crawler-state-*` sin
 crear otra, cifra únicamente `promotion-enrichment.json` con RSA-OAEP-SHA256 +
@@ -437,6 +456,11 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 El descifrado verifica autenticidad, valida el JSON, escribe atómicamente y
 solo entonces elimina la clave efímera. El ciphertext puede estar en el
 artefacto de un repositorio público; el JSON y la clave privada no.
+
+Las instrucciones del proveedor distinguen expresamente total de viviendas y
+disponibilidad actual, precio mínimo de máximo y régimen de cooperativa de su
+razón social. Estas reglas reducen falsos positivos antes de la revisión sin
+añadir llamadas ni aumentar el máximo de salida.
 
 La fuente temporal de evidencia exige un cuerpo completo y omite los
 condicionales `If-None-Match`/`If-Modified-Since`. Así no reutiliza como cuerpo

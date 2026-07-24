@@ -315,13 +315,15 @@ introducirlo por anticipado.
 
 ## 16. Infraestructura final
 
-La fase incorpora tres workflows:
+La fase incorpora cuatro workflows:
 
 - CI para restore, build, test, formato y configuración, siempre con fixtures.
 - Crawl y despliegue manual/programado, actualización segura de datos y
   publicación con GitHub Pages.
 - Exportación manual y cifrada de la cola privada de enriquecimiento para
   revisión local, sin publicar el JSON ni la clave privada.
+- Aplicación manual de decisiones campo a campo sobre la caché privada, enviando
+  únicamente identificadores y estados, nunca valores, citas ni URLs.
 
 La implementación usa permisos mínimos, concurrencia, horario diario 06:17
 `Europe/Madrid`, resumen, acciones fijadas, `base href` para project site,

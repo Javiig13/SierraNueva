@@ -76,6 +76,23 @@ public sealed class EnrichmentPipelineTests
         Assert.Equal(
             "none",
             request.RootElement.GetProperty("reasoning").GetProperty("effort").GetString());
+        string instructions = request.RootElement.GetProperty("instructions").GetString()!;
+        Assert.Contains(
+            "availableUnits solo es el número",
+            instructions,
+            StringComparison.Ordinal);
+        Assert.Contains(
+            "explícitamente disponible o restante",
+            instructions,
+            StringComparison.Ordinal);
+        Assert.Contains(
+            "priceTo exige un máximo",
+            instructions,
+            StringComparison.Ordinal);
+        Assert.Contains(
+            "cooperativeName exige un nombre propio",
+            instructions,
+            StringComparison.Ordinal);
         Assert.Equal(
             "Bearer fixture-key",
             handler.Authorization);

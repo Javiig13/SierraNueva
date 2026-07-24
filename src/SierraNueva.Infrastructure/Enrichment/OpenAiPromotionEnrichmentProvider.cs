@@ -96,6 +96,13 @@ public sealed class OpenAiPromotionEnrichmentProvider(
                 campos solicitados. evidenceText debe ser una cita literal breve de la página y
                 sourceUrl debe coincidir exactamente con la URL de esa página. Los números se
                 devuelven sin unidades, separadores de miles ni símbolos y con punto decimal.
+                totalUnits es el total construido o anunciado; availableUnits solo es el número
+                explícitamente disponible o restante, nunca el tamaño total de la promoción.
+                priceFrom corresponde a "desde" o al extremo inferior; priceTo exige un máximo
+                o extremo superior explícito y nunca puede obtenerse de un único precio "desde".
+                cooperativeName exige un nombre propio o razón social; "cooperativa" o
+                "régimen de cooperativa" por sí solos no son un nombre. Un valor exacto por
+                vivienda puede completar los campos mínimo y máximo equivalentes.
                 Si no hay prueba suficiente, omite el campo.
                 """,
             input =

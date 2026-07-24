@@ -1,0 +1,104 @@
+name: Review private enrichment
+
+on:
+  workflow_dispatch:
+    inputs:
+      decisions_json:
+        description: "JSON con proposal, field y accepted/rejected; sin valores privados"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  review:
+    name: Apply field decisions to cached state
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install .NET from global.json
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+
+      - name: Restore private crawler state without saving the restore key
+        uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: enrichment-review-restore-${{ github.run_id }}
+          restore-keys: |
+            crawler-state-
+
+      - name: Build review command
+        run: >-
+          dotnet build src/SierraNueva.Crawler/SierraNueva.Crawler.csproj
+          -c Release
+
+      - name: Apply decisions without exposing private proposals
+        shell: pwsh
+        env:
+          DECISIONS_JSON: ${{ inputs.decisions_json }}
+        run: |
+          $statePath = '.runtime/state/promotion-enrichment.json'
+          if (-not (Test-Path -LiteralPath $statePath -PathType Leaf)) {
+            throw 'La caché restaurada no contiene promotion-enrichment.json.'
+          }
+
+          $decisions = @($env:DECISIONS_JSON | ConvertFrom-Json)
+          if ($decisions.Count -eq 0 -or $decisions.Count -gt 100) {
+            throw 'Se requieren entre 1 y 100 decisiones.'
+          }
+
+          foreach ($decision in $decisions) {
+            $proposal = [string]$decision.proposal
+            $field = [string]$decision.field
+            $status = [string]$decision.decision
+            if ($proposal -notmatch '^enr-[a-z0-9-]+$' -or
+                $field -notmatch '^[A-Za-z][A-Za-z0-9]*$' -or
+                $status -notin @('accepted', 'rejected')) {
+              throw 'Una decisión contiene un identificador, campo o estado inválido.'
+            }
+
+            dotnet run --project src/SierraNueva.Crawler `
+              -c Release --no-build -- `
+              review-enrichment `
+              --state .runtime/state `
+              --proposal $proposal `
+              --field $field `
+              --decision $status `
+              --quiet
+            if ($LASTEXITCODE -ne 0) {
+              throw 'No se pudo aplicar una decisión privada.'
+            }
+          }
+
+          $state = Get-Content -Raw -LiteralPath $statePath | ConvertFrom-Json
+          $fields = @($state.items.fields)
+          $pending = @($fields | Where-Object { $_.status -eq 'pending' }).Count
+          $accepted = @($fields | Where-Object { $_.status -eq 'accepted' }).Count
+          $rejected = @($fields | Where-Object { $_.status -eq 'rejected' }).Count
+          "Revisión aplicada: $accepted aceptados, $rejected rechazados y " +
+            "$pending pendientes." | Write-Output
+
+      - name: Save reviewed private crawler state
+        uses: actions/cache/save@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: crawler-state-${{ github.run_id }}
+
+      - name: Remove private state from the runner
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path -LiteralPath '.runtime/state') {
+            Remove-Item -LiteralPath '.runtime/state' -Recurse -Force
+          }

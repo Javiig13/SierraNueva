@@ -139,6 +139,14 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   runner usa RSA-OAEP-SHA256 + AES-256-GCM, sube solo el sobre autenticado
   durante un día y elimina el texto claro. El descifrado local valida JSON,
   escribe atómicamente y borra opcionalmente la clave privada.
+- `review-private-enrichment.yml` devuelve solo identificadores, campos y
+  decisiones a la caché; nunca reenvía valores, citas ni URLs. Usa
+  `review-enrichment --quiet`, valida hasta 100 decisiones y comparte
+  concurrencia con el crawl antes de guardar una nueva caché privada.
+- El prompt distingue explícitamente viviendas totales/disponibles,
+  `priceFrom`/`priceTo` y régimen/nombre de cooperativa. La primera cola real
+  recuperada contenía cuatro aciertos y cuatro falsos positivos; todos quedaron
+  revisados campo a campo sin publicar el estado.
 
 ### Datos y frontend
 

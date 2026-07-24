@@ -90,6 +90,18 @@ sobre autenticado se convierte en artefacto, con retención de un día. El
 descifrado local falla ante cualquier alteración, valida JSON, escribe
 atómicamente y puede borrar la clave privada tras el éxito.
 
+La devolución de la revisión no reenvía el estado. El workflow manual
+`review-private-enrichment.yml` recibe solo una lista JSON de identificador de
+propuesta, nombre de campo y decisión. Valida un máximo de 100 entradas,
+ejecuta `review-enrichment --quiet` para no volcar la cola en logs y guarda una
+nueva caché `crawler-state-*`. Comparte el grupo de concurrencia del crawl para
+no escribir estado mientras se genera una publicación.
+
+El prompt delimita los campos con ambigüedad frecuente: total de viviendas no
+equivale a disponibles, un precio «desde» no es `priceTo` y la palabra
+«cooperativa» no constituye una razón social. Estas reglas actúan antes de
+persistir propuestas y no consumen llamadas adicionales.
+
 La recolección de evidencia declara `RequireResponseBody`: mantiene robots,
 hosts, demoras y límites del crawler, pero no envía validadores HTTP
 condicionales. Un `304` es útil para conservar promociones en el crawl, pero no
@@ -307,6 +319,11 @@ entradas ausentes de una respuesta HTTP 304.
 de lectura y no publica Pages. Restaura el último estado privado mediante
 `actions/cache/restore`, cifra la cola y sube exclusivamente el sobre
 autenticado. Su job elimina el texto claro restaurado incluso si falla.
+
+`review-private-enrichment.yml` también es manual y de solo lectura sobre el
+repositorio. Restaura la caché, aplica únicamente decisiones sin contenido
+privado, guarda una clave de caché nueva y elimina el estado del runner incluso
+si falla.
 
 La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. El
 repositorio es público y Pages usa GitHub Actions como fuente. La ejecución

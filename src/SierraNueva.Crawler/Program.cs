@@ -847,24 +847,34 @@ internal static class CrawlerApplication
                 cancellationToken);
             EnrichmentFieldProposal field = reviewed.Fields.Single(
                 item => item.Field == options.Field);
-            Console.WriteLine(
-                $"Campo {field.Field} de {reviewed.Id}: {field.Status}. " +
-                $"Estado global: {reviewed.Status}.");
-            Console.WriteLine(
-                "Los campos aceptados solo completarán huecos cuando toda la " +
-                "propuesta esté revisada y se ejecute el siguiente crawl.");
+            if (!options.Quiet)
+            {
+                Console.WriteLine(
+                    $"Campo {field.Field} de {reviewed.Id}: {field.Status}. " +
+                    $"Estado global: {reviewed.Status}.");
+                Console.WriteLine(
+                    "Los campos aceptados solo completarán huecos cuando toda la " +
+                    "propuesta esté revisada y se ejecute el siguiente crawl.");
+            }
         }
 
         EnrichmentState state = await repository.LoadAsync(options.State, cancellationToken);
-        Console.Write(
-            PromotionEnrichmentReviewReport.RenderText(state, options.State));
+        if (!options.Quiet)
+        {
+            Console.Write(
+                PromotionEnrichmentReviewReport.RenderText(state, options.State));
+        }
+
         if (options.EnrichmentReport)
         {
             string reportPath = await PromotionEnrichmentReviewReport.WriteAsync(
                 options.State,
                 state,
                 cancellationToken);
-            Console.WriteLine($"Informe HTML privado: {reportPath}");
+            if (!options.Quiet)
+            {
+                Console.WriteLine($"Informe HTML privado: {reportPath}");
+            }
         }
 
         return 0;
@@ -1085,6 +1095,7 @@ internal static class CrawlerApplication
               --field <campo>          Campo individual que aceptar o rechazar
               --decision <estado>      accepted o rejected
               --report                 Crear informe HTML dentro de --state
+              --quiet                  No mostrar el contenido de la cola privada
               --mode <modo>            new-key, encrypt o decrypt
               --export-input <ruta>    Estado o sobre cifrado de entrada
               --export-output <ruta>   Sobre cifrado o estado JSON de salida
@@ -1120,6 +1131,7 @@ internal sealed class CliOptions
             "--no-geocoding",
             "--dry-run",
             "--report",
+            "--quiet",
             "--delete-private-key",
             "--verbose",
             "--help",
@@ -1206,6 +1218,8 @@ internal sealed class CliOptions
     public bool DryRun { get; private init; }
 
     public bool EnrichmentReport { get; private init; }
+
+    public bool Quiet { get; private init; }
 
     public bool DeletePrivateKey { get; private init; }
 
@@ -1373,6 +1387,7 @@ internal sealed class CliOptions
             NoGeocoding = switches.Contains("--no-geocoding"),
             DryRun = switches.Contains("--dry-run"),
             EnrichmentReport = switches.Contains("--report"),
+            Quiet = switches.Contains("--quiet"),
             DeletePrivateKey = switches.Contains("--delete-private-key"),
             Verbose = switches.Contains("--verbose"),
             ShowHelp = switches.Contains("--help") || switches.Contains("-h")

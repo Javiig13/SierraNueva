@@ -298,6 +298,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   un sobre autenticado con retención de un día y elimina el texto claro del
   runner. La clave privada efímera permanece local; el descifrado valida JSON,
   escribe atómicamente y puede borrarla tras el éxito.
+- **Hecho:** devolución segura de la revisión a la caché mediante un segundo
+  workflow manual. Solo recibe identificador, campo y decisión, valida hasta
+  100 entradas, usa salida silenciosa y guarda una nueva caché privada sin
+  exponer valores, citas ni URLs.
+- **Hecho:** prompt endurecido a partir de la primera revisión real: distingue
+  viviendas totales de disponibles, precio «desde» de precio máximo y régimen
+  de cooperativa de razón social, sin llamadas adicionales.
 - **Hecho:** fixture de respuesta estructurada y once pruebas offline para
   esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
   límite, presupuesto, `dry-run` gratuito y persistencia privada.
