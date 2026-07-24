@@ -305,6 +305,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** prompt endurecido a partir de la primera revisión real: distingue
   viviendas totales de disponibles, precio «desde» de precio máximo y régimen
   de cooperativa de razón social, sin llamadas adicionales.
+- **Verificado live:** `30100286300` exportó el sobre cifrado y
+  `30101016895` aplicó 4 aceptaciones y 4 rechazos, dejó 0 pendientes y creó
+  `crawler-state-30101016895`. Ningún valor, cita o URL de la cola apareció en
+  el canal de devolución.
 - **Hecho:** fixture de respuesta estructurada y once pruebas offline para
   esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
   límite, presupuesto, `dry-run` gratuito y persistencia privada.

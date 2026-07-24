@@ -147,6 +147,12 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `priceFrom`/`priceTo` y régimen/nombre de cooperativa. La primera cola real
   recuperada contenía cuatro aciertos y cuatro falsos positivos; todos quedaron
   revisados campo a campo sin publicar el estado.
+- La ejecución `30100286300` verificó la exportación cifrada real y produjo un
+  único artefacto de 5,5 KB cuyo SHA-256 coincidió tras la descarga. La
+  ejecución `30101016895` aplicó 4 aceptaciones y 4 rechazos, dejó 0 campos
+  pendientes y guardó `crawler-state-30101016895` (29 KB). `upload-artifact`
+  quedó actualizado y fijado a v6/Node 24 después del aviso observado en la
+  primera exportación.
 
 ### Datos y frontend
 
