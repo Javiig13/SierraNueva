@@ -101,6 +101,12 @@ public enum OpportunityTriageReason
     PublicAdministrationHost,
     MultipleMatchedTerms,
     RecentlyPublished,
+    MunicipalityInTitleOrUrl,
+    MunicipalityOnlyInSummary,
+    MunicipalityUnconfirmed,
+    HistoricalReference,
+    GenericAdministrativeReference,
+    ExcludedListingHost,
     PossibleDuplicate
 }
 

@@ -320,9 +320,12 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 
 La cola pendiente puede proyectarse a un triaje privado determinista. Ordena
 por señales de promoción, planeamiento, autoridad pública, actualidad y
-confianza; resume dominios y marca títulos repetidos dentro del mismo
-municipio como duplicados probables. El informe es de solo lectura: no cambia
-estados ni descarta oportunidades.
+confianza; exige evidencia geográfica más fuerte para la prioridad alta,
+rebaja referencias históricas o formularios genéricos, resume dominios y marca
+títulos repetidos dentro del mismo municipio como duplicados probables. Los
+hosts excluidos en la configuración permanecen visibles como prioridad baja si
+ya existían en el estado. El informe es de solo lectura: no cambia estados ni
+descarta oportunidades.
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `

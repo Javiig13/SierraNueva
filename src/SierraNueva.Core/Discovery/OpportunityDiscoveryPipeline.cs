@@ -148,6 +148,7 @@ public sealed class OpportunityDiscoveryPipeline(
             }
         }
 
+        updatedCandidates += ApplyConfiguredReviews(candidates, enabledSources);
         DateTimeOffset finishedAt = clock.UtcNow;
         OpportunityDiscoveryRun run = new()
         {
@@ -596,6 +597,69 @@ public sealed class OpportunityDiscoveryPipeline(
                 rule.UrlPattern,
                 StringComparison.OrdinalIgnoreCase))
             ?.Status ?? OpportunityCandidateStatus.New;
+    }
+
+    private static int ApplyConfiguredReviews(
+        IDictionary<string, OpportunityCandidate> candidates,
+        IEnumerable<OpportunitySourceDefinition> sources)
+    {
+        Dictionary<string, OpportunitySourceDefinition> sourcesById = sources
+            .ToDictionary(source => source.Id, StringComparer.Ordinal);
+        int updated = 0;
+        foreach ((string id, OpportunityCandidate candidate) in candidates.ToArray())
+        {
+            if (candidate.Status is not (
+                    OpportunityCandidateStatus.New or
+                    OpportunityCandidateStatus.Monitoring) ||
+                !sourcesById.TryGetValue(
+                    candidate.SourceId,
+                    out OpportunitySourceDefinition? source))
+            {
+                continue;
+            }
+
+            OpportunityCandidateStatus? reviewedStatus = source.ReviewRules
+                .FirstOrDefault(rule => candidate.OfficialUrl.Contains(
+                    rule.UrlPattern,
+                    StringComparison.OrdinalIgnoreCase))
+                ?.Status;
+            if (!reviewedStatus.HasValue ||
+                reviewedStatus.Value == candidate.Status)
+            {
+                continue;
+            }
+
+            candidates[id] = CopyWithStatus(candidate, reviewedStatus.Value);
+            updated++;
+        }
+
+        return updated;
+    }
+
+    private static OpportunityCandidate CopyWithStatus(
+        OpportunityCandidate candidate,
+        OpportunityCandidateStatus status)
+    {
+        return new()
+        {
+            Id = candidate.Id,
+            SourceId = candidate.SourceId,
+            SourceName = candidate.SourceName,
+            SourceKind = candidate.SourceKind,
+            ExternalId = candidate.ExternalId,
+            Title = candidate.Title,
+            Summary = candidate.Summary,
+            OfficialUrl = candidate.OfficialUrl,
+            RelatedUrls = candidate.RelatedUrls,
+            PublishedAtUtc = candidate.PublishedAtUtc,
+            Municipality = candidate.Municipality,
+            Kind = candidate.Kind,
+            Confidence = candidate.Confidence,
+            MatchedTerms = candidate.MatchedTerms,
+            FirstSeenUtc = candidate.FirstSeenUtc,
+            LastSeenUtc = candidate.LastSeenUtc,
+            Status = status
+        };
     }
 
     private static MunicipalityDefinition? FindMunicipality(

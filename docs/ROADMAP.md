@@ -328,15 +328,23 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   ejecución real `30081195579` verificó ambos pasos, 21/21 fuentes comerciales,
   Pages correcto y HTTP 404 para el informe privado.
 - **Hecho offline:** `triage-opportunities` ordena candidatos pendientes por
-  evidencia explicable, resume dominios y marca duplicados probables sin
-  cambiar estados. El contrato privado 1.0 y la escritura atómica tienen
-  pruebas deterministas.
+  evidencia explicable, incluyendo confirmación geográfica, antigüedad,
+  documentos administrativos genéricos y hosts excluidos; resume dominios y
+  marca duplicados probables sin cambiar estados. El contrato privado 1.0 y la
+  escritura atómica tienen pruebas deterministas.
 - **Hecho offline:** exportación manual del triaje con RSA-OAEP-SHA256 +
   AES-256-GCM, AAD separado del enriquecimiento, clave privada efímera local,
   artefacto cifrado de un día y borrado del texto claro en el runner.
-- **Pendiente live:** ejecutar `export-private-opportunities.yml` sobre la cola
-  real de 334 candidatos, analizar la distribución y convertir solo decisiones
-  justificadas en reglas reproducibles o revisiones explícitas.
+- **Hecho live:** `export-private-opportunities.yml` se ejecutó como
+  `30121191738` sobre 334 pendientes de 183 dominios: 30 alta, 230 media, 70
+  baja y 4 duplicados. El hash del ZIP coincidió, el sobre se descifró y validó
+  localmente y la clave privada se eliminó.
+- **Hecho:** ocho agregadores que no son fuente primaria se excluyen de futuras
+  búsquedas y se rechazan por reglas configuradas que también se aplican al
+  estado previo.
+- **Pendiente live:** repetir la exportación con el triaje geográfico
+  recalibrado, revisar los candidatos de prioridad alta resultantes y promover
+  únicamente fuentes directas comprobadas.
 
 ## P6 — Enriquecimiento verificable de fichas
 

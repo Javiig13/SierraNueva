@@ -565,7 +565,7 @@ public sealed class OpportunityDiscoveryTests
             };
             ScriptedFeedReader reader = new(
                 new OpportunityFeedItem[] { item },
-                new OpportunityFeedItem[] { item });
+                Array.Empty<OpportunityFeedItem>());
             OpportunityDiscoveryPipeline pipeline = new(
                 reader,
                 new JsonOpportunityStateRepository(),
@@ -1067,6 +1067,13 @@ public sealed class OpportunityDiscoveryTests
             municipalities.Count(municipality => municipality.Enabled));
         Assert.NotNull(offlineSearch.FixturePath);
         Assert.Null(liveSearch.FixturePath);
+        Assert.Contains("nestoria.es", liveSearch.ResultExcludedHosts);
+        Assert.Contains("mitula.com", liveSearch.ResultExcludedHosts);
+        Assert.Contains(
+            liveSearch.ReviewRules,
+            rule =>
+                rule.UrlPattern == "nestoria.es/" &&
+                rule.Status == OpportunityCandidateStatus.Rejected);
 
         OpportunitySourceDefinition portal =
             Assert.Single(live.Sources, source => source.Id == "portal-suelo-madrid");

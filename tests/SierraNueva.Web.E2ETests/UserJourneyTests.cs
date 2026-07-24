@@ -36,7 +36,7 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
 
         ILocator marker = page.Locator(".leaflet-interactive");
         await Expect(marker).ToHaveCountAsync(1);
-        await marker.HoverAsync();
+        await marker.DispatchEventAsync("mouseover");
         await Expect(page.Locator(".promotion-card.is-highlighted")).ToHaveCountAsync(1);
         await marker.ClickAsync();
         await page.Locator(".map-popup")

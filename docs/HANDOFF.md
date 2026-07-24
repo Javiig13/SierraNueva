@@ -110,8 +110,10 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Reglas de revisión por URL que aplican `monitoring`, `rejected` o `stale` a
   candidatos nuevos o ya existentes sin poder otorgar `verifiedSource`.
 - Triaje privado determinista de candidatos pendientes por señales, confianza,
-  actualidad y dominio, con detección conservadora de duplicados por título y
-  municipio. Solo genera un informe; no cambia decisiones humanas.
+  actualidad, evidencia geográfica y dominio, con penalización explicable de
+  referencias históricas, documentos genéricos y listados excluidos, además de
+  detección conservadora de duplicados por título y municipio. Solo genera un
+  informe; no cambia decisiones humanas.
 - Exportación manual cifrada del triaje desde la caché de Actions, con clave
   RSA-3072 efímera local, AAD independiente, artefacto de un día y borrado del
   texto claro en el runner.
@@ -212,11 +214,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          23 correctos
+Tests Core:          24 correctos
 Tests Infrastructure:107 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               138/138 correctos
+Total:               139/139 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -229,6 +231,7 @@ Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
 Triaje offline:      34/34 pendientes clasificados; estado original intacto
+Triaje GitHub inicial:334 pendientes; 30 alta, 230 media, 70 baja, 4 duplicados
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -274,9 +277,19 @@ porque el estado sintético ya está sembrado.
   iniciado, por lo que ese mismo smoke no se repitió en la máquina de
   desarrollo.
 - La exportación cifrada del triaje y su separación criptográfica están
-  verificadas offline. Falta ejecutar el workflow manual contra la caché real
-  de 334 candidatos y comprobar la distribución antes de fijar reglas de
-  revisión masiva.
+  verificadas offline y en la ejecución GitHub `30121191738`: 334 candidatos
+  pendientes de 183 dominios, 30 en prioridad alta, 230 media, 70 baja y 4
+  duplicados probables. El artefacto descargado coincidió con su SHA-256 y se
+  descifró/validó localmente; la clave privada efímera fue eliminada.
+- La primera distribución mostró agregadores y resultados geográficamente
+  débiles. `globaliza.com`, `housage.es`, `mitula.com`, `nestoria.es`,
+  `nuevosvecinos.com`, `nuroa.es`, `properstar.es` y `terrenos.es` quedan
+  excluidos de búsquedas futuras y rechazados por regla reproducible. Las
+  reglas nuevas se aplican también al estado pendiente preexistente.
+- El CI `30121125358` descubrió una intermitencia Linux en el hover sintético
+  del marcador del mapa. La prueba ahora despacha el evento de Leaflet de forma
+  determinista y superó cinco repeticiones locales consecutivas. Falta
+  confirmar el siguiente CI Linux junto con el triaje recalibrado.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin

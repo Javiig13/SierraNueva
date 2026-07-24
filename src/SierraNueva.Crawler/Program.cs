@@ -606,9 +606,19 @@ internal static class CrawlerApplication
             return 1;
         }
 
+        OpportunityDiscoveryCatalog catalog =
+            await new ConfigurationLoader().LoadOpportunityCatalogAsync(
+                options.DiscoverySources,
+                cancellationToken);
+        string[] excludedListingHosts = catalog.Sources
+            .Where(source => source.SourceKind == OpportunitySourceKind.WebSearch)
+            .SelectMany(source => source.ResultExcludedHosts)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
         OpportunityTriageReport report = new OpportunityTriageService().Create(
             state,
-            DateTimeOffset.UtcNow);
+            DateTimeOffset.UtcNow,
+            excludedListingHosts);
         await new JsonOpportunityReportWriter().SaveTriageAsync(
             options.State,
             report,

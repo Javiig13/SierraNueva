@@ -204,7 +204,10 @@ un informe privado ordenado. La puntuación es determinista y explicable:
 confianza de origen más señales de promoción directa, planeamiento,
 administración pública, coincidencias múltiples y actualidad. Los posibles
 duplicados se detectan por título normalizado y municipio, pero ninguna
-clasificación modifica el estado humano.
+clasificación modifica el estado humano. Una mención del municipio en título o
+URL pesa más que una coincidencia aislada en el resumen; documentos históricos,
+formularios administrativos y hosts de listados excluidos se degradan de forma
+explicable, sin borrarlos del informe privado.
 
 El mismo estado privado mantiene un registro por fuente con primer y último
 chequeo, último éxito y fallo, última respuesta no vacía, contadores de fallos
@@ -243,8 +246,9 @@ rechazados y obsoletos no mantienen artificialmente un hueco de cobertura.
 Las decisiones humanas reproducibles pueden vivir como `reviewRules` de una
 fuente: un patrón de URL asigna `monitoring`, `rejected` o `stale`. Una URL ya
 presente en el registro comercial conserva prioridad como `verifiedSource`.
-Al reaparecer un candidato previo en estado `new` o `monitoring`, la regla
-actualiza su estado sin sobrescribir una decisión terminal existente.
+Las reglas se reconcilian contra todo candidato previo en estado `new` o
+`monitoring`, aunque un nuevo filtro impida que el URL reaparezca, sin
+sobrescribir una decisión terminal existente.
 
 Los ZIP mensuales de PCSP se descargan a un temporal con límite de 512 MiB y se
 procesan entrada a entrada para no mantenerlos completos en memoria. El

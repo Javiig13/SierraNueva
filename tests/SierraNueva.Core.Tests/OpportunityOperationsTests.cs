@@ -160,7 +160,7 @@ public sealed class OpportunityOperationsTests
             OpportunitySourceKind.WebSearch,
             OpportunityCandidateStatus.New,
             timestamp.AddDays(-2),
-            "Residencial Sierra, chalets de obra nueva",
+            "Residencial Sierra Galapagar, chalets de obra nueva",
             "https://promotora.example/residencial-sierra",
             0.65m,
             ["obra nueva", "chalets"]);
@@ -178,9 +178,9 @@ public sealed class OpportunityOperationsTests
             OpportunitySourceKind.WebSearch,
             OpportunityCandidateStatus.Monitoring,
             timestamp.AddDays(-5),
-            "Aprobación del plan parcial del sector norte",
+            "Aprobación del plan parcial del sector norte de Alpedrete",
             "https://sede.madrid.org/plan-parcial",
-            0.45m,
+            0.35m,
             ["plan parcial"]);
         OpportunityCandidate low = Candidate(
             "Moralzarzal",
@@ -218,6 +218,9 @@ public sealed class OpportunityOperationsTests
             item => item.CandidateId == direct.Id);
         Assert.Equal(OpportunityTriageBand.DirectPromotion, directItem.Band);
         Assert.Equal(OpportunityTriagePriority.High, directItem.Priority);
+        Assert.Contains(
+            OpportunityTriageReason.MunicipalityInTitleOrUrl,
+            directItem.Reasons);
         OpportunityTriageItem administrativeItem = Assert.Single(
             report.Items,
             item => item.CandidateId == administrative.Id);
@@ -241,6 +244,78 @@ public sealed class OpportunityOperationsTests
         Assert.Equal(OpportunityCandidateStatus.Rejected, rejected.Status);
     }
 
+    [Fact]
+    public void Triage_DemotesUnconfirmedHistoricalAndExcludedSearchResults()
+    {
+        DateTimeOffset timestamp = new(2026, 7, 24, 10, 0, 0, TimeSpan.Zero);
+        OpportunityCandidate summaryOnly = Candidate(
+            "Bustarviejo",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            null,
+            "Aife Mairena, 66 viviendas unifamiliares de obra nueva en Sevilla",
+            "https://promotora.example/aife-mairena",
+            0.55m,
+            ["obra nueva", "viviendas unifamiliares"],
+            summary: "Catálogo nacional de promociones con enlace a Bustarviejo.",
+            omitPublishedAt: true);
+        OpportunityCandidate excludedListing = Candidate(
+            "Galapagar",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            null,
+            "Obra nueva en Galapagar",
+            "https://pisos.nestoria.es/galapagar/obra-nueva",
+            0.55m,
+            ["obra nueva", "promoción"],
+            omitPublishedAt: true);
+        OpportunityCandidate historicalForm = Candidate(
+            "Alpedrete",
+            OpportunitySourceKind.WebSearch,
+            OpportunityCandidateStatus.New,
+            null,
+            "Ordenanza fiscal y solicitud de licencia de obra",
+            "https://www.alpedrete.es/documentos/2023/ordenanza.pdf",
+            0.45m,
+            ["licencia de obra", "promoción"],
+            omitPublishedAt: true);
+        OpportunityRadarState state = new()
+        {
+            UpdatedAtUtc = timestamp.AddMinutes(-1),
+            Candidates = [summaryOnly, excludedListing, historicalForm]
+        };
+
+        OpportunityTriageReport report = new OpportunityTriageService().Create(
+            state,
+            timestamp,
+            ["nestoria.es"]);
+
+        OpportunityTriageItem summaryItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == summaryOnly.Id);
+        Assert.Equal(OpportunityTriagePriority.Medium, summaryItem.Priority);
+        Assert.Contains(
+            OpportunityTriageReason.MunicipalityOnlyInSummary,
+            summaryItem.Reasons);
+        OpportunityTriageItem listingItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == excludedListing.Id);
+        Assert.Equal(OpportunityTriagePriority.Low, listingItem.Priority);
+        Assert.Contains(
+            OpportunityTriageReason.ExcludedListingHost,
+            listingItem.Reasons);
+        OpportunityTriageItem formItem = Assert.Single(
+            report.Items,
+            item => item.CandidateId == historicalForm.Id);
+        Assert.Equal(OpportunityTriagePriority.Low, formItem.Priority);
+        Assert.Contains(
+            OpportunityTriageReason.HistoricalReference,
+            formItem.Reasons);
+        Assert.Contains(
+            OpportunityTriageReason.GenericAdministrativeReference,
+            formItem.Reasons);
+    }
+
     private static OpportunityCandidate Candidate(
         string municipality,
         OpportunitySourceKind sourceKind,
@@ -249,7 +324,9 @@ public sealed class OpportunityOperationsTests
         string title = "",
         string officialUrl = "",
         decimal confidence = 0m,
-        IReadOnlyList<string>? matchedTerms = null)
+        IReadOnlyList<string>? matchedTerms = null,
+        string summary = "",
+        bool omitPublishedAt = false)
     {
         return new()
         {
@@ -257,6 +334,7 @@ public sealed class OpportunityOperationsTests
             Municipality = municipality,
             SourceKind = sourceKind,
             Title = title,
+            Summary = summary,
             OfficialUrl = officialUrl,
             Confidence = confidence,
             MatchedTerms = matchedTerms ?? [],
@@ -264,8 +342,10 @@ public sealed class OpportunityOperationsTests
                            new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
             LastSeenUtc = publishedAtUtc ??
                           new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
-            PublishedAtUtc = publishedAtUtc ??
-                             new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
+            PublishedAtUtc = omitPublishedAt
+                ? null
+                : publishedAtUtc ??
+                  new(2026, 7, 20, 10, 0, 0, TimeSpan.Zero),
             Status = status
         };
     }

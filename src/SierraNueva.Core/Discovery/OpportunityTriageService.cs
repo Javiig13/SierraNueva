@@ -28,10 +28,26 @@ public sealed class OpportunityTriageService
         "urbanizacion"
     ];
 
+    private static readonly string[] GenericAdministrativeTerms =
+    [
+        "borme",
+        "modelo de solicitud",
+        "normas subsidiarias",
+        "ordenanza fiscal",
+        "publicaciones en el bocm",
+        "solicitud de licencia",
+        "texto refundido"
+    ];
+
     public OpportunityTriageReport Create(
         OpportunityRadarState state,
-        DateTimeOffset generatedAtUtc)
+        DateTimeOffset generatedAtUtc,
+        IReadOnlyCollection<string>? excludedListingHosts = null)
     {
+        HashSet<string> excludedHosts = (excludedListingHosts ?? [])
+            .Select(host => host.Trim().ToLowerInvariant())
+            .Where(host => host.Length > 0)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         OpportunityCandidate[] pending = state.Candidates
             .Where(candidate => candidate.Status is
                 OpportunityCandidateStatus.New or
@@ -43,6 +59,7 @@ public sealed class OpportunityTriageService
             .Select(candidate => BuildItem(
                 candidate,
                 generatedAtUtc,
+                excludedHosts,
                 duplicateMasters.GetValueOrDefault(candidate.Id)))
             .OrderBy(item => PriorityOrder(item.Priority))
             .ThenByDescending(item => item.PriorityScore)
@@ -92,6 +109,7 @@ public sealed class OpportunityTriageService
     private static OpportunityTriageItem BuildItem(
         OpportunityCandidate candidate,
         DateTimeOffset generatedAtUtc,
+        IReadOnlySet<string> excludedListingHosts,
         string? duplicateOfCandidateId)
     {
         string corpus = Normalize(
@@ -135,6 +153,46 @@ public sealed class OpportunityTriageService
         {
             score += 4;
             reasons.Add(OpportunityTriageReason.RecentlyPublished);
+        }
+
+        string titleAndUrl = Normalize($"{candidate.Title} {candidate.OfficialUrl}");
+        string summary = Normalize(candidate.Summary);
+        string municipality = Normalize(candidate.Municipality);
+        if (ContainsLocation(titleAndUrl, municipality))
+        {
+            score += 10;
+            reasons.Add(OpportunityTriageReason.MunicipalityInTitleOrUrl);
+        }
+        else if (ContainsLocation(summary, municipality))
+        {
+            score -= 8;
+            reasons.Add(OpportunityTriageReason.MunicipalityOnlyInSummary);
+        }
+        else
+        {
+            score -= 20;
+            reasons.Add(OpportunityTriageReason.MunicipalityUnconfirmed);
+        }
+
+        if (!candidate.PublishedAtUtc.HasValue &&
+            ContainsHistoricalYear(
+                $"{candidate.Title} {candidate.OfficialUrl}",
+                generatedAtUtc.Year))
+        {
+            score -= 12;
+            reasons.Add(OpportunityTriageReason.HistoricalReference);
+        }
+
+        if (ContainsAny(Normalize(candidate.Title), GenericAdministrativeTerms))
+        {
+            score -= 20;
+            reasons.Add(OpportunityTriageReason.GenericAdministrativeReference);
+        }
+
+        if (HostMatches(domain, excludedListingHosts))
+        {
+            score -= 40;
+            reasons.Add(OpportunityTriageReason.ExcludedListingHost);
         }
 
         OpportunityTriageBand band = hasDirectTerms
@@ -214,6 +272,48 @@ public sealed class OpportunityTriageService
         return terms.Any(term => corpus.Contains(
             Normalize(term),
             StringComparison.Ordinal));
+    }
+
+    private static bool ContainsLocation(string corpus, string municipality)
+    {
+        if (municipality.Length == 0)
+        {
+            return false;
+        }
+
+        return corpus.Contains(municipality, StringComparison.Ordinal) ||
+               Compact(corpus).Contains(Compact(municipality), StringComparison.Ordinal);
+    }
+
+    private static string Compact(string value)
+    {
+        return new(
+            value.Where(char.IsLetterOrDigit).ToArray());
+    }
+
+    private static bool ContainsHistoricalYear(string value, int currentYear)
+    {
+        int latestHistoricalYear = currentYear - 2;
+        for (int year = 2000; year <= latestHistoricalYear; year++)
+        {
+            if (value.Contains(
+                    year.ToString(CultureInfo.InvariantCulture),
+                    StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HostMatches(
+        string domain,
+        IReadOnlySet<string> excludedListingHosts)
+    {
+        return excludedListingHosts.Any(excluded =>
+            string.Equals(domain, excluded, StringComparison.OrdinalIgnoreCase) ||
+            domain.EndsWith($".{excluded}", StringComparison.OrdinalIgnoreCase));
     }
 
     private static string GetDomain(string url)
