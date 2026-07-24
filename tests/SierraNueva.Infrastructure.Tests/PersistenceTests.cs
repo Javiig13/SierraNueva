@@ -1,5 +1,6 @@
 using System.Text.Json;
 using SierraNueva.Contracts;
+using SierraNueva.Core.Models;
 using SierraNueva.Infrastructure.Persistence;
 
 namespace SierraNueva.Infrastructure.Tests;
@@ -139,6 +140,58 @@ public sealed class PersistenceTests
             Assert.Equal("{current", await File.ReadAllTextAsync(current));
             Assert.Equal("{backup-one", await File.ReadAllTextAsync(backupOne));
             Assert.Equal("null", await File.ReadAllTextAsync(backupTwo));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task OpportunityReports_AreWrittenAtomicallyInsidePrivateState()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            JsonOpportunityReportWriter writer = new();
+            await writer.SaveBackfillAsync(
+                directory,
+                new OpportunityBackfillReport
+                {
+                    SourceId = "bocm-calendar",
+                    From = new(2025, 1, 1),
+                    To = new(2025, 12, 31),
+                    BatchDays = 367,
+                    Complete = true
+                },
+                CancellationToken.None);
+            await writer.SaveAuditAsync(
+                directory,
+                new OpportunityAuditReport
+                {
+                    Population = 29,
+                    RequestedSampleSize = 10,
+                    ActualSampleSize = 10
+                },
+                CancellationToken.None);
+
+            string backfillPath = Path.Combine(
+                directory,
+                JsonOpportunityReportWriter.BackfillFileName);
+            string auditPath = Path.Combine(
+                directory,
+                JsonOpportunityReportWriter.AuditFileName);
+            Assert.True(File.Exists(backfillPath));
+            Assert.True(File.Exists(auditPath));
+            Assert.Empty(Directory.GetFiles(directory, "*.tmp"));
+            using JsonDocument backfill = JsonDocument.Parse(
+                await File.ReadAllTextAsync(backfillPath));
+            Assert.Equal(
+                "bocm-calendar",
+                backfill.RootElement.GetProperty("sourceId").GetString());
+            using JsonDocument audit = JsonDocument.Parse(
+                await File.ReadAllTextAsync(auditPath));
+            Assert.Equal(29, audit.RootElement.GetProperty("population").GetInt32());
         }
         finally
         {

@@ -60,6 +60,12 @@ internal static class CrawlerApplication
                 "discover-opportunities" => await DiscoverOpportunitiesAsync(
                     options,
                     shutdown.Token),
+                "backfill-opportunities" => await BackfillOpportunitiesAsync(
+                    options,
+                    shutdown.Token),
+                "audit-opportunities" => await AuditOpportunitiesAsync(
+                    options,
+                    shutdown.Token),
                 "review-opportunity" => await ReviewOpportunityAsync(
                     options,
                     shutdown.Token),
@@ -340,6 +346,236 @@ internal static class CrawlerApplication
         return failed == 0 ? 0 : result.Run.Sources.Any(source => source.Success) ? 1 : 3;
     }
 
+    private static async Task<int> BackfillOpportunitiesAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(options.Source) ||
+            !options.From.HasValue ||
+            !options.To.HasValue)
+        {
+            Console.Error.WriteLine(
+                "backfill-opportunities requiere --source, --from y --to.");
+            return 2;
+        }
+
+        if (!options.StateSpecified)
+        {
+            Console.Error.WriteLine(
+                "backfill-opportunities requiere una ruta privada explícita con --state.");
+            return 2;
+        }
+
+        if (options.DryRun)
+        {
+            Console.Error.WriteLine(
+                "backfill-opportunities no admite --dry-run: usa un --state aislado.");
+            return 2;
+        }
+
+        if (options.From.Value > options.To.Value)
+        {
+            Console.Error.WriteLine(
+                "La fecha inicial del backfill no puede superar la final.");
+            return 2;
+        }
+
+        ConfigurationLoader loader = new();
+        OpportunityDiscoveryCatalog catalog = await loader.LoadOpportunityCatalogAsync(
+            options.DiscoverySources,
+            cancellationToken);
+        IReadOnlyList<MunicipalityDefinition> municipalities =
+            await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        IReadOnlyList<SourceDefinition> knownSources = await loader.LoadSourcesAsync(
+            options.Sources,
+            cancellationToken);
+        IReadOnlyList<string> errors = loader.ValidateOpportunityCatalog(
+            catalog,
+            municipalities);
+        if (errors.Count > 0)
+        {
+            foreach (string error in errors)
+            {
+                Console.Error.WriteLine($"ERROR radar: {error}");
+            }
+
+            return 2;
+        }
+
+        OpportunitySourceDefinition? source = catalog.Sources.FirstOrDefault(candidate =>
+            candidate.Enabled &&
+            string.Equals(candidate.Id, options.Source, StringComparison.OrdinalIgnoreCase));
+        if (source is null)
+        {
+            Console.Error.WriteLine(
+                $"No existe una fuente habilitada con id '{options.Source}'.");
+            return 2;
+        }
+
+        if (source.Cadence == OpportunityFeedCadence.Once)
+        {
+            Console.Error.WriteLine(
+                $"La fuente '{source.Id}' no es temporal y no admite backfill por lotes.");
+            return 2;
+        }
+
+        IReadOnlyList<OpportunityBackfillBatch> batches = OpportunityBackfillPlanner.Plan(
+            options.From.Value,
+            options.To.Value,
+            options.BatchDays);
+        CrawlerSettings settings = await loader.LoadSettingsAsync(
+            options.Config,
+            cancellationToken);
+        string[] knownPromotionUrls = knownSources
+            .Where(item => item.Enabled)
+            .SelectMany(item => item.StartUrls)
+            .ToArray();
+        DateTimeOffset startedAtUtc = DateTimeOffset.UtcNow;
+        List<OpportunityBackfillBatchResult> batchResults = [];
+
+        await using ServiceProvider services = BuildOpportunityServices(settings);
+        OpportunityDiscoveryPipeline pipeline =
+            services.GetRequiredService<OpportunityDiscoveryPipeline>();
+        foreach (OpportunityBackfillBatch batch in batches)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = catalog,
+                    Municipalities = municipalities,
+                    StateDirectory = options.State,
+                    From = batch.From,
+                    To = batch.To,
+                    SourceFilter = source.Id,
+                    KnownPromotionUrls = knownPromotionUrls
+                },
+                cancellationToken);
+            OpportunitySourceRun sourceRun = GetSingleSourceRun(result, source.Id);
+            batchResults.Add(new()
+            {
+                Sequence = batch.Sequence,
+                From = batch.From,
+                To = batch.To,
+                Success = sourceRun.Success,
+                ItemsRead = sourceRun.ItemsRead,
+                CandidatesMatched = sourceRun.CandidatesMatched,
+                NewCandidates = result.Run.NewCandidates,
+                UpdatedCandidates = result.Run.UpdatedCandidates,
+                Error = sourceRun.Error
+            });
+            Console.WriteLine(
+                $"Lote {batch.Sequence}/{batches.Count} {batch.From:yyyy-MM-dd}.." +
+                $"{batch.To:yyyy-MM-dd}: {(sourceRun.Success ? "ok" : "fallo")}, " +
+                $"{sourceRun.ItemsRead} entradas, {sourceRun.CandidatesMatched} candidatos.");
+        }
+
+        OpportunityBackfillReport report = new()
+        {
+            SourceId = source.Id,
+            From = options.From.Value,
+            To = options.To.Value,
+            BatchDays = options.BatchDays,
+            StartedAtUtc = startedAtUtc,
+            FinishedAtUtc = DateTimeOffset.UtcNow,
+            Complete = batchResults.All(batch => batch.Success),
+            ItemsRead = batchResults.Sum(batch => batch.ItemsRead),
+            CandidatesMatched = batchResults.Sum(batch => batch.CandidatesMatched),
+            NewCandidates = batchResults.Sum(batch => batch.NewCandidates),
+            UpdatedCandidates = batchResults.Sum(batch => batch.UpdatedCandidates),
+            Batches = batchResults
+        };
+        await new JsonOpportunityReportWriter().SaveBackfillAsync(
+            options.State,
+            report,
+            cancellationToken);
+        int failed = batchResults.Count(batch => !batch.Success);
+        Console.WriteLine(
+            $"Backfill {source.Id}: {batchResults.Count - failed}/{batchResults.Count} " +
+            $"lotes correctos; informe privado en '{Path.Combine(
+                options.State,
+                JsonOpportunityReportWriter.BackfillFileName)}'.");
+        foreach (OpportunityBackfillBatchResult failedBatch in batchResults.Where(
+                     batch => !batch.Success))
+        {
+            Console.Error.WriteLine(
+                $"ERROR lote {failedBatch.Sequence} " +
+                $"{failedBatch.From:yyyy-MM-dd}..{failedBatch.To:yyyy-MM-dd}: " +
+                $"{failedBatch.Error}");
+        }
+
+        return failed == 0 ? 0 : failed < batchResults.Count ? 1 : 3;
+    }
+
+    private static async Task<int> AuditOpportunitiesAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        ConfigurationLoader loader = new();
+        IReadOnlyList<MunicipalityDefinition> municipalities =
+            await loader.LoadMunicipalitiesAsync(options.Municipalities, cancellationToken);
+        OpportunityRadarState state = await new JsonOpportunityStateRepository().LoadAsync(
+            options.State,
+            cancellationToken);
+        if (state.UpdatedAtUtc == default)
+        {
+            Console.Error.WriteLine(
+                "Todavía no existe estado privado que auditar en la ruta indicada.");
+            return 1;
+        }
+
+        DateOnly to = options.To ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        DateOnly from = options.From ?? to.AddDays(-30);
+        if (from > to)
+        {
+            Console.Error.WriteLine(
+                "La fecha inicial de la auditoría no puede superar la final.");
+            return 2;
+        }
+
+        OpportunityAuditReport report = new OpportunityAuditService().Create(
+            state,
+            municipalities,
+            options.SampleSize,
+            from,
+            to,
+            DateTimeOffset.UtcNow);
+        await new JsonOpportunityReportWriter().SaveAuditAsync(
+            options.State,
+            report,
+            cancellationToken);
+
+        Console.WriteLine(
+            $"Auditoría {report.From:yyyy-MM-dd}..{report.To:yyyy-MM-dd}: " +
+            $"muestra {report.ActualSampleSize}/{report.Population}; " +
+            $"{report.SingleChannelMunicipalities} municipios con señal de un solo canal, " +
+            $"{report.CoverageGapMunicipalities} con hueco de cobertura y " +
+            $"{report.ZeroSignalMunicipalities} controles sin señal.");
+        foreach (OpportunityAuditMunicipality municipality in report.Sample)
+        {
+            Console.WriteLine(
+                $"  {municipality.Municipality}: {municipality.Reason}; " +
+                $"canales observados {municipality.ObservedChannels}, " +
+                $"pendientes {municipality.PendingCandidates}.");
+        }
+
+        Console.WriteLine(
+            $"Informe agregado privado en '{Path.Combine(
+                options.State,
+                JsonOpportunityReportWriter.AuditFileName)}'.");
+        return 0;
+    }
+
+    private static OpportunitySourceRun GetSingleSourceRun(
+        OpportunityDiscoveryResult result,
+        string sourceId)
+    {
+        return result.Run.Sources.Single(source => string.Equals(
+            source.SourceId,
+            sourceId,
+            StringComparison.Ordinal));
+    }
+
     private static async Task<int> ReviewOpportunityAsync(
         CliOptions options,
         CancellationToken cancellationToken)
@@ -596,6 +832,8 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- validate-config [opciones]
               dotnet run --project src/SierraNueva.Crawler -- validate-data [opciones]
               dotnet run --project src/SierraNueva.Crawler -- discover-opportunities [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- backfill-opportunities [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- audit-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
               dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
 
@@ -613,6 +851,8 @@ internal static class CrawlerApplication
               --max-pages <n>          Sobrescribir máximo
               --from <aaaa-mm-dd>      Inicio de ventana del radar
               --to <aaaa-mm-dd>        Fin de ventana del radar
+              --batch-days <n>         Días inclusivos por lote (1..367)
+              --sample-size <n>        Municipios de la auditoría (por defecto 10)
               --candidate <id>         Candidato privado que revisar
               --status <estado>        new, monitoring, rejected, verifiedSource o stale
               --no-playwright          Deshabilitar fallback JavaScript
@@ -681,6 +921,13 @@ internal sealed class CliOptions
 
     public OpportunityCandidateStatus? OpportunityStatus { get; private init; }
 
+    public int BatchDays { get; private init; } =
+        OpportunityBackfillPlanner.MaximumBatchDays;
+
+    public int SampleSize { get; private init; } = 10;
+
+    public bool StateSpecified { get; private init; }
+
     public bool NoPlaywright { get; private init; }
 
     public bool NoGeocoding { get; private init; }
@@ -699,6 +946,8 @@ internal sealed class CliOptions
             "validate-config" or
             "validate-data" or
             "discover-opportunities" or
+            "backfill-opportunities" or
+            "audit-opportunities" or
             "review-opportunity" or
             "coverage-status"))
         {
@@ -738,6 +987,12 @@ internal sealed class CliOptions
 
         DateOnly? from = ParseDate(values, "--from");
         DateOnly? to = ParseDate(values, "--to");
+        int batchDays = ParsePositiveInt(
+            values,
+            "--batch-days",
+            OpportunityBackfillPlanner.MaximumBatchDays,
+            OpportunityBackfillPlanner.MaximumBatchDays);
+        int sampleSize = ParsePositiveInt(values, "--sample-size", 10, 100);
         OpportunityCandidateStatus? opportunityStatus = null;
         if (values.TryGetValue("--status", out string? statusText) &&
             !Enum.TryParse(statusText, ignoreCase: true, out OpportunityCandidateStatus parsedStatus))
@@ -775,6 +1030,9 @@ internal sealed class CliOptions
             To = to,
             Candidate = GetNullable(values, "--candidate"),
             OpportunityStatus = opportunityStatus,
+            BatchDays = batchDays,
+            SampleSize = sampleSize,
+            StateSpecified = values.ContainsKey("--state"),
             NoPlaywright = switches.Contains("--no-playwright"),
             NoGeocoding = switches.Contains("--no-geocoding"),
             DryRun = switches.Contains("--dry-run"),
@@ -815,5 +1073,28 @@ internal sealed class CliOptions
             out DateOnly parsed)
             ? parsed
             : throw new ArgumentException($"{key} debe usar el formato aaaa-mm-dd.");
+    }
+
+    private static int ParsePositiveInt(
+        IReadOnlyDictionary<string, string> values,
+        string key,
+        int fallback,
+        int maximum)
+    {
+        if (!values.TryGetValue(key, out string? value))
+        {
+            return fallback;
+        }
+
+        return int.TryParse(
+                   value,
+                   System.Globalization.NumberStyles.None,
+                   System.Globalization.CultureInfo.InvariantCulture,
+                   out int parsed) &&
+               parsed is >= 1 &&
+               parsed <= maximum
+            ? parsed
+            : throw new ArgumentException(
+                $"{key} debe ser un entero entre 1 y {maximum}.");
     }
 }

@@ -35,8 +35,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 
 ### Crawler
 
-- CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities` y
-  `review-opportunity` con opciones y códigos de salida documentados.
+- CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities`,
+  `backfill-opportunities`, `audit-opportunities`, `review-opportunity` y
+  `coverage-status` con opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con 21
   fuentes revisadas, una URL y una página por fuente.
@@ -71,6 +72,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   estados de revisión.
 - Backfill BOCM por calendario oficial y sumario XML diario, con lotes de hasta
   367 días inclusivos y salto HTML → XML probado sin Internet.
+- Planificador de backfill para rangos arbitrarios: exige fuente temporal y
+  estado privado explícito, evita huecos/solapes y escribe un resumen atómico
+  por lote sin borrar candidatos previos.
 - Adaptador común de tablón `eAdmin` para Galapagar, Alpedrete, Los Molinos,
   Moralzarzal y San Lorenzo de El Escorial; extrae solo filas y enlaces de
   detalle, fija un municipio validado y no descarga adjuntos.
@@ -85,6 +89,10 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Instantánea privada de cobertura para los 29 municipios, separando canal
   directo, central, combinado, degradado o no comprobado. `coverage-status`
   muestra solo agregados y puntos ciegos.
+- Auditoría temporal privada que estratifica los 29 municipios por señales
+  centrales, municipales y comerciales; prioriza señales de un solo canal,
+  huecos y controles sin señal, sin exponer la cola ni fingir una estimación de
+  exhaustividad.
 - Descubrimiento comercial privado mediante 13 sitemaps de dominios oficiales
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
@@ -98,8 +106,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   atómicos adicionales para la cola de oportunidades.
 - CI offline en GitHub Actions y workflow manual/diario de crawl y despliegue,
   con acciones fijadas, permisos mínimos, concurrencia y resumen de ejecución.
-  El workflow actualizado ejecuta primero el radar y conserva su estado en la
-  caché privada, sin publicar candidatos.
+  El workflow actualizado ejecuta primero el radar, un backfill móvil de 31
+  días cada lunes y una auditoría diaria de diez municipios. Conserva todo el
+  estado y los informes en la caché privada, sin publicar candidatos.
 - Preparación de Pages con base `/SierraNueva/`, `.nojekyll`, fallback
   `404.html` y rechazo explícito de cualquier estado privado.
 
@@ -137,11 +146,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          13 correctos
-Tests Infrastructure:86 correctos
+Tests Core:          18 correctos
+Tests Infrastructure:87 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               107/107 correctos
+Total:               113/113 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -156,6 +165,7 @@ Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
+Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 1 min 57 s para el commit ba2a186
 Crawl/deploy GitHub: correcto en la ejecución 30054208393 (7 min 10 s)
@@ -230,6 +240,10 @@ porque el estado sintético ya está sembrado.
 - La cuarta cohorte añade la actualidad oficial de Collado Villalba y los RSS
   de Guadalix de la Sierra y Navalafuente. Procesó 20 entradas live sin fallos
   ni candidatos y eleva la vigilancia municipal directa a 28/29 (96,6 %).
+- El orquestador de backfill se comprobó offline con dos lotes contiguos entre
+  2024 y 2025 y live, sobre estado aislado, del 24 de junio al 24 de julio de
+  2026: BOCM entregó 1.909 entradas, 1/1 lote terminó correcto y el filtro no
+  produjo candidatos. Los informes quedaron fuera de Git.
 - El radar genera ahora una fotografía operativa: la baseline offline obtiene
   29/29 municipios con vigilancia sana, 28 con canal directo y Robledo de
   Chavela como cobertura exclusivamente central. Esto mide ejecución y puntos
@@ -349,17 +363,17 @@ porque el estado sintético ya está sembrado.
 2. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
    redundancia y no tratar un 403 o un fallo TLS aislado como autorización
    para evadir controles.
-3. Ejecutar backfills acotados y auditorías muestrales para medir omisiones
-   entre canales independientes.
-4. Mantener verde la baseline offline.
+3. Revisar las muestras privadas generadas y registrar evidencia independiente
+   antes de convertir cualquier discrepancia en una nueva fuente o promoción.
+4. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
 5. Revalidar las 21 evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
 6. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
 7. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-8. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
-   operativa y siempre sobre estado privado aislado.
+8. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
+   de producto y siempre sobre un estado privado aislado.
 9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente

@@ -229,15 +229,26 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   candidatos en monitorización, 21/21 fuentes comerciales y Pages desplegado.
   Tres fallos transitorios del radar quedaron aislados y la repetición
   individual recuperó Apremya, STANCE y Los Molinos sin evasión.
-- **Pendiente:** ejecutar backfills periódicos por lotes y auditorías muestrales
-  para estimar oportunidades no observadas entre canales independientes.
+- **Hecho:** `backfill-opportunities` divide rangos arbitrarios sin
+  huecos/solapes, exige una ruta privada explícita, conserva los lotes
+  correctos ante fallos parciales y deja un informe atómico agregado. La
+  comprobación live aislada del 24 de junio al 24 de julio procesó 1.909
+  entradas BOCM, 1/1 lote correcto y cero candidatos.
+- **Hecho:** `audit-opportunities` genera para una ventana temporal una muestra
+  determinista de municipios con señal en un solo canal, huecos y controles
+  sin señal. Compara familias central, municipal y comercial, excluye
+  candidatos rechazados/obsoletos y no publica títulos ni URLs.
+- **Hecho:** el workflow diario crea la muestra privada y cada lunes ejecuta
+  un backfill BOCM móvil de 31 días; ambos fallos quedan aislados del dataset
+  público. La auditoría sirve para buscar omisiones con evidencia
+  independiente y no presenta como métrica una exhaustividad no observada.
 
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 107/107 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 113/113 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
@@ -265,7 +276,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 107/107 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 113/113 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

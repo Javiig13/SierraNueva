@@ -67,6 +67,14 @@ public enum MunicipalityCoverageStatus
     Degraded
 }
 
+public enum OpportunityAuditReason
+{
+    SingleChannelSignal,
+    CoverageGap,
+    ZeroSignalControl,
+    CrossChannelControl
+}
+
 public sealed class OpportunityTermRule
 {
     public string Term { get; init; } = string.Empty;
@@ -327,4 +335,121 @@ public sealed class OpportunityDiscoveryResult
     public OpportunityRadarState State { get; init; } = new();
 
     public OpportunityDiscoveryRun Run { get; init; } = new();
+}
+
+public sealed class OpportunityBackfillBatch
+{
+    public int Sequence { get; init; }
+
+    public DateOnly From { get; init; }
+
+    public DateOnly To { get; init; }
+}
+
+public sealed class OpportunityBackfillBatchResult
+{
+    public int Sequence { get; init; }
+
+    public DateOnly From { get; init; }
+
+    public DateOnly To { get; init; }
+
+    public bool Success { get; init; }
+
+    public int ItemsRead { get; init; }
+
+    public int CandidatesMatched { get; init; }
+
+    public int NewCandidates { get; init; }
+
+    public int UpdatedCandidates { get; init; }
+
+    public string? Error { get; init; }
+}
+
+public sealed class OpportunityBackfillReport
+{
+    public string SchemaVersion { get; init; } = "1.0";
+
+    public string SourceId { get; init; } = string.Empty;
+
+    public DateOnly From { get; init; }
+
+    public DateOnly To { get; init; }
+
+    public int BatchDays { get; init; }
+
+    public DateTimeOffset StartedAtUtc { get; init; }
+
+    public DateTimeOffset FinishedAtUtc { get; init; }
+
+    public bool Complete { get; init; }
+
+    public int ItemsRead { get; init; }
+
+    public int CandidatesMatched { get; init; }
+
+    public int NewCandidates { get; init; }
+
+    public int UpdatedCandidates { get; init; }
+
+    public IReadOnlyList<OpportunityBackfillBatchResult> Batches { get; init; } = [];
+}
+
+public sealed class OpportunityAuditMunicipality
+{
+    public string Municipality { get; init; } = string.Empty;
+
+    public OpportunityAuditReason Reason { get; init; }
+
+    public MunicipalityCoverageStatus CoverageStatus { get; init; }
+
+    public int HealthyCentralSources { get; init; }
+
+    public int HealthyDirectSources { get; init; }
+
+    public int CentralCandidates { get; init; }
+
+    public int DirectCandidates { get; init; }
+
+    public int CommercialCandidates { get; init; }
+
+    public int ObservedChannels { get; init; }
+
+    public int PendingCandidates { get; init; }
+}
+
+public sealed class OpportunityAuditReport
+{
+    public string SchemaVersion { get; init; } = "1.0";
+
+    public string Method { get; init; } = "risk-stratified-v1";
+
+    public DateTimeOffset GeneratedAtUtc { get; init; }
+
+    public DateTimeOffset StateUpdatedAtUtc { get; init; }
+
+    public DateOnly From { get; init; }
+
+    public DateOnly To { get; init; }
+
+    public int Population { get; init; }
+
+    public int RequestedSampleSize { get; init; }
+
+    public int ActualSampleSize { get; init; }
+
+    public int ObservedCandidates { get; init; }
+
+    public int PendingCandidates { get; init; }
+
+    public int SingleChannelMunicipalities { get; init; }
+
+    public int CoverageGapMunicipalities { get; init; }
+
+    public int ZeroSignalMunicipalities { get; init; }
+
+    public int CrossChannelMunicipalities { get; init; }
+
+    public IReadOnlyList<OpportunityAuditMunicipality> Sample { get; init; } = [];
 }

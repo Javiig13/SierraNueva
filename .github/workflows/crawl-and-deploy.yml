@@ -76,6 +76,49 @@ jobs:
           --municipalities config/municipalities.json
           --state .runtime/state
 
+      - name: Backfill the last 31 BOCM days weekly
+        id: opportunity-backfill
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'schedule' -and
+              (Get-Date).DayOfWeek -ne [DayOfWeek]::Monday) {
+            'schedule=omitted-not-monday' |
+              Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            "Backfill semanal omitido: hoy no es lunes." |
+              Write-Output
+            exit 0
+          }
+          'schedule=executed' |
+            Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $to = (Get-Date).ToUniversalTime().Date
+          $from = $to.AddDays(-30)
+          $fromText = $from.ToString('yyyy-MM-dd')
+          $toText = $to.ToString('yyyy-MM-dd')
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+            backfill-opportunities `
+            --config config/appsettings.live.json `
+            --discovery-sources config/discovery-sources.live.json `
+            --sources config/sources.live.json `
+            --municipalities config/municipalities.json `
+            --source bocm-calendar `
+            --from $fromText `
+            --to $toText `
+            --state .runtime/state
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Create private opportunity audit sample
+        id: opportunity-audit
+        continue-on-error: true
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          audit-opportunities
+          --municipalities config/municipalities.json
+          --state .runtime/state
+          --sample-size 10
+
       - name: Crawl reviewed live sources
         run: >-
           dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
@@ -144,6 +187,9 @@ jobs:
         shell: pwsh
         env:
           RADAR_OUTCOME: ${{ steps.opportunity-radar.outcome }}
+          BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
+          BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
+          AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
         run: |
           $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
             ConvertFrom-Json
@@ -154,6 +200,8 @@ jobs:
             $coverage = $radar.coverage
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
+          - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
+          - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Radar: $($coverage.healthySources) fuentes sanas, $($coverage.degradedSources) degradadas y $($coverage.failingSources) en fallo reiterado
           - Cobertura radar: $($coverage.municipalitiesWithHealthyCoverage)/$($coverage.municipalitiesTotal) municipios; $($coverage.municipalitiesWithHealthyDirectSource) con canal directo
           - Candidatos privados pendientes: $($coverage.pendingCandidates)
@@ -161,6 +209,8 @@ jobs:
           } else {
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
+          - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
+          - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Radar: sin estado disponible en esta ejecución
           "@
           }

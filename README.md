@@ -129,6 +129,23 @@ SierraNueva.Crawler discover-opportunities
   --to <aaaa-mm-dd>
   --dry-run
 
+SierraNueva.Crawler backfill-opportunities
+  --discovery-sources <ruta>
+  --municipalities <ruta>
+  --sources <ruta>
+  --state <ruta explícita>
+  --source <id>
+  --from <aaaa-mm-dd>
+  --to <aaaa-mm-dd>
+  --batch-days <1..367>
+
+SierraNueva.Crawler audit-opportunities
+  --municipalities <ruta>
+  --state <ruta>
+  --from <aaaa-mm-dd>
+  --to <aaaa-mm-dd>
+  --sample-size <n>
+
 SierraNueva.Crawler review-opportunity
   --state <ruta>
   --candidate <id>
@@ -194,16 +211,34 @@ las fichas conocidas Puerta de Villalba y Etria. Las decisiones humanas
 repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
 `monitoring`, `rejected` o `stale`, pero nunca verificar una fuente.
 
-BOCM admite backfill por intervalos de hasta 367 días inclusivos. Para recorrer
-varios años se ejecuta un lote por año, siempre con una ruta de estado privada:
+`backfill-opportunities` divide automáticamente cualquier intervalo temporal
+en lotes contiguos de hasta 367 días inclusivos. Exige una fuente temporal y
+una ruta `--state` explícita para no mezclar accidentalmente el histórico con
+el estado habitual. Cada lote conserva los candidatos anteriores y el resumen
+queda en `opportunity-backfill.json`, dentro de esa misma ruta privada:
 
 ```powershell
 dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
-  discover-opportunities `
+  backfill-opportunities `
   --discovery-sources config/discovery-sources.live.json `
+  --sources config/sources.live.json `
   --source bocm-calendar `
+  --from 2024-01-01 --to 2025-12-31 `
+  --state tmp/bocm-audit
+```
+
+Sobre cualquier estado completo del radar se puede generar una muestra
+determinista y acotada de municipios. Prioriza señales observadas en un solo
+canal, huecos de cobertura y controles sin señal; excluye candidatos
+`rejected` y `stale`, no expone títulos ni URLs y no fabrica un porcentaje de
+exhaustividad. El resultado `opportunity-audit.json` sigue siendo privado:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  audit-opportunities `
+  --state tmp/bocm-audit `
   --from 2025-01-01 --to 2025-12-31 `
-  --state tmp/bocm-2025
+  --sample-size 10
 ```
 
 ## Configurar fuentes

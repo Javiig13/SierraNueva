@@ -116,6 +116,20 @@ ejecución posterior actualiza el candidato sin perder su estado humano:
 `new`, `monitoring`, `rejected`, `verifiedSource` o `stale`. La escritura es
 atómica, rota dos backups y nunca toca `data/public`.
 
+`backfill-opportunities` reutiliza el mismo pipeline y contrato privado. Un
+planificador puro divide rangos largos en lotes contiguos de hasta 367 días
+inclusivos; el comando exige fuente temporal, fechas y un `--state` explícito.
+Los lotes correctos se conservan aunque otro falle y un resumen agregado se
+reemplaza atómicamente como `opportunity-backfill.json`.
+
+`audit-opportunities` trabaja solo con el estado privado y una ventana
+temporal. Agrupa las señales observadas por municipio en tres familias
+independientes —central, municipal directa y comercial oficial— y genera una
+muestra determinista que prioriza señales de un único canal, huecos de
+cobertura y controles sin señal. Descarta candidatos rechazados u obsoletos y
+escribe únicamente agregados en `opportunity-audit.json`; no publica títulos,
+URLs ni una estimación de exhaustividad sin observaciones independientes.
+
 El mismo estado privado mantiene un registro por fuente con primer y último
 chequeo, último éxito y fallo, última respuesta no vacía, contadores de fallos
 y vacíos consecutivos, siguiente revisión prevista y la incidencia saneada. El
