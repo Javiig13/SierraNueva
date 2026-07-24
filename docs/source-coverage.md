@@ -11,10 +11,10 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 
 ## Resultado
 
-- 21 fuentes live revisadas y limitadas a una URL cada una.
-- 21 promociones válidas en 16 municipios distintos.
-- 13 promociones añadidas desde la fotografía inicial de ocho fuentes: un
-  aumento del 162,5 %.
+- 22 fuentes live revisadas y limitadas a una URL cada una.
+- 22 promociones válidas en 16 municipios distintos.
+- 14 promociones añadidas desde la fotografía inicial de ocho fuentes: un
+  aumento del 175 %.
 - 13 municipios sin fuente integrada: no se encontró una candidata apta o la
   candidata encontrada quedó descartada por un motivo documentado.
 - El perfil offline predeterminado no cambia y sigue usando solo fixtures.
@@ -34,7 +34,7 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 | El Escorial | Candidata mixta descartada | Puerta de Abantos combina 26 chalets con 16 bajos y dúplex en una promoción única; el contrato actual no puede aislar con rigor el inventario unifamiliar. |
 | Fresnedillas de la Oliva | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
 | Galapagar | **Integradas (3)** | EXXACON — Living Natura, Altter — Residencial Navata Nature y STANCE — Essentia Galapagar. |
-| Guadalix de la Sierra | **Integradas (2)** | Antaro — Prado de Noria y Vesari — El Tomillar. |
+| Guadalix de la Sierra | **Integradas (3)** | Antaro — Prado de Noria, Vesari — El Tomillar y Névola Homes. Esta última publica 16 chalets, pero no un precio de vivienda; su reserva se excluye. |
 | Guadarrama | **Integrada** | Gilmar — Quercus Dorf Guadarrama, comercialización exclusiva y última unidad publicada. |
 | Hoyo de Manzanares | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
 | La Cabrera | Fuera de alcance | La actuación pública encontrada corresponde a vivienda multifamiliar en alquiler. |

@@ -77,6 +77,33 @@ public sealed class OpportunityFeedParser
             .FirstOrDefault();
     }
 
+    public IReadOnlyList<Uri>? FindSitemapIndexUris(
+        ReadOnlyMemory<byte> content,
+        Uri sourceUri)
+    {
+        XDocument document = ParseXml(Decode(content));
+        string rootName = document.Root?.Name.LocalName ?? string.Empty;
+        if (rootName == "urlset")
+        {
+            return null;
+        }
+
+        if (rootName != "sitemapindex")
+        {
+            throw new InvalidDataException(
+                $"El sitemap comercial '{sourceUri}' no contiene un urlset ni un " +
+                "sitemapindex.");
+        }
+
+        return document.Descendants()
+            .Where(element => element.Name.LocalName == "sitemap")
+            .Select(item => ResolveUrl(sourceUri, ChildValue(item, "loc")))
+            .Where(value => Uri.TryCreate(value, UriKind.Absolute, out _))
+            .Select(value => new Uri(value))
+            .DistinctBy(uri => uri.AbsoluteUri, StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+    }
+
     private static IReadOnlyList<OpportunityFeedItem> ParseRss(string xml, Uri sourceUri)
     {
         XDocument document = ParseXml(xml);

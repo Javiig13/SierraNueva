@@ -191,6 +191,20 @@ public sealed class ConfigurationLoader
                     $"El seguimiento de enlaces '{source.Id}' necesita selectores acotados.");
             }
 
+            if (source.Format != OpportunityFeedFormat.Sitemap &&
+                source.SitemapIncludes.Count > 0)
+            {
+                errors.Add(
+                    $"Los filtros sitemapIncludes de '{source.Id}' solo son válidos " +
+                    "para un sitemap.");
+            }
+
+            if (source.SitemapIncludes.Any(string.IsNullOrWhiteSpace))
+            {
+                errors.Add(
+                    $"Los filtros sitemapIncludes de '{source.Id}' no pueden estar vacíos.");
+            }
+
             foreach (OpportunityReviewRule rule in source.ReviewRules)
             {
                 if (string.IsNullOrWhiteSpace(rule.UrlPattern))

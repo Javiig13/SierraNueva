@@ -194,18 +194,18 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          22 correctos
-Tests Infrastructure:99 correctos
+Tests Infrastructure:101 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               129/129 correctos
+Total:               131/131 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado:       21 fuentes; 21 promociones válidas, 0 fallos
-Mapa live:           21/21 promociones; 20 centroides municipales y 1 exacta
+Live limitado local: 22 fuentes; 22 promociones válidas y activas, 0 fallos
+Mapa live local:     22/22 promociones; 21 centroides municipales y 1 exacta
 Radar offline:       33 candidatos; 33/33 fuentes sanas; cobertura 29/29
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -239,12 +239,12 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente 21 fuentes
+  perfil separado `sources.live.json` habilita explícitamente 22 fuentes
   limitadas y no se ejecuta por accidente.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
-  conjunta con salida/estado aislados. Las 21 fuentes terminaron sin fallos,
-  se obtuvieron 21 promociones válidas y `validate-data` fue
+  conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin
+  fallos, se obtuvieron 21 promociones válidas y `validate-data` fue
   correcto.
 - La búsqueda cubrió sistemáticamente los 29 municipios. La fotografía ofrece
   fuente en 16 (55,2 %); los otros 13 constan con candidato descartado o
@@ -262,6 +262,15 @@ porque el estado sintético ya está sembrado.
   Zarzalejo, Essentia en Galapagar y Montemilano en Bustarviejo. Montemilano
   excluye los formularios porque sus bandas de inversión no son precios; la
   fixture comprueba que el precio queda nulo.
+- La quinta ampliación añade Névola Homes en Guadalix de la Sierra: 16 chalets,
+  14 pareados y dos independientes, cuatro dormitorios, dos plazas y parcelas
+  de 310 a 319 m². La prueba y el dry run live aislado son correctos. El bloque
+  de pagos queda fuera para no publicar los 5.000 € de reserva como precio.
+  Abantos Home se descartó por ser plurifamiliar.
+- La ejecución conjunta aislada `20260724T151724214Z` terminó con 22/22 fuentes,
+  22 promociones activas y cero fallos; `validate-data` fue correcto. Névola
+  conservó precio nulo y extrajo 16 unidades, cuatro dormitorios, dos plazas,
+  parcelas 310–319 m² y ambas tipologías.
 - Las tablas Nuvare motivaron correcciones para no concatenar columnas como
   precios, distinguir unidades totales y disponibles y admitir millares en
   parcelas. Osnola añade la variante explícita “licencia obtenida”.
@@ -304,6 +313,14 @@ porque el estado sintético ya está sembrado.
   separó tres URLs ya conocidas de 12 candidatos pendientes. Entre estos
   últimos aparece una ficha específica de STANCE en Torrelodones y varias
   páginas municipales de obra nueva que todavía no demuestran una promoción.
+- El lector sigue ahora índices `sitemapindex` con límites de profundidad,
+  documentos, HTTPS y host. Siete fuentes conocidas se migraron a sus índices
+  con filtros de sub-sitemap; los smokes aislados terminaron 7/7 sanos y
+  procesaron 745 URLs en total. Esto detecta particiones futuras sin abrir
+  blogs, autores o formularios.
+- La fotografía de cobertura incorpora recuentos por estado del embudo,
+  canales y dominios comerciales sanos y municipios con señal comercial. Son
+  métricas de observación, no un porcentaje inventado de exhaustividad.
 - La primera ejecución integrada en GitHub, `30054208393`, recorrió las 45
   fuentes en 3 min 40 s. Encontró 17 coincidencias: tres correspondían a URLs
   comerciales conocidas y 14 quedaron pendientes en la cola privada. PCSP y
@@ -372,7 +389,7 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 22 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow actualizado ejecuta antes `discover-opportunities` con las 47
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo

@@ -422,6 +422,20 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                 promotion.PlotAreaMinSqm ??= minimum;
                 promotion.PlotAreaMaxSqm ??= maximum;
             });
+        if (!promotion.PlotAreaMinSqm.HasValue)
+        {
+            ApplyDecimalValuesRange(
+                PlotAreaValueRegex(),
+                normalized,
+                20m,
+                10_000m,
+                (minimum, maximum) =>
+                {
+                    promotion.PlotAreaMinSqm = minimum;
+                    promotion.PlotAreaMaxSqm = maximum;
+                });
+        }
+
         ApplyIntRange(
             BedroomsRegex(),
             normalized,
@@ -437,6 +451,14 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             {
                 promotion.BathroomsMin ??= minimum;
                 promotion.BathroomsMax ??= maximum;
+            });
+        ApplyIntRange(
+            GarageSpacesRegex(),
+            normalized,
+            (minimum, maximum) =>
+            {
+                promotion.GarageSpacesMin ??= minimum;
+                promotion.GarageSpacesMax ??= maximum;
             });
 
         HashSet<string> propertyTypes = new(StringComparer.OrdinalIgnoreCase);
@@ -551,6 +573,15 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             "plotAreaSqm",
             FormatRange(promotion.PlotAreaMinSqm, promotion.PlotAreaMaxSqm),
             PlotAreaRegex(),
+            normalized,
+            sourceUrl,
+            capturedAt,
+            extractor);
+        AddPatternEvidence(
+            promotion,
+            "garageSpaces",
+            FormatRange(promotion.GarageSpacesMin, promotion.GarageSpacesMax),
+            GarageSpacesRegex(),
             normalized,
             sourceUrl,
             capturedAt,
@@ -967,6 +998,29 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         }
     }
 
+    private static void ApplyDecimalValuesRange(
+        Regex regex,
+        string text,
+        decimal minimumAllowed,
+        decimal maximumAllowed,
+        Action<decimal, decimal?> setter)
+    {
+        decimal[] values = regex.Matches(text)
+            .Select(match => ParseSpanishDecimal(((Match)match).Groups["value"].Value))
+            .Where(value =>
+                value.HasValue &&
+                value.Value >= minimumAllowed &&
+                value.Value <= maximumAllowed)
+            .Select(value => value!.Value)
+            .Distinct()
+            .Order()
+            .ToArray();
+        if (values.Length > 0)
+        {
+            setter(values[0], values.Length > 1 ? values[^1] : null);
+        }
+    }
+
     private static void ApplyIntRange(
         Regex regex,
         string text,
@@ -1145,6 +1199,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PlotAreaRegex();
 
     [GeneratedRegex(
+        @"(?<value>\d{2,5}(?:[.,]\d+)?)\s+metros?\s+de\s+parcela\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex PlotAreaValueRegex();
+
+    [GeneratedRegex(
         @"(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BedroomsRegex();
@@ -1153,6 +1212,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         @"(?<min>\d{1,2})(?:\s*(?:a|-)\s*(?<max>\d{1,2}))?\s+ba[nñ]os?",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BathroomsRegex();
+
+    [GeneratedRegex(
+        @"(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+plazas?\s+de\s+(?:aparcamiento|garaje)\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex GarageSpacesRegex();
 
     [GeneratedRegex(
         @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}(?:independientes?|individual(?:es)?)\b",

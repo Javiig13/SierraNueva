@@ -189,7 +189,7 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 21 fuentes revisadas y limitadas, pero
+`config/sources.live.json` contiene 22 fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
@@ -223,14 +223,20 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 ```
 
 El informe diferencia canales sanos, degradados, atrasados y en fallo
-reiterado, cobertura municipal directa o exclusivamente central y el total de
-candidatos pendientes.
+reiterado, cobertura municipal directa o exclusivamente central, canales y
+dominios comerciales sanos y el embudo completo de candidatos (`new`,
+`monitoring`, `verifiedSource`, `rejected` y `stale`).
 
 Los sitemaps solo aceptan HTTPS y URLs del mismo conjunto de hosts aprobado.
 Detectan nombres de municipios y señales como `promoción`, `promociones` u
 `obra nueva`; los enlaces que ya existen en `sources.live.json` se marcan como
 fuente verificada y los demás quedan pendientes de revisión. Nunca se añaden
 automáticamente al dataset público.
+
+El lector admite también índices `sitemapindex` con profundidad y número de
+documentos limitados. `sitemapIncludes` restringe qué sub-sitemaps se siguen;
+así un índice corporativo no amplía accidentalmente el rastreo a blogs,
+autores, formularios u otras colecciones ajenas al producto.
 
 El formato `htmlLinks` cubre únicamente índices oficiales cuyo sitemap omite
 una ficha conocida. Requiere selectores CSS explícitos, descarga una sola
@@ -560,7 +566,7 @@ sigue funcionando.
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; actualiza primero el radar y su cobertura privada, usa las
-  21 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  22 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último
   dataset comercial válido.

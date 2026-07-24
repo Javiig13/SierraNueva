@@ -50,6 +50,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "residencial-montemilano-bustarviejo",
                 "residencial-montemilano-bustarviejo.html"
+            },
+            {
+                "nevola-homes-guadalix",
+                "nevola-homes-guadalix.html"
             }
         };
 
@@ -267,6 +271,17 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(450m, promotion.PlotAreaMaxSqm);
                 Assert.Equal(3, promotion.BedroomsMin);
                 Assert.Null(promotion.PriceFrom);
+                break;
+            case "nevola-homes-guadalix":
+                Assert.Equal(16, promotion.TotalUnits);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(2, promotion.GarageSpacesMin);
+                Assert.Equal(310m, promotion.PlotAreaMinSqm);
+                Assert.Equal(319m, promotion.PlotAreaMaxSqm);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(
+                    ["Independiente", "Pareado"],
+                    promotion.PropertyTypes);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

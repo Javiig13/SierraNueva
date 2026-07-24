@@ -99,6 +99,16 @@ requiere trabajo de producto.
   obligatorios falla de forma cerrada.
 - **Hecho:** pausa compartida de Vesari elevada a treinta segundos después de
   observar un nuevo HTTP 429 con veinte segundos en el recorrido de 21 fuentes.
+- **Hecho:** quinta ampliación con Névola Homes en Guadalix de la Sierra:
+  22 fuentes/promociones en 16 municipios. El extractor incorpora plazas de
+  aparcamiento y rangos derivados de valores explícitos de parcela; la fixture
+  demuestra que la reserva de 5.000 € queda fuera y el precio sigue nulo.
+- **Hecho:** recorrido live conjunto aislado `20260724T151724214Z`: 22/22
+  fuentes correctas, 22 promociones activas, cero fallos y datos válidos.
+- **Hecho:** Abantos Home reevaluada y descartada porque su producto vigente
+  son bajos con jardín y áticos plurifamiliares. La decisión y la identidad de
+  Névola están en
+  `docs/source-assessments/nevola-abantos-2026-07-24.md`.
 
 ## P3 — Preparación operativa local
 
@@ -201,6 +211,9 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   candidatos pendientes.
 - **Hecho:** `coverage-status` permite consultar agregados y puntos ciegos sin
   revelar la cola privada.
+- **Hecho:** `coverage-status` expone además canales y dominios comerciales
+  sanos, municipios con señales comerciales y el embudo por estado; continúa
+  sin mostrar títulos ni URLs privadas.
 - **Hecho:** integración del radar en el workflow diario antes del crawl. El
   estado se conserva solo en la caché privada y el resumen informa su resultado;
   un fallo administrativo parcial no sustituye ni bloquea el dataset comercial.
@@ -230,6 +243,15 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   cuyas fichas canónicas conocidas faltan en sus sitemaps. Una fixture prueba
   selectores, HTTPS y host; el smoke live produjo solo Puerta de Villalba y
   Etria como `verifiedSource`, sin nuevos pendientes.
+- **Hecho:** soporte acotado de índices `sitemapindex`, con límite de 50
+  documentos, profundidad máxima dos, HTTPS, allowlist de host y filtros
+  `sitemapIncludes`. Siete fuentes conocidas pasan a descubrir dinámicamente
+  sus sub-sitemaps pertinentes; la prueba offline descarta colecciones no
+  incluidas y hosts externos.
+- **Hecho:** smoke live aislado de esos siete índices: Grupo Index 63 URLs,
+  Hirimasa 5, Nuvare 24, STANCE 163, Trinosa 13, Altter 18 y Kronos 459; las
+  siete fuentes terminaron sanas. Nuvare y STANCE reprodujeron candidatos ya
+  gobernados por reglas y revisión privada.
 - **Hecho:** ejecución integral `30077326296` con 47/47 fuentes sanas, 29/29
   municipios y 28 canales directos. El falso positivo adicional de El Boalo
   por “promoción interna” quedó rechazado mediante URL exacta.
@@ -328,10 +350,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 129/129 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 131/131 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 22 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |

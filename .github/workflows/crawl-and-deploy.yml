@@ -78,6 +78,7 @@ jobs:
           validate-config
           --config config/appsettings.live.json
           --sources config/sources.live.json
+          --discovery-sources config/discovery-sources.live.json
 
       - name: Discover opportunities and update private coverage
         id: opportunity-radar

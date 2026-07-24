@@ -845,6 +845,47 @@
         "name": "#section-bgd9TRt1ab h1"
       },
       "notes": "Micrositio público revisado el 2026-07-24. Se acota a bloques obligatorios sin formularios para evitar interpretar sus bandas de presupuesto como precios. Los identificadores de bloque fallan de forma cerrada si cambia la página. GEYN Construcciones Técnicas figura como ejecutora identificable; el micrositio no atribuye una promotora distinta. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "nevola-homes-guadalix",
+      "name": "Névola Homes — Guadalix de la Sierra",
+      "baseUrl": "https://nevolahomes.com/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "nevolahomes.com",
+        "www.nevolahomes.com"
+      ],
+      "startUrls": [
+        "https://nevolahomes.com/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Guadalix de la Sierra",
+      "municipalityHints": [
+        "Guadalix de la Sierra"
+      ],
+      "contentSelector": "#promocion",
+      "additionalContentSelectors": [
+        "#localizacion"
+      ],
+      "includePatterns": [
+        "nevolahomes.com/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Micrositio oficial revisado el 2026-07-24 y vinculado desde la web corporativa de Nido Capital Group. Solo se procesa la promoción y su localización; quedan fuera formularios, imágenes, descargas y el calendario de pagos para evitar confundir la reserva con el precio de la vivienda. Evaluación en docs/source-assessments/nevola-abantos-2026-07-24.md."
     }
   ]
 }

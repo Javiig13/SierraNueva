@@ -517,8 +517,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://grupoindexmadrid.com/page-sitemap.xml",
+      "urlTemplate": "https://grupoindexmadrid.com/sitemap_index.xml",
       "allowedHosts": [ "grupoindexmadrid.com", "www.grupoindexmadrid.com" ],
+      "sitemapIncludes": [ "/page-sitemap" ],
       "maxItems": 1000
     },
     {
@@ -528,8 +529,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://hirimasa.com/wp-sitemap-posts-page-1.xml",
+      "urlTemplate": "https://hirimasa.com/wp-sitemap.xml",
       "allowedHosts": [ "hirimasa.com", "www.hirimasa.com" ],
+      "sitemapIncludes": [ "wp-sitemap-posts-page-" ],
       "maxItems": 1000
     },
     {
@@ -539,8 +541,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://nuvare.es/page-sitemap.xml",
+      "urlTemplate": "https://nuvare.es/sitemap_index.xml",
       "allowedHosts": [ "nuvare.es", "www.nuvare.es" ],
+      "sitemapIncludes": [ "page-sitemap" ],
       "reviewRules": [
         {
           "urlPattern": "/obra-nueva-guadalix-de-la-sierra/",
@@ -575,8 +578,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://stancehomes.es/page-sitemap.xml",
+      "urlTemplate": "https://stancehomes.es/sitemap_index.xml",
       "allowedHosts": [ "stancehomes.es", "www.stancehomes.es" ],
+      "sitemapIncludes": [ "page-sitemap" ],
       "reviewRules": [
         {
           "urlPattern": "/obra-nueva-en-",
@@ -596,8 +600,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://trinosa.com/promocion-sitemap.xml",
+      "urlTemplate": "https://trinosa.com/sitemap_index.xml",
       "allowedHosts": [ "trinosa.com", "www.trinosa.com" ],
+      "sitemapIncludes": [ "promocion-sitemap" ],
       "maxItems": 1000
     },
     {
@@ -607,8 +612,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://www.altter.es/property-sitemap.xml",
+      "urlTemplate": "https://www.altter.es/sitemap_index.xml",
       "allowedHosts": [ "www.altter.es", "altter.es" ],
+      "sitemapIncludes": [ "property-sitemap" ],
       "maxItems": 1000
     },
     {
@@ -618,8 +624,9 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://www.kronoshomes.com/sitemap-negocio.xml",
+      "urlTemplate": "https://www.kronoshomes.com/sitemap.xml",
       "allowedHosts": [ "www.kronoshomes.com", "kronoshomes.com" ],
+      "sitemapIncludes": [ "sitemap-negocio" ],
       "maxItems": 2000
     },
     {

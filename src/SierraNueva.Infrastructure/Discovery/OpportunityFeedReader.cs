@@ -10,6 +10,8 @@ public sealed class OpportunityFeedReader(
 {
     private const int MaximumDocumentBytes = 64 * 1024 * 1024;
     private const int MaximumArchiveBytes = 512 * 1024 * 1024;
+    private const int MaximumSitemapDocuments = 50;
+    private const int MaximumSitemapDepth = 2;
 
     public async Task<IReadOnlyList<OpportunityFeedItem>> ReadAsync(
         OpportunitySourceDefinition source,
@@ -86,6 +88,22 @@ public sealed class OpportunityFeedReader(
                 continue;
             }
 
+            if (source.Format == OpportunityFeedFormat.Sitemap)
+            {
+                items.AddRange(await ReadSitemapAsync(
+                    source,
+                    uri,
+                    content,
+                    date,
+                    cancellationToken));
+                if (items.Count >= source.MaxItems)
+                {
+                    break;
+                }
+
+                continue;
+            }
+
             IReadOnlyList<OpportunityFeedItem> parsed = parser.Parse(
                 source,
                 content,
@@ -109,6 +127,86 @@ public sealed class OpportunityFeedReader(
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
             .ToArray();
+    }
+
+    private async Task<IReadOnlyList<OpportunityFeedItem>> ReadSitemapAsync(
+        OpportunitySourceDefinition source,
+        Uri rootUri,
+        byte[] rootContent,
+        DateOnly date,
+        CancellationToken cancellationToken)
+    {
+        Queue<(Uri Uri, byte[] Content, int Depth)> pending = new();
+        pending.Enqueue((rootUri, rootContent, 0));
+        HashSet<string> visited = new(StringComparer.OrdinalIgnoreCase);
+        List<OpportunityFeedItem> items = [];
+        int documentsRead = 0;
+
+        while (pending.Count > 0 &&
+               documentsRead < MaximumSitemapDocuments &&
+               items.Count < source.MaxItems)
+        {
+            (Uri uri, byte[] content, int depth) = pending.Dequeue();
+            if (!visited.Add(uri.AbsoluteUri))
+            {
+                continue;
+            }
+
+            documentsRead++;
+            IReadOnlyList<Uri>? childUris = parser.FindSitemapIndexUris(content, uri);
+            if (childUris is null)
+            {
+                IReadOnlyList<OpportunityFeedItem> parsed = parser.Parse(
+                    source,
+                    content,
+                    uri,
+                    date);
+                items.AddRange(FilterCommercialItems(source, parsed));
+                continue;
+            }
+
+            if (depth >= MaximumSitemapDepth)
+            {
+                throw new InvalidDataException(
+                    $"El índice sitemap '{rootUri}' supera la profundidad máxima " +
+                    $"{MaximumSitemapDepth}.");
+            }
+
+            foreach (Uri childUri in childUris
+                         .Where(uri => IsAllowedSitemapUri(source, uri))
+                         .Where(uri => source.SitemapIncludes.Count == 0 ||
+                                       source.SitemapIncludes.Any(pattern =>
+                                           uri.AbsoluteUri.Contains(
+                                               pattern,
+                                               StringComparison.OrdinalIgnoreCase)))
+                         .Take(MaximumSitemapDocuments - documentsRead - pending.Count))
+            {
+                byte[]? childContent = await DownloadAsync(childUri, cancellationToken);
+                if (childContent is not null)
+                {
+                    pending.Enqueue((childUri, childContent, depth + 1));
+                }
+            }
+        }
+
+        return items
+            .DistinctBy(
+                item => string.IsNullOrWhiteSpace(item.ExternalId)
+                    ? item.OfficialUrl
+                    : item.ExternalId,
+                StringComparer.OrdinalIgnoreCase)
+            .Take(source.MaxItems)
+            .ToArray();
+    }
+
+    private static bool IsAllowedSitemapUri(
+        OpportunitySourceDefinition source,
+        Uri uri)
+    {
+        return uri.Scheme == Uri.UriSchemeHttps &&
+               source.AllowedHosts.Contains(
+                   uri.IdnHost,
+                   StringComparer.OrdinalIgnoreCase);
     }
 
     private static IReadOnlyList<OpportunityFeedItem> FilterCommercialItems(

@@ -111,6 +111,8 @@ public sealed class OpportunitySourceDefinition
 
     public IReadOnlyList<string> ItemSelectors { get; init; } = [];
 
+    public IReadOnlyList<string> SitemapIncludes { get; init; } = [];
+
     public IReadOnlyList<OpportunityReviewRule> ReviewRules { get; init; } = [];
 
     public string? FixedMunicipality { get; init; }
@@ -283,6 +285,14 @@ public sealed class OpportunityCoverageSnapshot
 
     public int FailingSources { get; init; }
 
+    public int CommercialSources { get; init; }
+
+    public int HealthyCommercialSources { get; init; }
+
+    public int CommercialDomainsMonitored { get; init; }
+
+    public int HealthyCommercialDomains { get; init; }
+
     public int MunicipalitiesTotal { get; init; }
 
     public int MunicipalitiesWithDirectSource { get; init; }
@@ -292,6 +302,18 @@ public sealed class OpportunityCoverageSnapshot
     public int MunicipalitiesWithHealthyCoverage { get; init; }
 
     public int PendingCandidates { get; init; }
+
+    public int NewCandidates { get; init; }
+
+    public int MonitoringCandidates { get; init; }
+
+    public int RejectedCandidates { get; init; }
+
+    public int VerifiedSourceCandidates { get; init; }
+
+    public int StaleCandidates { get; init; }
+
+    public int MunicipalitiesWithCommercialSignals { get; init; }
 
     public IReadOnlyList<MunicipalityOpportunityCoverage> Municipalities { get; init; } = [];
 }

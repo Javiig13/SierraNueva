@@ -268,6 +268,47 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_FollowsOnlyAllowedSitemapsFromAnOfficialIndex()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "promoter-sitemap-index",
+            Name = "Índice sitemap de promotora",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+            Format = OpportunityFeedFormat.Sitemap,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate = "https://promotora-fixture.test/sitemap-index.xml",
+            AllowedHosts = ["promotora-fixture.test"],
+            SitemapIncludes = ["property-sitemap"],
+            MaxItems = 100
+        };
+        Dictionary<string, byte[]> responses = new(StringComparer.Ordinal)
+        {
+            ["https://promotora-fixture.test/sitemap-index.xml"] =
+                await File.ReadAllBytesAsync(FixturePath("promoter-sitemap-index.xml")),
+            ["https://promotora-fixture.test/property-sitemap.xml"] =
+                await File.ReadAllBytesAsync(FixturePath("promoter-sitemap.xml"))
+        };
+        using MappingHttpClientFactory factory = new(responses);
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+
+        IReadOnlyList<OpportunityFeedItem> items = await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            CancellationToken.None);
+
+        Assert.Equal(2, items.Count);
+        Assert.Equal(
+            [
+                "https://promotora-fixture.test/sitemap-index.xml",
+                "https://promotora-fixture.test/property-sitemap.xml"
+            ],
+            factory.Requests.Select(uri => uri.AbsoluteUri).ToArray());
+    }
+
+    [Fact]
     public async Task Reader_ReadsScopedOfficialInternalLinksAndRejectsUnsafeTargets()
     {
         OpportunitySourceDefinition source = new()
@@ -507,6 +548,16 @@ public sealed class OpportunityDiscoveryTests
             Assert.Equal(28, first.State.Coverage.MunicipalitiesWithHealthyDirectSource);
             Assert.Equal(29, first.State.Coverage.MunicipalitiesWithHealthyCoverage);
             Assert.Equal(33, first.State.Coverage.PendingCandidates);
+            Assert.Equal(1, first.State.Coverage.CommercialSources);
+            Assert.Equal(1, first.State.Coverage.HealthyCommercialSources);
+            Assert.Equal(1, first.State.Coverage.CommercialDomainsMonitored);
+            Assert.Equal(1, first.State.Coverage.HealthyCommercialDomains);
+            Assert.Equal(33, first.State.Coverage.NewCandidates);
+            Assert.Equal(0, first.State.Coverage.MonitoringCandidates);
+            Assert.Equal(0, first.State.Coverage.RejectedCandidates);
+            Assert.Equal(0, first.State.Coverage.VerifiedSourceCandidates);
+            Assert.Equal(0, first.State.Coverage.StaleCandidates);
+            Assert.Equal(1, first.State.Coverage.MunicipalitiesWithCommercialSignals);
             Assert.Equal(
                 MunicipalityCoverageStatus.CentralOnly,
                 first.State.Coverage.Municipalities.Single(
@@ -943,6 +994,68 @@ public sealed class OpportunityDiscoveryTests
                 {
                     RequestMessage = request,
                     Content = responseContent
+                });
+            }
+        }
+    }
+
+    private sealed class MappingHttpClientFactory(
+        IReadOnlyDictionary<string, byte[]> responses) :
+        IHttpClientFactory,
+        IDisposable
+    {
+        private readonly HttpMessageHandler _handler = new MappingHandler(responses);
+
+        public List<Uri> Requests { get; } = [];
+
+        public HttpClient CreateClient(string name)
+        {
+            return new HttpClient(
+                new MappingRecorder(_handler, Requests),
+                disposeHandler: true);
+        }
+
+        public void Dispose()
+        {
+            _handler.Dispose();
+        }
+
+        private sealed class MappingRecorder(
+            HttpMessageHandler innerHandler,
+            ICollection<Uri> requests) : DelegatingHandler(innerHandler)
+        {
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                requests.Add(request.RequestUri!);
+                return base.SendAsync(request, cancellationToken);
+            }
+        }
+
+        private sealed class MappingHandler(
+            IReadOnlyDictionary<string, byte[]> responses) : HttpMessageHandler
+        {
+            protected override Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                if (!responses.TryGetValue(
+                        request.RequestUri!.AbsoluteUri,
+                        out byte[]? content))
+                {
+                    return Task.FromResult(new HttpResponseMessage(
+                        System.Net.HttpStatusCode.NotFound)
+                    {
+                        RequestMessage = request
+                    });
+                }
+
+                return Task.FromResult(new HttpResponseMessage(
+                    System.Net.HttpStatusCode.OK)
+                {
+                    RequestMessage = request,
+                    Content = new ByteArrayContent(content)
                 });
             }
         }

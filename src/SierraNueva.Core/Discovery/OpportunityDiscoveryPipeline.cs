@@ -307,6 +307,19 @@ public sealed class OpportunityDiscoveryPipeline(
                 OpportunitySourceKind.PublicLandPortal)
             .ToArray();
         OpportunityCandidate[] candidateArray = candidates.ToArray();
+        OpportunitySourceDefinition[] commercialSources = sources
+            .Where(source =>
+                source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite)
+            .ToArray();
+        HashSet<string> commercialDomains = CommercialDomains(commercialSources);
+        HashSet<string> healthyCommercialSourceIds = sourceHealth
+            .Where(source =>
+                source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite &&
+                source.Status == OpportunitySourceHealthStatus.Healthy)
+            .Select(source => source.SourceId)
+            .ToHashSet(StringComparer.Ordinal);
+        HashSet<string> healthyCommercialDomains = CommercialDomains(
+            commercialSources.Where(source => healthyCommercialSourceIds.Contains(source.Id)));
         MunicipalityOpportunityCoverage[] municipalityCoverage = municipalities
             .Where(municipality => municipality.Enabled)
             .OrderBy(municipality => municipality.OfficialName, StringComparer.Ordinal)
@@ -377,6 +390,10 @@ public sealed class OpportunityDiscoveryPipeline(
                 source.Status == OpportunitySourceHealthStatus.Degraded),
             FailingSources = sourceHealth.Count(source =>
                 source.Status == OpportunitySourceHealthStatus.Failing),
+            CommercialSources = commercialSources.Length,
+            HealthyCommercialSources = healthyCommercialSourceIds.Count,
+            CommercialDomainsMonitored = commercialDomains.Count,
+            HealthyCommercialDomains = healthyCommercialDomains.Count,
             MunicipalitiesTotal = municipalityCoverage.Length,
             MunicipalitiesWithDirectSource = municipalityCoverage.Count(item =>
                 item.ConfiguredDirectSources > 0),
@@ -391,8 +408,35 @@ public sealed class OpportunityDiscoveryPipeline(
                 candidate.Status is
                     OpportunityCandidateStatus.New or
                     OpportunityCandidateStatus.Monitoring),
+            NewCandidates = candidateArray.Count(candidate =>
+                candidate.Status == OpportunityCandidateStatus.New),
+            MonitoringCandidates = candidateArray.Count(candidate =>
+                candidate.Status == OpportunityCandidateStatus.Monitoring),
+            RejectedCandidates = candidateArray.Count(candidate =>
+                candidate.Status == OpportunityCandidateStatus.Rejected),
+            VerifiedSourceCandidates = candidateArray.Count(candidate =>
+                candidate.Status == OpportunityCandidateStatus.VerifiedSource),
+            StaleCandidates = candidateArray.Count(candidate =>
+                candidate.Status == OpportunityCandidateStatus.Stale),
+            MunicipalitiesWithCommercialSignals = candidateArray
+                .Where(candidate =>
+                    candidate.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite)
+                .Select(candidate => candidate.Municipality)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Count(),
             Municipalities = municipalityCoverage
         };
+    }
+
+    private static HashSet<string> CommercialDomains(
+        IEnumerable<OpportunitySourceDefinition> sources)
+    {
+        return sources
+            .SelectMany(source => source.AllowedHosts)
+            .Select(host => host.StartsWith("www.", StringComparison.OrdinalIgnoreCase)
+                ? host[4..]
+                : host)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
     }
 
     private static MunicipalityCoverageStatus ResolveCoverageStatus(

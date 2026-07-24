@@ -656,6 +656,18 @@ internal static class CrawlerApplication
             $"{coverage.DegradedSources} degradadas, " +
             $"{coverage.FailingSources} en fallo reiterado; " +
             $"{coverage.PendingCandidates} candidatos pendientes.");
+        Console.WriteLine(
+            $"Radar comercial: {coverage.HealthyCommercialSources}/" +
+            $"{coverage.CommercialSources} canales sanos en " +
+            $"{coverage.HealthyCommercialDomains}/" +
+            $"{coverage.CommercialDomainsMonitored} dominios; señales en " +
+            $"{coverage.MunicipalitiesWithCommercialSignals} municipios.");
+        Console.WriteLine(
+            $"Embudo: {coverage.NewCandidates} nuevos, " +
+            $"{coverage.MonitoringCandidates} en seguimiento, " +
+            $"{coverage.VerifiedSourceCandidates} ya integrados, " +
+            $"{coverage.RejectedCandidates} descartados y " +
+            $"{coverage.StaleCandidates} obsoletos.");
 
         DateTimeOffset now = DateTimeOffset.UtcNow;
         OpportunitySourceHealth[] overdueSources = state.SourceHealth
