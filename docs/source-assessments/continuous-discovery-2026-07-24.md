@@ -136,3 +136,17 @@ No se habilitó seguimiento en Altter, Los Pinarejos ni Montemilano: el primero
 no expone un índice HTML estático acotable y los otros dos no publican enlaces
 internos a fichas independientes. Añadir solicitudes allí no incrementaría la
 cobertura demostrable.
+
+## Verificación integral posterior
+
+La ejecución `30077326296` recorrió el catálogo completo y obtuvo 47/47
+fuentes sanas, 29/29 municipios vigilados, 28 canales municipales directos y
+cinco pendientes: los cuatro casos en monitorización y el falso positivo
+laboral nuevo de El Boalo.
+
+Tras añadir la regla exacta, `30078678411` confirmó cuatro pendientes y publicó
+21/21 promociones. En esa segunda fotografía fallaron temporalmente
+`links-apremya` y `sitemap-stance` por TLS, y `tablon-los-molinos` por HTTP 403.
+La repetición individual inmediata terminó con HTTP 200 y 4, 163 y 19 entradas
+respectivamente. La diferencia entre ejecuciones se documenta como variabilidad
+externa: no se modificaron cabeceras ni se añadieron mecanismos de evasión.

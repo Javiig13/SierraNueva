@@ -301,7 +301,7 @@ porque el estado sintético ya está sembrado.
 - Existe el remoto público `origin` en
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
-- CI #17 se ejecutó para `ba2a186` y terminó correctamente en 1 min 57 s.
+- CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
@@ -311,6 +311,17 @@ porque el estado sintético ya está sembrado.
   ejecución real `30054208393` verificó el aislamiento: el paso del radar
   informó resultado `failure` por cinco canales degradados, pero el job
   completó 21/21 fuentes comerciales, publicó el artefacto y desplegó Pages.
+- La ejecución integral `30077326296` comprobó por primera vez 47/47 fuentes
+  sanas, 29/29 municipios y 28 canales directos. Encontró además un falso
+  positivo nuevo en El Boalo por el sentido laboral de “promoción interna”;
+  quedó rechazado mediante su URL exacta.
+- La ejecución final `30078678411` verificó que la cola privada quedó en cuatro
+  candidatos, todos ya clasificados como `monitoring`. La fotografía terminó
+  con 44 fuentes sanas y tres degradadas: Apremya y STANCE por errores TLS
+  transitorios, y Los Molinos por HTTP 403. La repetición aislada inmediata
+  recuperó las tres sin cambiar URL, selector ni cabeceras: 4, 163 y 19
+  entradas respectivamente. No se oculta esta variabilidad ni se intenta
+  evadirla.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -321,14 +332,13 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30054208393` completó el crawl, validó las 21 fuentes, publicó 21
+  `30078678411` completó el crawl, validó las 21 fuentes, publicó 21
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
-- Se comprobó en navegador la portada y el mapa, incluidas Essentia, Osnola,
-  Claveles, Cumbres de Navalafuente y Montemilano. La vista por defecto muestra
-  17 promociones comerciales activas y el resumen conserva las 21. El JSON
-  público contiene 21 promociones en 16 municipios, el GeoJSON 21 elementos,
-  el `runId` es `20260723T235040607Z` y el estado privado devuelve 404.
+- Se comprobó en navegador la portada y el mapa. La vista por defecto muestra
+  20 promociones comerciales activas y el resumen conserva las 21. El JSON
+  público contiene 21 promociones, el GeoJSON 21 elementos, el `runId` es
+  `20260724T082712960Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
@@ -336,8 +346,9 @@ porque el estado sintético ya está sembrado.
 1. Mantener en observación el estudio de detalle de Collado Mediano y las tres
    páginas NUVARE; solo promover una ficha si aparece evidencia independiente
    de promoción vigente.
-2. Confirmar que la próxima ejecución diaria conserva sanos los cinco canales
-   municipales recuperados.
+2. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
+   redundancia y no tratar un 403 o un fallo TLS aislado como autorización
+   para evadir controles.
 3. Ejecutar backfills acotados y auditorías muestrales para medir omisiones
    entre canales independientes.
 4. Mantener verde la baseline offline.

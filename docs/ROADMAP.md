@@ -222,6 +222,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   cuyas fichas canónicas conocidas faltan en sus sitemaps. Una fixture prueba
   selectores, HTTPS y host; el smoke live produjo solo Puerta de Villalba y
   Etria como `verifiedSource`, sin nuevos pendientes.
+- **Hecho:** ejecución integral `30077326296` con 47/47 fuentes sanas, 29/29
+  municipios y 28 canales directos. El falso positivo adicional de El Boalo
+  por “promoción interna” quedó rechazado mediante URL exacta.
+- **Hecho:** ejecución final `30078678411` con la cola reducida a los cuatro
+  candidatos en monitorización, 21/21 fuentes comerciales y Pages desplegado.
+  Tres fallos transitorios del radar quedaron aislados y la repetición
+  individual recuperó Apremya, STANCE y Los Molinos sin evasión.
 - **Pendiente:** ejecutar backfills periódicos por lotes y auditorías muestrales
   para estimar oportunidades no observadas entre canales independientes.
 

@@ -400,11 +400,13 @@ sigue funcionando.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
 - GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El
-  despliegue manual real `30054208393` terminó correctamente con 21 promociones
+  despliegue manual real `30078678411` terminó correctamente con 21 promociones
   de 21 fuentes, cero fallos, 21 elementos GeoJSON y sin publicar `data/state`.
-  El radar previo midió 40 fuentes sanas, cinco municipales degradadas, 29/29
-  municipios vigilados, 23 canales directos sanos y 14 candidatos privados
-  pendientes; ese estado no forma parte del artefacto web.
+  El radar dejó cuatro candidatos privados pendientes, todos en
+  monitorización. Su fotografía tuvo 44 fuentes sanas y tres degradadas por
+  fallos transitorios; la ejecución anterior `30077326296` había medido 47/47
+  sanas y la repetición aislada posterior recuperó las tres. Ese estado no
+  forma parte del artefacto web.
 
 ## Crawling responsable
 
