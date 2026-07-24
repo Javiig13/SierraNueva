@@ -172,7 +172,8 @@ Crawl/deploy GitHub: correcto en la ejecución 30054208393 (7 min 10 s)
 Radar GitHub real:   40 sanas, 5 degradadas; cobertura 29/29, 23 directas
 Cola privada real:   17 hallazgos; 3 URLs conocidas y 14 pendientes
 Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
-Estado privado web:  correcto; data/state/promotions-state.json devuelve 404
+Workflow P5 real:    30081195579 correcto en 9 min 17 s; backfill y auditoría ok
+Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
 ```
 
 `global.json` fija la feature band instalada `10.0.301` con `latestPatch`. Los
@@ -336,6 +337,13 @@ porque el estado sintético ya está sembrado.
   recuperó las tres sin cambiar URL, selector ni cabeceras: 4, 163 y 19
   entradas respectivamente. No se oculta esta variabilidad ni se intenta
   evadirla.
+- La ejecución `30081195579` sobre `9e90c84` verificó en GitHub los dos pasos
+  P5. El backfill móvil BOCM procesó 1.909 entradas en 1/1 lote y la auditoría
+  generó una muestra 10/29: ocho municipios con señal de un solo canal, dos
+  huecos de cobertura y 21 controles sin señal. El job completo terminó
+  correcto en 9 min 17 s, con 21/21 fuentes comerciales, cuatro candidatos
+  pendientes y Pages desplegado. El informe privado devolvió HTTP 404 en la
+  URL pública.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -346,13 +354,13 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30078678411` completó el crawl, validó las 21 fuentes, publicó 21
+  `30081195579` completó el crawl, validó las 21 fuentes, publicó 21
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó en navegador la portada y el mapa. La vista por defecto muestra
   20 promociones comerciales activas y el resumen conserva las 21. El JSON
   público contiene 21 promociones, el GeoJSON 21 elementos, el `runId` es
-  `20260724T082712960Z` y el estado privado devuelve 404.
+  `20260724T091043562Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado

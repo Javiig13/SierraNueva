@@ -429,19 +429,19 @@ sigue funcionando.
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; actualiza primero el radar y su cobertura privada, usa las
-  21 fuentes live revisadas y no versiona el estado. Un fallo parcial del radar
-  queda visible en el resumen, pero no elimina ni bloquea el último dataset
-  comercial válido.
+  21 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
+  del radar queda visible en el resumen, pero no elimina ni bloquea el último
+  dataset comercial válido.
 - `scripts/prepare-pages.ps1` prepara el subpath `/SierraNueva/`, `.nojekyll` y
   `404.html`, y rechaza cualquier `data/state` en el artefacto.
 - GitHub Pages está activo en `https://javiig13.github.io/SierraNueva/`. El
-  despliegue manual real `30078678411` terminó correctamente con 21 promociones
-  de 21 fuentes, cero fallos, 21 elementos GeoJSON y sin publicar `data/state`.
-  El radar dejó cuatro candidatos privados pendientes, todos en
-  monitorización. Su fotografía tuvo 44 fuentes sanas y tres degradadas por
-  fallos transitorios; la ejecución anterior `30077326296` había medido 47/47
-  sanas y la repetición aislada posterior recuperó las tres. Ese estado no
-  forma parte del artefacto web.
+  despliegue manual real `30081195579` terminó correctamente con 21 promociones
+  de 21 fuentes, cero fallos y sin publicar `data/state`. El backfill procesó
+  1.909 entradas BOCM en 1/1 lote y la auditoría produjo una muestra 10/29. El
+  radar mantuvo 29/29 municipios vigilados, 27 con canal directo sano y cuatro
+  candidatos privados pendientes. El informe de auditoría devuelve HTTP 404
+  desde Pages y no forma parte del artefacto web.
 
 ## Crawling responsable
 

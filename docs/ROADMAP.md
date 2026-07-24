@@ -241,7 +241,9 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** el workflow diario crea la muestra privada y cada lunes ejecuta
   un backfill BOCM móvil de 31 días; ambos fallos quedan aislados del dataset
   público. La auditoría sirve para buscar omisiones con evidencia
-  independiente y no presenta como métrica una exhaustividad no observada.
+  independiente y no presenta como métrica una exhaustividad no observada. La
+  ejecución real `30081195579` verificó ambos pasos, 21/21 fuentes comerciales,
+  Pages correcto y HTTP 404 para el informe privado.
 
 ## Matriz del encargo original
 
