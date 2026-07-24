@@ -39,6 +39,11 @@ public sealed class OpportunityFeedParser
             OpportunityFeedFormat.Sitemap => ParseSitemap(
                 Decode(content),
                 sourceUri),
+            OpportunityFeedFormat.HtmlLinks => ParseHtmlLinks(
+                Decode(content),
+                sourceUri,
+                source.Name,
+                source.ItemSelectors),
             _ => throw new InvalidDataException(
                 $"Formato de radar no admitido: {source.Format}.")
         };
@@ -374,6 +379,46 @@ public sealed class OpportunityFeedParser
                     Summary = searchable,
                     OfficialUrl = resolved,
                     PublishedAtUtc = ParseDate(ChildValue(item, "lastmod"))
+                };
+            })
+            .Where(item => item.OfficialUrl.Length > 0)
+            .ToArray();
+    }
+
+    private IReadOnlyList<OpportunityFeedItem> ParseHtmlLinks(
+        string html,
+        Uri sourceUri,
+        string sourceName,
+        IReadOnlyList<string> itemSelectors)
+    {
+        IDocument document = _htmlParser.ParseDocument(html);
+        string selector = string.Join(',', itemSelectors);
+        return document.QuerySelectorAll(selector)
+            .Select(element =>
+            {
+                IElement? linkElement = element.LocalName == "a"
+                    ? element
+                    : element.QuerySelector("a[href]");
+                string link = linkElement?.GetAttribute("href") ?? string.Empty;
+                string resolved = ResolveUrl(sourceUri, link);
+                string pathText = Uri.TryCreate(resolved, UriKind.Absolute, out Uri? uri)
+                    ? Uri.UnescapeDataString(uri.AbsolutePath)
+                        .Replace('/', ' ')
+                        .Replace('-', ' ')
+                        .Replace('_', ' ')
+                    : string.Empty;
+                string linkText = TextNormalizer.CleanEvidence(
+                    linkElement?.TextContent,
+                    500);
+                string searchable = TextNormalizer.CleanEvidence(
+                    $"{sourceName} {linkText} {pathText}",
+                    1_000);
+                return new OpportunityFeedItem
+                {
+                    ExternalId = resolved,
+                    Title = searchable,
+                    Summary = searchable,
+                    OfficialUrl = resolved
                 };
             })
             .Where(item => item.OfficialUrl.Length > 0)

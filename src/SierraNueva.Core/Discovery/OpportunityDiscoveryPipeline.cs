@@ -485,10 +485,25 @@ public sealed class OpportunityDiscoveryPipeline(
                 .ToArray(),
             FirstSeenUtc = observedAtUtc,
             LastSeenUtc = observedAtUtc,
-            Status = knownPromotionUrls.Contains(UrlNormalizer.Normalize(item.OfficialUrl))
-                ? OpportunityCandidateStatus.VerifiedSource
-                : OpportunityCandidateStatus.New
+            Status = ResolveCandidateStatus(source, item, knownPromotionUrls)
         };
+    }
+
+    private static OpportunityCandidateStatus ResolveCandidateStatus(
+        OpportunitySourceDefinition source,
+        OpportunityFeedItem item,
+        IReadOnlySet<string> knownPromotionUrls)
+    {
+        if (knownPromotionUrls.Contains(UrlNormalizer.Normalize(item.OfficialUrl)))
+        {
+            return OpportunityCandidateStatus.VerifiedSource;
+        }
+
+        return source.ReviewRules
+            .FirstOrDefault(rule => item.OfficialUrl.Contains(
+                rule.UrlPattern,
+                StringComparison.OrdinalIgnoreCase))
+            ?.Status ?? OpportunityCandidateStatus.New;
     }
 
     private static MunicipalityDefinition? FindMunicipality(
@@ -564,7 +579,23 @@ public sealed class OpportunityDiscoveryPipeline(
             MatchedTerms = current.MatchedTerms,
             FirstSeenUtc = existing.FirstSeenUtc,
             LastSeenUtc = current.LastSeenUtc,
-            Status = existing.Status
+            Status = MergeStatus(existing.Status, current.Status)
         };
+    }
+
+    private static OpportunityCandidateStatus MergeStatus(
+        OpportunityCandidateStatus existing,
+        OpportunityCandidateStatus current)
+    {
+        if (current == OpportunityCandidateStatus.VerifiedSource)
+        {
+            return current;
+        }
+
+        bool canApplyReview = existing is
+            OpportunityCandidateStatus.New or OpportunityCandidateStatus.Monitoring;
+        return canApplyReview && current != OpportunityCandidateStatus.New
+                ? current
+                : existing;
     }
 }

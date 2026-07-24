@@ -148,9 +148,10 @@ nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` habilita de forma explícita 45 fuentes:
-cuatro canales centrales, 28 fuentes municipales y 13 sitemaps de dominios
-comerciales oficiales ya revisados. La parte municipal comprende cinco tablones
+`config/discovery-sources.live.json` habilita de forma explícita 47 fuentes:
+cuatro canales centrales, 28 fuentes municipales, 13 sitemaps de dominios
+comerciales oficiales y dos índices HTML acotados ya revisados. La parte
+municipal comprende cinco tablones
 `eAdmin`, 18 portadas públicas de sedes `sedelectronica.es`, el tablón de
 transparencia de Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y
 Navalafuente y la actualidad oficial de Collado Villalba:
@@ -184,6 +185,14 @@ Detectan nombres de municipios y señales como `promoción`, `promociones` u
 `obra nueva`; los enlaces que ya existen en `sources.live.json` se marcan como
 fuente verificada y los demás quedan pendientes de revisión. Nunca se añaden
 automáticamente al dataset público.
+
+El formato `htmlLinks` cubre únicamente índices oficiales cuyo sitemap omite
+una ficha conocida. Requiere selectores CSS explícitos, descarga una sola
+portada, no navega recursivamente y descarta enlaces HTTP o de otros hosts.
+Actualmente observa las portadas de Apremya y Trinosa: ambas devolvieron solo
+las fichas conocidas Puerta de Villalba y Etria. Las decisiones humanas
+repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
+`monitoring`, `rejected` o `stale`, pero nunca verificar una fuente.
 
 BOCM admite backfill por intervalos de hasta 367 días inclusivos. Para recorrer
 varios años se ejecuta un lote por año, siempre con una ruta de estado privada:

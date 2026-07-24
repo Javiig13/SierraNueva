@@ -89,6 +89,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
   ya figuran en el registro de fuentes.
+- Seguimiento HTML adicional para dos índices comerciales cuyo sitemap omite
+  fichas conocidas. Usa selectores explícitos, una sola portada, cero
+  recursión y la misma validación HTTPS/host.
+- Reglas de revisión por URL que aplican `monitoring`, `rejected` o `stale` a
+  candidatos nuevos o ya existentes sin poder otorgar `verifiedSource`.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
   atómicos adicionales para la cola de oportunidades.
 - CI offline en GitHub Actions y workflow manual/diario de crawl y despliegue,
@@ -133,10 +138,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          13 correctos
-Tests Infrastructure:84 correctos
+Tests Infrastructure:86 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               105/105 correctos
+Total:               107/107 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -150,6 +155,7 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
+Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 1 min 57 s para el commit ba2a186
 Crawl/deploy GitHub: correcto en la ejecución 30054208393 (7 min 10 s)
@@ -243,6 +249,16 @@ porque el estado sintético ya está sembrado.
   el tablón de Los Molinos respondió HTTP 403. Las otras 40 fuentes terminaron
   sanas. La redundancia central mantuvo 29/29 municipios vigilados, aunque solo
   23 tuvieron canal municipal directo sano en esa fotografía.
+- La repetición individual posterior recuperó los cinco canales sin cambios:
+  El Boalo, El Escorial, Guadarrama y Torrelodones respondieron HTTP 200 con
+  tres entradas cada uno; Los Molinos respondió HTTP 200 con 19 entradas.
+- Los 14 candidatos pendientes quedaron clasificados de forma reproducible:
+  cuatro `monitoring`, ocho `rejected` y dos `stale`. Las tres coincidencias
+  conocidas conservan `verifiedSource`; el estado privado no se publica.
+- La comparación entre registro y sitemaps detectó dos omisiones aptas para
+  seguimiento HTML: Puerta de Villalba en Apremya y Etria en Trinosa. Los dos
+  índices añadidos procesaron 12 enlaces y solo reprodujeron esas dos fuentes
+  conocidas, sin crear pendientes.
 - Dos respuestas vacías consecutivas tras observar datos degradan una fuente.
   El primer fallo también degrada y el segundo consecutivo marca fallo
   reiterado; una recuperación limpia ambos contadores. La prueba usa un lector
@@ -289,7 +305,7 @@ porque el estado sintético ya está sembrado.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 21 fuentes
   revisadas; un fallo conserva el último despliegue válido.
-- El workflow actualizado ejecuta antes `discover-opportunities` con las 45
+- El workflow actualizado ejecuta antes `discover-opportunities` con las 47
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
   del radar queda visible y no bloquea el último dataset comercial válido. La
   ejecución real `30054208393` verificó el aislamiento: el paso del radar
@@ -317,23 +333,22 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Revisar los 14 candidatos privados de la ejecución `30054208393`; promover
-   únicamente fichas oficiales vigentes que superen la evaluación técnica y
-   jurídica.
-2. Investigar los cuatro HTTP 503 municipales y el HTTP 403 de Los Molinos sin
-   evadir restricciones; confirmar recuperación o segundo fallo en la próxima
-   ejecución diaria.
-3. Mantener verde la baseline offline.
-4. Revalidar las 21 evaluaciones antes de cada cambio operativo o
+1. Mantener en observación el estudio de detalle de Collado Mediano y las tres
+   páginas NUVARE; solo promover una ficha si aparece evidencia independiente
+   de promoción vigente.
+2. Confirmar que la próxima ejecución diaria conserva sanos los cinco canales
+   municipales recuperados.
+3. Ejecutar backfills acotados y auditorías muestrales para medir omisiones
+   entre canales independientes.
+4. Mantener verde la baseline offline.
+5. Revalidar las 21 evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-5. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+6. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-6. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+7. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-7. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
+8. Ejecutar el histórico BOCM en lotes anuales solo cuando se decida la ventana
    operativa y siempre sobre estado privado aislado.
-8. Añadir seguimiento de enlaces internos solo donde el sitemap oficial omita
-   páginas relevantes; todo hallazgo debe entrar en la cola privada.
 9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente

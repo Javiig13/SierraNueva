@@ -19,7 +19,8 @@ public enum OpportunityFeedFormat
     Html,
     BocmCalendar,
     EAdminHtml,
-    Sitemap
+    Sitemap,
+    HtmlLinks
 }
 
 public enum OpportunityFeedCadence
@@ -73,6 +74,13 @@ public sealed class OpportunityTermRule
     public OpportunityKind Kind { get; init; }
 }
 
+public sealed class OpportunityReviewRule
+{
+    public string UrlPattern { get; init; } = string.Empty;
+
+    public OpportunityCandidateStatus Status { get; init; }
+}
+
 public sealed class OpportunitySourceDefinition
 {
     public string Id { get; init; } = string.Empty;
@@ -94,6 +102,8 @@ public sealed class OpportunitySourceDefinition
     public IReadOnlyList<string> AllowedHosts { get; init; } = [];
 
     public IReadOnlyList<string> ItemSelectors { get; init; } = [];
+
+    public IReadOnlyList<OpportunityReviewRule> ReviewRules { get; init; } = [];
 
     public string? FixedMunicipality { get; init; }
 

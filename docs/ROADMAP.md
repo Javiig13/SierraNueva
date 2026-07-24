@@ -212,9 +212,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   vigilados, 23 con canal directo sano y 14 candidatos pendientes. El radar
   informó fallo parcial, pero el aislamiento permitió publicar 21/21 fuentes
   comerciales; Pages terminó correctamente y `data/state` devolvió 404.
-- **Pendiente:** añadir seguimiento acotado de enlaces internos para los
-  dominios oficiales cuyo sitemap omite páginas o municipio, siempre mediante
-  cola de revisión y sin alta automática.
+- **Hecho:** revisión reproducible de los 14 candidatos pendientes: cuatro en
+  monitorización, ocho rechazados y dos obsoletos. Las reglas por URL migran
+  también candidatos `new` ya conservados en el estado privado.
+- **Hecho:** recuperación aislada de los cinco canales municipales degradados:
+  cuatro portadas volvieron con HTTP 200 y tres entradas, y Los Molinos con
+  HTTP 200 y 19 entradas; no fue necesario cambiar ni evadir ningún canal.
+- **Hecho:** seguimiento acotado de enlaces internos para Apremya y Trinosa,
+  cuyas fichas canónicas conocidas faltan en sus sitemaps. Una fixture prueba
+  selectores, HTTPS y host; el smoke live produjo solo Puerta de Villalba y
+  Etria como `verifiedSource`, sin nuevos pendientes.
 - **Pendiente:** ejecutar backfills periódicos por lotes y auditorías muestrales
   para estimar oportunidades no observadas entre canales independientes.
 
@@ -223,7 +230,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 105/105 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 107/107 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
@@ -251,7 +258,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 105/105 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 107/107 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

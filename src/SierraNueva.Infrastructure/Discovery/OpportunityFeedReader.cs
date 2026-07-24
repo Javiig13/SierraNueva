@@ -29,8 +29,9 @@ public sealed class OpportunityFeedReader(
                 : new Uri("https://fixtures.invalid/");
             IReadOnlyList<OpportunityFeedItem> fixtureItems =
                 parser.Parse(source, fixture, baseUri, toDate);
-            return source.Format == OpportunityFeedFormat.Sitemap
-                ? FilterSitemapItems(source, fixtureItems)
+            return source.Format is
+                OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks
+                ? FilterCommercialItems(source, fixtureItems)
                 : fixtureItems;
         }
 
@@ -90,8 +91,9 @@ public sealed class OpportunityFeedReader(
                 content,
                 uri,
                 date);
-            items.AddRange(source.Format == OpportunityFeedFormat.Sitemap
-                ? FilterSitemapItems(source, parsed)
+            items.AddRange(source.Format is
+                OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks
+                ? FilterCommercialItems(source, parsed)
                 : parsed);
             if (items.Count >= source.MaxItems)
             {
@@ -109,7 +111,7 @@ public sealed class OpportunityFeedReader(
             .ToArray();
     }
 
-    private static IReadOnlyList<OpportunityFeedItem> FilterSitemapItems(
+    private static IReadOnlyList<OpportunityFeedItem> FilterCommercialItems(
         OpportunitySourceDefinition source,
         IEnumerable<OpportunityFeedItem> items)
     {

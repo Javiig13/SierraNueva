@@ -83,6 +83,12 @@
       "cadence": "monthly",
       "urlTemplate": "https://contrataciondelsectorpublico.gob.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3_{date:yyyyMM}.zip",
       "allowedHosts": [ "contrataciondelsectorpublico.gob.es" ],
+      "reviewRules": [
+        {
+          "urlPattern": "FqoNKeKjykJ9Zh%2FyRJgM8w%3D%3D",
+          "status": "rejected"
+        }
+      ],
       "maxItems": 20000
     },
     {
@@ -336,6 +342,12 @@
       "urlTemplate": "https://aytocolladomediano.sedelectronica.es/",
       "allowedHosts": [ "aytocolladomediano.sedelectronica.es" ],
       "itemSelectors": [ ".AdvertisementBoardHomeListPanel tr" ],
+      "reviewRules": [
+        {
+          "urlPattern": "cef381e9-3832-4595-ba62-7b0d30f70ede",
+          "status": "monitoring"
+        }
+      ],
       "fixedMunicipality": "Collado Mediano",
       "maxItems": 10
     },
@@ -473,6 +485,12 @@
       "cadence": "daily",
       "urlTemplate": "https://antaro.es/promocion-sitemap.xml",
       "allowedHosts": [ "antaro.es", "www.antaro.es" ],
+      "reviewRules": [
+        {
+          "urlPattern": "/promociones/guadarrama/",
+          "status": "stale"
+        }
+      ],
       "maxItems": 1000
     },
     {
@@ -517,6 +535,20 @@
       "cadence": "daily",
       "urlTemplate": "https://nuvare.es/page-sitemap.xml",
       "allowedHosts": [ "nuvare.es", "www.nuvare.es" ],
+      "reviewRules": [
+        {
+          "urlPattern": "/obra-nueva-guadalix-de-la-sierra/",
+          "status": "monitoring"
+        },
+        {
+          "urlPattern": "/obra-nueva-miraflores-de-la-sierra/",
+          "status": "monitoring"
+        },
+        {
+          "urlPattern": "/obra-nueva-soto-del-real/",
+          "status": "monitoring"
+        }
+      ],
       "maxItems": 1000
     },
     {
@@ -539,6 +571,16 @@
       "cadence": "daily",
       "urlTemplate": "https://stancehomes.es/page-sitemap.xml",
       "allowedHosts": [ "stancehomes.es", "www.stancehomes.es" ],
+      "reviewRules": [
+        {
+          "urlPattern": "/obra-nueva-en-",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/promocion-residencial-real-torrelodones",
+          "status": "stale"
+        }
+      ],
       "maxItems": 1000
     },
     {
@@ -595,6 +637,33 @@
       "urlTemplate": "https://www.vesari.info/pages-sitemap.xml",
       "allowedHosts": [ "www.vesari.info", "vesari.info" ],
       "maxItems": 1000
+    },
+    {
+      "id": "links-apremya",
+      "name": "Apremya Homes — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://apremyahomes.es/",
+      "allowedHosts": [ "apremyahomes.es", "www.apremyahomes.es" ],
+      "itemSelectors": [ "a.card-btn[href*='/promociones/']" ],
+      "maxItems": 20
+    },
+    {
+      "id": "links-trinosa",
+      "name": "Trinosa — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://trinosa.com/",
+      "allowedHosts": [ "trinosa.com", "www.trinosa.com" ],
+      "itemSelectors": [
+        "a[href*='/promocion/']",
+        "a[href$='/etria/']"
+      ],
+      "maxItems": 50
     }
   ]
 }

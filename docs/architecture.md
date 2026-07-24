@@ -93,7 +93,9 @@ lector admite RSS, JSON anidado de BOE, Atom, ZIP con Atom, bloques HTML
 acotados por selector, el calendario/sumario XML de BOCM, tablones `eAdmin` y
 portadas públicas de sedes electrónicas. También procesa `urlset` de sitemaps
 pertenecientes a dominios comerciales oficiales ya aprobados; rechaza HTTP y
-hosts ajenos antes de crear un candidato.
+hosts ajenos antes de crear un candidato. Para índices cuyo sitemap omite una
+ficha, `htmlLinks` lee una única portada y solo los anchors seleccionados por
+configuración; no descarga el destino ni recorre enlaces de forma recursiva.
 BOCM se recorre por día: la página de calendario descubre el XML oficial de la
 edición y los días sin boletín no producen entradas. Los tablones municipales
 usan una única página, extraen solo enlaces de detalle y fijan un municipio
@@ -134,6 +136,12 @@ sitemap coincide tras normalización con una ficha ya revisada, el candidato se
 marca `verifiedSource`; el resto permanece `new`. Esta comparación reduce
 ruido sin convertir un enlace nuevo en promoción ni saltarse la revisión
 jurídica y técnica.
+
+Las decisiones humanas reproducibles pueden vivir como `reviewRules` de una
+fuente: un patrón de URL asigna `monitoring`, `rejected` o `stale`. Una URL ya
+presente en el registro comercial conserva prioridad como `verifiedSource`.
+Al reaparecer un candidato previo en estado `new` o `monitoring`, la regla
+actualiza su estado sin sobrescribir una decisión terminal existente.
 
 Los ZIP mensuales de PCSP se descargan a un temporal con límite de 512 MiB y se
 procesan entrada a entrada para no mantenerlos completos en memoria. El

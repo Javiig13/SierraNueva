@@ -169,17 +169,44 @@ public sealed class ConfigurationLoader
             }
 
             if (source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite &&
-                source.Format != OpportunityFeedFormat.Sitemap)
+                source.Format is not
+                    (OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks))
             {
                 errors.Add(
-                    $"La fuente comercial '{source.Id}' debe usar el formato Sitemap.");
+                    $"La fuente comercial '{source.Id}' debe usar Sitemap o HtmlLinks.");
             }
 
-            if (source.Format == OpportunityFeedFormat.Sitemap &&
+            if (source.Format is
+                    OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks &&
                 source.SourceKind != OpportunitySourceKind.OfficialCommercialWebsite)
             {
                 errors.Add(
-                    $"El sitemap '{source.Id}' debe declararse como web comercial oficial.");
+                    $"La fuente '{source.Id}' debe declararse como web comercial oficial.");
+            }
+
+            if (source.Format == OpportunityFeedFormat.HtmlLinks &&
+                source.ItemSelectors.Count == 0)
+            {
+                errors.Add(
+                    $"El seguimiento de enlaces '{source.Id}' necesita selectores acotados.");
+            }
+
+            foreach (OpportunityReviewRule rule in source.ReviewRules)
+            {
+                if (string.IsNullOrWhiteSpace(rule.UrlPattern))
+                {
+                    errors.Add(
+                        $"Una regla de revisión de '{source.Id}' no tiene patrón de URL.");
+                }
+
+                if (rule.Status is
+                    OpportunityCandidateStatus.New or
+                    OpportunityCandidateStatus.VerifiedSource)
+                {
+                    errors.Add(
+                        $"La regla de revisión de '{source.Id}' no puede asignar " +
+                        $"el estado {rule.Status}.");
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&

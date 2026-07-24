@@ -71,3 +71,61 @@ La incorporación es apta para el radar privado. El sitemap aporta detección
 temprana y barata, pero no prueba disponibilidad, carácter unifamiliar ni
 vigencia comercial. Ningún candidato debe pasar a `sources.live.json` sin
 resolver la página oficial y añadir su fixture de extracción.
+
+## Revisión de los 14 candidatos pendientes
+
+La cola se reconstruyó el 24 de julio con las cinco fuentes que habían
+producido hallazgos en Actions. Las páginas comerciales se consultaron de forma
+secuencial con el User-Agent identificable; no se accedió a la ficha PCSP ni al
+documento municipal porque sus `robots.txt` no permiten esas rutas.
+
+Las decisiones se incorporaron como reglas por URL en el catálogo live para
+que también se apliquen a candidatos `new` ya existentes en la caché privada:
+
+| Decisión | Cantidad | Evidencia |
+|---|---:|---|
+| `monitoring` | 4 | Estudio de detalle de Collado Mediano y tres páginas NUVARE con producto residencial, pero sin evidencia suficiente de promoción independiente |
+| `rejected` | 8 | Un contrato musical de PCSP que coincidía por “promoción del turismo” y siete landings municipales SEO de STANCE |
+| `stale` | 2 | Antaro Guadarrama declara la promoción entregada; REAL 15 de STANCE figura finalizada y vendida |
+
+Las tres coincidencias restantes eran Cumbres, Essentia y Osnola y conservan
+`verifiedSource`. Un smoke aislado reprodujo exactamente la distribución
+esperada: 4 en monitorización, 8 rechazadas, 2 obsoletas y 3 verificadas.
+
+## Recuperación de los cinco canales municipales
+
+Se repitieron individualmente y sobre estado temporal los cinco canales
+degradados en la ejecución `30054208393`:
+
+| Canal | Respuesta | Entradas |
+|---|---:|---:|
+| El Boalo — portada de sede | HTTP 200 | 3 |
+| El Escorial — portada de sede | HTTP 200 | 3 |
+| Guadarrama — portada de sede | HTTP 200 | 3 |
+| Torrelodones — portada de sede | HTTP 200 | 3 |
+| Los Molinos — tablón eAdmin | HTTP 200 | 19 |
+
+Los cinco terminaron sanos sin cambiar URL, selector, cabeceras ni frecuencia.
+La evidencia indica fallos transitorios del proveedor, no un bloqueo que
+justifique evasión o un adaptador alternativo.
+
+## Seguimiento interno acotado
+
+Se compararon las URLs comerciales ya aprobadas con los trece sitemaps. Dos
+omisiones disponían además de un índice HTML público, estático y permitido:
+
+- Apremya enlaza la URL canónica de Puerta de Villalba desde su portada, pero
+  el sitemap contiene una variante distinta.
+- Trinosa enlaza Etria desde su portada, aunque `promocion-sitemap.xml` la
+  omite.
+
+El formato `htmlLinks` consulta únicamente esa portada, aplica selectores CSS
+declarados, no sigue más de un salto ni descarga las fichas destino y conserva
+solo enlaces HTTPS del mismo conjunto de hosts. El smoke live obtuvo cuatro
+enlaces Apremya y ocho Trinosa; tras el filtro territorial produjo únicamente
+Puerta de Villalba y Etria, ambas `verifiedSource`, sin nuevos pendientes.
+
+No se habilitó seguimiento en Altter, Los Pinarejos ni Montemilano: el primero
+no expone un índice HTML estático acotable y los otros dos no publican enlaces
+internos a fichas independientes. Añadir solicitudes allí no incrementaría la
+cobertura demostrable.

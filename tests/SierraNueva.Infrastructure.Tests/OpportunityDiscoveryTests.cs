@@ -268,6 +268,162 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_ReadsScopedOfficialInternalLinksAndRejectsUnsafeTargets()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "promoter-links",
+            Name = "Promotora oficial — promociones",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+            Format = OpportunityFeedFormat.HtmlLinks,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate = "https://promotora-fixture.test/",
+            FixturePath = FixturePath("promoter-internal-links.html"),
+            AllowedHosts = ["promotora-fixture.test"],
+            ItemSelectors = [".promotion-card a[href]"],
+            MaxItems = 10
+        };
+        OpportunityFeedReader reader = new(
+            new UnusedHttpClientFactory(),
+            new OpportunityFeedParser());
+
+        IReadOnlyList<OpportunityFeedItem> items = await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            CancellationToken.None);
+
+        Assert.Equal(2, items.Count);
+        Assert.Contains(
+            items,
+            item => item.OfficialUrl.EndsWith(
+                "/promociones/residencial-encinar-galapagar/",
+                StringComparison.Ordinal));
+        OpportunityFeedItem robledo = Assert.Single(
+            items,
+            item => item.OfficialUrl.Contains(
+                "robledo-de-chavela",
+                StringComparison.Ordinal));
+        Assert.DoesNotContain(
+            "Villalba",
+            robledo.Summary,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.All(
+            items,
+            item =>
+            {
+                Assert.StartsWith(
+                    "https://promotora-fixture.test/",
+                    item.OfficialUrl,
+                    StringComparison.Ordinal);
+                Assert.Contains(
+                    "promociones",
+                    item.Title,
+                    StringComparison.OrdinalIgnoreCase);
+            });
+    }
+
+    [Fact]
+    public async Task Pipeline_AppliesReviewedDispositionToAnExistingCandidate()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunityFeedItem item = new()
+            {
+                ExternalId = "promotion-1",
+                Title = "Promoción de viviendas en Galapagar",
+                Summary = "Promoción residencial de viviendas",
+                OfficialUrl = "https://official.example/promociones/galapagar/"
+            };
+            ScriptedFeedReader reader = new(
+                new OpportunityFeedItem[] { item },
+                new OpportunityFeedItem[] { item });
+            OpportunityDiscoveryPipeline pipeline = new(
+                reader,
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 5, 21, 12, 0, 0, TimeSpan.Zero)));
+            OpportunitySourceDefinition initialSource = new()
+            {
+                Id = "official-links",
+                Name = "Promociones oficiales",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+                Format = OpportunityFeedFormat.HtmlLinks
+            };
+            OpportunitySourceDefinition reviewedSource = new()
+            {
+                Id = initialSource.Id,
+                Name = initialSource.Name,
+                Enabled = true,
+                SourceKind = initialSource.SourceKind,
+                Format = initialSource.Format,
+                ReviewRules =
+                [
+                    new()
+                    {
+                        UrlPattern = "/promociones/galapagar/",
+                        Status = OpportunityCandidateStatus.Rejected
+                    }
+                ]
+            };
+            OpportunityDiscoveryCatalog CatalogFor(
+                OpportunitySourceDefinition source)
+            {
+                return new()
+                {
+                    Terms =
+                    [
+                        new()
+                        {
+                            Term = "promoción",
+                            Kind = OpportunityKind.ResidentialDevelopment
+                        }
+                    ],
+                    ContextTerms = ["viviendas"],
+                    Sources = [source]
+                };
+            }
+
+            OpportunityDiscoveryRequest request = new()
+            {
+                Catalog = CatalogFor(initialSource),
+                Municipalities = [new() { OfficialName = "Galapagar" }],
+                StateDirectory = directory,
+                From = FixtureDate,
+                To = FixtureDate
+            };
+            OpportunityDiscoveryResult first = await pipeline.RunAsync(
+                request,
+                CancellationToken.None);
+            Assert.Equal(
+                OpportunityCandidateStatus.New,
+                Assert.Single(first.State.Candidates).Status);
+
+            OpportunityDiscoveryResult second = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = CatalogFor(reviewedSource),
+                    Municipalities = request.Municipalities,
+                    StateDirectory = directory,
+                    From = FixtureDate,
+                    To = FixtureDate
+                },
+                CancellationToken.None);
+
+            Assert.Equal(
+                OpportunityCandidateStatus.Rejected,
+                Assert.Single(second.State.Candidates).Status);
+            Assert.Equal(0, second.State.Coverage.PendingCandidates);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_FiltersNoisePersistsPrivatelyAndPreservesReview()
     {
         string directory = CreateTempDirectory();
@@ -542,13 +698,24 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            13,
+            15,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
+        Assert.Equal(
+            13,
+            live.Sources.Count(source =>
+                source.Format == OpportunityFeedFormat.Sitemap));
+        Assert.Equal(
+            2,
+            live.Sources.Count(source =>
+                source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(
             live.Sources.Where(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite),
-            source => Assert.Equal(OpportunityFeedFormat.Sitemap, source.Format));
+            source => Assert.True(
+                source.Format is
+                    OpportunityFeedFormat.Sitemap or
+                    OpportunityFeedFormat.HtmlLinks));
     }
 
     [Fact]
