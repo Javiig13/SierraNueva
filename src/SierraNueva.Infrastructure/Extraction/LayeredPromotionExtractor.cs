@@ -638,7 +638,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     {
         foreach ((string field, string selector) in source.CustomSelectors)
         {
-            string? value = document.QuerySelector(selector)?.TextContent.Trim();
+            IElement? selectedElement = document.QuerySelector(selector);
+            string? value = selectedElement is null
+                ? null
+                : TextNormalizer.CleanEvidence(
+                    ExtractTextWithBoundaries(selectedElement),
+                    500);
             if (string.IsNullOrWhiteSpace(value))
             {
                 continue;

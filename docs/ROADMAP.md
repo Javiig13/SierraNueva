@@ -109,6 +109,14 @@ requiere trabajo de producto.
   son bajos con jardín y áticos plurifamiliares. La decisión y la identidad de
   Névola están en
   `docs/source-assessments/nevola-abantos-2026-07-24.md`.
+- **Hecho:** sexta ampliación con Inara Homes — Residencial El Boalo. La
+  sociedad promotora, `robots.txt`, vigencia y ficha unifamiliar quedaron
+  revisados; la fixture prueba cinco viviendas, precio desde 499.000 €, cuatro
+  dormitorios, tres baños, piscina privada opcional y nombre de promotora.
+- **Verificado live:** recorrido conjunto aislado
+  `20260724T203618752Z`: 23/23 fuentes, 23 promociones activas, 23 elementos
+  GeoJSON, cero fallos y `validate-data` correcto. Nominatim permaneció
+  deshabilitado y Residencial El Boalo usa centroide municipal trazable.
 
 ## P3 — Preparación operativa local
 
@@ -347,9 +355,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   diez URL respondieron HTTP 200; nueve rutas son compatibles con
   `robots.txt`. La sede electrónica de Collado Mediano bloquea su ruta y queda
   solo como señal, no como fuente rastreable.
-- **Siguiente:** verificar vigencia y condiciones de las nueve páginas
-  comerciales de prioridad alta; añadir como fuentes directas únicamente las
-  que sigan activas y tengan extracción trazable con fixture y prueba.
+- **Hecho:** revisión de las nueve páginas comerciales de prioridad alta. Solo
+  Inara Homes supera identidad, vigencia y alcance unifamiliar; se incorporó
+  como fuente directa. Las otras ocho quedan `stale` o `rejected` por fin de
+  comercialización, ausencia del resultado, producto plurifamiliar o
+  duplicidad con una fuente canónica ya rastreada.
+- **Hecho:** las ocho decisiones se codifican como `reviewRules` del canal web
+  y el sitemap oficial de Inara se añade al radar, limitado al
+  `page-sitemap`. El smoke live procesó tres URLs, cero fallos y cero candidatos
+  nuevos. Evaluación en
+  `docs/source-assessments/high-priority-commercial-review-2026-07-24.md`.
 
 ## P6 — Enriquecimiento verificable de fichas
 
@@ -426,10 +441,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 131/131 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 140/140 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 22 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 23 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -454,7 +469,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 129/129 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 140/140 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

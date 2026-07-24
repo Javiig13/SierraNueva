@@ -886,6 +886,50 @@
         "name": "title"
       },
       "notes": "Micrositio oficial revisado el 2026-07-24 y vinculado desde la web corporativa de Nido Capital Group. Solo se procesa la promoción y su localización; quedan fuera formularios, imágenes, descargas y el calendario de pagos para evitar confundir la reserva con el precio de la vivienda. Evaluación en docs/source-assessments/nevola-abantos-2026-07-24.md."
+    },
+    {
+      "id": "inara-residencial-el-boalo",
+      "name": "Inara Homes — Residencial El Boalo",
+      "baseUrl": "https://www.inarahomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.inarahomes.com",
+        "inarahomes.com"
+      ],
+      "startUrls": [
+        "https://www.inarahomes.com/inara-smart-homes-viviendas-eco-eficientes-e-innovadoras/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "El Boalo",
+      "municipalityHints": [
+        "El Boalo"
+      ],
+      "contentSelector": "#main-content article .et_pb_section_0",
+      "additionalContentSelectors": [
+        "#main-content article .et_pb_section_1",
+        "#main-content article #informacion"
+      ],
+      "includePatterns": [
+        "/inara-smart-homes-viviendas-eco-eficientes-e-innovadoras/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "#main-content article .et_pb_section_0 h1",
+        "developerName": "#contacto .et_pb_column_2_5 strong"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-24. Solo se procesa la ficha pública de Residencial El Boalo, sin formularios, imágenes ni descargas. La sociedad, el producto unifamiliar y la vigencia comercial están documentados en docs/source-assessments/high-priority-commercial-review-2026-07-24.md."
     }
   ]
 }

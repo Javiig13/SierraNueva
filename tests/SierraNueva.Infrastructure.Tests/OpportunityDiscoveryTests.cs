@@ -1023,11 +1023,11 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            15,
+            16,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
-            14,
+            15,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
@@ -1074,6 +1074,37 @@ public sealed class OpportunityDiscoveryTests
             rule =>
                 rule.UrlPattern == "nestoria.es/" &&
                 rule.Status == OpportunityCandidateStatus.Rejected);
+        Dictionary<string, OpportunityCandidateStatus> reviewedHighPriorityUrls = new()
+        {
+            ["promociones.montevirey.com/alpedrete"] =
+                OpportunityCandidateStatus.Stale,
+            ["grupoinmobiliariomg.es/casas-chalets-en-galapagar-es8441p.html"] =
+                OpportunityCandidateStatus.Rejected,
+            ["aproperties.es/obra-nueva-en-venta-en-miraflores-de-la-sierra-guadalix-de-la-sierra"] =
+                OpportunityCandidateStatus.Stale,
+            ["blossominvestmentgroup.com/proyecto/qhomes-11"] =
+                OpportunityCandidateStatus.Stale,
+            ["viaappia.es/jardines-de-la-torre"] =
+                OpportunityCandidateStatus.Rejected,
+            ["almicasa.com/promocion-de-viviendas-en-galapagar-procesiones-6"] =
+                OpportunityCandidateStatus.Rejected,
+            ["avalonstudio.es/es/detalle-propiedad/casas-de-obra-nueva-collado-villalba"] =
+                OpportunityCandidateStatus.Rejected,
+            ["habitania.com/es/espana/casas/obra-nueva-promocion-goya-el-boalo"] =
+                OpportunityCandidateStatus.Stale
+        };
+        Assert.All(
+            reviewedHighPriorityUrls,
+            expected => Assert.Contains(
+                liveSearch.ReviewRules,
+                rule =>
+                    rule.UrlPattern == expected.Key &&
+                    rule.Status == expected.Value));
+        Assert.Contains(
+            live.Sources,
+            source =>
+                source.Id == "sitemap-inara" &&
+                source.SitemapIncludes.Contains("page-sitemap"));
 
         OpportunitySourceDefinition portal =
             Assert.Single(live.Sources, source => source.Id == "portal-suelo-madrid");

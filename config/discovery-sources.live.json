@@ -106,7 +106,15 @@
         { "urlPattern": "nuevosvecinos.com/", "status": "rejected" },
         { "urlPattern": "nuroa.es/", "status": "rejected" },
         { "urlPattern": "properstar.es/", "status": "rejected" },
-        { "urlPattern": "terrenos.es/", "status": "rejected" }
+        { "urlPattern": "terrenos.es/", "status": "rejected" },
+        { "urlPattern": "promociones.montevirey.com/alpedrete", "status": "stale" },
+        { "urlPattern": "grupoinmobiliariomg.es/casas-chalets-en-galapagar-es8441p.html", "status": "rejected" },
+        { "urlPattern": "aproperties.es/obra-nueva-en-venta-en-miraflores-de-la-sierra-guadalix-de-la-sierra", "status": "stale" },
+        { "urlPattern": "blossominvestmentgroup.com/proyecto/qhomes-11", "status": "stale" },
+        { "urlPattern": "viaappia.es/jardines-de-la-torre", "status": "rejected" },
+        { "urlPattern": "almicasa.com/promocion-de-viviendas-en-galapagar-procesiones-6", "status": "rejected" },
+        { "urlPattern": "avalonstudio.es/es/detalle-propiedad/casas-de-obra-nueva-collado-villalba", "status": "rejected" },
+        { "urlPattern": "habitania.com/es/espana/casas/obra-nueva-promocion-goya-el-boalo", "status": "stale" }
       ],
       "maxResultsPerQuery": 10,
       "searchDelayMilliseconds": 750,
@@ -716,6 +724,18 @@
       "urlTemplate": "https://www.vesari.info/pages-sitemap.xml",
       "allowedHosts": [ "www.vesari.info", "vesari.info" ],
       "maxItems": 1000
+    },
+    {
+      "id": "sitemap-inara",
+      "name": "Inara Homes — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.inarahomes.com/sitemap.xml",
+      "allowedHosts": [ "www.inarahomes.com", "inarahomes.com" ],
+      "sitemapIncludes": [ "page-sitemap" ],
+      "maxItems": 100
     },
     {
       "id": "links-apremya",

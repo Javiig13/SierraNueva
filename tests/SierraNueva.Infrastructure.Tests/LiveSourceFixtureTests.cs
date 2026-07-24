@@ -54,6 +54,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "nevola-homes-guadalix",
                 "nevola-homes-guadalix.html"
+            },
+            {
+                "inara-residencial-el-boalo",
+                "inara-residencial-el-boalo.html"
             }
         };
 
@@ -282,6 +286,16 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(
                     ["Independiente", "Pareado"],
                     promotion.PropertyTypes);
+                break;
+            case "inara-residencial-el-boalo":
+                Assert.Equal("Residencial El Boalo", promotion.Name);
+                Assert.Equal(5, promotion.TotalUnits);
+                Assert.Equal(499_000m, promotion.PriceFrom);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(3, promotion.BathroomsMin);
+                Assert.True(promotion.HasPrivatePool);
+                Assert.Equal("Inara Smart Homes S.L.", promotion.DeveloperName);
+                Assert.Empty(promotion.PropertyTypes);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

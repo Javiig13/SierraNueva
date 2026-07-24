@@ -40,7 +40,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 22
+- Perfil predeterminado completamente offline y perfil live explícito con 23
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -94,7 +94,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   centrales, municipales y comerciales; prioriza señales de un solo canal,
   huecos y controles sin señal, sin exponer la cola ni fingir una estimación de
   exhaustividad.
-- Descubrimiento comercial privado mediante 13 sitemaps de dominios oficiales
+- Descubrimiento comercial privado mediante 14 sitemaps de dominios oficiales
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
   ya figuran en el registro de fuentes.
@@ -215,18 +215,18 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          24 correctos
-Tests Infrastructure:107 correctos
+Tests Infrastructure:108 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               139/139 correctos
+Total:               140/140 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado local: 22 fuentes; 22 promociones válidas y activas, 0 fallos
-Mapa live local:     22/22 promociones; 21 centroides municipales y 1 exacta
+Live limitado local: 23 fuentes; 23 promociones válidas y activas, 0 fallos
+Mapa live local:     23/23 promociones; 22 centroides municipales y 1 exacta
 Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
@@ -238,6 +238,7 @@ Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
+Sitemap Inara live:  3 URLs; fuente sana y 0 candidatos nuevos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 SIMA live aislado:   3/3 sanas; Orbia y Nevia nuevas; 1 dominio no monitorizado
 Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nuevo
@@ -268,9 +269,9 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente 22 fuentes
+  perfil separado `sources.live.json` habilita explícitamente 23 fuentes
   limitadas y no se ejecuta por accidente.
-- El perfil del radar suma 51 fuentes con `zz-web-search-matrix`. La baseline
+- El perfil del radar suma 52 fuentes con `zz-web-search-matrix`. La baseline
   usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
   consultas. GitHub Actions `30119685200` verificó la imagen real, `/healthz`,
   las 116 consultas y la destrucción del contenedor: SearXNG devolvió 567
@@ -295,9 +296,21 @@ porque el estado sintético ya está sembrado.
   revisión inmediata a 10 candidatos: 9 páginas comerciales y un anuncio
   administrativo. Los diez URL respondieron HTTP 200; nueve permiten su ruta
   según `robots.txt` y la sede electrónica de Collado Mediano declara
-  `Disallow: /*`, por lo que no debe convertirse en fuente rastreada. Las nueve
-  páginas restantes requieren confirmar vigencia comercial y condiciones
-  antes de incorporarlas como fuentes canónicas.
+  `Disallow: /*`, por lo que no debe convertirse en fuente rastreada.
+- Las nueve páginas comerciales quedaron revisadas el 24 de julio. Inara Homes
+  — Residencial El Boalo es la única alta: cinco unifamiliares desde 499.000 €,
+  cuatro dormitorios, tres baños y sociedad promotora identificada. Tres
+  promociones o resultados quedan `stale`, cuatro candidatos se rechazan por
+  producto fuera de alcance o duplicidad y Habitania queda `stale` porque la
+  propia ruta ya no encuentra el resultado. Las decisiones reproducibles y la
+  evidencia están en
+  `docs/source-assessments/high-priority-commercial-review-2026-07-24.md`.
+- Inara dispone de fixture reducida y prueba offline. El dry run individual,
+  el recorrido live aislado con centroide y dos recorridos conjuntos sobre
+  estado/salida aislados fueron correctos. El final
+  `20260724T203618752Z` produjo 23/23 fuentes, 23 promociones activas,
+  23 elementos GeoJSON y cero fallos; `validate-data` fue correcto. Su sitemap
+  oficial procesó tres URLs sin fallos y no creó candidatos nuevos.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin
@@ -454,9 +467,9 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las 22 fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 23 fuentes
   revisadas; un fallo conserva el último despliegue válido.
-- El workflow actualizado ejecuta antes `discover-opportunities` con las 50
+- El workflow actualizado ejecuta antes `discover-opportunities` con las 52
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
   del radar queda visible y no bloquea el último dataset comercial válido. La
   ejecución real `30054208393` verificó el aislamiento: el paso del radar
@@ -572,35 +585,38 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Mantener en observación el estudio de detalle de Collado Mediano y la
+1. Vigilar Residencial El Boalo y las ocho decisiones negativas de la última
+   revisión. Reabrir un descarte solo ante una ficha oficial nueva, un cambio
+   real de producto o disponibilidad verificable.
+2. Mantener en observación el estudio de detalle de Collado Mediano y la
    licitación de ocho parcelas municipales de Los Pinarejos. Solo promover una
    ficha cuando aparezcan promotora, inventario y comercialización oficial.
-2. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
+3. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
    redundancia y no tratar un 403 o un fallo TLS aislado como autorización
    para evadir controles.
-3. Revisar las muestras privadas generadas y registrar evidencia independiente
+4. Revisar las muestras privadas generadas y registrar evidencia independiente
    antes de convertir cualquier discrepancia en una nueva fuente o promoción.
-4. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
-5. Revalidar las evaluaciones antes de cada cambio operativo o
+5. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
+6. Revalidar las evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-6. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+7. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-7. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+8. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-8. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
+9. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
    de producto y siempre sobre un estado privado aislado.
-9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+10. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+11. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Recuperar la cola privada del piloto `30094391984` en un entorno local,
+12. Recuperar la cola privada del piloto `30094391984` en un entorno local,
     generar el informe con `review-enrichment --report` y decidir sus ocho
     campos uno a uno tras comprobar cada cita. Contrastar además el coste
     estimado acumulado de 0,013350 USD con el panel de OpenAI. No habilitar
     todavía una programación periódica de IA. El secreto de GitHub quedó
     confirmado por HTTP 200; la clave no está cargada ni se expone en la
     terminal local.
-12. Definir la protección y política de ramas cuando el propietario decida el
+13. Definir la protección y política de ramas cuando el propietario decida el
     flujo de contribución.
 
 ## Cómo retomar en otro equipo
