@@ -309,6 +309,117 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_FollowsOnlyScopedDirectoryDetailsAndCapturesExternalLinks()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "industry-directory",
+            Name = "Directorio sectorial",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.IndustryDirectory,
+            Format = OpportunityFeedFormat.Sitemap,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate = "https://industry-fixture.test/sitemap-index.xml",
+            AllowedHosts = ["industry-fixture.test"],
+            SitemapIncludes = ["oferta-sitemap"],
+            FollowDetailPages = true,
+            DetailUrlIncludes = ["galapagar"],
+            DetailContentSelectors =
+                [".migas-header", ".oferta-datas.descripcion", ".single-offer-main-exhibitor"],
+            DetailLinkSelectors =
+                ["a.virtual[href^='https://']", ".oferta-datas.descripcion a[href^='https://']"],
+            MaxDetailPages = 5,
+            MaxItems = 100
+        };
+        Dictionary<string, byte[]> responses = new(StringComparer.Ordinal)
+        {
+            ["https://industry-fixture.test/sitemap-index.xml"] =
+                await File.ReadAllBytesAsync(
+                    FixturePath("industry-directory-sitemap-index.xml")),
+            ["https://industry-fixture.test/oferta-sitemap.xml"] =
+                await File.ReadAllBytesAsync(
+                    FixturePath("industry-directory-offers.xml")),
+            ["https://industry-fixture.test/oferta/residencial-encinar-galapagar/"] =
+                await File.ReadAllBytesAsync(
+                    FixturePath("industry-directory-detail.html"))
+        };
+        using MappingHttpClientFactory factory = new(responses);
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+
+        OpportunityFeedItem item = Assert.Single(await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            CancellationToken.None));
+
+        Assert.Contains("Galapagar", item.Summary, StringComparison.Ordinal);
+        Assert.Equal(
+            ["https://promotora-nueva.test/encinar"],
+            item.RelatedUrls);
+        Assert.Equal(
+            [
+                "https://industry-fixture.test/sitemap-index.xml",
+                "https://industry-fixture.test/oferta-sitemap.xml",
+                "https://industry-fixture.test/oferta/residencial-encinar-galapagar/"
+            ],
+            factory.Requests.Select(uri => uri.AbsoluteUri).ToArray());
+    }
+
+    [Fact]
+    public async Task Reader_FollowsDirectoryDetailsFoundInABoundedHtmlIndex()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "industry-directory-index",
+            Name = "Directorio sectorial — Galapagar",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.IndustryDirectory,
+            Format = OpportunityFeedFormat.HtmlLinks,
+            Cadence = OpportunityFeedCadence.Daily,
+            UrlTemplate = "https://industry-fixture.test/oferta/?localizacion=Galapagar",
+            AllowedHosts = ["industry-fixture.test"],
+            ItemSelectors =
+                [".listado-oferta .oferta-content h2 a[href*='/oferta/']"],
+            FollowDetailPages = true,
+            DetailUrlIncludes = ["/oferta/"],
+            DetailContentSelectors =
+                [".migas-header", ".oferta-datas.descripcion", ".single-offer-main-exhibitor"],
+            DetailLinkSelectors =
+                ["a.virtual[href^='https://']", ".oferta-datas.descripcion a[href^='https://']"],
+            MaxDetailPages = 5,
+            MaxItems = 10
+        };
+        Dictionary<string, byte[]> responses = new(StringComparer.Ordinal)
+        {
+            ["https://industry-fixture.test/oferta/?localizacion=Galapagar"] =
+                await File.ReadAllBytesAsync(
+                    FixturePath("industry-directory-index.html")),
+            ["https://industry-fixture.test/oferta/residencial-encinar/"] =
+                await File.ReadAllBytesAsync(
+                    FixturePath("industry-directory-detail.html"))
+        };
+        using MappingHttpClientFactory factory = new(responses);
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+
+        OpportunityFeedItem item = Assert.Single(await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            CancellationToken.None));
+
+        Assert.Contains("Galapagar", item.Summary, StringComparison.Ordinal);
+        Assert.Equal(
+            ["https://promotora-nueva.test/encinar"],
+            item.RelatedUrls);
+        Assert.Equal(
+            [
+                "https://industry-fixture.test/oferta/?localizacion=Galapagar",
+                "https://industry-fixture.test/oferta/residencial-encinar/"
+            ],
+            factory.Requests.Select(uri => uri.AbsoluteUri).ToArray());
+    }
+
+    [Fact]
     public async Task Reader_ReadsScopedOfficialInternalLinksAndRejectsUnsafeTargets()
     {
         OpportunitySourceDefinition source = new()
@@ -725,6 +836,87 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Pipeline_ReportsReferencedDomainsThatAreNotYetMonitored()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition industryDirectory = new()
+            {
+                Id = "a-industry-directory",
+                Name = "Directorio sectorial",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.IndustryDirectory,
+                Format = OpportunityFeedFormat.Sitemap,
+                Cadence = OpportunityFeedCadence.Daily,
+                AllowedHosts = ["industry-fixture.test"],
+                IgnoreExclusionTerms = true
+            };
+            OpportunitySourceDefinition knownCommercialSource = new()
+            {
+                Id = "z-known-promoter",
+                Name = "Promotora conocida",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+                Format = OpportunityFeedFormat.Sitemap,
+                Cadence = OpportunityFeedCadence.Daily,
+                AllowedHosts = ["www.promotora-conocida.test"]
+            };
+            OpportunityDiscoveryCatalog catalog = new()
+            {
+                Terms =
+                [
+                    new()
+                    {
+                        Term = "promoción",
+                        Kind = OpportunityKind.ResidentialDevelopment
+                    }
+                ],
+                ContextTerms = ["viviendas"],
+                ExclusionTerms = ["garaje"],
+                Sources = [industryDirectory, knownCommercialSource]
+            };
+            OpportunityFeedItem item = new()
+            {
+                ExternalId = "directory-1",
+                Title = "Promoción residencial en Galapagar",
+                Summary = "Doce viviendas unifamiliares con garaje en Galapagar",
+                OfficialUrl = "https://industry-fixture.test/oferta/1",
+                RelatedUrls =
+                [
+                    "https://promotora-conocida.test/promocion",
+                    "https://promotora-nueva.test/promocion"
+                ]
+            };
+            OpportunityDiscoveryPipeline pipeline = new(
+                new ScriptedFeedReader(
+                    new OpportunityFeedItem[] { item },
+                    Array.Empty<OpportunityFeedItem>()),
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 5, 21, 12, 0, 0, TimeSpan.Zero)));
+
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = catalog,
+                    Municipalities = [new() { OfficialName = "Galapagar" }],
+                    StateDirectory = directory,
+                    From = FixtureDate,
+                    To = FixtureDate
+                },
+                CancellationToken.None);
+
+            Assert.Equal(2, result.State.Coverage.ReferencedDomainsDiscovered);
+            Assert.Equal(1, result.State.Coverage.UnmonitoredReferencedDomains);
+            Assert.Equal(2, Assert.Single(result.State.Candidates).RelatedUrls.Count);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Configuration_ValidatesOfflineAndLiveRadarProfiles()
     {
         ConfigurationLoader loader = new();
@@ -753,11 +945,11 @@ public sealed class OpportunityDiscoveryTests
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
-            13,
+            14,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
-            2,
+            4,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(
@@ -767,6 +959,18 @@ public sealed class OpportunityDiscoveryTests
                 source.Format is
                     OpportunityFeedFormat.Sitemap or
                     OpportunityFeedFormat.HtmlLinks));
+        OpportunitySourceDefinition[] directories = live.Sources
+            .Where(source =>
+                source.SourceKind == OpportunitySourceKind.IndustryDirectory)
+            .ToArray();
+        Assert.Equal(3, directories.Length);
+        Assert.All(directories, source => Assert.True(source.FollowDetailPages));
+        Assert.Equal(
+            29,
+            Assert.Single(
+                directories,
+                source => source.Format == OpportunityFeedFormat.Sitemap)
+                .DetailUrlIncludes.Count);
     }
 
     [Fact]
@@ -843,6 +1047,7 @@ public sealed class OpportunityDiscoveryTests
             Title = candidate.Title,
             Summary = candidate.Summary,
             OfficialUrl = candidate.OfficialUrl,
+            RelatedUrls = candidate.RelatedUrls,
             PublishedAtUtc = candidate.PublishedAtUtc,
             Municipality = candidate.Municipality,
             Kind = candidate.Kind,

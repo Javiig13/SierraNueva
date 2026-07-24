@@ -267,6 +267,20 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   sanas, 29/29 municipios, 27 canales directos y cuatro pendientes. El único
   degradado fue `tablon-los-molinos` por HTTP 403; el aislamiento permitió
   publicar 22/22 fuentes comerciales sin ocultar la incidencia.
+- **Hecho:** puente privado desde directorio sectorial hacia nuevas fuentes:
+  SIMA se consulta mediante su sitemap residencial y dos índices municipales
+  acotados, sigue únicamente las fichas seleccionadas y captura enlaces
+  externos sin visitarlos ni publicarlos. Las fixtures cubren sitemap con
+  espacio inicial, filtro de ficha, índice HTML, allowlist, selectores y
+  eliminación de tracking. El smoke live descubrió `Orbia` en Collado Villalba
+  y `Nevia` en El Escorial; esta última referencia `aurora-homes.es` como
+  dominio todavía no monitorizado. Evaluación en
+  `docs/source-assessments/sima-discovery-2026-07-24.md`.
+- **Verificado live:** ejecución local integrada con 50/50 fuentes sanas,
+  29/29 municipios, 28 canales directos y 15/15 canales comerciales. El embudo
+  privado quedó en siete pendientes: tres nuevos y cuatro en seguimiento. Los
+  tres nuevos son Orbia, Nevia y una señal oficial de ocho parcelas
+  residenciales en Miraflores de la Sierra; ninguno se publicó.
 - **Hecho:** `backfill-opportunities` divide rangos arbitrarios sin
   huecos/solapes, exige una ruta privada explícita, conserva los lotes
   correctos ante fallos parciales y deja un informe atómico agregado. La

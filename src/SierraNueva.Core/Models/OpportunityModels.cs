@@ -7,7 +7,8 @@ public enum OpportunitySourceKind
     PublicProcurement,
     PublicLandPortal,
     MunicipalNoticeBoard,
-    OfficialCommercialWebsite
+    OfficialCommercialWebsite,
+    IndustryDirectory
 }
 
 public enum OpportunityFeedFormat
@@ -113,6 +114,18 @@ public sealed class OpportunitySourceDefinition
 
     public IReadOnlyList<string> SitemapIncludes { get; init; } = [];
 
+    public bool FollowDetailPages { get; init; }
+
+    public IReadOnlyList<string> DetailUrlIncludes { get; init; } = [];
+
+    public IReadOnlyList<string> DetailContentSelectors { get; init; } = [];
+
+    public IReadOnlyList<string> DetailLinkSelectors { get; init; } = [];
+
+    public int MaxDetailPages { get; init; } = 25;
+
+    public bool IgnoreExclusionTerms { get; init; }
+
     public IReadOnlyList<OpportunityReviewRule> ReviewRules { get; init; } = [];
 
     public string? FixedMunicipality { get; init; }
@@ -145,6 +158,8 @@ public sealed class OpportunityFeedItem
 
     public string OfficialUrl { get; init; } = string.Empty;
 
+    public IReadOnlyList<string> RelatedUrls { get; init; } = [];
+
     public DateTimeOffset? PublishedAtUtc { get; init; }
 }
 
@@ -165,6 +180,8 @@ public sealed class OpportunityCandidate
     public string Summary { get; init; } = string.Empty;
 
     public string OfficialUrl { get; init; } = string.Empty;
+
+    public IReadOnlyList<string> RelatedUrls { get; init; } = [];
 
     public DateTimeOffset? PublishedAtUtc { get; init; }
 
@@ -292,6 +309,10 @@ public sealed class OpportunityCoverageSnapshot
     public int CommercialDomainsMonitored { get; init; }
 
     public int HealthyCommercialDomains { get; init; }
+
+    public int ReferencedDomainsDiscovered { get; init; }
+
+    public int UnmonitoredReferencedDomains { get; init; }
 
     public int MunicipalitiesTotal { get; init; }
 

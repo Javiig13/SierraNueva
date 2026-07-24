@@ -663,6 +663,9 @@ internal static class CrawlerApplication
             $"{coverage.CommercialDomainsMonitored} dominios; señales en " +
             $"{coverage.MunicipalitiesWithCommercialSignals} municipios.");
         Console.WriteLine(
+            $"Dominios referenciados: {coverage.ReferencedDomainsDiscovered} " +
+            $"detectados; {coverage.UnmonitoredReferencedDomains} aún no vigilados.");
+        Console.WriteLine(
             $"Embudo: {coverage.NewCandidates} nuevos, " +
             $"{coverage.MonitoringCandidates} en seguimiento, " +
             $"{coverage.VerifiedSourceCandidates} ya integrados, " +
@@ -728,6 +731,7 @@ internal static class CrawlerApplication
             Title = candidate.Title,
             Summary = candidate.Summary,
             OfficialUrl = candidate.OfficialUrl,
+            RelatedUrls = candidate.RelatedUrls,
             PublishedAtUtc = candidate.PublishedAtUtc,
             Municipality = candidate.Municipality,
             Kind = candidate.Kind,

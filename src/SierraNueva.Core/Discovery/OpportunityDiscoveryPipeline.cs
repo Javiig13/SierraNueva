@@ -320,6 +320,16 @@ public sealed class OpportunityDiscoveryPipeline(
             .ToHashSet(StringComparer.Ordinal);
         HashSet<string> healthyCommercialDomains = CommercialDomains(
             commercialSources.Where(source => healthyCommercialSourceIds.Contains(source.Id)));
+        HashSet<string> referencedDomains = candidateArray
+            .Where(candidate => candidate.Status is
+                OpportunityCandidateStatus.New or
+                OpportunityCandidateStatus.Monitoring or
+                OpportunityCandidateStatus.VerifiedSource)
+            .SelectMany(candidate => candidate.RelatedUrls)
+            .Select(TryGetDomain)
+            .Where(domain => domain is not null)
+            .Select(domain => domain!)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
         MunicipalityOpportunityCoverage[] municipalityCoverage = municipalities
             .Where(municipality => municipality.Enabled)
             .OrderBy(municipality => municipality.OfficialName, StringComparer.Ordinal)
@@ -394,6 +404,9 @@ public sealed class OpportunityDiscoveryPipeline(
             HealthyCommercialSources = healthyCommercialSourceIds.Count,
             CommercialDomainsMonitored = commercialDomains.Count,
             HealthyCommercialDomains = healthyCommercialDomains.Count,
+            ReferencedDomainsDiscovered = referencedDomains.Count,
+            UnmonitoredReferencedDomains = referencedDomains.Count(domain =>
+                !commercialDomains.Contains(domain)),
             MunicipalitiesTotal = municipalityCoverage.Length,
             MunicipalitiesWithDirectSource = municipalityCoverage.Count(item =>
                 item.ConfiguredDirectSources > 0),
@@ -437,6 +450,19 @@ public sealed class OpportunityDiscoveryPipeline(
                 ? host[4..]
                 : host)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static string? TryGetDomain(string value)
+    {
+        if (!Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) ||
+            uri.Scheme != Uri.UriSchemeHttps)
+        {
+            return null;
+        }
+
+        return uri.IdnHost.StartsWith("www.", StringComparison.OrdinalIgnoreCase)
+            ? uri.IdnHost[4..]
+            : uri.IdnHost;
     }
 
     private static MunicipalityCoverageStatus ResolveCoverageStatus(
@@ -489,7 +515,8 @@ public sealed class OpportunityDiscoveryPipeline(
             .Where(rule => ContainsTerm(searchable, rule.Term))
             .ToArray();
         bool hasContext = contextTerms.Any(term => ContainsTerm(searchable, term));
-        bool isExcluded = exclusionTerms.Any(term => ContainsTerm(searchable, term));
+        bool isExcluded = !source.IgnoreExclusionTerms &&
+                          exclusionTerms.Any(term => ContainsTerm(searchable, term));
         if (municipality is null || matchedRules.Length == 0 || !hasContext || isExcluded)
         {
             return null;
@@ -519,6 +546,13 @@ public sealed class OpportunityDiscoveryPipeline(
             Title = TextNormalizer.CleanEvidence(item.Title, 240),
             Summary = TextNormalizer.CleanEvidence(item.Summary, 800),
             OfficialUrl = item.OfficialUrl,
+            RelatedUrls = item.RelatedUrls
+                .Where(value =>
+                    Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) &&
+                    uri.Scheme == Uri.UriSchemeHttps)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Take(10)
+                .ToArray(),
             PublishedAtUtc = item.PublishedAtUtc,
             Municipality = municipality.OfficialName,
             Kind = kind,
@@ -616,6 +650,7 @@ public sealed class OpportunityDiscoveryPipeline(
             Title = current.Title,
             Summary = current.Summary,
             OfficialUrl = current.OfficialUrl,
+            RelatedUrls = current.RelatedUrls,
             PublishedAtUtc = current.PublishedAtUtc,
             Municipality = current.Municipality,
             Kind = current.Kind,

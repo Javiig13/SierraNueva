@@ -40,7 +40,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 21
+- Perfil predeterminado completamente offline y perfil live explícito con 22
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -101,6 +101,12 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Seguimiento HTML adicional para dos índices comerciales cuyo sitemap omite
   fichas conocidas. Usa selectores explícitos, una sola portada, cero
   recursión y la misma validación HTTPS/host.
+- Puente privado de descubrimiento sectorial mediante SIMA: un sitemap
+  residencial filtrado por los 29 municipios y dos índices acotados para
+  Collado Villalba y El Escorial, donde los slugs no incluyen la localidad.
+  Solo sigue fichas seleccionadas, conserva enlaces externos normalizados sin
+  visitarlos y contabiliza dominios aún no monitorizados. El directorio nunca
+  es fuente canónica ni publica candidatos.
 - Reglas de revisión por URL que aplican `monitoring`, `rejected` o `stale` a
   candidatos nuevos o ya existentes sin poder otorgar `verifiedSource`.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
@@ -194,10 +200,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          22 correctos
-Tests Infrastructure:101 correctos
+Tests Infrastructure:104 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               131/131 correctos
+Total:               134/134 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -213,6 +219,8 @@ Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
+SIMA live aislado:   3/3 sanas; Orbia y Nevia nuevas; 1 dominio no monitorizado
+Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nuevo
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 30089475710 para el commit 102a7b5
@@ -391,7 +399,7 @@ porque el estado sintético ya está sembrado.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 22 fuentes
   revisadas; un fallo conserva el último despliegue válido.
-- El workflow actualizado ejecuta antes `discover-opportunities` con las 47
+- El workflow actualizado ejecuta antes `discover-opportunities` con las 50
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
   del radar queda visible y no bloquea el último dataset comercial válido. La
   ejecución real `30054208393` verificó el aislamiento: el paso del radar
@@ -436,6 +444,20 @@ porque el estado sintético ya está sembrado.
   cuatro candidatos pendientes; solo `tablon-los-molinos` quedó degradado por
   HTTP 403. Backfill y auditoría terminaron correctos, la IA se omitió y el
   estado privado devolvió HTTP 404. CI `30104995452` también fue correcta.
+- El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
+  tres fichas ya gobernadas por reglas y los índices municipales detectaron
+  `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
+  privados `new`. La ficha de Nevia expuso `aurora-homes.es`; la instantánea
+  contó un dominio referido y no monitorizado. No se visitó el dominio, no se
+  alteró `data/public` y la evaluación jurídica/técnica está en
+  `docs/source-assessments/sima-discovery-2026-07-24.md`.
+- La ejecución integrada local posterior terminó con 50/50 fuentes sanas,
+  29/29 municipios vigilados, 28 canales municipales directos y 15/15 canales
+  comerciales sanos. El embudo quedó en tres candidatos `new`, cuatro
+  `monitoring`, cinco `verifiedSource`, doce `rejected` y dos `stale`. Además
+  de Orbia y Nevia apareció una señal oficial del Portal del Suelo sobre ocho
+  parcelas residenciales en Miraflores de la Sierra. Los siete pendientes
+  siguen solo en el estado aislado `.runtime`; no se versionaron ni publicaron.
 - El primer piloto OpenAI real fue `30093553895` sobre `1273a73`. El secreto
   funcionó y Responses devolvió HTTP 200 para dos promociones: 3.175 tokens de
   entrada, 412 de salida, nueve campos propuestos y 0,006439 USD estimados,
@@ -473,32 +495,35 @@ porque el estado sintético ya está sembrado.
 1. Mantener en observación el estudio de detalle de Collado Mediano y las tres
    páginas NUVARE; solo promover una ficha si aparece evidencia independiente
    de promoción vigente.
-2. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
+2. Revisar los candidatos privados `Orbia` y `Nevia`. Resolver el dominio
+   oficial de Orbia mediante evidencia independiente y evaluar
+   `aurora-homes.es` jurídica y técnicamente antes de convertirlo en fuente.
+3. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
    redundancia y no tratar un 403 o un fallo TLS aislado como autorización
    para evadir controles.
-3. Revisar las muestras privadas generadas y registrar evidencia independiente
+4. Revisar las muestras privadas generadas y registrar evidencia independiente
    antes de convertir cualquier discrepancia en una nueva fuente o promoción.
-4. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
-5. Revalidar las 21 evaluaciones antes de cada cambio operativo o
+5. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
+6. Revalidar las evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-6. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+7. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-7. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+8. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-8. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
+9. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
    de producto y siempre sobre un estado privado aislado.
-9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+10. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+11. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Recuperar la cola privada del piloto `30094391984` en un entorno local,
+12. Recuperar la cola privada del piloto `30094391984` en un entorno local,
     generar el informe con `review-enrichment --report` y decidir sus ocho
     campos uno a uno tras comprobar cada cita. Contrastar además el coste
     estimado acumulado de 0,013350 USD con el panel de OpenAI. No habilitar
     todavía una programación periódica de IA. El secreto de GitHub quedó
     confirmado por HTTP 200; la clave no está cargada ni se expone en la
     terminal local.
-12. Definir la protección y política de ramas cuando el propietario decida el
+13. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 
 ## Cómo retomar en otro equipo

@@ -60,6 +60,62 @@ public sealed class OpportunityFeedParser
             .ToArray();
     }
 
+    public OpportunityFeedItem ParseDetailPage(
+        OpportunitySourceDefinition source,
+        ReadOnlyMemory<byte> content,
+        Uri sourceUri,
+        DateTimeOffset? publishedAtUtc)
+    {
+        string html = Decode(content);
+        IDocument document = _htmlParser.ParseDocument(html);
+        IElement[] contentElements = source.DetailContentSelectors
+            .SelectMany(selector => document.QuerySelectorAll(selector))
+            .Distinct()
+            .ToArray();
+        if (contentElements.Length == 0)
+        {
+            throw new InvalidDataException(
+                $"La ficha de descubrimiento '{sourceUri}' no contiene los bloques " +
+                "de contenido configurados.");
+        }
+
+        string title = TextNormalizer.CleanEvidence(
+            document.QuerySelector("h1")?.TextContent ??
+            document.Title ??
+            sourceUri.AbsolutePath,
+            500);
+        string summary = TextNormalizer.CleanEvidence(
+            string.Join(' ', contentElements.Select(element => element.TextContent)),
+            8_000);
+        string[] relatedUrls = source.DetailLinkSelectors
+            .SelectMany(selector => document.QuerySelectorAll(selector))
+            .Select(element => element.LocalName == "a"
+                ? element.GetAttribute("href")
+                : element.QuerySelector("a[href]")?.GetAttribute("href"))
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .Select(value => ResolveUrl(sourceUri, value!))
+            .Where(value =>
+                Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) &&
+                uri.Scheme == Uri.UriSchemeHttps &&
+                !source.AllowedHosts.Contains(
+                    uri.IdnHost,
+                    StringComparer.OrdinalIgnoreCase))
+            .Select(RemoveQueryAndFragment)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Take(10)
+            .ToArray();
+
+        return new()
+        {
+            ExternalId = sourceUri.AbsoluteUri,
+            Title = title,
+            Summary = summary,
+            OfficialUrl = sourceUri.AbsoluteUri,
+            RelatedUrls = relatedUrls,
+            PublishedAtUtc = publishedAtUtc
+        };
+    }
+
     public Uri? FindBocmSummaryUri(ReadOnlyMemory<byte> content, Uri sourceUri)
     {
         IDocument document = _htmlParser.ParseDocument(Decode(content));
@@ -472,15 +528,30 @@ public sealed class OpportunityFeedParser
             : null;
     }
 
+    private static string RemoveQueryAndFragment(string value)
+    {
+        Uri uri = new(value);
+        return new UriBuilder(uri)
+        {
+            Query = string.Empty,
+            Fragment = string.Empty
+        }.Uri.AbsoluteUri;
+    }
+
     private static XDocument ParseXml(string xml)
     {
         try
         {
-            return XDocument.Parse(xml, LoadOptions.None);
+            return XDocument.Parse(
+                xml.TrimStart('\uFEFF', ' ', '\t', '\r', '\n'),
+                LoadOptions.None);
         }
         catch (Exception exception) when (exception is System.Xml.XmlException)
         {
-            throw new InvalidDataException("El feed XML del radar no es válido.", exception);
+            throw new InvalidDataException(
+                $"El feed XML del radar no es válido: " +
+                $"{TextNormalizer.CleanEvidence(exception.Message, 300)}",
+                exception);
         }
     }
 

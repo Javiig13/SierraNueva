@@ -677,6 +677,128 @@
         "a[href$='/etria/']"
       ],
       "maxItems": 50
+    },
+    {
+      "id": "sima-residential-directory",
+      "name": "SIMA — catálogo residencial para descubrimiento",
+      "enabled": true,
+      "sourceKind": "industryDirectory",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://simaexpo.com/oferta-sitemap.xml",
+      "allowedHosts": [ "simaexpo.com", "www.simaexpo.com" ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [
+        "alpedrete",
+        "becerril-de-la-sierra",
+        "bustarviejo",
+        "cabanillas-de-la-sierra",
+        "cercedilla",
+        "collado-mediano",
+        "collado-villalba",
+        "el-boalo",
+        "el-escorial",
+        "fresnedillas-de-la-oliva",
+        "galapagar",
+        "guadalix-de-la-sierra",
+        "guadarrama",
+        "hoyo-de-manzanares",
+        "la-cabrera",
+        "los-molinos",
+        "manzanares-el-real",
+        "miraflores-de-la-sierra",
+        "moralzarzal",
+        "navacerrada",
+        "navalafuente",
+        "navalagamella",
+        "robledo-de-chavela",
+        "san-lorenzo-de-el-escorial",
+        "santa-maria-de-la-alameda",
+        "soto-del-real",
+        "torrelodones",
+        "valdemaqueda",
+        "zarzalejo"
+      ],
+      "detailContentSelectors": [
+        ".migas-header",
+        ".oferta-datas.descripcion",
+        ".single-offer-main-exhibitor"
+      ],
+      "detailLinkSelectors": [
+        "a.virtual[href^='https://']",
+        ".oferta-datas.descripcion a[href^='https://']"
+      ],
+      "maxDetailPages": 50,
+      "ignoreExclusionTerms": true,
+      "reviewRules": [
+        {
+          "urlPattern": "/oferta/quercus-dorf-guadarrama/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/residencial-los-molinos-ii/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/suite-los-molinos/",
+          "status": "rejected"
+        }
+      ],
+      "maxItems": 2000
+    },
+    {
+      "id": "sima-collado-villalba-index",
+      "name": "SIMA — obra nueva en Collado Villalba",
+      "enabled": true,
+      "sourceKind": "industryDirectory",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://simaexpo.com/oferta/?oferta-estado=Obra+nueva&localizacion=Collado+Villalba",
+      "allowedHosts": [ "simaexpo.com", "www.simaexpo.com" ],
+      "itemSelectors": [
+        ".listado-oferta .oferta-content h2 a[href*='/oferta/']"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [ "/oferta/" ],
+      "detailContentSelectors": [
+        ".migas-header",
+        ".oferta-datas.descripcion",
+        ".single-offer-main-exhibitor"
+      ],
+      "detailLinkSelectors": [
+        "a.virtual[href^='https://']",
+        ".oferta-datas.descripcion a[href^='https://']"
+      ],
+      "maxDetailPages": 5,
+      "ignoreExclusionTerms": true,
+      "maxItems": 10
+    },
+    {
+      "id": "sima-el-escorial-index",
+      "name": "SIMA — obra nueva en El Escorial",
+      "enabled": true,
+      "sourceKind": "industryDirectory",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://simaexpo.com/oferta/?oferta-estado=Obra+nueva&localizacion=Escorial%2C+El",
+      "allowedHosts": [ "simaexpo.com", "www.simaexpo.com" ],
+      "itemSelectors": [
+        ".listado-oferta .oferta-content h2 a[href*='/oferta/']"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [ "/oferta/" ],
+      "detailContentSelectors": [
+        ".migas-header",
+        ".oferta-datas.descripcion",
+        ".single-offer-main-exhibitor"
+      ],
+      "detailLinkSelectors": [
+        "a.virtual[href^='https://']",
+        ".oferta-datas.descripcion a[href^='https://']"
+      ],
+      "maxDetailPages": 5,
+      "ignoreExclusionTerms": true,
+      "maxItems": 10
     }
   ]
 }

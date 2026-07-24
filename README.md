@@ -194,9 +194,10 @@ nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` habilita de forma explícita 47 fuentes:
+`config/discovery-sources.live.json` habilita de forma explícita 50 fuentes:
 cuatro canales centrales, 28 fuentes municipales, 13 sitemaps de dominios
-comerciales oficiales y dos índices HTML acotados ya revisados. La parte
+comerciales oficiales, dos índices HTML comerciales acotados y tres canales
+privados de descubrimiento sectorial de SIMA. La parte
 municipal comprende cinco tablones
 `eAdmin`, 18 portadas públicas de sedes `sedelectronica.es`, el tablón de
 transparencia de Bustarviejo, los RSS oficiales de Cercedilla, Guadalix y
@@ -245,6 +246,15 @@ Actualmente observa las portadas de Apremya y Trinosa: ambas devolvieron solo
 las fichas conocidas Puerta de Villalba y Etria. Las decisiones humanas
 repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
 `monitoring`, `rejected` o `stale`, pero nunca verificar una fuente.
+
+Los canales `industryDirectory` son un embudo privado distinto: SIMA se usa
+solo para descubrir nombres y dominios que aún no estén en el registro. El
+lector sigue como máximo 50 fichas desde el sitemap filtrado por municipio y
+cinco desde cada uno de los índices de Collado Villalba y El Escorial. Solo
+extrae bloques y enlaces configurados, elimina parámetros de seguimiento y no
+visita los dominios externos. Ninguna ficha del directorio se convierte por sí
+sola en fuente oficial ni en promoción pública; requiere revisión y evidencia
+independiente.
 
 `backfill-opportunities` divide automáticamente cualquier intervalo temporal
 en lotes contiguos de hasta 367 días inclusivos. Exige una fuente temporal y

@@ -158,6 +158,13 @@ pertenecientes a dominios comerciales oficiales ya aprobados; rechaza HTTP y
 hosts ajenos antes de crear un candidato. Para índices cuyo sitemap omite una
 ficha, `htmlLinks` lee una única portada y solo los anchors seleccionados por
 configuración; no descarga el destino ni recorre enlaces de forma recursiva.
+Un adaptador `industryDirectory` reutiliza sitemap o `htmlLinks`, pero exige
+seguimiento de ficha, filtros de URL, selectores de contenido y límites
+explícitos. Su única función es crear candidatos privados y capturar URLs
+externas declaradas dentro de la ficha; elimina query y fragmento, nunca visita
+esas URLs y no puede otorgar `verifiedSource`. Los índices municipales de SIMA
+cierran los casos en los que el slug de la oferta no contiene la localidad sin
+recorrer el catálogo nacional completo.
 BOCM se recorre por día: la página de calendario descubre el XML oficial de la
 edición y los días sin boletín no producen entradas. Los tablones municipales
 usan una única página, extraen solo enlaces de detalle y fijan un municipio
@@ -212,6 +219,11 @@ sitemap coincide tras normalización con una ficha ya revisada, el candidato se
 marca `verifiedSource`; el resto permanece `new`. Esta comparación reduce
 ruido sin convertir un enlace nuevo en promoción ni saltarse la revisión
 jurídica y técnica.
+
+La fotografía privada agrega también cuántos dominios externos ha referido el
+embudo sectorial y cuántos aún no tienen una fuente comercial configurada. El
+cálculo considera solo candidatos `new`, `monitoring` o `verifiedSource`; los
+rechazados y obsoletos no mantienen artificialmente un hueco de cobertura.
 
 Las decisiones humanas reproducibles pueden vivir como `reviewRules` de una
 fuente: un patrón de URL asigna `monitoring`, `rejected` o `stale`. Una URL ya

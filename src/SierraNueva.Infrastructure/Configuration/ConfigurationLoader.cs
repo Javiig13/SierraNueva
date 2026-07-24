@@ -178,10 +178,32 @@ public sealed class ConfigurationLoader
 
             if (source.Format is
                     OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks &&
-                source.SourceKind != OpportunitySourceKind.OfficialCommercialWebsite)
+                source.SourceKind is not
+                    (OpportunitySourceKind.OfficialCommercialWebsite or
+                     OpportunitySourceKind.IndustryDirectory))
             {
                 errors.Add(
-                    $"La fuente '{source.Id}' debe declararse como web comercial oficial.");
+                    $"La fuente '{source.Id}' debe declararse como web comercial oficial " +
+                    "o directorio sectorial.");
+            }
+
+            if (source.SourceKind == OpportunitySourceKind.IndustryDirectory &&
+                (source.Format is not
+                    (OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks) ||
+                 !source.FollowDetailPages))
+            {
+                errors.Add(
+                    $"El directorio sectorial '{source.Id}' debe usar un sitemap o " +
+                    "índice HTML con " +
+                    "seguimiento acotado de fichas.");
+            }
+
+            if (source.IgnoreExclusionTerms &&
+                source.SourceKind != OpportunitySourceKind.IndustryDirectory)
+            {
+                errors.Add(
+                    $"Solo un directorio residencial acotado puede omitir exclusiones en " +
+                    $"'{source.Id}'.");
             }
 
             if (source.Format == OpportunityFeedFormat.HtmlLinks &&
@@ -203,6 +225,42 @@ public sealed class ConfigurationLoader
             {
                 errors.Add(
                     $"Los filtros sitemapIncludes de '{source.Id}' no pueden estar vacíos.");
+            }
+
+            if (source.FollowDetailPages &&
+                (source.Format is not
+                    (OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks) ||
+                 source.DetailUrlIncludes.Count == 0 ||
+                 source.DetailContentSelectors.Count == 0))
+            {
+                errors.Add(
+                    $"El seguimiento de fichas de '{source.Id}' exige sitemap o índice " +
+                    "HTML, filtros de URL y selectores de contenido.");
+            }
+
+            if (!source.FollowDetailPages &&
+                (source.DetailUrlIncludes.Count > 0 ||
+                 source.DetailContentSelectors.Count > 0 ||
+                 source.DetailLinkSelectors.Count > 0))
+            {
+                errors.Add(
+                    $"Los ajustes de fichas de '{source.Id}' requieren " +
+                    "followDetailPages.");
+            }
+
+            if (source.MaxDetailPages is < 1 or > 50)
+            {
+                errors.Add(
+                    $"maxDetailPages de '{source.Id}' debe estar entre 1 y 50.");
+            }
+
+            if (source.DetailUrlIncludes.Any(string.IsNullOrWhiteSpace) ||
+                source.DetailContentSelectors.Any(string.IsNullOrWhiteSpace) ||
+                source.DetailLinkSelectors.Any(string.IsNullOrWhiteSpace))
+            {
+                errors.Add(
+                    $"Los filtros y selectores de fichas de '{source.Id}' no pueden " +
+                    "estar vacíos.");
             }
 
             foreach (OpportunityReviewRule rule in source.ReviewRules)

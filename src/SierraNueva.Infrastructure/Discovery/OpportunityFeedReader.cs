@@ -90,12 +90,18 @@ public sealed class OpportunityFeedReader(
 
             if (source.Format == OpportunityFeedFormat.Sitemap)
             {
-                items.AddRange(await ReadSitemapAsync(
+                IReadOnlyList<OpportunityFeedItem> sitemapItems = await ReadSitemapAsync(
                     source,
                     uri,
                     content,
                     date,
-                    cancellationToken));
+                    cancellationToken);
+                items.AddRange(source.FollowDetailPages
+                    ? await ReadDetailPagesAsync(
+                        source,
+                        sitemapItems,
+                        cancellationToken)
+                    : sitemapItems);
                 if (items.Count >= source.MaxItems)
                 {
                     break;
@@ -109,10 +115,16 @@ public sealed class OpportunityFeedReader(
                 content,
                 uri,
                 date);
-            items.AddRange(source.Format is
+            IReadOnlyList<OpportunityFeedItem> filtered = source.Format is
                 OpportunityFeedFormat.Sitemap or OpportunityFeedFormat.HtmlLinks
                 ? FilterCommercialItems(source, parsed)
-                : parsed);
+                : parsed;
+            items.AddRange(source.FollowDetailPages
+                ? await ReadDetailPagesAsync(
+                    source,
+                    filtered,
+                    cancellationToken)
+                : filtered);
             if (items.Count >= source.MaxItems)
             {
                 break;
@@ -127,6 +139,42 @@ public sealed class OpportunityFeedReader(
                 StringComparer.OrdinalIgnoreCase)
             .Take(source.MaxItems)
             .ToArray();
+    }
+
+    private async Task<IReadOnlyList<OpportunityFeedItem>> ReadDetailPagesAsync(
+        OpportunitySourceDefinition source,
+        IEnumerable<OpportunityFeedItem> sitemapItems,
+        CancellationToken cancellationToken)
+    {
+        List<OpportunityFeedItem> details = [];
+        foreach (OpportunityFeedItem sitemapItem in sitemapItems
+                     .Where(item =>
+                         Uri.TryCreate(
+                             item.OfficialUrl,
+                             UriKind.Absolute,
+                             out Uri? uri) &&
+                         source.DetailUrlIncludes.Any(pattern =>
+                             uri.AbsolutePath.Contains(
+                                 pattern,
+                                 StringComparison.OrdinalIgnoreCase)))
+                     .Take(source.MaxDetailPages))
+        {
+            Uri detailUri = new(sitemapItem.OfficialUrl);
+            ValidateUri(source, detailUri);
+            byte[]? content = await DownloadAsync(detailUri, cancellationToken);
+            if (content is null)
+            {
+                continue;
+            }
+
+            details.Add(parser.ParseDetailPage(
+                source,
+                content,
+                detailUri,
+                sitemapItem.PublishedAtUtc));
+        }
+
+        return details;
     }
 
     private async Task<IReadOnlyList<OpportunityFeedItem>> ReadSitemapAsync(
@@ -234,7 +282,7 @@ public sealed class OpportunityFeedReader(
             request,
             HttpCompletionOption.ResponseHeadersRead,
             cancellationToken);
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
             return null;
         }
@@ -314,7 +362,7 @@ public sealed class OpportunityFeedReader(
             request,
             HttpCompletionOption.ResponseHeadersRead,
             cancellationToken);
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
             return null;
         }
