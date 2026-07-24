@@ -169,11 +169,11 @@ Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 1 min 57 s para el commit ba2a186
-Crawl/deploy GitHub: correcto en la ejecución 30054208393 (7 min 10 s)
-Radar GitHub real:   40 sanas, 5 degradadas; cobertura 29/29, 23 directas
-Cola privada real:   17 hallazgos; 3 URLs conocidas y 14 pendientes
+Crawl/deploy GitHub: correcto en 30086510831, intento #2 (9 min 29 s)
+Radar GitHub real:   46 sanas, 0 degradadas, 1 en fallo; 29/29, 27 directas
+Cola privada real:   4 candidatos pendientes
 Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
-Workflow P5 real:    30081195579 correcto en 9 min 17 s; backfill y auditoría ok
+Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
 ```
 
@@ -349,6 +349,12 @@ porque el estado sintético ya está sembrado.
   correcto en 9 min 17 s, con 21/21 fuentes comerciales, cuatro candidatos
   pendientes y Pages desplegado. El informe privado devolvió HTTP 404 en la
   URL pública.
+- La ejecución `30086510831` sobre `9808d0f` publicó el rediseño compacto. El
+  primer intento conservó Pages al obtener 20/21 fuentes comerciales; un único
+  reintento, sin cambiar código ni configuración, completó 21/21 y desplegó en
+  9 min 29 s. El radar quedó visible como fallo parcial con 46 fuentes sanas,
+  cero degradadas y una en fallo reiterado; backfill y auditoría terminaron
+  correctamente.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -359,13 +365,13 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30081195579` completó el crawl, validó las 21 fuentes, publicó 21
+  `30086510831` completó el crawl, validó las 21 fuentes, publicó 21
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó en navegador la portada y el mapa. La vista por defecto muestra
-  20 promociones comerciales activas y el resumen conserva las 21. El JSON
+  17 promociones comerciales activas y el resumen conserva las 21. El JSON
   público contiene 21 promociones, el GeoJSON 21 elementos, el `runId` es
-  `20260724T091043562Z` y el estado privado devuelve 404.
+  `20260724T105210752Z` y el estado privado devuelve 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
