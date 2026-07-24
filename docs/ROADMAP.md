@@ -182,6 +182,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   elementos GeoJSON y exclusión pública de `data/state` comprobados. La vista
   activa muestra 17 opciones; las cinco promociones de la cuarta ampliación
   están presentes en listado y mapa.
+- **Hecho:** ejecución `30089518646` sobre `102a7b5` al primer intento:
+  21/21 fuentes, 21 promociones, 17 activas, 21 puntos GeoJSON y Pages
+  actualizado. CI `30089475710` correcta y cola privada de enriquecimiento
+  ausente de la web mediante HTTP 404.
 
 ## P5 — Cobertura continua
 

@@ -178,11 +178,13 @@ Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 1 min 57 s para el commit ba2a186
-Crawl/deploy GitHub: correcto en 30086510831, intento #2 (9 min 29 s)
+CI GitHub real:      correcto en 30089475710 para el commit 102a7b5
+Crawl/deploy GitHub: correcto en 30089518646, intento #1
 Radar GitHub real:   46 sanas, 0 degradadas, 1 en fallo; 29/29, 27 directas
 Cola privada real:   4 candidatos pendientes
 Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
+Run live actual:     20260724T113101930Z; 17 activas y 21 puntos GeoJSON
+Estado IA web:       correcto; promotion-enrichment.json devuelve 404
 Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
 ```
@@ -365,6 +367,13 @@ porque el estado sintético ya está sembrado.
   9 min 29 s. El radar quedó visible como fallo parcial con 46 fuentes sanas,
   cero degradadas y una en fallo reiterado; backfill y auditoría terminaron
   correctamente.
+- La ejecución `30089518646` sobre `102a7b5` publicó la segunda compactación y
+  el pipeline privado de enriquecimiento al primer intento. Crawl y Pages
+  terminaron correctos con 21/21 fuentes, 21 promociones, 17 activas y 21
+  puntos GeoJSON (`runId` `20260724T113101930Z`). La CI
+  `30089475710` del mismo commit también fue correcta. Las rutas
+  `data/state/promotion-enrichment.json`, `data/promotion-enrichment.json` y
+  `data/state/opportunity-audit.json` devolvieron HTTP 404.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
