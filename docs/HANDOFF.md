@@ -428,6 +428,14 @@ porque el estado sintético ya está sembrado.
   `30089475710` del mismo commit también fue correcta. Las rutas
   `data/state/promotion-enrichment.json`, `data/promotion-enrichment.json` y
   `data/state/opportunity-audit.json` devolvieron HTTP 404.
+- La ejecución `30105161699` sobre `8c2bd2f` publicó la quinta ampliación:
+  22/22 fuentes comerciales, 22 promociones, 19 activas, cero fallos y run
+  `20260724T152946510Z`. Névola aparece en lista con 16 unidades, ambas
+  tipologías, cuatro dormitorios y parcela 310–319 m²; el precio sigue como no
+  publicado. El radar conservó 29/29 municipios, 27 canales directos sanos y
+  cuatro candidatos pendientes; solo `tablon-los-molinos` quedó degradado por
+  HTTP 403. Backfill y auditoría terminaron correctos, la IA se omitió y el
+  estado privado devolvió HTTP 404. CI `30104995452` también fue correcta.
 - El primer piloto OpenAI real fue `30093553895` sobre `1273a73`. El secreto
   funcionó y Responses devolvió HTTP 200 para dos promociones: 3.175 tokens de
   entrada, 412 de salida, nueve campos propuestos y 0,006439 USD estimados,

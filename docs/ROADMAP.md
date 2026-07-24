@@ -196,6 +196,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   21/21 fuentes, 21 promociones, 17 activas, 21 puntos GeoJSON y Pages
   actualizado. CI `30089475710` correcta y cola privada de enriquecimiento
   ausente de la web mediante HTTP 404.
+- **Hecho:** ejecución `30105161699` sobre `8c2bd2f`: 22/22 fuentes,
+  22 promociones, 19 activas, 22 puntos de mapa y Pages actualizado. Névola
+  figura en lista y mapa; IA omitida y estado privado ausente por HTTP 404.
+  CI `30104995452` correcta.
 
 ## P5 — Cobertura continua
 
@@ -259,6 +263,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   candidatos en monitorización, 21/21 fuentes comerciales y Pages desplegado.
   Tres fallos transitorios del radar quedaron aislados y la repetición
   individual recuperó Apremya, STANCE y Los Molinos sin evasión.
+- **Hecho:** ejecución `30105161699` tras migrar siete índices: 46/47 fuentes
+  sanas, 29/29 municipios, 27 canales directos y cuatro pendientes. El único
+  degradado fue `tablon-los-molinos` por HTTP 403; el aislamiento permitió
+  publicar 22/22 fuentes comerciales sin ocultar la incidencia.
 - **Hecho:** `backfill-opportunities` divide rangos arbitrarios sin
   huecos/solapes, exige una ruta privada explícita, conserva los lotes
   correctos ante fallos parciales y deja un informe atómico agregado. La
