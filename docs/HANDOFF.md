@@ -40,7 +40,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 23
+- Perfil predeterminado completamente offline y perfil live explícito con 27
   fuentes revisadas, una URL y una página por fuente.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -94,11 +94,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   centrales, municipales y comerciales; prioriza señales de un solo canal,
   huecos y controles sin señal, sin exponer la cola ni fingir una estimación de
   exhaustividad.
-- Descubrimiento comercial privado mediante 14 sitemaps de dominios oficiales
+- Descubrimiento comercial privado mediante 17 sitemaps de dominios oficiales
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
   ya figuran en el registro de fuentes.
-- Seguimiento HTML adicional para dos índices comerciales cuyo sitemap omite
+- Seguimiento HTML adicional para tres índices comerciales cuyo sitemap omite
   fichas conocidas. Usa selectores explícitos, una sola portada, cero
   recursión y la misma validación HTTPS/host.
 - Puente privado de descubrimiento sectorial mediante SIMA: un sitemap
@@ -215,24 +215,25 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          24 correctos
-Tests Infrastructure:108 correctos
+Tests Infrastructure:112 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               140/140 correctos
+Total:               144/144 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
-Live limitado local: 23 fuentes; 23 promociones válidas y activas, 0 fallos
-Mapa live local:     23/23 promociones; 22 centroides municipales y 1 exacta
+Live limitado local: 27 fuentes; 27 promociones válidas y activas, 0 fallos
+Mapa live local:     27/27 promociones; 26 centroides municipales y 1 exacta
 Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
 Triaje offline:      34/34 pendientes clasificados; estado original intacto
 Triaje GitHub inicial:334 pendientes; 30 alta, 230 media, 70 baja, 4 duplicados
 Triaje GitHub final: 334 pendientes; 10 alta, 134 media, 186 baja, 4 duplicados
+Triaje GitHub actual:339 pendientes; 2 alta, 146 media, 185 baja, 6 duplicados
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -240,6 +241,8 @@ Fuentes nuevas live: 20 entradas en la cuarta cohorte, 0 fallos y 0 candidatos
 Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Sitemap Inara live:  3 URLs; fuente sana y 0 candidatos nuevos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
+Nuevos sitemaps live:64 URLs; 3/3 sanos y 0 candidatos nuevos
+Enlaces Galivivienda:1 ficha seguida; fuente sana y 1 candidato privado
 SIMA live aislado:   3/3 sanas; Orbia y Nevia nuevas; 1 dominio no monitorizado
 Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nuevo
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
@@ -249,6 +252,7 @@ CI GitHub real:      correcto en 30125109587 para el commit edbf161
 Crawl/deploy GitHub: correcto en 30125211739, intento #1
 Radar GitHub real:   52 sanas, 0 degradadas, 0 en fallo; 29/29, 28 directas
 Cola privada real:   339 candidatos pendientes
+Run live local nuevo:20260724T222106154Z; 27/27 fuentes y 27 puntos GeoJSON
 Pages real:          correcto; 23 promociones, 23/23 fuentes y 0 fallos
 Run live actual:     20260724T205205052Z; 23 puntos GeoJSON
 Estado IA web:       correcto; promotion-enrichment.json devuelve 404
@@ -269,9 +273,9 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente 23 fuentes
+  perfil separado `sources.live.json` habilita explícitamente 27 fuentes
   limitadas y no se ejecuta por accidente.
-- El perfil del radar suma 52 fuentes con `zz-web-search-matrix`. La baseline
+- El perfil del radar suma 56 fuentes con `zz-web-search-matrix`. La baseline
   usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
   consultas. GitHub Actions `30119685200` verificó la imagen real, `/healthz`,
   las 116 consultas y la destrucción del contenedor: SearXNG devolvió 567
@@ -474,7 +478,7 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las 23 fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 27 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow actualizado ejecuta antes `discover-opportunities` con las 52
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
@@ -521,6 +525,21 @@ porque el estado sintético ya está sembrado.
   cuatro candidatos pendientes; solo `tablon-los-molinos` quedó degradado por
   HTTP 403. Backfill y auditoría terminaron correctos, la IA se omitió y el
   estado privado devolvió HTTP 404. CI `30104995452` también fue correcta.
+- La exportación cifrada `30129015499` se verificó y descifró localmente:
+  339 pendientes, 2 de prioridad alta, 146 media, 185 baja, 6 duplicados
+  probables y 189 dominios. La clave RSA privada efímera se eliminó y el texto
+  claro permanece solo en `tmp/`, ignorado por Git.
+- La revisión de esa cola no encontró una promoción nueva entre los dos
+  candidatos altos. La ampliación posterior admitió cuatro fuentes oficiales:
+  Doce Fresnos, Residencial Villa Bárbara, Montelago Residencial y Miraflores
+  Villas. Once decisiones negativas o de seguimiento y tres exclusiones de
+  host quedaron codificadas para reconciliar el estado previo.
+- El smoke live aislado final `20260724T222106154Z` terminó con 27/27 fuentes,
+  27 promociones activas, 14 con precio, 27/27 coordenadas por fuente exacta o
+  centroide local y cero fallos. Nominatim y Playwright permanecieron
+  deshabilitados. `validate-data` confirmó el contrato y el GeoJSON completo.
+  La evaluación está en
+  `docs/source-assessments/private-triage-expansion-2026-07-24.md`.
 - El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
   tres fichas ya gobernadas por reglas y los índices municipales detectaron
   `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
@@ -594,17 +613,18 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Vigilar Residencial El Boalo y las ocho decisiones negativas de la última
-   revisión. Reabrir un descarte solo ante una ficha oficial nueva, un cambio
-   real de producto o disponibilidad verificable.
+1. Vigilar las 27 fichas comerciales y las decisiones de triaje. Reabrir un
+   descarte solo ante una ficha oficial nueva, un cambio real de producto o
+   disponibilidad verificable.
 2. Mantener en observación el estudio de detalle de Collado Mediano y la
    licitación de ocho parcelas municipales de Los Pinarejos. Solo promover una
    ficha cuando aparezcan promotora, inventario y comercialización oficial.
 3. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
    redundancia y no tratar un 403 o un fallo TLS aislado como autorización
    para evadir controles.
-4. Revisar las muestras privadas generadas y registrar evidencia independiente
-   antes de convertir cualquier discrepancia en una nueva fuente o promoción.
+4. Continuar el triaje de los candidatos medios restantes por dominio y
+   registrar evidencia independiente antes de convertir cualquier discrepancia
+   en una nueva fuente o promoción.
 5. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
 6. Revalidar las evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.

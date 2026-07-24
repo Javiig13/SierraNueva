@@ -204,14 +204,14 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 23 fuentes revisadas y limitadas, pero
+`config/sources.live.json` contiene 27 fuentes revisadas y limitadas, pero
 nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` habilita de forma explícita 52 fuentes:
-cuatro canales centrales, 28 fuentes municipales, 14 sitemaps de dominios
-comerciales oficiales, dos índices HTML comerciales acotados y tres canales
+`config/discovery-sources.live.json` habilita de forma explícita 56 fuentes:
+cuatro canales centrales, 28 fuentes municipales, 17 sitemaps de dominios
+comerciales oficiales, tres índices HTML comerciales acotados y tres canales
 privados de descubrimiento sectorial de SIMA, más una matriz web privada
 SearXNG. La parte
 municipal comprende cinco tablones
@@ -258,8 +258,8 @@ autores, formularios u otras colecciones ajenas al producto.
 El formato `htmlLinks` cubre únicamente índices oficiales cuyo sitemap omite
 una ficha conocida. Requiere selectores CSS explícitos, descarga una sola
 portada, no navega recursivamente y descarta enlaces HTTP o de otros hosts.
-Actualmente observa las portadas de Apremya y Trinosa: ambas devolvieron solo
-las fichas conocidas Puerta de Villalba y Etria. Las decisiones humanas
+Actualmente observa las portadas de Apremya y Trinosa y, con seguimiento de
+detalle limitado a dos fichas, el índice de Galivivienda. Las decisiones humanas
 repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
 `monitoring`, `rejected` o `stale`, pero nunca verificar una fuente.
 
@@ -649,7 +649,7 @@ sigue funcionando.
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; levanta SearXNG, ejecuta las 116 consultas, actualiza después
   el resto del radar y su cobertura privada, usa las
-  23 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  27 fuentes live revisadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último
   dataset comercial válido.

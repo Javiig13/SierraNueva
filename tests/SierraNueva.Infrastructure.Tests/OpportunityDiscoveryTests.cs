@@ -1023,15 +1023,15 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            16,
+            20,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
-            15,
+            18,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
-            4,
+            5,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(
@@ -1091,7 +1091,29 @@ public sealed class OpportunityDiscoveryTests
             ["avalonstudio.es/es/detalle-propiedad/casas-de-obra-nueva-collado-villalba"] =
                 OpportunityCandidateStatus.Rejected,
             ["habitania.com/es/espana/casas/obra-nueva-promocion-goya-el-boalo"] =
-                OpportunityCandidateStatus.Stale
+                OpportunityCandidateStatus.Stale,
+            ["madridiario.es/nueva-promocion-de-viviendas-guadarrama-obra-nueva-exclusiva"] =
+                OpportunityCandidateStatus.Rejected,
+            ["nismar.es/project/chalets-en-urbanizacion-los-pinarejos-guadalix-de-la-sierra-madrid"] =
+                OpportunityCandidateStatus.Stale,
+            ["grupoinmobiliariomg.es/pages/urbanizacion-las-colinas-hoyo-de-manzanares"] =
+                OpportunityCandidateStatus.Rejected,
+            ["altter.es/chalets-adosados-obra-nueva-moralzarzal-residencial-amatista"] =
+                OpportunityCandidateStatus.Stale,
+            ["zoehome.es/promocion/promocion-zoe-19-gc-guadarrama-madrid"] =
+                OpportunityCandidateStatus.Stale,
+            ["zoehome.es/promocion/zoe48-cg"] =
+                OpportunityCandidateStatus.Stale,
+            ["casadirect.es/obra-nueva/residencial-prado-real-el-boalo"] =
+                OpportunityCandidateStatus.Stale,
+            ["idarqhome.es/proyectos/promocion-bustarviejo"] =
+                OpportunityCandidateStatus.Monitoring,
+            ["organizacion2000.es/impulsa-los-molinos"] =
+                OpportunityCandidateStatus.Rejected,
+            ["sagelliv.es/jardines-de-san-lorenzo"] =
+                OpportunityCandidateStatus.Rejected,
+            ["stancehomes.es/obra-nueva-en-"] =
+                OpportunityCandidateStatus.Rejected
         };
         Assert.All(
             reviewedHighPriorityUrls,
@@ -1105,6 +1127,24 @@ public sealed class OpportunityDiscoveryTests
             source =>
                 source.Id == "sitemap-inara" &&
                 source.SitemapIncludes.Contains("page-sitemap"));
+        Assert.Contains(
+            live.Sources,
+            source =>
+                source.Id == "sitemap-doce-fresnos" &&
+                source.UrlTemplate?.Contains(
+                    "docefresnos.es",
+                    StringComparison.Ordinal) == true);
+        OpportunitySourceDefinition galiviviendaLinks =
+            Assert.Single(live.Sources, source => source.Id == "links-galivivienda");
+        Assert.True(galiviviendaLinks.FollowDetailPages);
+        Assert.Equal(2, galiviviendaLinks.MaxDetailPages);
+        Assert.Contains(
+            live.Sources,
+            source =>
+                source.Id == "sitemap-miraflores-villas" &&
+                source.UrlTemplate?.Contains(
+                    "mirafloresvillas.es",
+                    StringComparison.Ordinal) == true);
 
         OpportunitySourceDefinition portal =
             Assert.Single(live.Sources, source => source.Id == "portal-suelo-madrid");

@@ -58,6 +58,22 @@ public sealed class LiveSourceFixtureTests
             {
                 "inara-residencial-el-boalo",
                 "inara-residencial-el-boalo.html"
+            },
+            {
+                "doce-fresnos-moralzarzal",
+                "doce-fresnos-moralzarzal.html"
+            },
+            {
+                "galivivienda-villa-barbara",
+                "galivivienda-villa-barbara.html"
+            },
+            {
+                "galivivienda-montelago",
+                "galivivienda-montelago.html"
+            },
+            {
+                "miraflores-villas",
+                "miraflores-villas.html"
             }
         };
 
@@ -296,6 +312,55 @@ public sealed class LiveSourceFixtureTests
                 Assert.True(promotion.HasPrivatePool);
                 Assert.Equal("Inara Smart Homes S.L.", promotion.DeveloperName);
                 Assert.Empty(promotion.PropertyTypes);
+                break;
+            case "doce-fresnos-moralzarzal":
+                Assert.Equal(12, promotion.TotalUnits);
+                Assert.Equal(465_000m, promotion.PriceFrom);
+                Assert.Null(promotion.PriceTo);
+                Assert.Equal(180m, promotion.BuiltAreaMinSqm);
+                Assert.Null(promotion.BuiltAreaMaxSqm);
+                Assert.Equal(375m, promotion.PlotAreaMinSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(3, promotion.BathroomsMin);
+                Assert.Null(promotion.GarageSpacesMin);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "galivivienda-villa-barbara":
+                Assert.Equal(15, promotion.TotalUnits);
+                Assert.Null(promotion.AvailableUnits);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(139m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(189m, promotion.PlotAreaMinSqm);
+                Assert.Equal(404m, promotion.PlotAreaMaxSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal("Concedida", promotion.BuildingLicenceStatus);
+                Assert.Equal(2, promotion.GarageSpacesMin);
+                Assert.Contains("2028", promotion.DeliveryDateText);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "galivivienda-montelago":
+                Assert.Null(promotion.TotalUnits);
+                Assert.Equal(543_500m, promotion.PriceFrom);
+                Assert.Equal(588_100m, promotion.PriceTo);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Null(promotion.PlotAreaMinSqm);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BathroomsMin);
+                Assert.Equal(2, promotion.GarageSpacesMin);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(["Adosado"], promotion.PropertyTypes);
+                break;
+            case "miraflores-villas":
+                Assert.Null(promotion.TotalUnits);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Equal(1000m, promotion.PlotAreaMinSqm);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Empty(promotion.PropertyTypes);
+                Assert.Null(promotion.HasPrivatePool);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");

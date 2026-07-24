@@ -930,6 +930,186 @@
         "developerName": "#contacto .et_pb_column_2_5 strong"
       },
       "notes": "Promotora oficial revisada el 2026-07-24. Solo se procesa la ficha pública de Residencial El Boalo, sin formularios, imágenes ni descargas. La sociedad, el producto unifamiliar y la vigencia comercial están documentados en docs/source-assessments/high-priority-commercial-review-2026-07-24.md."
+    },
+    {
+      "id": "doce-fresnos-moralzarzal",
+      "name": "Doce Fresnos — Moralzarzal",
+      "baseUrl": "https://docefresnos.es/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "docefresnos.es",
+        "www.docefresnos.es"
+      ],
+      "startUrls": [
+        "https://docefresnos.es/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Moralzarzal",
+      "municipalityHints": [
+        "Moralzarzal"
+      ],
+      "contentSelector": "main [data-id='e4f1e29'] [data-id='7390b94']",
+      "additionalContentSelectors": [
+        "main [data-id='f978300']",
+        "main [data-id='6a4d60b']",
+        "main [data-id='930b259']"
+      ],
+      "includePatterns": [
+        "docefresnos.es/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Micrositio oficial revisado el 2026-07-24. Solo se procesan cuatro bloques descriptivos; se excluyen formulario, galería e imágenes. La identidad legal del dominio y el alcance están documentados en docs/source-assessments/private-triage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "galivivienda-villa-barbara",
+      "name": "Galivivienda — Residencial Villa Bárbara",
+      "baseUrl": "https://galivivienda.com/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "galivivienda.com",
+        "www.galivivienda.com"
+      ],
+      "startUrls": [
+        "https://galivivienda.com/residencial-villa-barbara/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Manzanares el Real",
+      "municipalityHints": [
+        "Manzanares el Real"
+      ],
+      "contentSelector": "[data-elementor-type='wp-page'] section[data-id='510f00cc']",
+      "additionalContentSelectors": [
+        "[data-elementor-type='wp-page'] section[data-id='244f91bb']"
+      ],
+      "includePatterns": [
+        "/residencial-villa-barbara/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "[data-id='510f00cc'] h3"
+      },
+      "notes": "Gestora de cooperativas revisada el 2026-07-24. La ficha acredita 15 pareados y licencia concedida; se omite el bloque con contadores de adjudicación contradictorios y no se infiere precio desde imágenes. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "galivivienda-montelago",
+      "name": "Galivivienda — Montelago Residencial",
+      "baseUrl": "https://galivivienda.com/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "galivivienda.com",
+        "www.galivivienda.com"
+      ],
+      "startUrls": [
+        "https://galivivienda.com/chalets-obra-nueva-montelago-residencial/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Manzanares el Real",
+      "municipalityHints": [
+        "Manzanares el Real"
+      ],
+      "contentSelector": "[data-elementor-type='wp-page'] section[data-id='67a2832b']",
+      "additionalContentSelectors": [
+        "[data-elementor-type='wp-page'] section[data-id='28b8bab0']",
+        "[data-elementor-type='wp-page'] section[data-id='42f2f052']",
+        "[data-elementor-type='wp-page'] section[data-id='61848a31']",
+        "[data-elementor-type='wp-page'] section[data-id='7e1e20c7']",
+        "[data-elementor-type='wp-page'] section[data-id='4232d186']",
+        "[data-elementor-type='wp-page'] section[data-id='339944bf']"
+      ],
+      "includePatterns": [
+        "/chalets-obra-nueva-montelago-residencial/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "[data-id='67a2832b'] h2"
+      },
+      "notes": "Gestora de cooperativas revisada el 2026-07-24. Solo se procesan los bloques de producto, tipologías y localización; se excluyen galería, formulario y contenido corporativo. La web publica 29 identificadores pero otro material oficial indica 26 viviendas, por lo que el total permanece desconocido. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
+    },
+    {
+      "id": "miraflores-villas",
+      "name": "Miraflores Villas — Miraflores de la Sierra",
+      "baseUrl": "https://mirafloresvillas.es/",
+      "enabled": true,
+      "sourceKind": "officialMicrosite",
+      "allowedHosts": [
+        "mirafloresvillas.es",
+        "www.mirafloresvillas.es"
+      ],
+      "startUrls": [
+        "https://mirafloresvillas.es/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": "[data-elementor-type='wp-page'] section[data-id='c672c01']",
+      "additionalContentSelectors": [
+        "[data-elementor-type='wp-page'] section[data-id='5ad15a2']",
+        "[data-elementor-type='wp-page'] section[data-id='1114a43']"
+      ],
+      "includePatterns": [
+        "mirafloresvillas.es/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Micrositio oficial revisado el 2026-07-24. Solo se procesa la descripción de las villas; se excluyen formularios, imágenes y el bloque de personalización para no convertir opciones configurables en prestaciones confirmadas. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
     }
   ]
 }

@@ -87,6 +87,9 @@
         "nuroa.es",
         "properstar.es",
         "terrenos.es",
+        "habitania.com",
+        "engelvoelkers.com",
+        "uria.com",
         "facebook.com",
         "instagram.com",
         "linkedin.com",
@@ -114,7 +117,21 @@
         { "urlPattern": "viaappia.es/jardines-de-la-torre", "status": "rejected" },
         { "urlPattern": "almicasa.com/promocion-de-viviendas-en-galapagar-procesiones-6", "status": "rejected" },
         { "urlPattern": "avalonstudio.es/es/detalle-propiedad/casas-de-obra-nueva-collado-villalba", "status": "rejected" },
-        { "urlPattern": "habitania.com/es/espana/casas/obra-nueva-promocion-goya-el-boalo", "status": "stale" }
+        { "urlPattern": "habitania.com/es/espana/casas/obra-nueva-promocion-goya-el-boalo", "status": "stale" },
+        { "urlPattern": "habitania.com/", "status": "rejected" },
+        { "urlPattern": "engelvoelkers.com/", "status": "rejected" },
+        { "urlPattern": "uria.com/", "status": "rejected" },
+        { "urlPattern": "madridiario.es/nueva-promocion-de-viviendas-guadarrama-obra-nueva-exclusiva", "status": "rejected" },
+        { "urlPattern": "nismar.es/project/chalets-en-urbanizacion-los-pinarejos-guadalix-de-la-sierra-madrid", "status": "stale" },
+        { "urlPattern": "grupoinmobiliariomg.es/pages/urbanizacion-las-colinas-hoyo-de-manzanares", "status": "rejected" },
+        { "urlPattern": "altter.es/chalets-adosados-obra-nueva-moralzarzal-residencial-amatista", "status": "stale" },
+        { "urlPattern": "zoehome.es/promocion/promocion-zoe-19-gc-guadarrama-madrid", "status": "stale" },
+        { "urlPattern": "zoehome.es/promocion/zoe48-cg", "status": "stale" },
+        { "urlPattern": "casadirect.es/obra-nueva/residencial-prado-real-el-boalo", "status": "stale" },
+        { "urlPattern": "idarqhome.es/proyectos/promocion-bustarviejo", "status": "monitoring" },
+        { "urlPattern": "organizacion2000.es/impulsa-los-molinos", "status": "rejected" },
+        { "urlPattern": "sagelliv.es/jardines-de-san-lorenzo", "status": "rejected" },
+        { "urlPattern": "stancehomes.es/obra-nueva-en-", "status": "rejected" }
       ],
       "maxResultsPerQuery": 10,
       "searchDelayMilliseconds": 750,
@@ -763,6 +780,63 @@
         "a[href$='/etria/']"
       ],
       "maxItems": 50
+    },
+    {
+      "id": "sitemap-doce-fresnos",
+      "name": "Doce Fresnos — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://docefresnos.es/index.php/sitemap_index.xml",
+      "allowedHosts": [ "docefresnos.es", "www.docefresnos.es" ],
+      "maxItems": 100
+    },
+    {
+      "id": "sitemap-galivivienda",
+      "name": "Galivivienda — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://galivivienda.com/sitemap_index.xml",
+      "allowedHosts": [ "galivivienda.com", "www.galivivienda.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "links-galivivienda",
+      "name": "Galivivienda — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://galivivienda.com/viviendas-galivivienda/",
+      "allowedHosts": [ "galivivienda.com", "www.galivivienda.com" ],
+      "itemSelectors": [
+        "a[href*='residencial-villa-barbara']",
+        "a[href*='montelago-residencial']"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [
+        "residencial-villa-barbara",
+        "montelago-residencial"
+      ],
+      "detailContentSelectors": [
+        "[data-elementor-type='wp-page']"
+      ],
+      "maxDetailPages": 2,
+      "maxItems": 10
+    },
+    {
+      "id": "sitemap-miraflores-villas",
+      "name": "Miraflores Villas — sitemap oficial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://mirafloresvillas.es/sitemap_index.xml",
+      "allowedHosts": [ "mirafloresvillas.es", "www.mirafloresvillas.es" ],
+      "maxItems": 100
     },
     {
       "id": "sima-residential-directory",

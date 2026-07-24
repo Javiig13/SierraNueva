@@ -11,10 +11,10 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 
 ## Resultado
 
-- 23 fuentes live revisadas y limitadas a una URL cada una.
-- 23 promociones válidas en 16 municipios distintos.
-- 15 promociones añadidas desde la fotografía inicial de ocho fuentes: un
-  aumento del 187,5 %.
+- 27 fuentes live revisadas y limitadas a una URL cada una.
+- 27 promociones válidas en 16 municipios distintos.
+- 19 promociones añadidas desde la fotografía inicial de ocho fuentes: un
+  aumento del 237,5 %.
 - 13 municipios sin fuente integrada: no se encontró una candidata apta o la
   candidata encontrada quedó descartada por un motivo documentado.
 - El perfil offline predeterminado no cambia y sigue usando solo fixtures.
@@ -39,9 +39,9 @@ es identificable, el acceso respeta `robots.txt` y no exige registro, CAPTCHA,
 | Hoyo de Manzanares | Sin candidata apta | No se localizó una promoción unifamiliar oficial, pública y vigente. |
 | La Cabrera | Fuera de alcance | La actuación pública encontrada corresponde a vivienda multifamiliar en alquiler. |
 | Los Molinos | Falso positivo descartado | “Residencial Los Molinos” de Impact Homes está en Seseña, no en el municipio madrileño. |
-| Manzanares el Real | **Integrada** | La Quinta de Manzanares — Residencial Manzanares el Real. |
-| Miraflores de la Sierra | **Integrada** | Urbanizadora Colmenar — Los Pinarejos, Manzana P-6. |
-| Moralzarzal | **Integrada** | Hirimasa — C/ Pradillos, 13 unifamiliares. La página mixta se acota a tres bloques obligatorios; el rótulo visual de última vivienda no se publica como estado porque no existe en el HTML rastreable. |
+| Manzanares el Real | **Integradas (3)** | La Quinta de Manzanares, Galivivienda — Residencial Villa Bárbara y Galivivienda — Montelago Residencial. En Villa Bárbara se omiten contadores contradictorios; en Montelago no se publica un total de viviendas ni superficies agregadas que mezclen una tipología no disponible. |
+| Miraflores de la Sierra | **Integradas (2)** | Urbanizadora Colmenar — Los Pinarejos, Manzana P-6, y Miraflores Villas. Esta última conserva nulos el precio, el total y el subtipo porque la ficha no los declara con precisión suficiente. |
+| Moralzarzal | **Integradas (2)** | Hirimasa — C/ Pradillos, 13 unifamiliares, y Doce Fresnos, 12 pareados. Ambas páginas se acotan a bloques obligatorios y no convierten contenido visual o de formulario en datos. |
 | Navacerrada | Candidata histórica descartada | Qhomes — Situación 11 conserva una página corporativa antigua, pero no publica disponibilidad actual verificable; no se transforma una ficha posiblemente agotada en oportunidad vigente. |
 | Navalafuente | **Integrada** | Nuvare — Cumbres de Navalafuente, con dos viviendas disponibles y tabla pública de precios. |
 | Navalagamella | Sin fuente oficial apta | Se localizaron anuncios de 9 pareadas de Navalagamella S. Coop. Mad., pero no una ficha pública oficial de la cooperativa o gestora. |

@@ -374,6 +374,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   el backfill semanal BOCM y la auditoría muestral. Resultado: 52/52 fuentes
   sanas, 29/29 municipios cubiertos, 28 con canal directo y 339 candidatos
   privados pendientes.
+- **Hecho:** la exportación cifrada `30129015499` permitió revisar localmente
+  la cola de 339 candidatos sin publicar estado. Los dos de prioridad alta no
+  aportaron una fuente nueva; se codificaron once decisiones adicionales
+  `stale`, `rejected` o `monitoring` y tres hosts de ruido quedan excluidos.
+- **Hecho live:** se admitieron Doce Fresnos, Villa Bárbara, Montelago y
+  Miraflores Villas tras comprobar identidad, `robots.txt`, vigencia, alcance
+  unifamiliar y extracción HTTP aislada. El perfil comercial pasa a 27 fuentes
+  y el radar a 56 canales, con tres sitemaps y un seguimiento interno acotado
+  de Galivivienda. Evaluación en
+  `docs/source-assessments/private-triage-expansion-2026-07-24.md`.
 
 ## P6 — Enriquecimiento verificable de fichas
 
@@ -453,7 +463,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 2 | Todos los tests pasan | Hecho | 140/140 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 23 fuentes revisadas, perfil explícito limitado |
+| 5 | Fuente real permitida con Internet | Hecho | 27 fuentes revisadas, perfil explícito limitado |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |

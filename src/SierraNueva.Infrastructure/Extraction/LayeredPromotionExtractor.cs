@@ -411,7 +411,8 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             {
                 promotion.BuiltAreaMinSqm ??= minimum;
                 promotion.BuiltAreaMaxSqm ??= maximum;
-            });
+            },
+            match => IsBuiltAreaMatch(normalized, match));
         ApplyDecimalRange(
             PlotAreaRegex(),
             normalized,
@@ -983,24 +984,41 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         string text,
         decimal minimumAllowed,
         decimal maximumAllowed,
-        Action<decimal, decimal?> setter)
+        Action<decimal, decimal?> setter,
+        Func<Match, bool>? matchFilter = null)
     {
-        Match match = regex.Match(text);
-        if (!match.Success)
+        decimal[] values = regex.Matches(text)
+            .Select(match => (Match)match)
+            .Where(match => matchFilter?.Invoke(match) ?? true)
+            .SelectMany(match => new[]
+            {
+                ParseSpanishDecimal(match.Groups["min"].Value),
+                ParseSpanishDecimal(match.Groups["max"].Value)
+            })
+            .Where(value =>
+                value.HasValue &&
+                value.Value >= minimumAllowed &&
+                value.Value <= maximumAllowed)
+            .Select(value => value!.Value)
+            .Distinct()
+            .Order()
+            .ToArray();
+        if (values.Length > 0)
         {
-            return;
+            setter(values[0], values.Length > 1 ? values[^1] : null);
+        }
+    }
+
+    private static bool IsBuiltAreaMatch(string text, Match match)
+    {
+        if (match.Value.Contains("construid", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
         }
 
-        decimal? minimum = ParseSpanishDecimal(match.Groups["min"].Value);
-        decimal? maximum = ParseSpanishDecimal(match.Groups["max"].Value);
-        if (minimum is >= 0 &&
-            minimum >= minimumAllowed &&
-            minimum <= maximumAllowed &&
-            (!maximum.HasValue ||
-             (maximum >= minimumAllowed && maximum <= maximumAllowed)))
-        {
-            setter(minimum.Value, maximum);
-        }
+        int prefixStart = Math.Max(0, match.Index - 35);
+        string prefix = text.Substring(prefixStart, match.Index - prefixStart);
+        return !prefix.Contains("parcela", StringComparison.OrdinalIgnoreCase);
     }
 
     private static void ApplyDecimalValuesRange(
@@ -1194,12 +1212,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PriceRegex();
 
     [GeneratedRegex(
-        @"(?:(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)\s*(?:hasta|a|y|-)\s*(?:los?\s+)?(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
+        @"(?:(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)\s*(?:hasta|a|y|-)\s*(?:los?\s+)?(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m\s*(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BuiltAreaRegex();
 
     [GeneratedRegex(
-        @"(?:parcelas?\D{0,35}|parcelas?\s+privadas?\s*:\s*terrenos?\s+exclusivos?\s+desde\s+)(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))(?:\s*m(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+)))?\s*m(?:²|2)",
+        @"(?:parcelas?\D{0,35}|parcelas?\s+privadas?\s*:\s*terrenos?\s+exclusivos?\s+desde\s+)(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+)))?\s*m\s*(?:²|2)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PlotAreaRegex();
 
@@ -1209,7 +1227,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PlotAreaValueRegex();
 
     [GeneratedRegex(
-        @"(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?)",
+        @"(?<!m\s)(?<min>\d{1,2})(?:\s*(?:a|o|y|/|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BedroomsRegex();
 
@@ -1256,7 +1274,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     [GeneratedRegex(@"\b(?:pr[oó]ximamente|pr[oó]xima\s+fase)\b", RegexOptions.IgnoreCase)]
     private static partial Regex UpcomingRegex();
 
-    [GeneratedRegex(@"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n|promoci[oó]n\s+disponible)\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex OnSaleRegex();
 
     [GeneratedRegex(@"precomercializaci[oó]n", RegexOptions.IgnoreCase)]
@@ -1270,7 +1290,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         RegexOptions.IgnoreCase)]
     private static partial Regex UnderConstructionRegex();
 
-    [GeneratedRegex(@"\blicencia\s+(?:concedida|otorgada|obtenida)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\blicencia(?:\s+de\s+obras?)?\s+(?:concedida|otorgada|obtenida)\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex LicensedRegex();
 
     [GeneratedRegex(@"\blicencia\s+de\s+obra\s+solicitada\b", RegexOptions.IgnoreCase)]
