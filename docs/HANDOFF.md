@@ -212,7 +212,7 @@ Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
 Total:               136/136 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
+validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
@@ -221,6 +221,7 @@ Live limitado local: 22 fuentes; 22 promociones válidas y activas, 0 fallos
 Mapa live local:     22/22 promociones; 21 centroides municipales y 1 exacta
 Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
+Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -232,12 +233,12 @@ Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nue
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 30089475710 para el commit 102a7b5
-Crawl/deploy GitHub: correcto en 30089518646, intento #1
-Radar GitHub real:   46 sanas, 0 degradadas, 1 en fallo; 29/29, 27 directas
-Cola privada real:   4 candidatos pendientes
-Pages real:          correcto; 21 promociones, 21/21 fuentes y 0 fallos
-Run live actual:     20260724T113101930Z; 17 activas y 21 puntos GeoJSON
+CI GitHub real:      correcto en 30119641350 para el commit 46bc036
+Crawl/deploy GitHub: correcto en 30119685200, intento #1
+Radar GitHub real:   50 sanas, 1 degradada, 0 en fallo; 29/29, 27 directas
+Cola privada real:   334 candidatos pendientes
+Pages real:          correcto; 22 promociones, 22/22 fuentes y 0 fallos
+Run live actual:     20260724T191619295Z; 22 puntos GeoJSON
 Estado IA web:       correcto; promotion-enrichment.json devuelve 404
 Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
@@ -260,9 +261,11 @@ porque el estado sintético ya está sembrado.
   limitadas y no se ejecuta por accidente.
 - El perfil del radar suma 51 fuentes con `zz-web-search-matrix`. La baseline
   usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
-  consultas. El daemon Docker local no estaba iniciado durante la
-  implementación: el contenedor real y los motores agregados deben verificarse
-  en GitHub Actions antes de declarar la integración live.
+  consultas. GitHub Actions `30119685200` verificó la imagen real, `/healthz`,
+  las 116 consultas y la destrucción del contenedor: SearXNG devolvió 567
+  resultados y el filtro creó 340 candidatos. El daemon Docker local no estaba
+  iniciado, por lo que ese mismo smoke no se repitió en la máquina de
+  desarrollo.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin
@@ -293,6 +296,14 @@ porque el estado sintético ya está sembrado.
   22 promociones activas y cero fallos; `validate-data` fue correcto. Névola
   conservó precio nulo y extrajo 16 unidades, cuatro dormitorios, dos plazas,
   parcelas 310–319 m² y ambas tipologías.
+- La primera ejecución de la matriz, `30118808511`, descubrió una discrepancia
+  de orquestación: el código `1` documentado para `PartialSuccess` se trataba
+  como fallo fatal aunque existieran datos publicables. `46bc036` acepta solo
+  los códigos `0` y `1`, mantiene `validate-data` como barrera y continúa
+  fallando ante estados graves. La ejecución completa posterior
+  `30119685200` terminó verde con 22/22 fuentes comerciales; la rama live de
+  `PartialSuccess` sigue cubierta por la integración offline, pero no volvió a
+  darse en esa segunda ejecución.
 - Las tablas Nuvare motivaron correcciones para no concatenar columnas como
   precios, distinguir unidades totales y disponibles y admitir millares en
   parcelas. Osnola añade la variante explícita “licencia obtenida”.

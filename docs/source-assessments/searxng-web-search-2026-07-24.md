@@ -74,10 +74,16 @@ runner. No se intenta eludir esas respuestas. Si el contenedor o la API fallan,
 la fuente queda degradada dentro del radar, los candidatos anteriores se
 conservan y el dataset comercial/Pages puede continuar.
 
-El daemon Docker local no estaba iniciado durante la primera implementación;
-por ello la imagen real debe considerarse pendiente hasta que una ejecución de
-GitHub Actions confirme arranque, 116 consultas y cierre. La API, parser,
-matriz, filtros y persistencia sí están cubiertos offline.
+El daemon Docker local no estaba iniciado durante la primera implementación,
+pero GitHub Actions `30119685200` verificó la integración real completa:
+`/healthz`, 116 consultas, 567 resultados, 340 candidatos filtrados y cierre
+correcto del contenedor. El radar acumuló 365 candidatos antes de aplicar
+estados de revisión y terminó con 334 pendientes. La fuente SearXNG quedó sana;
+el único canal degradado fue el tablón de Los Molinos por HTTP 403.
+
+La ejecución completa duró 10 min 5 s y desplegó Pages con 22 promociones,
+22/22 fuentes comerciales y cero fallos. La cola privada sigue fuera del
+artefacto público: su URL devuelve HTTP 404.
 
 ## Referencias primarias
 

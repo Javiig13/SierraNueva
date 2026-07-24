@@ -213,10 +213,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho offline:** fixture SearXNG y dos pruebas específicas para parseo,
   filtros, expansión íntegra de municipio × consulta, cliente aislado y
   deduplicación. El radar offline pasa a 34 fuentes.
-- **Parcial live:** el workflow levanta la imagen oficial fijada por digest,
-  comprueba `/healthz`, ejecuta el radar y destruye el contenedor. El daemon
-  Docker local no estaba iniciado; falta confirmar la imagen y los motores en
-  una ejecución real de GitHub Actions.
+- **Hecho live:** GitHub Actions `30119685200` levantó la imagen oficial fijada
+  por digest, validó `/healthz`, ejecutó las 116 consultas y destruyó el
+  contenedor. SearXNG entregó 567 resultados y el filtro añadió 340 candidatos;
+  la cola terminó con 334 pendientes, 29/29 municipios cubiertos y 27 con canal
+  directo. La única fuente degradada fue el tablón de Los Molinos por HTTP 403,
+  no la matriz web.
+- **Hecho:** el workflow acepta los códigos documentados `0` (éxito) y `1`
+  (`PartialSuccess`) del crawler, pero mantiene `validate-data`, cobertura de
+  mapa, rechazo de fixtures y ausencia de estado privado como barreras antes
+  de Pages. Los estados graves continúan deteniendo el despliegue.
 
 - **Hecho:** registro privado de salud para todas las fuentes del radar con
   último intento, éxito, fallo, respuesta no vacía, contadores consecutivos e
