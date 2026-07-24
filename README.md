@@ -346,6 +346,14 @@ de una revisión humana. `contentSelector` y, si hace falta,
 promoción; si alguno desaparece, la fuente falla de forma cerrada en vez de
 leer navegación, pies o promociones relacionadas.
 
+Cuando una portada WordPress oficial bloquea de forma selectiva al runner pero
+su API REST pública sigue disponible, la fuente puede declarar
+`contentFormat: "wordpressPageJson"` y apuntar a una única página
+`/wp-json/wp/v2/pages/{id}`. El adaptador solo acepta `application/json`,
+extrae `content.rendered`, conserva como canónica una URL HTTPS del mismo host
+y vuelve a aplicar los selectores HTML de la fuente. No descubre páginas ni
+convierte respuestas JSON arbitrarias.
+
 Para añadir URLs manuales, usa `manualUrlsFile` y una URL HTTP(S) oficial por
 línea. No apuntes el crawler a resultados de buscadores ni a portales
 inmobiliarios. La blocklist está en

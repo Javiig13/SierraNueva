@@ -109,6 +109,7 @@ public sealed class RespectfulPageSource(
                 url,
                 settings,
                 cancellationToken,
+                allowJson: source.ContentFormat == SourceContentFormat.WordPressPageJson,
                 useConditionalRequest: !source.RequireResponseBody);
             if (fetch.NotModified)
             {
@@ -125,6 +126,31 @@ public sealed class RespectfulPageSource(
 
             string content = fetch.Content;
             string contentType = fetch.ContentType;
+            if (source.ContentFormat == SourceContentFormat.WordPressPageJson)
+            {
+                AdaptedWordPressPage? adapted = WordPressPageJsonAdapter.TryAdapt(content, url);
+                if (adapted is null)
+                {
+                    skipped++;
+                    warnings.Add($"{SkipReason.InvalidContentType}: {url}");
+                    continue;
+                }
+
+                if (!urlPolicy.IsAllowed(
+                        adapted.CanonicalUri,
+                        source,
+                        out SkipReason adaptedReason))
+                {
+                    skipped++;
+                    warnings.Add($"{adaptedReason}: {url}");
+                    continue;
+                }
+
+                content = adapted.Html;
+                contentType = "text/html";
+                url = adapted.CanonicalUri;
+            }
+
             if (contentType == "application/pdf")
             {
                 byte[] bytes = Convert.FromBase64String(content);
@@ -249,6 +275,7 @@ public sealed class RespectfulPageSource(
         CrawlerSettings settings,
         CancellationToken cancellationToken,
         bool allowTextPlain = false,
+        bool allowJson = false,
         bool useConditionalRequest = true)
     {
         HttpClient client = httpClientFactory.CreateClient("crawler");
@@ -262,6 +289,10 @@ public sealed class RespectfulPageSource(
             request.Headers.Accept.Add(new("text/html"));
             request.Headers.Accept.Add(new("application/xhtml+xml"));
             request.Headers.Accept.Add(new("application/pdf", 0.6));
+            if (allowJson)
+            {
+                request.Headers.Accept.Add(new("application/json"));
+            }
 
             if (useConditionalRequest && metadataCache.Get(url) is { } metadata)
             {
@@ -294,7 +325,8 @@ public sealed class RespectfulPageSource(
                 string mediaType = response.Content.Headers.ContentType?.MediaType?.ToLowerInvariant()
                                    ?? "application/octet-stream";
                 bool allowed = mediaType is "text/html" or "application/xhtml+xml" or "application/pdf" ||
-                               (allowTextPlain && mediaType == "text/plain");
+                               (allowTextPlain && mediaType == "text/plain") ||
+                               (allowJson && mediaType == "application/json");
                 if (!allowed)
                 {
                     return new() { SkipReason = SkipReason.InvalidContentType };

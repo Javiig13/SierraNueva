@@ -384,6 +384,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   y el radar a 56 canales, con tres sitemaps y un seguimiento interno acotado
   de Galivivienda. Evaluación en
   `docs/source-assessments/private-triage-expansion-2026-07-24.md`.
+- **Hecho local:** tras observar HTTP 403 para la portada de Miraflores Villas
+  en el runner `30131105415`, se incorporó un adaptador explícito para una
+  página de la API REST pública de WordPress. Solo acepta
+  `content.rendered`, valida una canónica HTTPS del mismo host y reutiliza los
+  selectores cerrados existentes. Una fixture y una integración de pipeline
+  elevan la baseline a 145 pruebas; los smokes live aislados recuperan la
+  promoción y dejan sano su sitemap directo de dos páginas.
 
 ## P6 — Enriquecimiento verificable de fichas
 

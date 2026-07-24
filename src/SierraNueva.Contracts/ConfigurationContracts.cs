@@ -80,6 +80,8 @@ public sealed class SourceDefinition
 
     public bool UsePlaywright { get; init; }
 
+    public SourceContentFormat ContentFormat { get; init; }
+
     public string? FixedMunicipality { get; init; }
 
     public IReadOnlyList<string> MunicipalityHints { get; init; } = [];

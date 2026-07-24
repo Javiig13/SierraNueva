@@ -51,6 +51,15 @@ fuente, sin Playwright ni Nominatim. Las fixtures reducidas reproducen el
 formato observado y prueban que formularios, personalización y bloques
 contradictorios quedan fuera del texto extraído.
 
+La ejecución de GitHub `30131105415` reveló una diferencia de red no visible
+en local: la portada de Miraflores Villas devolvió HTTP 403, aunque
+`robots.txt`, el sitemap directo de páginas y
+`/wp-json/wp/v2/pages/32` siguieron públicos. La fuente usa desde entonces ese
+endpoint REST oficial con el adaptador cerrado `wordpressPageJson`; únicamente
+se transforma `content.rendered`, y `link` solo se acepta como canónica si es
+HTTPS y conserva el mismo host. El smoke live posterior recuperó una promoción
+sin Playwright y el sitemap directo procesó dos páginas sin fallos.
+
 ## Candidatos clasificados
 
 Las siguientes decisiones se codifican en `reviewRules` para que se apliquen

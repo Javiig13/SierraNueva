@@ -1078,7 +1078,7 @@
         "www.mirafloresvillas.es"
       ],
       "startUrls": [
-        "https://mirafloresvillas.es/"
+        "https://mirafloresvillas.es/wp-json/wp/v2/pages/32?_fields=link,title,content"
       ],
       "useRobots": true,
       "useSitemaps": false,
@@ -1087,6 +1087,7 @@
       "maxPages": 1,
       "requestDelayMilliseconds": 5000,
       "usePlaywright": false,
+      "contentFormat": "wordpressPageJson",
       "fixedMunicipality": "Miraflores de la Sierra",
       "municipalityHints": [
         "Miraflores de la Sierra"
@@ -1097,7 +1098,7 @@
         "[data-elementor-type='wp-page'] section[data-id='1114a43']"
       ],
       "includePatterns": [
-        "mirafloresvillas.es/"
+        "mirafloresvillas.es/wp-json/wp/v2/pages/32"
       ],
       "excludePatterns": [
         "aviso-legal",
@@ -1109,7 +1110,7 @@
       "customSelectors": {
         "name": "title"
       },
-      "notes": "Micrositio oficial revisado el 2026-07-24. Solo se procesa la descripción de las villas; se excluyen formularios, imágenes y el bloque de personalización para no convertir opciones configurables en prestaciones confirmadas. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
+      "notes": "Micrositio oficial revisado el 2026-07-24. El runner usa la página equivalente de la API REST pública porque la portada devolvió HTTP 403 desde GitHub. Solo se procesa la descripción de las villas; se excluyen formularios, imágenes y el bloque de personalización para no convertir opciones configurables en prestaciones confirmadas. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
     }
   ]
 }

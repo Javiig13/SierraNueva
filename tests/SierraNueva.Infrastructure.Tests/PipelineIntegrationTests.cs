@@ -134,6 +134,77 @@ public sealed class PipelineIntegrationTests
     }
 
     [Fact]
+    public async Task Pipeline_AdaptsOfficialWordPressPageJsonAndPublishesCanonicalPromotion()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            string fixture = await File.ReadAllTextAsync(Path.Combine(
+                AppContext.BaseDirectory,
+                "test-data",
+                "json",
+                "wordpress-page.json"));
+            using HttpClient httpClient = new(new StaticContentHandler(
+                fixture,
+                "application/json"));
+            using FileHttpMetadataCache metadataCache = new(Path.Combine(root, "state"));
+            RespectfulPageSource pages = new(
+                new SingleHttpClientFactory(httpClient),
+                [new ConfiguredUrlDiscoveryProvider()],
+                new AllowAllUrlPolicy(),
+                new InternalLinkDiscoveryProvider(),
+                new NullDynamicPageRenderer(),
+                new PdfPigTextExtractor(),
+                metadataCache,
+                NullLogger<RespectfulPageSource>.Instance);
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                new FakeClock(new DateTimeOffset(2026, 7, 24, 8, 0, 0, TimeSpan.Zero)));
+            SourceDefinition source = new()
+            {
+                Id = "wordpress-rest",
+                Name = "Página oficial WordPress",
+                BaseUrl = "https://sources.example/",
+                Enabled = true,
+                SourceKind = SourceKind.OfficialMicrosite,
+                AllowedHosts = ["sources.example"],
+                StartUrls = ["https://sources.example/wp-json/wp/v2/pages/32"],
+                UseRobots = false,
+                UseSitemaps = false,
+                MaxPages = 1,
+                RequestDelayMilliseconds = 0,
+                ContentFormat = SourceContentFormat.WordPressPageJson,
+                FixedMunicipality = "Moralzarzal",
+                ContentSelector = "[data-id='c672c01']",
+                CustomSelectors = new Dictionary<string, string>
+                {
+                    ["name"] = "title"
+                }
+            };
+
+            CrawlResult result = await pipeline.RunAsync(
+                CreateRequest(root, source),
+                CancellationToken.None);
+
+            Assert.Equal(RunStatus.Success, result.Run.Status);
+            Promotion promotion = Assert.Single(result.Dataset.Promotions);
+            Assert.Equal("Miraflores Villas", promotion.Name);
+            Assert.Equal("https://sources.example/miraflores-villas", promotion.CanonicalUrl);
+            Assert.Equal(3, promotion.BedroomsMin);
+            Assert.Equal(4, promotion.BedroomsMax);
+            Assert.Equal(1_000m, promotion.PlotAreaMinSqm);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_TreatsExhaustedRequestTimeoutAsPartialSourceFailure()
     {
         string root = CreateTempDirectory();
@@ -528,6 +599,22 @@ public sealed class PipelineIntegrationTests
                     Encoding.UTF8,
                     "text/html")
             };
+        }
+    }
+
+    private sealed class StaticContentHandler(
+        string content,
+        string mediaType) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(content, Encoding.UTF8, mediaType)
+            });
         }
     }
 

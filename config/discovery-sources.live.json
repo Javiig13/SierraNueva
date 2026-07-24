@@ -834,7 +834,7 @@
       "sourceKind": "officialCommercialWebsite",
       "format": "sitemap",
       "cadence": "daily",
-      "urlTemplate": "https://mirafloresvillas.es/sitemap_index.xml",
+      "urlTemplate": "https://mirafloresvillas.es/wp-sitemap-posts-page-1.xml",
       "allowedHosts": [ "mirafloresvillas.es", "www.mirafloresvillas.es" ],
       "maxItems": 100
     },

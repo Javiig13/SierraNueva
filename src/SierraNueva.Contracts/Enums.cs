@@ -21,6 +21,12 @@ public enum SourceKind
     PublicAuthority
 }
 
+public enum SourceContentFormat
+{
+    Html,
+    WordPressPageJson
+}
+
 public enum CommercialStatus
 {
     Unknown,

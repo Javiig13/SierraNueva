@@ -215,10 +215,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          24 correctos
-Tests Infrastructure:112 correctos
+Tests Infrastructure:113 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               144/144 correctos
+Total:               145/145 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -540,6 +540,14 @@ porque el estado sintético ya está sembrado.
   deshabilitados. `validate-data` confirmó el contrato y el GeoJSON completo.
   La evaluación está en
   `docs/source-assessments/private-triage-expansion-2026-07-24.md`.
+- La primera ejecución remota de esa ampliación, `30131105415`, verificó CI y
+  desplegó de forma segura, pero quedó en éxito parcial: la portada de
+  Miraflores Villas respondió HTTP 403 desde GitHub y Pages conservó las otras
+  26 promociones. El sitio mantuvo accesibles `robots.txt`, su sitemap de
+  páginas y la API REST pública oficial. Se añadió el adaptador explícito
+  `wordpressPageJson`, limitado a `content.rendered` y a una canónica HTTPS del
+  mismo host; fixture, prueba de pipeline y smokes live aislados confirmaron
+  una promoción y dos entradas de sitemap sin Playwright ni IA.
 - El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
   tres fichas ya gobernadas por reglas y los índices municipales detectaron
   `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
