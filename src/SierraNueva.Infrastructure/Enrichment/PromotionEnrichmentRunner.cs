@@ -299,6 +299,7 @@ public sealed partial class PromotionEnrichmentRunner(
             UseRobots = source.UseRobots,
             UseSitemaps = false,
             FollowInternalLinks = true,
+            RequireResponseBody = true,
             MaxDepth = 1,
             MaxPages = maxPages,
             RequestDelayMilliseconds = source.RequestDelayMilliseconds,

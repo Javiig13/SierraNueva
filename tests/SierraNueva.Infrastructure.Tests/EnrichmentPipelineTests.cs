@@ -1,9 +1,13 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Logging.Abstractions;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Models;
+using SierraNueva.Infrastructure.Crawling;
+using SierraNueva.Infrastructure.Discovery;
+using SierraNueva.Infrastructure.Documents;
 using SierraNueva.Infrastructure.Enrichment;
 using SierraNueva.Infrastructure.Persistence;
 
@@ -97,6 +101,68 @@ public sealed class EnrichmentPipelineTests
                 ["priceFrom"]));
 
         Assert.Contains("tarifa auditada", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task EvidenceSource_BypassesConditionalCacheToRetainResponseBody()
+    {
+        string root = Path.Combine(
+            Path.GetTempPath(),
+            $"sierranueva-enrichment-cache-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(root);
+        try
+        {
+            Uri url = new("https://fixtures.sierranueva.test/promotion");
+            using FileHttpMetadataCache metadataCache = new(root);
+            await metadataCache.SetAsync(
+                url,
+                "\"fixture-v1\"",
+                new(2026, 7, 24, 10, 0, 0, TimeSpan.Zero),
+                CancellationToken.None);
+            ConditionalHeaderHandler handler = new();
+            using HttpClient client = new(handler);
+            RespectfulPageSource pageSource = new(
+                new SingleHttpClientFactory(client),
+                [new ConfiguredUrlDiscoveryProvider()],
+                new AllowAllUrlPolicy(),
+                new InternalLinkDiscoveryProvider(),
+                new NullDynamicPageRenderer(),
+                new PdfPigTextExtractor(),
+                metadataCache,
+                NullLogger<RespectfulPageSource>.Instance);
+
+            PageBatch batch = await pageSource.FetchAsync(
+                new()
+                {
+                    Id = "enrichment-fixture",
+                    Name = "Enrichment fixture",
+                    BaseUrl = "https://fixtures.sierranueva.test/",
+                    Enabled = true,
+                    AllowedHosts = ["fixtures.sierranueva.test"],
+                    StartUrls = [url.AbsoluteUri],
+                    UseRobots = false,
+                    UseSitemaps = false,
+                    RequireResponseBody = true,
+                    MaxPages = 1,
+                    RequestDelayMilliseconds = 0
+                },
+                new()
+                {
+                    RequestDelayMilliseconds = 0,
+                    MaxPagesPerSource = 1,
+                    MaxRetries = 0
+                },
+                1,
+                disablePlaywright: true,
+                CancellationToken.None);
+
+            Assert.Single(batch.Pages);
+            Assert.False(handler.SentConditionalHeader);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
     }
 
     [Fact]
@@ -318,6 +384,44 @@ public sealed class EnrichmentPipelineTests
         public HttpClient CreateClient(string name)
         {
             return client;
+        }
+    }
+
+    private sealed class ConditionalHeaderHandler : HttpMessageHandler
+    {
+        public bool SentConditionalHeader { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            SentConditionalHeader =
+                request.Headers.IfNoneMatch.Count > 0 ||
+                request.Headers.IfModifiedSince is not null;
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(
+                    "<html><body>Viviendas desde 475.000 euros.</body></html>",
+                    Encoding.UTF8,
+                    "text/html")
+            });
+        }
+    }
+
+    private sealed class AllowAllUrlPolicy : IUrlPolicy
+    {
+        public bool IsAllowed(Uri url, SourceDefinition source, out SkipReason reason)
+        {
+            reason = SkipReason.None;
+            return true;
+        }
+    }
+
+    private sealed class NullDynamicPageRenderer : IDynamicPageRenderer
+    {
+        public Task<string?> RenderAsync(Uri url, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<string?>(null);
         }
     }
 

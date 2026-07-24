@@ -278,26 +278,31 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   explícitamente por el smoke de publicación.
 - **Hecho:** piloto de Actions exclusivamente manual mediante
   `workflow_dispatch`; la programación diaria no consume API. El operador debe
-  activar `run_enrichment` y elegir una cohorte de una a tres promociones.
+  activar `run_enrichment` y elegir una cohorte de una a tres promociones. Un
+  fallo parcial de esta fase queda informado sin bloquear Pages.
+- **Hecho:** la evidencia fuerza respuesta completa y no reutiliza el `304`
+  condicional del crawl previo; conserva el resto de límites HTTP y dispone de
+  una prueba específica.
 - **Hecho:** revisión explícita mediante `review-enrichment`; solo propuestas
   aceptadas completan huecos en un crawl posterior, nunca sobrescriben una
   extracción determinista y caducan tras 30 días. Un hash de contenido nuevo
   convierte la aceptación anterior en `stale`.
-- **Hecho:** fixture de respuesta estructurada y diez pruebas offline para
+- **Hecho:** fixture de respuesta estructurada y once pruebas offline para
   esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
   límite, presupuesto, `dry-run` gratuito y persistencia privada.
-- **Parcial:** no se ha ejecutado todavía una petición live al proveedor. El
-  propietario indica que el secreto existe en GitHub, pero la terminal local
-  no recibe la clave y no dispone de `gh` para enumerarlo. Falta ejecutar el
-  despacho manual de una o dos promociones, revisar falsos positivos y
-  contrastar el coste registrado; no existe aceptación automática.
+- **Parcial:** la ejecución real `30093553895` confirmó el secreto y dos
+  respuestas HTTP 200: 3.175 tokens de entrada, 412 de salida, nueve campos
+  propuestos y 0,006439 USD estimados. Una ficha previa recibió `304` sin cuerpo
+  y dejó el job parcial; se corrigió forzando cuerpo y aislando el piloto de
+  Pages. Falta repetir el despacho, revisar falsos positivos y contrastar el
+  coste con el panel; no existe aceptación automática.
 
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 123/123 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 124/124 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |

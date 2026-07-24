@@ -105,7 +105,11 @@ public sealed class RespectfulPageSource(
                 url.Host,
                 Math.Max(settings.RequestDelayMilliseconds, source.RequestDelayMilliseconds),
                 cancellationToken);
-            HttpFetchResult fetch = await FetchAsync(url, settings, cancellationToken);
+            HttpFetchResult fetch = await FetchAsync(
+                url,
+                settings,
+                cancellationToken,
+                useConditionalRequest: !source.RequireResponseBody);
             if (fetch.NotModified)
             {
                 warnings.Add($"HTTP_NOT_MODIFIED: {url}");

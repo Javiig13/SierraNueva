@@ -70,6 +70,8 @@ public sealed class SourceDefinition
 
     public bool FollowInternalLinks { get; init; }
 
+    public bool RequireResponseBody { get; init; }
+
     public int MaxDepth { get; init; } = 3;
 
     public int MaxPages { get; init; } = 100;

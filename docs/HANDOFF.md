@@ -124,7 +124,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   límite de llamadas. `--dry-run` ya no invoca la API.
 - Actions solo puede ejecutar un piloto IA mediante despacho manual explícito
   de una a tres promociones. El cron diario lo omite incluso si existe el
-  secreto `OPENAI_API_KEY`.
+  secreto `OPENAI_API_KEY`. Un resultado parcial del piloto se informa sin
+  bloquear Pages ni impedir la conservación de su estado privado.
+- La fuente efímera de evidencia exige cuerpo completo y deshabilita solo los
+  validadores HTTP condicionales; evita que el `304` del crawl anterior deje
+  una página sin texto, conservando robots, host, demora y límites.
 
 ### Datos y frontend
 
@@ -166,10 +170,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          21 correctos
-Tests Infrastructure:94 correctos
+Tests Infrastructure:95 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               123/123 correctos
+Total:               124/124 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -383,6 +387,13 @@ porque el estado sintético ya está sembrado.
   `30089475710` del mismo commit también fue correcta. Las rutas
   `data/state/promotion-enrichment.json`, `data/promotion-enrichment.json` y
   `data/state/opportunity-audit.json` devolvieron HTTP 404.
+- El primer piloto OpenAI real fue `30093553895` sobre `1273a73`. El secreto
+  funcionó y Responses devolvió HTTP 200 para dos promociones: 3.175 tokens de
+  entrada, 412 de salida, nueve campos propuestos y 0,006439 USD estimados,
+  frente a una reserva máxima de 0,022264 USD. Una ficha adicional recibió
+  `304` del caché HTTP y elevó el resultado a parcial; el job se detuvo pese a
+  conservar las propuestas. La corrección posterior fuerza cuerpo completo y
+  hace que el paso opcional no bloquee Pages. Ninguna propuesta fue aceptada.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -425,12 +436,11 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Ejecutar el primer piloto manual de una o dos promociones con
-    `OPENAI_API_KEY`, revisar cada cita y contrastar el uso registrado con el
-    panel de OpenAI. No aceptar propuestas en bloque ni habilitar todavía una
-    programación periódica de IA. El propietario indica que el secreto ya
-    existe en GitHub, pero esta entrega no pudo enumerarlo porque `gh` no está
-    disponible y la clave no está cargada en la terminal local.
+11. Repetir el piloto manual de dos promociones tras la corrección del `304`,
+    revisar cada cita y contrastar el uso registrado con el panel de OpenAI.
+    No aceptar propuestas en bloque ni habilitar todavía una programación
+    periódica de IA. El secreto de GitHub quedó confirmado por HTTP 200; la
+    clave no está cargada ni se expone en la terminal local.
 12. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 

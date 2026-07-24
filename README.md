@@ -379,6 +379,12 @@ con una cita literal y URL verificables. `review-enrichment` registra una
 decisión explícita y el crawl posterior solo aplica aceptaciones vigentes, sin
 sobrescribir valores obtenidos por extractores.
 
+La fuente temporal de evidencia exige un cuerpo completo y omite los
+condicionales `If-None-Match`/`If-Modified-Since`. Así no reutiliza como cuerpo
+vacío un `304` generado por el crawl inmediatamente anterior. Un fallo parcial
+del piloto queda visible en Actions, pero no bloquea la validación, publicación
+ni caché del dataset comercial.
+
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se
 serializan como texto. Cada promoción conserva evidencias breves con fuente,

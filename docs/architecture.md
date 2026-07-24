@@ -75,6 +75,11 @@ Responses se conserva en un historial privado de hasta 100 ejecuciones. El
 `dry-run` se detiene antes del proveedor, por lo que sirve para inspeccionar
 selección y presupuesto sin consumir API.
 
+La recolección de evidencia declara `RequireResponseBody`: mantiene robots,
+hosts, demoras y límites del crawler, pero no envía validadores HTTP
+condicionales. Un `304` es útil para conservar promociones en el crawl, pero no
+puede alimentar una propuesta que exige citas literales.
+
 Los modelos y la orquestación del radar pertenecen a Core. Infrastructure
 descarga, interpreta y persiste los feeds. Crawler compone los comandos y
 Contracts/Web no conocen candidatos administrativos.
