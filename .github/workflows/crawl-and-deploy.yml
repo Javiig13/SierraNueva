@@ -174,14 +174,24 @@ jobs:
           --sample-size 10
 
       - name: Crawl reviewed live sources
-        run: >-
-          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
-          crawl
-          --config config/appsettings.live.json
-          --sources config/sources.live.json
-          --output .runtime/public
-          --state .runtime/state
-          --no-playwright
+        id: live-crawl
+        shell: bash
+        run: |
+          set +e
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- \
+            crawl \
+            --config config/appsettings.live.json \
+            --sources config/sources.live.json \
+            --output .runtime/public \
+            --state .runtime/state \
+            --no-playwright
+          crawl_exit="$?"
+          set -e
+          echo "exit-code=$crawl_exit" >> "$GITHUB_OUTPUT"
+          if [ "$crawl_exit" -le 1 ]; then
+            exit 0
+          fi
+          exit "$crawl_exit"
 
       - name: Validate live public data
         run: >-
@@ -267,6 +277,7 @@ jobs:
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
           ENRICHMENT_OUTCOME: ${{ steps.promotion-enrichment.outcome }}
+          CRAWL_EXIT: ${{ steps.live-crawl.outputs.exit-code }}
         run: |
           $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
             ConvertFrom-Json
@@ -281,6 +292,7 @@ jobs:
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
+          - Crawler comercial (0 completo, 1 parcial): $env:CRAWL_EXIT
           - Radar: $($coverage.healthySources) fuentes sanas, $($coverage.degradedSources) degradadas y $($coverage.failingSources) en fallo reiterado
           - Cobertura radar: $($coverage.municipalitiesWithHealthyCoverage)/$($coverage.municipalitiesTotal) municipios; $($coverage.municipalitiesWithHealthyDirectSource) con canal directo
           - Candidatos privados pendientes: $($coverage.pendingCandidates)
@@ -292,6 +304,7 @@ jobs:
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
+          - Crawler comercial (0 completo, 1 parcial): $env:CRAWL_EXIT
           - Radar: sin estado disponible en esta ejecución
           "@
           }
