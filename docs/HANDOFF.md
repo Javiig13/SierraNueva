@@ -232,6 +232,7 @@ Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
 Triaje offline:      34/34 pendientes clasificados; estado original intacto
 Triaje GitHub inicial:334 pendientes; 30 alta, 230 media, 70 baja, 4 duplicados
+Triaje GitHub final: 334 pendientes; 10 alta, 134 media, 186 baja, 4 duplicados
 BOCM live aislado:   68 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Tablones live:       335 entradas, 0 fallos y 0 candidatos el 2026-07-23
 Portadas sede live:  37 entradas, 0 fallos y 0 candidatos el 2026-07-23
@@ -288,8 +289,15 @@ porque el estado sintético ya está sembrado.
   reglas nuevas se aplican también al estado pendiente preexistente.
 - El CI `30121125358` descubrió una intermitencia Linux en el hover sintético
   del marcador del mapa. La prueba ahora despacha el evento de Leaflet de forma
-  determinista y superó cinco repeticiones locales consecutivas. Falta
-  confirmar el siguiente CI Linux junto con el triaje recalibrado.
+  determinista, superó cinco repeticiones locales consecutivas y quedó
+  confirmado por los CI Linux `30121997192` y `30122328706`.
+- La exportación final `30122387245`, ya con corte alto en 85 puntos, redujo la
+  revisión inmediata a 10 candidatos: 9 páginas comerciales y un anuncio
+  administrativo. Los diez URL respondieron HTTP 200; nueve permiten su ruta
+  según `robots.txt` y la sede electrónica de Collado Mediano declara
+  `Disallow: /*`, por lo que no debe convertirse en fuente rastreada. Las nueve
+  páginas restantes requieren confirmar vigencia comercial y condiciones
+  antes de incorporarlas como fuentes canónicas.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin

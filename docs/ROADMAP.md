@@ -342,9 +342,14 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** ocho agregadores que no son fuente primaria se excluyen de futuras
   búsquedas y se rechazan por reglas configuradas que también se aplican al
   estado previo.
-- **Pendiente live:** repetir la exportación con el triaje geográfico
-  recalibrado, revisar los candidatos de prioridad alta resultantes y promover
-  únicamente fuentes directas comprobadas.
+- **Hecho live:** la exportación final `30122387245` fijó 10 candidatos de
+  prioridad alta, 134 media, 186 baja y 4 duplicados sobre los mismos 334. Los
+  diez URL respondieron HTTP 200; nueve rutas son compatibles con
+  `robots.txt`. La sede electrónica de Collado Mediano bloquea su ruta y queda
+  solo como señal, no como fuente rastreable.
+- **Siguiente:** verificar vigencia y condiciones de las nueve páginas
+  comerciales de prioridad alta; añadir como fuentes directas únicamente las
+  que sigan activas y tengan extracción trazable con fixture y prueba.
 
 ## P6 — Enriquecimiento verificable de fichas
 
