@@ -208,6 +208,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   22 promociones, 19 activas, 22 puntos de mapa y Pages actualizado. Névola
   figura en lista y mapa; IA omitida y estado privado ausente por HTTP 404.
   CI `30104995452` correcta.
+- **Hecho:** CI `30125109587` correcta sobre `edbf161` y despliegue
+  `30125211739` al primer intento: 23/23 fuentes, cero fallos, 23 promociones
+  publicadas —19 activas— y 23 puntos GeoJSON. Residencial El Boalo está
+  presente con sus campos estructurados. Los dos estados privados comprobados
+  devuelven HTTP 404 y el piloto IA quedó omitido, sin consumo.
 
 ## P5 — Cobertura continua
 
@@ -365,6 +370,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   `page-sitemap`. El smoke live procesó tres URLs, cero fallos y cero candidatos
   nuevos. Evaluación en
   `docs/source-assessments/high-priority-commercial-review-2026-07-24.md`.
+- **Hecho live:** `30125211739` ejecutó las 116 consultas de la matriz,
+  el backfill semanal BOCM y la auditoría muestral. Resultado: 52/52 fuentes
+  sanas, 29/29 municipios cubiertos, 28 con canal directo y 339 candidatos
+  privados pendientes.
 
 ## P6 — Enriquecimiento verificable de fichas
 

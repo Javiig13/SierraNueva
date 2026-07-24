@@ -245,12 +245,12 @@ Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nue
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 30119641350 para el commit 46bc036
-Crawl/deploy GitHub: correcto en 30119685200, intento #1
-Radar GitHub real:   50 sanas, 1 degradada, 0 en fallo; 29/29, 27 directas
-Cola privada real:   334 candidatos pendientes
-Pages real:          correcto; 22 promociones, 22/22 fuentes y 0 fallos
-Run live actual:     20260724T191619295Z; 22 puntos GeoJSON
+CI GitHub real:      correcto en 30125109587 para el commit edbf161
+Crawl/deploy GitHub: correcto en 30125211739, intento #1
+Radar GitHub real:   52 sanas, 0 degradadas, 0 en fallo; 29/29, 28 directas
+Cola privada real:   339 candidatos pendientes
+Pages real:          correcto; 23 promociones, 23/23 fuentes y 0 fallos
+Run live actual:     20260724T205205052Z; 23 puntos GeoJSON
 Estado IA web:       correcto; promotion-enrichment.json devuelve 404
 Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
@@ -311,6 +311,13 @@ porque el estado sintético ya está sembrado.
   `20260724T203618752Z` produjo 23/23 fuentes, 23 promociones activas,
   23 elementos GeoJSON y cero fallos; `validate-data` fue correcto. Su sitemap
   oficial procesó tres URLs sin fallos y no creó candidatos nuevos.
+- El commit `edbf161` quedó verificado por CI GitHub `30125109587`. La
+  ejecución manual `30125211739` terminó al primer intento: 23/23 fuentes,
+  23 promociones publicadas —19 activas por continuidad del estado
+  histórico—, 23 elementos GeoJSON y cero fallos. El radar dejó 52/52 canales
+  sanos, cobertura 29/29 con 28 canales directos y 339 candidatos privados
+  pendientes; las 116 consultas SearXNG, el backfill BOCM y la auditoría
+  muestral fueron correctos. El piloto IA se omitió y no consumió saldo.
 - El 24 de julio de 2026 se revisaron identidad, condiciones, `robots.txt`,
   acceso y vigencia, se ejecutaron dry runs individuales y una ejecución
   conjunta con salida/estado aislados. Las primeras 21 fuentes terminaron sin
@@ -574,13 +581,15 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30086510831` completó el crawl, validó las 21 fuentes, publicó 21
+  `30125211739` completó el crawl, validó las 23 fuentes, publicó 23
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
-- Se comprobó en navegador la portada y el mapa. La vista por defecto muestra
-  17 promociones comerciales activas y el resumen conserva las 21. El JSON
-  público contiene 21 promociones, el GeoJSON 21 elementos, el `runId` es
-  `20260724T105210752Z` y el estado privado devuelve 404.
+- Se comprobó el despliegue y sus contratos por HTTP sin caché. El JSON
+  público contiene 23 promociones —19 activas—, el GeoJSON 23 elementos, el
+  `runId` es `20260724T205205052Z` y Residencial El Boalo conserva precio,
+  dormitorios, baños, unidades y promotora. Tanto
+  `data/state/opportunity-candidates.json` como
+  `data/state/promotion-enrichment.json` devuelven HTTP 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado
