@@ -181,7 +181,7 @@
                                                IsNew="_newIds.Contains(promotion.Id)"
                                                IsChanged="_changedIds.Contains(promotion.Id)"
                                                IsHighlighted="_highlightedId == promotion.Id"
-                                               OnHighlight="SetHighlightedPromotion"
+                                               OnHighlight="SetCardHighlightedPromotion"
                                                OnOpen="OpenDetail" />
                             }
                         }
@@ -196,7 +196,7 @@
                                  TileUrl="@TileUrl"
                                  Attribution="@TileAttribution"
                                  HighlightedId="_highlightedId"
-                                 OnHighlight="SetHighlightedPromotion"
+                                 OnHighlight="SetMapHighlightedPromotion"
                                  OnOpen="OpenDetailById" />
                     </div>
                 </div>
@@ -235,6 +235,8 @@
     private Promotion? _selected;
     private string? _error;
     private string? _highlightedId;
+    private string? _cardHighlightedId;
+    private string? _mapHighlightedId;
     private bool _loading = true;
     private string _mobileTab = "list";
     private ElementReference _listTab;
@@ -309,6 +311,9 @@
 
     private Task FiltersChangedAsync()
     {
+        _cardHighlightedId = null;
+        _mapHighlightedId = null;
+        _highlightedId = null;
         string query = FilterQueryCodec.Build(_filter);
         string path = new Uri(Navigation.Uri).GetLeftPart(UriPartial.Path);
         Navigation.NavigateTo(query.Length == 0 ? path : $"{path}?{query}", replace: true);
@@ -338,9 +343,21 @@
             promotion => promotion.Id == promotionId);
     }
 
-    private void SetHighlightedPromotion(string? promotionId)
+    private void SetCardHighlightedPromotion(string? promotionId)
     {
-        _highlightedId = promotionId;
+        _cardHighlightedId = promotionId;
+        UpdateHighlightedPromotion();
+    }
+
+    private void SetMapHighlightedPromotion(string? promotionId)
+    {
+        _mapHighlightedId = promotionId;
+        UpdateHighlightedPromotion();
+    }
+
+    private void UpdateHighlightedPromotion()
+    {
+        _highlightedId = _mapHighlightedId ?? _cardHighlightedId;
     }
 
     private void ShowList()

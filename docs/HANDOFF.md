@@ -174,6 +174,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   el precio y el hover/foco destaca bidireccionalmente marcador y tarjeta. Las
   opciones sin precio son puntos compactos y las coordenadas coincidentes se
   separan solo visualmente para que ninguna quede oculta.
+- El resaltado conserva por separado el origen tarjeta y el origen mapa. Esto
+  evita que un `mouseleave` tardío de Blazor borre el `mouseover` del marcador
+  durante la transición entre ambos elementos.
 - Las tarjetas omiten atributos vacíos y muestran el porcentaje de campos
   principales realmente publicados; no se rellenan guiones ni estimaciones.
 - Detalle con datos, evidencias, cambios, advertencias y enlaces.
@@ -458,6 +461,14 @@ porque el estado sintético ya está sembrado.
   de Orbia y Nevia apareció una señal oficial del Portal del Suelo sobre ocho
   parcelas residenciales en Miraflores de la Sierra. Los siete pendientes
   siguen solo en el estado aislado `.runtime`; no se versionaron ni publicaron.
+- `Crawl and deploy` `30111181981` sobre `7882251` terminó correcto en 11 min
+  18 s: 22/22 fuentes comerciales, 22 promociones, cero fallos, IA omitida y
+  Pages desplegado. Los tres canales SIMA quedaron sanos. El radar conservó
+  aislamiento al recibir HTTP 403 únicamente en `tablon-los-molinos`: 49/50
+  fuentes sanas, 29/29 municipios, 27 canales directos y seis pendientes.
+  `CI 30111091606` detectó además una carrera intermitente tarjeta → marcador
+  que no apareció en Windows; la corrección separa ambos orígenes de resaltado
+  y pasó cinco repeticiones E2E y la suite local completa de 134 pruebas.
 - El primer piloto OpenAI real fue `30093553895` sobre `1273a73`. El secreto
   funcionó y Responses devolvió HTTP 200 para dos promociones: 3.175 tokens de
   entrada, 412 de salida, nueve campos propuestos y 0,006439 USD estimados,
