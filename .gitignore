@@ -15,6 +15,7 @@ data/state/opportunity-candidates*.json
 data/state/opportunity-audit*.json
 data/state/opportunity-backfill*.json
 data/state/promotion-enrichment.json
+data/state/promotion-enrichment-review.html
 data/public/*.tmp
 *.user
 *.suo

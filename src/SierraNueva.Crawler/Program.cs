@@ -818,24 +818,52 @@ internal static class CrawlerApplication
         CliOptions options,
         CancellationToken cancellationToken)
     {
-        if (options.Proposal is null || options.EnrichmentDecision is null)
+        JsonEnrichmentStateRepository repository = new();
+        bool hasDecision = options.Proposal is not null ||
+                           options.Field is not null ||
+                           options.EnrichmentDecision is not null;
+        if (hasDecision &&
+            (options.Proposal is null ||
+             options.Field is null ||
+             options.EnrichmentDecision is null))
         {
             Console.Error.WriteLine(
-                "review-enrichment requiere --proposal <id> y --decision accepted|rejected.");
+                "Para decidir, review-enrichment requiere --proposal <id>, " +
+                "--field <campo> y --decision accepted|rejected.");
             return 2;
         }
 
-        PromotionEnrichmentReviewer reviewer = new(
-            new JsonEnrichmentStateRepository(),
-            new SystemClock());
-        PromotionEnrichment reviewed = await reviewer.ReviewAsync(
-            options.State,
-            options.Proposal,
-            options.EnrichmentDecision.Value,
-            cancellationToken);
-        Console.WriteLine(
-            $"Propuesta {reviewed.Id}: {reviewed.Status}. " +
-            "Los campos aceptados solo completarán huecos en el siguiente crawl.");
+        if (hasDecision)
+        {
+            PromotionEnrichmentReviewer reviewer = new(repository, new SystemClock());
+            PromotionEnrichment reviewed = await reviewer.ReviewAsync(
+                options.State,
+                options.Proposal!,
+                options.Field!,
+                options.EnrichmentDecision!.Value,
+                cancellationToken);
+            EnrichmentFieldProposal field = reviewed.Fields.Single(
+                item => item.Field == options.Field);
+            Console.WriteLine(
+                $"Campo {field.Field} de {reviewed.Id}: {field.Status}. " +
+                $"Estado global: {reviewed.Status}.");
+            Console.WriteLine(
+                "Los campos aceptados solo completarán huecos cuando toda la " +
+                "propuesta esté revisada y se ejecute el siguiente crawl.");
+        }
+
+        EnrichmentState state = await repository.LoadAsync(options.State, cancellationToken);
+        Console.Write(
+            PromotionEnrichmentReviewReport.RenderText(state, options.State));
+        if (options.EnrichmentReport)
+        {
+            string reportPath = await PromotionEnrichmentReviewReport.WriteAsync(
+                options.State,
+                state,
+                cancellationToken);
+            Console.WriteLine($"Informe HTML privado: {reportPath}");
+        }
+
         return 0;
     }
 
@@ -978,7 +1006,9 @@ internal static class CrawlerApplication
               --max-cost-usd <importe> Presupuesto duro por ejecución (por defecto 0.05)
               --model <id>             Modelo opcional (por defecto gpt-5.6-luna)
               --proposal <id>          Propuesta de enriquecimiento que revisar
+              --field <campo>          Campo individual que aceptar o rechazar
               --decision <estado>      accepted o rejected
+              --report                 Crear informe HTML dentro de --state
               --no-playwright          Deshabilitar fallback JavaScript
               --no-geocoding           Deshabilitar geocodificación
               --dry-run                Procesar sin escribir
@@ -1006,6 +1036,7 @@ internal sealed class CliOptions
             "--no-playwright",
             "--no-geocoding",
             "--dry-run",
+            "--report",
             "--verbose",
             "--help",
             "-h"
@@ -1047,6 +1078,8 @@ internal sealed class CliOptions
 
     public string? Proposal { get; private init; }
 
+    public string? Field { get; private init; }
+
     public string Model { get; private init; } = "gpt-5.6-luna";
 
     public EnrichmentReviewStatus? EnrichmentDecision { get; private init; }
@@ -1075,6 +1108,8 @@ internal sealed class CliOptions
     public bool NoGeocoding { get; private init; }
 
     public bool DryRun { get; private init; }
+
+    public bool EnrichmentReport { get; private init; }
 
     public bool Verbose { get; private init; }
 
@@ -1210,6 +1245,7 @@ internal sealed class CliOptions
             Candidate = GetNullable(values, "--candidate"),
             Promotion = GetNullable(values, "--promotion"),
             Proposal = GetNullable(values, "--proposal"),
+            Field = GetNullable(values, "--field"),
             Model = GetNullable(values, "--model") ?? "gpt-5.6-luna",
             EnrichmentDecision = enrichmentDecision,
             OpportunityStatus = opportunityStatus,
@@ -1224,6 +1260,7 @@ internal sealed class CliOptions
             NoPlaywright = switches.Contains("--no-playwright"),
             NoGeocoding = switches.Contains("--no-geocoding"),
             DryRun = switches.Contains("--dry-run"),
+            EnrichmentReport = switches.Contains("--report"),
             Verbose = switches.Contains("--verbose"),
             ShowHelp = switches.Contains("--help") || switches.Contains("-h")
         };

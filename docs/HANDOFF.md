@@ -129,6 +129,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - La fuente efímera de evidencia exige cuerpo completo y deshabilita solo los
   validadores HTTP condicionales; evita que el `304` del crawl anterior deje
   una página sin texto, conservando robots, host, demora y límites.
+- `review-enrichment` muestra la cola pendiente y genera opcionalmente un
+  informe HTML local dentro de `--state`. La revisión es campo a campo, sin
+  aceptación masiva: una propuesta solo queda resuelta cuando todos sus campos
+  tienen decisión, y el crawl aplica únicamente los aceptados. El esquema
+  privado 1.2 conserva la lectura y aplicación de aceptaciones 1.1.
 
 ### Datos y frontend
 
@@ -169,11 +174,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          21 correctos
-Tests Infrastructure:95 correctos
+Tests Core:          22 correctos
+Tests Infrastructure:97 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               124/124 correctos
+Total:               127/127 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -442,9 +447,10 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Revisar individualmente las ocho propuestas del piloto `30094391984`,
-    comprobar cada cita y contrastar el coste estimado acumulado de 0,013350
-    USD con el panel de OpenAI. No aceptar propuestas en bloque ni habilitar
+11. Recuperar la cola privada del piloto `30094391984` en un entorno local,
+    generar el informe con `review-enrichment --report` y decidir sus ocho
+    campos uno a uno tras comprobar cada cita. Contrastar además el coste
+    estimado acumulado de 0,013350 USD con el panel de OpenAI. No habilitar
     todavía una programación periódica de IA. El secreto de GitHub quedó
     confirmado por HTTP 200; la clave no está cargada ni se expone en la
     terminal local.

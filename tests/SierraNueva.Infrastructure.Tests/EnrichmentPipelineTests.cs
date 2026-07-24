@@ -360,6 +360,138 @@ public sealed class EnrichmentPipelineTests
         }
     }
 
+    [Fact]
+    public async Task Reviewer_RequiresAndPersistsOneFieldDecisionAtATime()
+    {
+        InMemoryEnrichmentRepository repository = new()
+        {
+            State = new()
+            {
+                Items =
+                [
+                    new()
+                    {
+                        Id = "enr-a",
+                        PromotionId = "sn-a",
+                        PromotionName = "A",
+                        Fields =
+                        [
+                            new()
+                            {
+                                Field = "priceFrom",
+                                ValueText = "475000"
+                            },
+                            new()
+                            {
+                                Field = "builtAreaMinSqm",
+                                ValueText = "160"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+        PromotionEnrichmentReviewer reviewer = new(repository, new FixedClock());
+
+        InvalidDataException missingField = await Assert.ThrowsAsync<InvalidDataException>(
+            () => reviewer.ReviewAsync(
+                "state",
+                "enr-a",
+                null,
+                EnrichmentReviewStatus.Accepted,
+                CancellationToken.None));
+        Assert.Contains("--field", missingField.Message, StringComparison.Ordinal);
+
+        PromotionEnrichment partiallyReviewed = await reviewer.ReviewAsync(
+            "state",
+            "enr-a",
+            "priceFrom",
+            EnrichmentReviewStatus.Accepted,
+            CancellationToken.None);
+        Assert.Equal(EnrichmentReviewStatus.Pending, partiallyReviewed.Status);
+        Assert.Equal(
+            EnrichmentReviewStatus.Accepted,
+            partiallyReviewed.Fields.Single(field => field.Field == "priceFrom").Status);
+
+        PromotionEnrichment completed = await reviewer.ReviewAsync(
+            "state",
+            "enr-a",
+            "builtAreaMinSqm",
+            EnrichmentReviewStatus.Rejected,
+            CancellationToken.None);
+        Assert.Equal(EnrichmentReviewStatus.Accepted, completed.Status);
+        Assert.Equal(
+            EnrichmentReviewStatus.Rejected,
+            completed.Fields.Single(field => field.Field == "builtAreaMinSqm").Status);
+        Assert.Equal(2, repository.Saves);
+    }
+
+    [Fact]
+    public async Task ReviewReport_IsPrivateEscapedAndContainsFieldCommands()
+    {
+        string root = Path.Combine(
+            Path.GetTempPath(),
+            $"sierranueva-review-{Guid.NewGuid():N}");
+        try
+        {
+            string stateDirectory = Path.Combine(root, "state");
+            EnrichmentState state = new()
+            {
+                GeneratedAtUtc = new(2026, 7, 24, 12, 0, 0, TimeSpan.Zero),
+                Items =
+                [
+                    new()
+                    {
+                        Id = "enr-a",
+                        PromotionId = "sn-a",
+                        PromotionName = "<script>alert('x')</script>\u001b[31m",
+                        CanonicalUrl = "https://fixtures.sierranueva.test/a",
+                        Provider = "fixture",
+                        Model = "fixture",
+                        GeneratedAtUtc = new(2026, 7, 24, 12, 0, 0, TimeSpan.Zero),
+                        Fields =
+                        [
+                            new()
+                            {
+                                Field = "priceFrom",
+                                ValueText = "475000",
+                                SourceUrl = "https://fixtures.sierranueva.test/a",
+                                EvidenceText = "Desde <b>475.000 euros</b>",
+                                Confidence = 0.96m
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            string path = await PromotionEnrichmentReviewReport.WriteAsync(
+                stateDirectory,
+                state,
+                CancellationToken.None);
+            string html = await File.ReadAllTextAsync(path);
+
+            Assert.Equal(
+                Path.Combine(stateDirectory, PromotionEnrichmentReviewReport.FileName),
+                path);
+            Assert.Contains("Content-Security-Policy", html, StringComparison.Ordinal);
+            Assert.Contains("&lt;script&gt;", html, StringComparison.Ordinal);
+            Assert.DoesNotContain("<script>", html, StringComparison.Ordinal);
+            Assert.DoesNotContain("\u001b", html, StringComparison.Ordinal);
+            Assert.Contains("&lt;b&gt;475.000 euros&lt;/b&gt;", html, StringComparison.Ordinal);
+            Assert.Contains("--field &quot;priceFrom&quot;", html, StringComparison.Ordinal);
+            Assert.Contains("Actual: <strong>sin dato</strong>", html, StringComparison.Ordinal);
+            Assert.False(Directory.Exists(Path.Combine(root, "public")));
+            Assert.Empty(Directory.GetFiles(stateDirectory, "*.tmp"));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
     private sealed class CapturingHandler(string response) : HttpMessageHandler
     {
         public string? RequestJson { get; private set; }
@@ -477,7 +609,7 @@ public sealed class EnrichmentPipelineTests
 
     private sealed class InMemoryEnrichmentRepository : IEnrichmentStateRepository
     {
-        public EnrichmentState State { get; private set; } = new();
+        public EnrichmentState State { get; set; } = new();
 
         public int Saves { get; private set; }
 

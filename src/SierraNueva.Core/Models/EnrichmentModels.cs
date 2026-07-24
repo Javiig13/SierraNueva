@@ -10,7 +10,7 @@ public enum EnrichmentReviewStatus
 
 public sealed class EnrichmentState
 {
-    public string SchemaVersion { get; init; } = "1.1";
+    public string SchemaVersion { get; init; } = "1.2";
 
     public DateTimeOffset GeneratedAtUtc { get; init; }
 
@@ -63,6 +63,10 @@ public sealed class EnrichmentFieldProposal
     public string EvidenceText { get; init; } = string.Empty;
 
     public decimal Confidence { get; init; }
+
+    public EnrichmentReviewStatus Status { get; init; } = EnrichmentReviewStatus.Pending;
+
+    public DateTimeOffset? ReviewedAtUtc { get; init; }
 }
 
 public sealed class EnrichmentEvidenceDocument

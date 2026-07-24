@@ -46,8 +46,8 @@ flowchart LR
     C -->|"Cabe en 0,05 USD/run"| AI["Responses API · Luna · effort none"]
     AI --> V["Validación de cita, URL, tipo y confianza"]
     V --> Q["data/state/promotion-enrichment.json"]
-    Q --> R["Revisión humana"]
-    R -->|aceptada y vigente| C["Siguiente crawl"]
+    Q --> R["Revisión humana campo a campo"]
+    R -->|propuesta completa y campos aceptados vigentes| C["Siguiente crawl"]
     C --> PUB["Contrato público"]
 ```
 
@@ -74,6 +74,13 @@ del cuerpo UTF-8 completo y del máximo de salida. El uso real devuelto por
 Responses se conserva en un historial privado de hasta 100 ejecuciones. El
 `dry-run` se detiene antes del proveedor, por lo que sirve para inspeccionar
 selección y presupuesto sin consumir API.
+
+La revisión tampoco cruza la frontera del frontend. El comando
+`review-enrichment` lista la cola o genera dentro de `--state` un HTML estático,
+sin JavaScript ni recursos externos, con valor, cita, confianza y comandos de
+decisión. Cada decisión afecta a un único campo. Una promoción con varios
+campos no se considera resuelta ni aporta datos al crawl hasta que todos se
+han aceptado o rechazado; después solo se aplican los campos aceptados.
 
 La recolección de evidencia declara `RequireResponseBody`: mantiene robots,
 hosts, demoras y límites del crawler, pero no envía validadores HTTP

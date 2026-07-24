@@ -130,6 +130,49 @@ public sealed class EnrichmentTests
         Assert.Empty(promotion.Evidence);
     }
 
+    [Fact]
+    public void AcceptedProposal_OnlyAppliesIndividuallyAcceptedFields()
+    {
+        Promotion promotion = CreatePromotion();
+        DateTimeOffset now = new(2026, 7, 24, 10, 0, 0, TimeSpan.Zero);
+        PromotionEnrichment enrichment = new()
+        {
+            Status = EnrichmentReviewStatus.Accepted,
+            ReviewedAtUtc = now,
+            EvidenceFetchedAtUtc = now.AddDays(-1),
+            Fields =
+            [
+                new()
+                {
+                    Field = "priceFrom",
+                    ValueText = "475000",
+                    SourceUrl = promotion.CanonicalUrl,
+                    EvidenceText = "Viviendas desde 475.000 euros",
+                    Confidence = 0.96m,
+                    Status = EnrichmentReviewStatus.Accepted,
+                    ReviewedAtUtc = now
+                },
+                new()
+                {
+                    Field = "builtAreaMinSqm",
+                    ValueText = "160",
+                    SourceUrl = promotion.CanonicalUrl,
+                    EvidenceText = "160 metros cuadrados construidos",
+                    Confidence = 0.91m,
+                    Status = EnrichmentReviewStatus.Rejected,
+                    ReviewedAtUtc = now
+                }
+            ]
+        };
+
+        PromotionEnrichmentPolicy.ApplyAccepted(promotion, enrichment, now);
+
+        Assert.Equal(475_000m, promotion.PriceFrom);
+        Assert.Null(promotion.BuiltAreaMinSqm);
+        EvidenceItem evidence = Assert.Single(promotion.Evidence);
+        Assert.Equal("priceFrom", evidence.Field);
+    }
+
     private static Promotion CreatePromotion()
     {
         return new()

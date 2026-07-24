@@ -139,8 +139,16 @@ public static partial class PromotionEnrichmentPolicy
             return;
         }
 
+        bool legacyWholeProposal = enrichment.Fields.All(
+            field => field.Status == EnrichmentReviewStatus.Pending &&
+                     field.ReviewedAtUtc is null);
         foreach (EnrichmentFieldProposal field in enrichment.Fields)
         {
+            if (!legacyWholeProposal && field.Status != EnrichmentReviewStatus.Accepted)
+            {
+                continue;
+            }
+
             Apply(promotion, field, enrichment.EvidenceFetchedAtUtc);
         }
     }

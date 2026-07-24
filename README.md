@@ -169,7 +169,9 @@ SierraNueva.Crawler enrich-promotions
 
 SierraNueva.Crawler review-enrichment
   --state <ruta>
+  --report                 # genera un HTML local dentro de --state
   --proposal <id>
+  --field <campo>
   --decision <accepted|rejected>
 ```
 
@@ -376,8 +378,25 @@ El límite de promociones se aplica después de comprobar el hash de contenido:
 las páginas sin cambios no gastan una llamada ni impiden procesar la siguiente
 promoción nueva o modificada. El proveedor propone únicamente campos ausentes
 con una cita literal y URL verificables. `review-enrichment` registra una
-decisión explícita y el crawl posterior solo aplica aceptaciones vigentes, sin
-sobrescribir valores obtenidos por extractores.
+decisión explícita por campo y el crawl posterior solo aplica aceptaciones
+vigentes cuando toda la propuesta se ha revisado, sin sobrescribir valores
+obtenidos por extractores. Ejecutado sin `--proposal`, el comando lista la cola
+pendiente; `--report` crea
+`data/state/promotion-enrichment-review.html`, un informe local sin JavaScript
+que compara el hueco actual, el valor propuesto, la confianza, la cita y la URL
+oficial. El informe permanece bajo `--state`, está ignorado por Git y no forma
+parte de Pages.
+
+Ejemplo de revisión segura:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  review-enrichment --state data/state --report
+
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  review-enrichment --state data/state `
+  --proposal enr-... --field priceFrom --decision accepted
+```
 
 La fuente temporal de evidencia exige un cuerpo completo y omite los
 condicionales `If-None-Match`/`If-Modified-Since`. Así no reutiliza como cuerpo
