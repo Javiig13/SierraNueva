@@ -3,8 +3,8 @@
 
 <section class="map-shell" aria-label="Mapa de promociones">
     <div class="map-floating-title">
-        <span class="map-kicker">Mapa interactivo</span>
-        <strong>@VisibleIds.Count opciones en esta vista</strong>
+        <strong>@VisibleIds.Count</strong>
+        <span>@(VisibleIds.Count == 1 ? "opción en el mapa" : "opciones en el mapa")</span>
     </div>
     <div class="map-legend" aria-label="Leyenda del mapa">
         <span><i class="dot dot-exact"></i> Exacta</span>

@@ -15,7 +15,13 @@
         </span>
     </a>
     <nav class="header-actions" aria-label="Acciones">
-        <a class="header-explore" href="#explorar">Explorar mapa</a>
+        @if (_data is not null)
+        {
+            <a class="header-count" href="#explorar">
+                <span aria-hidden="true"></span>
+                @_data.Promotions.Statistics.Active activas
+            </a>
+        }
         <a class="download-link" href="data/promotions.csv" download>
             <span>Descargar datos</span>
             <span class="download-icon" aria-hidden="true">↓</span>
@@ -44,42 +50,41 @@
     }
     else if (_data is not null)
     {
-        <section class="hero">
-            <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
-            <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
-            <div class="hero-copy">
+        <section class="overview-bar" aria-labelledby="overview-title">
+            <div class="overview-copy">
                 <p class="eyebrow">
                     <span class="live-dot" aria-hidden="true"></span>
-                    Datos directos de fuentes verificadas
+                    Fuentes oficiales revisadas
                 </p>
-                <h1>Tu próxima casa,<br><span>sobre el mapa.</span></h1>
-                <p>
-                    Descubre obra nueva unifamiliar en la Sierra de Madrid.
-                    Sin anuncios duplicados, sin ruido y con la fuente siempre visible.
-                </p>
-                <div class="hero-actions">
-                    <a class="button button-primary hero-button" href="#explorar">
-                        Ver @_data.Promotions.Statistics.Active promociones
-                        <span aria-hidden="true">→</span>
-                    </a>
-                    <span class="hero-proof">
-                        <i aria-hidden="true">✓</i>
-                        Revisión independiente
-                    </span>
-                </div>
+                <h1 id="overview-title">Casas nuevas en la Sierra, <span>sobre el mapa.</span></h1>
             </div>
-            <div class="hero-update">
-                <div class="update-orbit" aria-hidden="true">
-                    <span></span>
-                    <i></i>
+
+            <dl class="overview-metrics" aria-label="Resumen de datos">
+                <div>
+                    <dt>Promociones</dt>
+                    <dd>@_data.Promotions.Statistics.Total</dd>
                 </div>
                 <div>
-                    <span>Última exploración</span>
-                    <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
-                    <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
-                        @RunStatusLabel(_data.Run.Status)
-                    </small>
+                    <dt>Nuevas</dt>
+                    <dd>@_data.Run.NewPromotions</dd>
                 </div>
+                <div>
+                    <dt>Actualizadas</dt>
+                    <dd>@_data.Run.ChangedPromotions</dd>
+                </div>
+                <div>
+                    <dt>Fuentes</dt>
+                    <dd>@(_data.Run.TotalSources - _data.Run.FailedSources)/@_data.Run.TotalSources</dd>
+                </div>
+            </dl>
+
+            <div class="overview-update">
+                <span>Última revisión</span>
+                <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
+                <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
+                    <i aria-hidden="true"></i>
+                    @RunStatusLabel(_data.Run.Status)
+                </small>
             </div>
         </section>
 
@@ -98,49 +103,7 @@
             </div>
         }
 
-        <section class="metric-strip" aria-label="Resumen de datos">
-            <article>
-                <span class="metric-icon" aria-hidden="true">⌂</span>
-                <div>
-                    <strong>@_data.Promotions.Statistics.Total</strong>
-                    <span>promociones</span>
-                </div>
-            </article>
-            <article>
-                <span class="metric-icon metric-icon-new" aria-hidden="true">＋</span>
-                <div>
-                    <strong>@_data.Run.NewPromotions</strong>
-                    <span>nuevas hoy</span>
-                </div>
-            </article>
-            <article>
-                <span class="metric-icon" aria-hidden="true">↻</span>
-                <div>
-                    <strong>@_data.Run.ChangedPromotions</strong>
-                    <span>actualizadas</span>
-                </div>
-            </article>
-            <article>
-                <span class="metric-icon metric-icon-source" aria-hidden="true">✓</span>
-                <div>
-                    <strong>@(_data.Run.TotalSources - _data.Run.FailedSources)/@_data.Run.TotalSources</strong>
-                    <span>fuentes correctas</span>
-                </div>
-            </article>
-        </section>
-
         <section class="workspace" id="explorar">
-            <div class="explorer-intro">
-                <div>
-                    <p class="eyebrow">Explora la Sierra</p>
-                    <h2>Elige primero el lugar.</h2>
-                </div>
-                <p>
-                    Acerca el mapa, compara precios y abre cada ficha sin perder
-                    de vista su ubicación.
-                </p>
-            </div>
-
             <FilterPanel Model="_filter"
                          Municipalities="_municipalities"
                          Localities="_localities"
@@ -154,7 +117,7 @@
                             @Filtered.Count
                             <span>@(Filtered.Count == 1 ? "opción encontrada" : "opciones encontradas")</span>
                         </h2>
-                        <p>Pasa sobre una tarjeta para localizarla en el mapa.</p>
+                        <p>Selecciona una tarjeta o un precio del mapa para abrir la ficha.</p>
                     </div>
                     <label class="sort-field">
                         <span>Orden</span>

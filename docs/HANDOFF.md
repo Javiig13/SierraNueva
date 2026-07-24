@@ -119,8 +119,9 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   reducida, registro municipal, origen, hash del ZIP y atribución CC-BY 4.0.
   `validate-config` exige coincidencia entre coordenadas y procedencia.
 - SPA en español con estados de carga/error/vacío y avisos de frescura.
-- Filtros completos en barra compacta y panel avanzado, ordenaciones y query
-  parameters compartibles.
+- Interfaz de consulta compacta: cabecera de 58 px, resumen operativo de una
+  sola franja en lugar del hero, filtros completos en barra/panel avanzado,
+  ordenaciones y query parameters compartibles.
 - Una misma colección filtrada alimenta tarjetas y mapa. Los marcadores muestran
   el precio y el hover/foco destaca bidireccionalmente marcador y tarjeta.
 - Detalle con datos, evidencias, cambios, advertencias y enlaces.
@@ -301,9 +302,13 @@ porque el estado sintético ya está sembrado.
 
 ### Frontend y validación visual
 
-- El rediseño visual del 23 de julio de 2026 se comprobó en navegador real:
-  portada responsive, barra de filtros, mapa dominante, tarjetas, popups y
-  estados de hover/foco. No añade recursos visuales ni dependencias externas.
+- El rediseño compacto del 24 de julio de 2026 se comprobó en navegador real:
+  eliminó el hero de 520 px y el bloque introductorio redundante, concentra
+  métricas y frescura en 128 px y adelanta el mapa al píxel 376 en una ventana
+  de 1281×720. La barra de filtros empieza en el píxel 224 y no hay overflow
+  horizontal. No añade recursos visuales ni dependencias externas.
+- El E2E fija una regresión máxima de 170 px para el resumen superior y mantiene
+  las comprobaciones a 390×844 para tabs, teclado y ausencia de overflow.
 - Una prueba unitaria comprueba que promociones, cambios, informe y GeoJSON
   usan el mismo token de versión y no quedan mezclados entre despliegues.
 - La auditoría automatizada cubre una baseline básica de accesibilidad, no una

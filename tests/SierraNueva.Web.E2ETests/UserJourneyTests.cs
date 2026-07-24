@@ -13,8 +13,10 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         IPage page = await context.NewPageAsync();
 
         await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
-        await Expect(page.Locator(".hero h1"))
-            .ToContainTextAsync("Tu próxima casa");
+        await Expect(page.Locator(".overview-bar h1"))
+            .ToContainTextAsync("Casas nuevas en la Sierra");
+        float overviewHeight = (await page.Locator(".overview-bar").BoundingBoxAsync())?.Height ?? 0;
+        Assert.InRange(overviewHeight, 1, 170);
         await Expect(page.Locator(".promotion-card")).ToHaveCountAsync(4);
         await Expect(page.Locator(".price-marker")).ToHaveCountAsync(4);
 
@@ -80,8 +82,8 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         IPage page = await context.NewPageAsync();
 
         await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
-        await Expect(page.Locator(".hero h1"))
-            .ToContainTextAsync("Tu próxima casa");
+        await Expect(page.Locator(".overview-bar h1"))
+            .ToContainTextAsync("Casas nuevas en la Sierra");
         await page.Keyboard.PressAsync("Tab");
         ILocator skipLink = page.GetByRole(AriaRole.Link, new() { Name = "Saltar al contenido" });
         await Expect(skipLink).ToBeFocusedAsync();

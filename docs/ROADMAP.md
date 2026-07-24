@@ -22,8 +22,10 @@ requiere trabajo de producto.
   de `data/state`.
 - **Hecho:** E2E en navegador real para filtros, detalle, mapa y URL
   compartible; todo tráfico externo se aborta antes de salir.
-- **Hecho:** rediseño responsive con mapa dominante, precios sobre marcadores,
-  filtros compactos/avanzados y resaltado bidireccional entre mapa y tarjetas.
+- **Hecho:** rediseño responsive y compacto con mapa dominante, precios sobre
+  marcadores, filtros compactos/avanzados y resaltado bidireccional entre mapa
+  y tarjetas. La iteración del 24 de julio eliminó el hero de 520 px y dejó el
+  resumen superior por debajo de 170 px, protegido por E2E.
 - **Hecho:** invalidación por versión de la caché de los cuatro recursos
   públicos para mostrar cada dataset desplegado sin mezclar revisiones.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
