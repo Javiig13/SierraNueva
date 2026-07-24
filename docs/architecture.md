@@ -40,8 +40,10 @@ El enriquecimiento asistido es otro flujo privado y subordinado:
 ```mermaid
 flowchart LR
     P["Promoción con huecos"] --> E["Página oficial + enlaces internos acotados"]
-    E --> H["Texto reducido + hash"]
-    H --> AI["Proveedor opcional con JSON Schema"]
+    E --> H["Fragmentos relevantes + hash"]
+    H --> C{"Caché y presupuesto"}
+    C -->|"Sin cambios"| S["Omitir sin coste"]
+    C -->|"Cabe en 0,05 USD/run"| AI["Responses API · Luna · effort none"]
     AI --> V["Validación de cita, URL, tipo y confianza"]
     V --> Q["data/state/promotion-enrichment.json"]
     Q --> R["Revisión humana"]
@@ -66,6 +68,12 @@ Core también define la política de enriquecimiento y sus interfaces, pero no
 conoce OpenAI ni HTTP. Infrastructure reúne evidencia, implementa el proveedor
 Responses API y persiste la cola privada; Crawler compone los dos comandos.
 Contracts y Web no conocen esa cola.
+
+La admisión de una llamada se hace con un límite superior conservador derivado
+del cuerpo UTF-8 completo y del máximo de salida. El uso real devuelto por
+Responses se conserva en un historial privado de hasta 100 ejecuciones. El
+`dry-run` se detiene antes del proveedor, por lo que sirve para inspeccionar
+selección y presupuesto sin consumir API.
 
 Los modelos y la orquestación del radar pertenecen a Core. Infrastructure
 descarga, interpreta y persiste los feeds. Crawler compone los comandos y

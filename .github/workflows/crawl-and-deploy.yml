@@ -2,6 +2,21 @@ name: Crawl and deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      run_enrichment:
+        description: "Ejecutar piloto privado de enriquecimiento IA"
+        required: true
+        type: boolean
+        default: false
+      enrichment_promotions:
+        description: "Máximo de promociones del piloto"
+        required: true
+        type: choice
+        default: "2"
+        options:
+          - "1"
+          - "2"
+          - "3"
   schedule:
     - cron: "17 6 * * *"
       timezone: "Europe/Madrid"
@@ -135,6 +150,26 @@ jobs:
           validate-data
           --output .runtime/public
 
+      - name: Run bounded private AI enrichment pilot
+        id: promotion-enrichment
+        if: >-
+          github.event_name == 'workflow_dispatch' &&
+          inputs.run_enrichment
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          enrich-promotions
+          --config config/appsettings.live.json
+          --sources config/sources.live.json
+          --state .runtime/state
+          --max-promotions ${{ inputs.enrichment_promotions }}
+          --max-evidence-pages 3
+          --max-evidence-chars 8000
+          --max-output-tokens 800
+          --max-cost-usd 0.05
+          --model gpt-5.6-luna
+
       - name: Validate map coverage
         shell: pwsh
         run: |
@@ -190,6 +225,7 @@ jobs:
           BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
+          ENRICHMENT_OUTCOME: ${{ steps.promotion-enrichment.outcome }}
         run: |
           $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
             ConvertFrom-Json
@@ -202,6 +238,7 @@ jobs:
           - Ejecución del radar: $env:RADAR_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
+          - Piloto IA privado: $env:ENRICHMENT_OUTCOME
           - Radar: $($coverage.healthySources) fuentes sanas, $($coverage.degradedSources) degradadas y $($coverage.failingSources) en fallo reiterado
           - Cobertura radar: $($coverage.municipalitiesWithHealthyCoverage)/$($coverage.municipalitiesTotal) municipios; $($coverage.municipalitiesWithHealthyDirectSource) con canal directo
           - Candidatos privados pendientes: $($coverage.pendingCandidates)
@@ -211,6 +248,7 @@ jobs:
           - Ejecución del radar: $env:RADAR_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
+          - Piloto IA privado: $env:ENRICHMENT_OUTCOME
           - Radar: sin estado disponible en esta ejecución
           "@
           }

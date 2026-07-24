@@ -65,7 +65,13 @@ public interface IPromotionEnrichmentProvider
 
     string Model { get; }
 
-    Task<IReadOnlyList<EnrichmentFieldProposal>> ProposeAsync(
+    int MaxOutputTokens { get; }
+
+    EnrichmentCostEstimate EstimateMaximumCost(
+        EnrichmentEvidenceDocument evidence,
+        IReadOnlyList<string> missingFields);
+
+    Task<EnrichmentProviderResult> ProposeAsync(
         EnrichmentEvidenceDocument evidence,
         IReadOnlyList<string> missingFields,
         CancellationToken cancellationToken);

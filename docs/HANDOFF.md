@@ -117,6 +117,14 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   confianza, hash y caché; sin clave no se ejecuta y el producto normal no la
   necesita. Una propuesta solo pasa al crawl tras aceptación humana, no
   sobrescribe datos deterministas y caduca a los 30 días.
+- El perfil de coste usa Luna sin razonamiento, verbosidad baja, `store=false`,
+  tres llamadas, tres páginas, 8.000 caracteres, 800 tokens de salida y 0,05
+  USD como máximos predeterminados. Comprueba un límite superior antes de
+  enviar, registra uso y coste en estado privado y aplica la caché antes del
+  límite de llamadas. `--dry-run` ya no invoca la API.
+- Actions solo puede ejecutar un piloto IA mediante despacho manual explícito
+  de una a tres promociones. El cron diario lo omite incluso si existe el
+  secreto `OPENAI_API_KEY`.
 
 ### Datos y frontend
 
@@ -158,14 +166,15 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          21 correctos
-Tests Infrastructure:90 correctos
+Tests Infrastructure:94 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               119/119 correctos
+Total:               123/123 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
+Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado:       21 fuentes; 21 promociones válidas, 0 fallos
 Mapa live:           21/21 promociones; 20 centroides municipales y 1 exacta
@@ -416,10 +425,12 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Configurar `OPENAI_API_KEY` solo en un entorno privado, ejecutar
-    `enrich-promotions` sobre una cohorte pequeña, revisar cada cita y medir
-    precisión/coste antes de cualquier programación. No aceptar propuestas en
-    bloque.
+11. Ejecutar el primer piloto manual de una o dos promociones con
+    `OPENAI_API_KEY`, revisar cada cita y contrastar el uso registrado con el
+    panel de OpenAI. No aceptar propuestas en bloque ni habilitar todavía una
+    programación periódica de IA. El propietario indica que el secreto ya
+    existe en GitHub, pero esta entrega no pudo enumerarlo porque `gh` no está
+    disponible y la clave no está cargada en la terminal local.
 12. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 

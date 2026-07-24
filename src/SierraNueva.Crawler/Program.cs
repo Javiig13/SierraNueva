@@ -748,12 +748,16 @@ internal static class CrawlerApplication
         CancellationToken cancellationToken)
     {
         string? apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-        if (string.IsNullOrWhiteSpace(apiKey))
+        if (string.IsNullOrWhiteSpace(apiKey) && !options.DryRun)
         {
             Console.Error.WriteLine(
                 "Falta OPENAI_API_KEY. El crawl normal no la necesita; " +
                 "solo se exige al ejecutar enrich-promotions.");
             return 2;
+        }
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            apiKey = "dry-run-does-not-call-provider";
         }
 
         ConfigurationBundle configuration = await LoadConfigurationAsync(options, cancellationToken);
@@ -769,7 +773,8 @@ internal static class CrawlerApplication
         OpenAiPromotionEnrichmentProvider provider = new(
             services.GetRequiredService<IHttpClientFactory>(),
             apiKey,
-            options.Model);
+            options.Model,
+            options.MaxOutputTokens);
         PromotionEnrichmentRunner runner = new(
             services.GetRequiredService<IPageSource>(),
             services.GetRequiredService<IEnrichmentStateRepository>(),
@@ -780,17 +785,31 @@ internal static class CrawlerApplication
             configuration.Sources,
             configuration.Settings,
             options.State,
-            options.Promotion,
-            options.MaxPromotions,
-            options.DryRun,
+            new()
+            {
+                PromotionFilter = options.Promotion,
+                MaxPromotions = options.MaxPromotions,
+                MaxEvidencePages = options.MaxEvidencePages,
+                MaxEvidenceCharacters = options.MaxEvidenceCharacters,
+                MaxCostUsd = options.MaxCostUsd,
+                DryRun = options.DryRun
+            },
             cancellationToken);
         Console.WriteLine(
             $"Enriquecimiento: {result.ProcessedPromotions}/{result.EligiblePromotions} " +
             $"promociones procesadas, {result.ProposedFields} campos propuestos, " +
-            $"{result.CachedPromotions} en caché y {result.FailedPromotions} fallidas.");
+            $"{result.CachedPromotions} en caché, {result.FailedPromotions} fallidas y " +
+            $"{result.BudgetSkippedPromotions} omitidas por presupuesto.");
+        Console.WriteLine(
+            $"Uso API: {result.Usage.InputTokens} tokens de entrada " +
+            $"({result.Usage.CachedInputTokens} en caché), " +
+            $"{result.Usage.OutputTokens} de salida; coste estimado " +
+            $"{result.Usage.EstimatedCostUsd:F6} USD, reserva máxima " +
+            $"{result.ReservedMaximumCostUsd:F6} USD.");
         Console.WriteLine(
             result.DryRun
-                ? "Dry-run: no se ha escrito la cola privada."
+                ? $"Dry-run gratuito: {result.PlannedPromotions} llamadas planificadas; " +
+                  "no se ha invocado la API ni escrito la cola privada."
                 : $"Revisión pendiente en {Path.Combine(options.State, JsonEnrichmentStateRepository.FileName)}.");
         return result.FailedPromotions > 0 ? 1 : 0;
     }
@@ -952,7 +971,11 @@ internal static class CrawlerApplication
               --candidate <id>         Candidato privado que revisar
               --status <estado>        new, monitoring, rejected, verifiedSource o stale
               --promotion <id>         Promoción concreta que enriquecer
-              --max-promotions <n>     Máximo por ejecución de IA (por defecto 8)
+              --max-promotions <n>     Máximo de llamadas por ejecución (por defecto 3)
+              --max-evidence-pages <n> Máximo de páginas por promoción (por defecto 3)
+              --max-evidence-chars <n> Texto total enviado por promoción (por defecto 8000)
+              --max-output-tokens <n>  Salida máxima por llamada (por defecto 800)
+              --max-cost-usd <importe> Presupuesto duro por ejecución (por defecto 0.05)
               --model <id>             Modelo opcional (por defecto gpt-5.6-luna)
               --proposal <id>          Propuesta de enriquecimiento que revisar
               --decision <estado>      accepted o rejected
@@ -1035,7 +1058,15 @@ internal sealed class CliOptions
 
     public int SampleSize { get; private init; } = 10;
 
-    public int MaxPromotions { get; private init; } = 8;
+    public int MaxPromotions { get; private init; } = 3;
+
+    public int MaxEvidencePages { get; private init; } = 3;
+
+    public int MaxEvidenceCharacters { get; private init; } = 8_000;
+
+    public int MaxOutputTokens { get; private init; } = 800;
+
+    public decimal MaxCostUsd { get; private init; } = 0.05m;
 
     public bool StateSpecified { get; private init; }
 
@@ -1106,7 +1137,23 @@ internal sealed class CliOptions
             OpportunityBackfillPlanner.MaximumBatchDays,
             OpportunityBackfillPlanner.MaximumBatchDays);
         int sampleSize = ParsePositiveInt(values, "--sample-size", 10, 100);
-        int maxPromotions = ParsePositiveInt(values, "--max-promotions", 8, 100);
+        int maxPromotions = ParsePositiveInt(values, "--max-promotions", 3, 20);
+        int maxEvidencePages = ParsePositiveInt(values, "--max-evidence-pages", 3, 4);
+        int maxEvidenceCharacters = ParsePositiveInt(
+            values,
+            "--max-evidence-chars",
+            8_000,
+            24_000);
+        int maxOutputTokens = ParsePositiveInt(
+            values,
+            "--max-output-tokens",
+            800,
+            4_000);
+        decimal maxCostUsd = ParsePositiveDecimal(
+            values,
+            "--max-cost-usd",
+            0.05m,
+            10m);
         OpportunityCandidateStatus? opportunityStatus = null;
         if (values.TryGetValue("--status", out string? statusText) &&
             !Enum.TryParse(statusText, ignoreCase: true, out OpportunityCandidateStatus parsedStatus))
@@ -1169,6 +1216,10 @@ internal sealed class CliOptions
             BatchDays = batchDays,
             SampleSize = sampleSize,
             MaxPromotions = maxPromotions,
+            MaxEvidencePages = maxEvidencePages,
+            MaxEvidenceCharacters = maxEvidenceCharacters,
+            MaxOutputTokens = maxOutputTokens,
+            MaxCostUsd = maxCostUsd,
             StateSpecified = values.ContainsKey("--state"),
             NoPlaywright = switches.Contains("--no-playwright"),
             NoGeocoding = switches.Contains("--no-geocoding"),
@@ -1233,5 +1284,28 @@ internal sealed class CliOptions
             ? parsed
             : throw new ArgumentException(
                 $"{key} debe ser un entero entre 1 y {maximum}.");
+    }
+
+    private static decimal ParsePositiveDecimal(
+        IReadOnlyDictionary<string, string> values,
+        string key,
+        decimal fallback,
+        decimal maximum)
+    {
+        if (!values.TryGetValue(key, out string? value))
+        {
+            return fallback;
+        }
+
+        return decimal.TryParse(
+                   value,
+                   System.Globalization.NumberStyles.AllowDecimalPoint,
+                   System.Globalization.CultureInfo.InvariantCulture,
+                   out decimal parsed) &&
+               parsed > 0 &&
+               parsed <= maximum
+            ? parsed
+            : throw new ArgumentException(
+                $"{key} debe ser un decimal mayor que 0 y menor o igual que {maximum}.");
     }
 }

@@ -159,7 +159,11 @@ SierraNueva.Crawler enrich-promotions
   --sources <ruta>
   --state <ruta>
   --promotion <id>
-  --max-promotions <n>
+  --max-promotions <n>       # 3 por defecto; cuenta llamadas, no cachés
+  --max-evidence-pages <n>   # 3 por defecto
+  --max-evidence-chars <n>   # 8000 por defecto
+  --max-output-tokens <n>    # 800 por defecto
+  --max-cost-usd <importe>   # 0.05 por defecto
   --model <id>
   --dry-run
 
@@ -353,12 +357,27 @@ conserva la salud histórica de las fuentes y la instantánea municipal de
 cobertura; no se copia al frontend.
 
 `promotion-enrichment.json` también es privado e ignorado. El comando
-`enrich-promotions` solo funciona si el proceso recibe `OPENAI_API_KEY`; el
-crawl, las pruebas, la web y la automatización diaria no requieren esa
-variable. El proveedor propone únicamente campos ausentes con una cita literal
-y URL verificables. `review-enrichment` registra una decisión explícita y el
-crawl posterior solo aplica aceptaciones vigentes, sin sobrescribir valores
-obtenidos por extractores.
+`enrich-promotions` exige `OPENAI_API_KEY` salvo con `--dry-run`; el crawl, las
+pruebas, la web y la automatización diaria no requieren esa variable. El
+workflow diario nunca ejecuta IA. Solo un `workflow_dispatch` con
+`run_enrichment=true` activa un piloto privado de una a tres promociones.
+
+El proveedor usa `gpt-5.6-luna`, `reasoning.effort=none`, `text.verbosity=low`,
+`store=false`, salida máxima de 800 tokens y evidencia relevante limitada a
+8.000 caracteres. Antes
+de cada llamada calcula un coste máximo conservador y no la envía si superaría
+el presupuesto de la ejecución. Registra tokens de entrada, caché, escritura de
+caché, salida, razonamiento y coste estimado en el estado privado. `--dry-run`
+solo prepara y presupuesta: no llama a OpenAI y no consume saldo.
+El catálogo de coste admite Luna, Terra y Sol; cualquier otro modelo falla
+cerrado hasta que se añada una tarifa revisada.
+
+El límite de promociones se aplica después de comprobar el hash de contenido:
+las páginas sin cambios no gastan una llamada ni impiden procesar la siguiente
+promoción nueva o modificada. El proveedor propone únicamente campos ausentes
+con una cita literal y URL verificables. `review-enrichment` registra una
+decisión explícita y el crawl posterior solo aplica aceptaciones vigentes, sin
+sobrescribir valores obtenidos por extractores.
 
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se

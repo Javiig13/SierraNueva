@@ -43,6 +43,11 @@ public sealed class JsonEnrichmentStateRepository : IEnrichmentStateRepository
                 .OrderBy(item => item.PromotionId, StringComparer.Ordinal)
                 .ThenBy(item => item.GeneratedAtUtc)
                 .ThenBy(item => item.Id, StringComparer.Ordinal)
+                .ToArray(),
+            Runs = queue.Runs
+                .OrderBy(run => run.StartedAtUtc)
+                .ThenBy(run => run.Id, StringComparer.Ordinal)
+                .TakeLast(100)
                 .ToArray()
         };
 

@@ -10,13 +10,37 @@ namespace SierraNueva.Infrastructure.Enrichment;
 public sealed class OpenAiPromotionEnrichmentProvider(
     IHttpClientFactory httpClientFactory,
     string apiKey,
-    string model = "gpt-5.6-luna") : IPromotionEnrichmentProvider
+    string model = "gpt-5.6-luna",
+    int maxOutputTokens = 800,
+    string reasoningEffort = "none") : IPromotionEnrichmentProvider
 {
     public string ProviderName => "openai-responses";
 
     public string Model { get; } = model;
 
-    public async Task<IReadOnlyList<EnrichmentFieldProposal>> ProposeAsync(
+    public int MaxOutputTokens { get; } = maxOutputTokens;
+
+    public EnrichmentCostEstimate EstimateMaximumCost(
+        EnrichmentEvidenceDocument evidence,
+        IReadOnlyList<string> missingFields)
+    {
+        byte[] request = JsonSerializer.SerializeToUtf8Bytes(
+            CreateRequest(evidence, missingFields),
+            JsonDefaults.Compact);
+        int maximumInputTokens = checked(request.Length + 256);
+        ModelPricing pricing = PricingFor(Model);
+        decimal maximumCost =
+            maximumInputTokens * pricing.InputPerMillion / 1_000_000m +
+            MaxOutputTokens * pricing.OutputPerMillion / 1_000_000m;
+        return new()
+        {
+            MaximumInputTokens = maximumInputTokens,
+            MaximumOutputTokens = MaxOutputTokens,
+            MaximumCostUsd = decimal.Round(maximumCost, 6, MidpointRounding.AwayFromZero)
+        };
+    }
+
+    public async Task<EnrichmentProviderResult> ProposeAsync(
         EnrichmentEvidenceDocument evidence,
         IReadOnlyList<string> missingFields,
         CancellationToken cancellationToken)
@@ -44,7 +68,11 @@ public sealed class OpenAiPromotionEnrichmentProvider(
         EnrichmentResponse? parsed = JsonSerializer.Deserialize<EnrichmentResponse>(
             output,
             JsonDefaults.Compact);
-        return parsed?.Fields ?? [];
+        return new()
+        {
+            Fields = parsed?.Fields ?? [],
+            Usage = ReadUsage(document.RootElement)
+        };
     }
 
     internal object CreateRequest(
@@ -55,6 +83,12 @@ public sealed class OpenAiPromotionEnrichmentProvider(
         return new
         {
             model = Model,
+            store = false,
+            max_output_tokens = MaxOutputTokens,
+            reasoning = new
+            {
+                effort = reasoningEffort
+            },
             instructions =
                 """
                 Extrae solo datos inmobiliarios que aparezcan explícitamente en la evidencia.
@@ -71,6 +105,7 @@ public sealed class OpenAiPromotionEnrichmentProvider(
                 $"Evidencia JSON:\n{evidenceJson}",
             text = new
             {
+                verbosity = "low",
                 format = new
                 {
                     type = "json_schema",
@@ -124,6 +159,49 @@ public sealed class OpenAiPromotionEnrichmentProvider(
         };
     }
 
+    private EnrichmentUsage ReadUsage(JsonElement root)
+    {
+        if (!root.TryGetProperty("usage", out JsonElement usage))
+        {
+            return new();
+        }
+
+        int input = ReadInt(usage, "input_tokens");
+        int output = ReadInt(usage, "output_tokens");
+        int total = ReadInt(usage, "total_tokens");
+        int cached = 0;
+        int cacheWrite = 0;
+        if (usage.TryGetProperty("input_tokens_details", out JsonElement inputDetails))
+        {
+            cached = ReadInt(inputDetails, "cached_tokens");
+            cacheWrite = ReadInt(inputDetails, "cache_write_tokens");
+        }
+
+        int reasoning = 0;
+        if (usage.TryGetProperty("output_tokens_details", out JsonElement outputDetails))
+        {
+            reasoning = ReadInt(outputDetails, "reasoning_tokens");
+        }
+
+        ModelPricing pricing = PricingFor(Model);
+        int uncached = Math.Max(0, input - cached - cacheWrite);
+        decimal cost =
+            uncached * pricing.InputPerMillion / 1_000_000m +
+            cached * pricing.CachedInputPerMillion / 1_000_000m +
+            cacheWrite * pricing.InputPerMillion * 1.25m / 1_000_000m +
+            output * pricing.OutputPerMillion / 1_000_000m;
+        return new()
+        {
+            InputTokens = input,
+            CachedInputTokens = cached,
+            CacheWriteTokens = cacheWrite,
+            OutputTokens = output,
+            ReasoningTokens = reasoning,
+            TotalTokens = total == 0 ? input + output : total,
+            EstimatedCostUsd = decimal.Round(cost, 6, MidpointRounding.AwayFromZero)
+        };
+    }
+
     private static string ReadOutputText(JsonElement root)
     {
         foreach (JsonElement output in root.GetProperty("output").EnumerateArray())
@@ -164,8 +242,34 @@ public sealed class OpenAiPromotionEnrichmentProvider(
         }
     }
 
+    private static int ReadInt(JsonElement element, string propertyName)
+    {
+        return element.TryGetProperty(propertyName, out JsonElement value) &&
+               value.TryGetInt32(out int parsed)
+            ? parsed
+            : 0;
+    }
+
+    private static ModelPricing PricingFor(string model)
+    {
+        return model switch
+        {
+            "gpt-5.6-luna" => new(1m, 0.1m, 6m),
+            "gpt-5.6-terra" => new(2.5m, 0.25m, 15m),
+            "gpt-5.6-sol" or "gpt-5.6" => new(5m, 0.5m, 30m),
+            _ => throw new InvalidOperationException(
+                $"No hay una tarifa auditada para el modelo '{model}'. " +
+                "Actualiza el catálogo antes de usarlo para conservar el límite de coste.")
+        };
+    }
+
     private sealed class EnrichmentResponse
     {
         public IReadOnlyList<EnrichmentFieldProposal> Fields { get; init; } = [];
     }
+
+    private sealed record ModelPricing(
+        decimal InputPerMillion,
+        decimal CachedInputPerMillion,
+        decimal OutputPerMillion);
 }

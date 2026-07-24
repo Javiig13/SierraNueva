@@ -256,11 +256,19 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 ## P6 — Enriquecimiento verificable de fichas
 
 - **Hecho:** flujo opcional `enrich-promotions` sobre páginas oficiales, con
-  seguimiento interno acotado a profundidad uno, máximo cuatro páginas y
-  24.000 caracteres de evidencia privada por promoción.
+  seguimiento interno acotado a profundidad uno, máximo tres páginas y
+  8.000 caracteres de fragmentos relevantes por promoción.
 - **Hecho:** proveedor OpenAI Responses API sin SDK adicional, desactivado si
   falta `OPENAI_API_KEY`, modelo configurable y salida JSON estricta por
   esquema. La baseline, el crawl y la web no requieren clave.
+- **Hecho:** perfil económico por defecto con `gpt-5.6-luna`,
+  `reasoning.effort=none`, `text.verbosity=low`, `store=false`, máximo de 800
+  tokens de salida, tres llamadas y 0,05 USD por ejecución. La estimación
+  conservadora se comprueba antes de cada llamada y el uso real queda auditado
+  en estado privado.
+- **Hecho:** el límite de llamadas se aplica después de la caché de contenido;
+  una promoción sin cambios no bloquea la siguiente nueva o modificada.
+  `--dry-run` no invoca la API ni escribe estado.
 - **Hecho:** cada propuesta exige campo ausente, valor tipado, confianza mínima
   de 0,8, URL exacta y cita literal presente en la evidencia descargada. Los
   campos de identidad no se admiten y el modelo nunca escribe directamente en
@@ -268,24 +276,28 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** cola atómica y estable en
   `data/state/promotion-enrichment.json`, ignorada por Git y rechazada
   explícitamente por el smoke de publicación.
+- **Hecho:** piloto de Actions exclusivamente manual mediante
+  `workflow_dispatch`; la programación diaria no consume API. El operador debe
+  activar `run_enrichment` y elegir una cohorte de una a tres promociones.
 - **Hecho:** revisión explícita mediante `review-enrichment`; solo propuestas
   aceptadas completan huecos en un crawl posterior, nunca sobrescriben una
   extracción determinista y caducan tras 30 días. Un hash de contenido nuevo
   convierte la aceptación anterior en `stale`.
-- **Hecho:** fixture de respuesta estructurada y cinco pruebas offline para
-  esquema, parseo, evidencia literal, caducidad, precedencia y persistencia
-  privada.
-- **Parcial:** no se ha ejecutado una petición live al proveedor porque no hay
-  una clave configurada en el entorno ni debe añadirse al repositorio. Antes de
-  automatizarlo hay que evaluar una cohorte real, revisar falsos positivos y
-  decidir presupuesto; no existe aceptación automática.
+- **Hecho:** fixture de respuesta estructurada y diez pruebas offline para
+  esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
+  límite, presupuesto, `dry-run` gratuito y persistencia privada.
+- **Parcial:** no se ha ejecutado todavía una petición live al proveedor. El
+  propietario indica que el secreto existe en GitHub, pero la terminal local
+  no recibe la clave y no dispone de `gh` para enumerarlo. Falta ejecutar el
+  despacho manual de una o dos promociones, revisar falsos positivos y
+  contrastar el coste registrado; no existe aceptación automática.
 
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 119/119 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 123/123 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |

@@ -20,44 +20,58 @@ public sealed partial class PromotionEnrichmentRunner(
         IReadOnlyList<SourceDefinition> sources,
         CrawlerSettings settings,
         string stateDirectory,
-        string? promotionFilter,
-        int maxPromotions,
-        bool dryRun,
+        EnrichmentRunOptions options,
         CancellationToken cancellationToken)
     {
+        DateTimeOffset startedAtUtc = clock.UtcNow;
         EnrichmentState previous = await stateRepository.LoadAsync(
             stateDirectory,
             cancellationToken);
         List<PromotionEnrichment> items = [.. previous.Items];
         Promotion[] eligible = promotions
             .Where(promotion => promotion.Active)
-            .Where(promotion => promotionFilter is null ||
+            .Where(promotion => options.PromotionFilter is null ||
                                 promotion.Id.Equals(
-                                    promotionFilter,
+                                    options.PromotionFilter,
                                     StringComparison.OrdinalIgnoreCase))
             .Where(promotion => PromotionEnrichmentPolicy.MissingFields(promotion).Count > 0)
             .OrderBy(promotion => Completeness(promotion))
             .ThenBy(promotion => promotion.Id, StringComparer.Ordinal)
-            .Take(maxPromotions)
             .ToArray();
 
         int processed = 0;
         int cached = 0;
+        int planned = 0;
+        int budgetSkipped = 0;
         int proposed = 0;
         int failed = 0;
+        int providerCalls = 0;
+        decimal reservedMaximumCost = 0;
+        decimal accountedCost = 0;
+        EnrichmentUsage usage = new();
         foreach (Promotion promotion in eligible)
         {
+            if (providerCalls + planned >= options.MaxPromotions)
+            {
+                break;
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
             try
             {
+                IReadOnlyList<string> missing = PromotionEnrichmentPolicy.MissingFields(promotion);
                 SourceDefinition source = FindSource(promotion, sources);
                 PageBatch batch = await pageSource.FetchAsync(
-                    CreateEvidenceSource(promotion, source),
+                    CreateEvidenceSource(promotion, source, options.MaxEvidencePages),
                     settings,
-                    4,
+                    options.MaxEvidencePages,
                     disablePlaywright: true,
                     cancellationToken);
-                EnrichmentEvidenceDocument evidence = BuildEvidence(promotion, batch.Pages);
+                EnrichmentEvidenceDocument evidence = BuildEvidence(
+                    promotion,
+                    batch.Pages,
+                    missing,
+                    options.MaxEvidenceCharacters);
                 PromotionEnrichment? current = items
                     .Where(item => item.PromotionId == promotion.Id)
                     .OrderByDescending(item => item.GeneratedAtUtc)
@@ -65,6 +79,23 @@ public sealed partial class PromotionEnrichmentRunner(
                 if (current is not null && current.ContentHash == evidence.ContentHash)
                 {
                     cached++;
+                    continue;
+                }
+
+                EnrichmentCostEstimate estimate = provider.EstimateMaximumCost(
+                    evidence,
+                    missing);
+                if (accountedCost + estimate.MaximumCostUsd > options.MaxCostUsd)
+                {
+                    budgetSkipped++;
+                    continue;
+                }
+
+                if (options.DryRun)
+                {
+                    planned++;
+                    reservedMaximumCost += estimate.MaximumCostUsd;
+                    accountedCost += estimate.MaximumCostUsd;
                     continue;
                 }
 
@@ -77,16 +108,22 @@ public sealed partial class PromotionEnrichmentRunner(
                         clock.UtcNow);
                 }
 
-                IReadOnlyList<string> missing = PromotionEnrichmentPolicy.MissingFields(promotion);
-                IReadOnlyList<EnrichmentFieldProposal> raw = await provider.ProposeAsync(
+                providerCalls++;
+                reservedMaximumCost += estimate.MaximumCostUsd;
+                EnrichmentProviderResult response = await provider.ProposeAsync(
                     evidence,
                     missing,
                     cancellationToken);
+                EnrichmentUsage responseUsage = response.Usage;
+                usage = AddUsage(usage, responseUsage);
+                accountedCost += responseUsage.TotalTokens == 0
+                    ? estimate.MaximumCostUsd
+                    : responseUsage.EstimatedCostUsd;
                 IReadOnlyList<EnrichmentFieldProposal> fields =
                     PromotionEnrichmentPolicy.Validate(
                         evidence,
                         missing,
-                        raw,
+                        response.Fields,
                         0.8m,
                         out IReadOnlyList<string> warnings);
                 string id = $"enr-{promotion.Id}-{evidence.ContentHash[..12].ToLowerInvariant()}";
@@ -102,6 +139,8 @@ public sealed partial class PromotionEnrichmentRunner(
                     Model = provider.Model,
                     EvidenceFetchedAtUtc = evidence.FetchedAtUtc,
                     GeneratedAtUtc = clock.UtcNow,
+                    Usage = responseUsage,
+                    MaximumCostEstimateUsd = estimate.MaximumCostUsd,
                     Fields = fields,
                     Warnings = warnings
                 });
@@ -126,14 +165,33 @@ public sealed partial class PromotionEnrichmentRunner(
             }
         }
 
-        if (!dryRun)
+        if (!options.DryRun)
         {
+            EnrichmentRunAudit run = new()
+            {
+                Id = $"enrichment-{startedAtUtc:yyyyMMddTHHmmssfffZ}",
+                StartedAtUtc = startedAtUtc,
+                FinishedAtUtc = clock.UtcNow,
+                Provider = provider.ProviderName,
+                Model = provider.Model,
+                MaxPromotions = options.MaxPromotions,
+                MaxEvidencePages = options.MaxEvidencePages,
+                MaxEvidenceCharacters = options.MaxEvidenceCharacters,
+                MaxOutputTokens = provider.MaxOutputTokens,
+                MaxCostUsd = options.MaxCostUsd,
+                ProcessedPromotions = processed,
+                CachedPromotions = cached,
+                FailedPromotions = failed,
+                BudgetSkippedPromotions = budgetSkipped,
+                Usage = usage
+            };
             await stateRepository.SaveAsync(
                 stateDirectory,
                 new()
                 {
                     GeneratedAtUtc = clock.UtcNow,
-                    Items = items
+                    Items = items,
+                    Runs = [.. previous.Runs, run]
                 },
                 cancellationToken);
         }
@@ -143,19 +201,26 @@ public sealed partial class PromotionEnrichmentRunner(
             EligiblePromotions = eligible.Length,
             ProcessedPromotions = processed,
             CachedPromotions = cached,
+            PlannedPromotions = planned,
+            BudgetSkippedPromotions = budgetSkipped,
             ProposedFields = proposed,
             FailedPromotions = failed,
-            DryRun = dryRun
+            ReservedMaximumCostUsd = reservedMaximumCost,
+            Usage = usage,
+            DryRun = options.DryRun
         };
     }
 
     internal static EnrichmentEvidenceDocument BuildEvidence(
         Promotion promotion,
-        IReadOnlyList<FetchedPage> pages)
+        IReadOnlyList<FetchedPage> pages,
+        IReadOnlyList<string> missingFields,
+        int maxCharacters)
     {
         HtmlParser parser = new();
         List<EnrichmentEvidencePage> evidencePages = [];
-        int remaining = 24_000;
+        int remaining = maxCharacters;
+        IReadOnlyList<string> keywords = EvidenceKeywords(promotion, missingFields);
         foreach (FetchedPage page in pages.OrderBy(item => item.Url.AbsoluteUri, StringComparer.Ordinal))
         {
             if (remaining <= 0)
@@ -172,13 +237,14 @@ public sealed partial class PromotionEnrichmentRunner(
                 continue;
             }
 
-            int length = Math.Min(Math.Min(text.Length, 8_000), remaining);
+            int length = Math.Min(remaining, 3_500);
+            string selected = SelectRelevantText(text, keywords, length);
             evidencePages.Add(new()
             {
                 Url = page.Url.AbsoluteUri,
-                Text = text[..length]
+                Text = selected
             });
-            remaining -= length;
+            remaining -= selected.Length;
         }
 
         if (evidencePages.Count == 0)
@@ -218,7 +284,8 @@ public sealed partial class PromotionEnrichmentRunner(
 
     private static SourceDefinition CreateEvidenceSource(
         Promotion promotion,
-        SourceDefinition source)
+        SourceDefinition source,
+        int maxPages)
     {
         return new()
         {
@@ -233,7 +300,7 @@ public sealed partial class PromotionEnrichmentRunner(
             UseSitemaps = false,
             FollowInternalLinks = true,
             MaxDepth = 1,
-            MaxPages = 4,
+            MaxPages = maxPages,
             RequestDelayMilliseconds = source.RequestDelayMilliseconds,
             UsePlaywright = false,
             FixedMunicipality = promotion.Municipality,
@@ -250,6 +317,120 @@ public sealed partial class PromotionEnrichmentRunner(
     private static int Completeness(Promotion promotion)
     {
         return 24 - PromotionEnrichmentPolicy.MissingFields(promotion).Count;
+    }
+
+    private static EnrichmentUsage AddUsage(
+        EnrichmentUsage left,
+        EnrichmentUsage right)
+    {
+        return new()
+        {
+            InputTokens = left.InputTokens + right.InputTokens,
+            CachedInputTokens = left.CachedInputTokens + right.CachedInputTokens,
+            CacheWriteTokens = left.CacheWriteTokens + right.CacheWriteTokens,
+            OutputTokens = left.OutputTokens + right.OutputTokens,
+            ReasoningTokens = left.ReasoningTokens + right.ReasoningTokens,
+            TotalTokens = left.TotalTokens + right.TotalTokens,
+            EstimatedCostUsd = left.EstimatedCostUsd + right.EstimatedCostUsd
+        };
+    }
+
+    private static IReadOnlyList<string> EvidenceKeywords(
+        Promotion promotion,
+        IReadOnlyList<string> missingFields)
+    {
+        HashSet<string> keywords = new(StringComparer.OrdinalIgnoreCase)
+        {
+            promotion.Name,
+            promotion.Municipality
+        };
+        foreach (string field in missingFields)
+        {
+            IReadOnlyList<string> fieldKeywords = field switch
+            {
+                "priceFrom" or "priceTo" =>
+                    ["precio", "desde", "hasta", "euros", "€"],
+                "bedroomsMin" or "bedroomsMax" =>
+                    ["dormitorio", "habitación", "habitacion"],
+                "bathroomsMin" or "bathroomsMax" =>
+                    ["baño", "bano", "aseo"],
+                "usableAreaMinSqm" or "usableAreaMaxSqm" =>
+                    ["útiles", "utiles", "superficie", "m²", "m2"],
+                "builtAreaMinSqm" or "builtAreaMaxSqm" =>
+                    ["construidos", "construida", "superficie", "m²", "m2"],
+                "plotAreaMinSqm" or "plotAreaMaxSqm" =>
+                    ["parcela", "jardín", "jardin", "m²", "m2"],
+                "developerName" or "marketerName" or "cooperativeName" =>
+                    ["promotora", "promueve", "comercializa", "cooperativa", "developer"],
+                "totalUnits" or "availableUnits" =>
+                    ["viviendas", "unidades", "disponibles"],
+                "garageSpacesMin" or "garageSpacesMax" =>
+                    ["garaje", "aparcamiento", "plaza"],
+                "deliveryDateText" =>
+                    ["entrega", "finalización", "finalizacion", "llaves"],
+                "buildingLicenceStatus" =>
+                    ["licencia", "concedida", "obtenida", "solicitada"],
+                "address" or "postalCode" =>
+                    ["dirección", "direccion", "calle", "avenida", "código postal"],
+                _ => Array.Empty<string>()
+            };
+            foreach (string keyword in fieldKeywords)
+            {
+                keywords.Add(keyword);
+            }
+        }
+
+        return [.. keywords.Where(keyword => !string.IsNullOrWhiteSpace(keyword))];
+    }
+
+    private static string SelectRelevantText(
+        string text,
+        IReadOnlyList<string> keywords,
+        int maximumLength)
+    {
+        if (text.Length <= maximumLength)
+        {
+            return text;
+        }
+
+        const int chunkLength = 520;
+        const int chunkStep = 440;
+        List<(int Start, int Score, string Text)> chunks = [];
+        for (int start = 0; start < text.Length; start += chunkStep)
+        {
+            int length = Math.Min(chunkLength, text.Length - start);
+            string chunk = text.Substring(start, length).Trim();
+            if (chunk.Length == 0)
+            {
+                continue;
+            }
+
+            int score = keywords.Count(keyword =>
+                chunk.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            chunks.Add((start, score, chunk));
+        }
+
+        List<(int Start, int Score, string Text)> selected = [];
+        int used = 0;
+        foreach ((int Start, int Score, string Text) chunk in chunks
+                     .OrderByDescending(chunk => chunk.Score)
+                     .ThenBy(chunk => chunk.Start))
+        {
+            int separatorLength = selected.Count == 0 ? 0 : 3;
+            if (used + separatorLength >= maximumLength)
+            {
+                break;
+            }
+
+            int available = maximumLength - used - separatorLength;
+            string value = chunk.Text[..Math.Min(chunk.Text.Length, available)];
+            selected.Add((chunk.Start, chunk.Score, value));
+            used += separatorLength + value.Length;
+        }
+
+        return string.Join(
+            " … ",
+            selected.OrderBy(chunk => chunk.Start).Select(chunk => chunk.Text));
     }
 
     [GeneratedRegex(@"\s+")]

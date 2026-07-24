@@ -27,7 +27,8 @@ public sealed class PromotionEnrichmentReviewer(
             new()
             {
                 GeneratedAtUtc = clock.UtcNow,
-                Items = queue.Items.Select(item => item.Id == proposalId ? reviewed : item).ToArray()
+                Items = queue.Items.Select(item => item.Id == proposalId ? reviewed : item).ToArray(),
+                Runs = queue.Runs
             },
             cancellationToken);
         return reviewed;
@@ -51,6 +52,8 @@ public sealed class PromotionEnrichmentReviewer(
             GeneratedAtUtc = source.GeneratedAtUtc,
             Status = status,
             ReviewedAtUtc = reviewedAt,
+            Usage = source.Usage,
+            MaximumCostEstimateUsd = source.MaximumCostEstimateUsd,
             Fields = source.Fields,
             Warnings = source.Warnings
         };

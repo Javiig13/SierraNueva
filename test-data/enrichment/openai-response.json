@@ -1,6 +1,18 @@
 {
   "id": "resp_fixture",
   "object": "response",
+  "usage": {
+    "input_tokens": 1200,
+    "input_tokens_details": {
+      "cached_tokens": 200,
+      "cache_write_tokens": 0
+    },
+    "output_tokens": 80,
+    "output_tokens_details": {
+      "reasoning_tokens": 20
+    },
+    "total_tokens": 1280
+  },
   "output": [
     {
       "type": "message",
