@@ -254,7 +254,9 @@ cinco desde cada uno de los índices de Collado Villalba y El Escorial. Solo
 extrae bloques y enlaces configurados, elimina parámetros de seguimiento y no
 visita los dominios externos. Ninguna ficha del directorio se convierte por sí
 sola en fuente oficial ni en promoción pública; requiere revisión y evidencia
-independiente.
+independiente. La revisión incluye comprobar que el producto siga siendo
+unifamiliar: una fuente oficial técnicamente apta no se integra si publica
+pisos o cualquier otro producto fuera del alcance de SierraNueva.
 
 `backfill-opportunities` divide automáticamente cualquier intervalo temporal
 en lotes contiguos de hasta 367 días inclusivos. Exige una fuente temporal y

@@ -49,7 +49,8 @@ El smoke live aislado terminó con los tres canales sanos:
 - el sitemap leyó tres fichas relevantes ya clasificadas mediante reglas
   exactas: Quercus Dorf Guadarrama, Residencial Los Molinos II y Suite Los
   Molinos;
-- el índice de Collado Villalba encontró `Orbia`, de Neinor Group;
+- el índice de Collado Villalba encontró `Orbia`; la revisión posterior
+  resolvió que su fuente canónica es AEDAS Homes, compañía de Neinor Group;
 - el índice de El Escorial encontró `Nevia`, de Aurora Homes;
 - ambos índices siguieron una única ficha y produjeron un candidato privado
   `new`;
@@ -68,14 +69,16 @@ candidatos nuevos y cuatro en seguimiento; dos de los nuevos son Orbia y
 Nevia. Esta cifra no es una métrica de exhaustividad ni convierte el catálogo
 sectorial en evidencia independiente.
 
-## Próxima revisión
+## Revisión posterior
 
-Antes de añadir `aurora-homes.es` o una fuente de Orbia al registro comercial:
+La evaluación
+[`candidate-review-2026-07-24.md`](candidate-review-2026-07-24.md) resolvió
+ambos candidatos:
 
-1. confirmar identidad, titular y condiciones de reutilización;
-2. revisar `robots.txt`, sitemap o índice público y estabilidad con
-   `HttpClient`;
-3. comprobar que la ficha oficial sigue activa y contiene El Escorial o
-   Collado Villalba;
-4. crear fixture y prueba del formato;
-5. ejecutar un smoke aislado sin publicar datos privados.
+- Orbia es una promoción oficial de AEDAS Homes con 96 pisos de uno a tres
+  dormitorios;
+- Nevia publica 88 pisos VPPL y declara que está adjudicada al 100 %.
+
+Ambas son plurifamiliares y quedan fuera del alcance unifamiliar del producto.
+Nevia tampoco conserva disponibilidad. Las dos URLs de SIMA se clasifican
+`rejected`; no se añadió ningún dominio al registro comercial.

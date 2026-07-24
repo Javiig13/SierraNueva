@@ -281,6 +281,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   privado quedó en siete pendientes: tres nuevos y cuatro en seguimiento. Los
   tres nuevos son Orbia, Nevia y una señal oficial de ocho parcelas
   residenciales en Miraflores de la Sierra; ninguno se publicó.
+- **Hecho:** revisión jurídica, técnica y de producto de los siete candidatos.
+  Orbia y Nevia se descartan por ser plurifamiliares; Nevia está además
+  adjudicada al 100 %. Las tres páginas territoriales NUVARE reutilizan la
+  ficha de Cumbres de Navalafuente y no son promociones independientes. El
+  estudio de detalle de Collado Mediano y la licitación de parcelas de Los
+  Pinarejos permanecen en seguimiento.
+- **Verificado live:** `op-20260724T173446775Z` aplicó las decisiones al estado
+  previo con 50/50 fuentes sanas, cero candidatos nuevos, dos en seguimiento y
+  cero dominios externos sin monitorizar. La evaluación está en
+  `docs/source-assessments/candidate-review-2026-07-24.md`.
 - **Hecho:** `backfill-opportunities` divide rangos arbitrarios sin
   huecos/solapes, exige una ruta privada explícita, conserva los lotes
   correctos ante fallos parciales y deja un informe atómico agregado. La

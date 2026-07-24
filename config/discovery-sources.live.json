@@ -101,6 +101,12 @@
       "urlTemplate": "https://www.comunidad.madrid/inversion-empresa/portal-suelo-40",
       "allowedHosts": [ "www.comunidad.madrid" ],
       "itemSelectors": [ ".component-carousel-item", ".accordion-content li" ],
+      "reviewRules": [
+        {
+          "urlPattern": "contrataciondelestado.es/wps/portal/plataforma/buscadores/detalle/",
+          "status": "monitoring"
+        }
+      ],
       "maxItems": 2000
     },
     {
@@ -547,15 +553,15 @@
       "reviewRules": [
         {
           "urlPattern": "/obra-nueva-guadalix-de-la-sierra/",
-          "status": "monitoring"
+          "status": "rejected"
         },
         {
           "urlPattern": "/obra-nueva-miraflores-de-la-sierra/",
-          "status": "monitoring"
+          "status": "rejected"
         },
         {
           "urlPattern": "/obra-nueva-soto-del-real/",
-          "status": "monitoring"
+          "status": "rejected"
         }
       ],
       "maxItems": 1000
@@ -771,6 +777,12 @@
       ],
       "maxDetailPages": 5,
       "ignoreExclusionTerms": true,
+      "reviewRules": [
+        {
+          "urlPattern": "/oferta/orbia/",
+          "status": "rejected"
+        }
+      ],
       "maxItems": 10
     },
     {
@@ -798,6 +810,12 @@
       ],
       "maxDetailPages": 5,
       "ignoreExclusionTerms": true,
+      "reviewRules": [
+        {
+          "urlPattern": "/oferta/nevia/",
+          "status": "rejected"
+        }
+      ],
       "maxItems": 10
     }
   ]

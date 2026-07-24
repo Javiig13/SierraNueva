@@ -224,6 +224,7 @@ Sitemaps live:       839 URLs; 13/13 sanos; 12 candidatos nuevos y 3 conocidos
 Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 SIMA live aislado:   3/3 sanas; Orbia y Nevia nuevas; 1 dominio no monitorizado
 Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nuevo
+Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
 CI GitHub real:      correcto en 30089475710 para el commit 102a7b5
@@ -461,6 +462,21 @@ porque el estado sintético ya está sembrado.
   de Orbia y Nevia apareció una señal oficial del Portal del Suelo sobre ocho
   parcelas residenciales en Miraflores de la Sierra. Los siete pendientes
   siguen solo en el estado aislado `.runtime`; no se versionaron ni publicaron.
+- La revisión posterior de esos siete candidatos resolvió cinco falsos
+  positivos del embudo. Orbia —fuente canónica AEDAS Homes— y Nevia —Aurora
+  Homes— son promociones plurifamiliares y quedan fuera del alcance
+  unifamiliar; Nevia declara además adjudicación al 100 %. Las tres páginas
+  territoriales NUVARE reutilizan el dossier y la distribución de Cumbres de
+  Navalafuente, por lo que no representan promociones independientes. Las
+  cinco URLs quedan `rejected`. El estudio de detalle de Collado Mediano y la
+  licitación de ocho parcelas municipales en Los Pinarejos permanecen
+  `monitoring`.
+- La repetición live privada `op-20260724T173446775Z` aplicó las reglas también
+  al estado existente: 50/50 fuentes sanas, 29/29 municipios, cero candidatos
+  nuevos, dos en seguimiento y cero dominios referidos sin monitorizar. No se
+  modificaron `sources.live.json`, `data/public` ni `data/state`. La evidencia
+  está en
+  `docs/source-assessments/candidate-review-2026-07-24.md`.
 - `Crawl and deploy` `30111181981` sobre `7882251` terminó correcto en 11 min
   18 s: 22/22 fuentes comerciales, 22 promociones, cero fallos, IA omitida y
   Pages desplegado. Los tres canales SIMA quedaron sanos. El radar conservó
@@ -503,38 +519,35 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Mantener en observación el estudio de detalle de Collado Mediano y las tres
-   páginas NUVARE; solo promover una ficha si aparece evidencia independiente
-   de promoción vigente.
-2. Revisar los candidatos privados `Orbia` y `Nevia`. Resolver el dominio
-   oficial de Orbia mediante evidencia independiente y evaluar
-   `aurora-homes.es` jurídica y técnicamente antes de convertirlo en fuente.
-3. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
+1. Mantener en observación el estudio de detalle de Collado Mediano y la
+   licitación de ocho parcelas municipales de Los Pinarejos. Solo promover una
+   ficha cuando aparezcan promotora, inventario y comercialización oficial.
+2. Vigilar la variabilidad de Apremya, STANCE y Los Molinos: conservar la
    redundancia y no tratar un 403 o un fallo TLS aislado como autorización
    para evadir controles.
-4. Revisar las muestras privadas generadas y registrar evidencia independiente
+3. Revisar las muestras privadas generadas y registrar evidencia independiente
    antes de convertir cualquier discrepancia en una nueva fuente o promoción.
-5. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
-6. Revalidar las evaluaciones antes de cada cambio operativo o
+4. Mantener verde la baseline offline y vigilar el backfill móvil semanal.
+5. Revalidar las evaluaciones antes de cada cambio operativo o
    automatización; conservar la salida y el estado live separados.
-7. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
+6. Revalidar PCSP y mantener la fuente como fallo parcial mientras el endpoint
    oficial devuelva la página WAF en vez del ZIP.
-8. Resolver Robledo de Chavela solo cuando exista un canal municipal público
+7. Resolver Robledo de Chavela solo cuando exista un canal municipal público
    apto para `HttpClient` o se justifique un adaptador JavaScript revisable.
-9. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
+8. Ampliar la ventana histórica BOCM solo cuando aporte una pregunta concreta
    de producto y siempre sobre un estado privado aislado.
-10. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
+9. Mantener la matriz municipal: reevaluar descartes solo cuando aparezca una
    ficha oficial vigente o se corrija la carencia documentada.
-11. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
+10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-12. Recuperar la cola privada del piloto `30094391984` en un entorno local,
+11. Recuperar la cola privada del piloto `30094391984` en un entorno local,
     generar el informe con `review-enrichment --report` y decidir sus ocho
     campos uno a uno tras comprobar cada cita. Contrastar además el coste
     estimado acumulado de 0,013350 USD con el panel de OpenAI. No habilitar
     todavía una programación periódica de IA. El secreto de GitHub quedó
     confirmado por HTTP 200; la clave no está cargada ni se expone en la
     terminal local.
-13. Definir la protección y política de ramas cuando el propietario decida el
+12. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 
 ## Cómo retomar en otro equipo

@@ -971,6 +971,44 @@ public sealed class OpportunityDiscoveryTests
                 directories,
                 source => source.Format == OpportunityFeedFormat.Sitemap)
                 .DetailUrlIncludes.Count);
+
+        OpportunitySourceDefinition portal =
+            Assert.Single(live.Sources, source => source.Id == "portal-suelo-madrid");
+        Assert.Contains(
+            portal.ReviewRules,
+            rule =>
+                rule.UrlPattern ==
+                "contrataciondelestado.es/wps/portal/plataforma/buscadores/detalle/" &&
+                rule.Status == OpportunityCandidateStatus.Monitoring);
+
+        OpportunitySourceDefinition nuvare =
+            Assert.Single(live.Sources, source => source.Id == "sitemap-nuvare");
+        Assert.Equal(3, nuvare.ReviewRules.Count);
+        Assert.All(
+            nuvare.ReviewRules,
+            rule => Assert.Equal(
+                OpportunityCandidateStatus.Rejected,
+                rule.Status));
+
+        OpportunitySourceDefinition simaVillalba =
+            Assert.Single(
+                live.Sources,
+                source => source.Id == "sima-collado-villalba-index");
+        Assert.Contains(
+            simaVillalba.ReviewRules,
+            rule =>
+                rule.UrlPattern == "/oferta/orbia/" &&
+                rule.Status == OpportunityCandidateStatus.Rejected);
+
+        OpportunitySourceDefinition simaEscorial =
+            Assert.Single(
+                live.Sources,
+                source => source.Id == "sima-el-escorial-index");
+        Assert.Contains(
+            simaEscorial.ReviewRules,
+            rule =>
+                rule.UrlPattern == "/oferta/nevia/" &&
+                rule.Status == OpportunityCandidateStatus.Rejected);
     }
 
     [Fact]
