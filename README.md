@@ -173,6 +173,15 @@ SierraNueva.Crawler review-enrichment
   --proposal <id>
   --field <campo>
   --decision <accepted|rejected>
+
+SierraNueva.Crawler protect-enrichment-export
+  --mode <new-key|encrypt|decrypt>
+  --export-input <ruta>
+  --export-output <ruta>
+  --public-key <base64>
+  --public-key-file <ruta>
+  --private-key <ruta>
+  --delete-private-key
 ```
 
 Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida,
@@ -397,6 +406,37 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
   review-enrichment --state data/state `
   --proposal enr-... --field priceFrom --decision accepted
 ```
+
+La caché privada de Actions no dispone de descarga directa. El workflow manual
+`Export private enrichment` restaura la última caché `crawler-state-*` sin
+crear otra, cifra únicamente `promotion-enrichment.json` con RSA-OAEP-SHA256 +
+AES-256-GCM y sube un artefacto cifrado con retención de un día. La clave
+privada nunca se envía a GitHub.
+
+Para preparar una exportación:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  protect-enrichment-export --mode new-key `
+  --private-key tmp/review-export/private.pem `
+  --public-key-file tmp/review-export/public.txt
+```
+
+El contenido de `public.txt` se introduce como `recipient_public_key` al
+despachar el workflow. Después de descargar y descomprimir el artefacto:
+
+```powershell
+dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+  protect-enrichment-export --mode decrypt `
+  --export-input tmp/review-export/promotion-enrichment.encrypted.json `
+  --export-output data/state/promotion-enrichment.json `
+  --private-key tmp/review-export/private.pem `
+  --delete-private-key
+```
+
+El descifrado verifica autenticidad, valida el JSON, escribe atómicamente y
+solo entonces elimina la clave efímera. El ciphertext puede estar en el
+artefacto de un repositorio público; el JSON y la clave privada no.
 
 La fuente temporal de evidencia exige un cuerpo completo y omite los
 condicionales `If-None-Match`/`If-Modified-Since`. Así no reutiliza como cuerpo

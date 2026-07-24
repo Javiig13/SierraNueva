@@ -134,6 +134,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   aceptación masiva: una propuesta solo queda resuelta cuando todos sus campos
   tienen decisión, y el crawl aplica únicamente los aceptados. El esquema
   privado 1.2 conserva la lectura y aplicación de aceptaciones 1.1.
+- `export-private-enrichment.yml` permite recuperar esa cola desde la caché de
+  Actions sin hacerla pública. Un par RSA-3072 efímero se crea localmente; el
+  runner usa RSA-OAEP-SHA256 + AES-256-GCM, sube solo el sobre autenticado
+  durante un día y elimina el texto claro. El descifrado local valida JSON,
+  escribe atómicamente y borra opcionalmente la clave privada.
 
 ### Datos y frontend
 
@@ -175,10 +180,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          22 correctos
-Tests Infrastructure:97 correctos
+Tests Infrastructure:99 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               127/127 correctos
+Total:               129/129 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas

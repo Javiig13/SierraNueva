@@ -1,0 +1,83 @@
+name: Export private enrichment
+
+on:
+  workflow_dispatch:
+    inputs:
+      recipient_public_key:
+        description: "Clave pública RSA-3072 efímera en Base64"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-enrichment-export
+  cancel-in-progress: false
+
+jobs:
+  export:
+    name: Encrypt cached enrichment state
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install .NET from global.json
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+
+      - name: Restore private crawler state without saving a new cache
+        id: private-cache
+        uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: enrichment-export-${{ github.run_id }}
+          restore-keys: |
+            crawler-state-
+
+      - name: Verify private enrichment state
+        shell: pwsh
+        run: |
+          $path = '.runtime/state/promotion-enrichment.json'
+          if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw 'La caché restaurada no contiene promotion-enrichment.json.'
+          }
+          $state = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
+          $pending = @($state.items |
+            Where-Object { $_.status -eq 'pending' }).Count
+          if ($pending -eq 0) {
+            throw 'La cola restaurada no contiene propuestas pendientes.'
+          }
+          "Caché privada encontrada con $pending propuestas pendientes." |
+            Write-Output
+
+      - name: Encrypt private enrichment state
+        env:
+          RECIPIENT_PUBLIC_KEY: ${{ inputs.recipient_public_key }}
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --
+          protect-enrichment-export
+          --mode encrypt
+          --export-input .runtime/state/promotion-enrichment.json
+          --export-output .runtime/export/promotion-enrichment.encrypted.json
+          --public-key "${RECIPIENT_PUBLIC_KEY}"
+
+      - name: Upload encrypted export only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: private-enrichment-encrypted-${{ github.run_id }}
+          path: .runtime/export/promotion-enrichment.encrypted.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Remove restored plaintext from the runner
+        if: always()
+        shell: pwsh
+        run: |
+          if (Test-Path -LiteralPath '.runtime/state') {
+            Remove-Item -LiteralPath '.runtime/state' -Recurse -Force
+          }

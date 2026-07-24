@@ -293,6 +293,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   bloque; una propuesta solo queda resuelta cuando todos sus campos tienen
   decisión y el crawl aplica exclusivamente los aceptados. El contrato privado
   avanza a 1.2 y mantiene compatibilidad con decisiones 1.1.
+- **Hecho:** recuperación segura desde la caché de Actions mediante un workflow
+  manual de solo lectura. Usa RSA-OAEP-SHA256 + AES-256-GCM, sube únicamente
+  un sobre autenticado con retención de un día y elimina el texto claro del
+  runner. La clave privada efímera permanece local; el descifrado valida JSON,
+  escribe atómicamente y puede borrarla tras el éxito.
 - **Hecho:** fixture de respuesta estructurada y once pruebas offline para
   esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
   límite, presupuesto, `dry-run` gratuito y persistencia privada.
@@ -312,7 +317,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 127/127 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 129/129 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
@@ -340,7 +345,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 127/127 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 129/129 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

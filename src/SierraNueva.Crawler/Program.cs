@@ -79,6 +79,9 @@ internal static class CrawlerApplication
                 "review-enrichment" => await ReviewEnrichmentAsync(
                     options,
                     shutdown.Token),
+                "protect-enrichment-export" => await ProtectEnrichmentExportAsync(
+                    options,
+                    shutdown.Token),
                 _ => throw new ArgumentException($"Comando desconocido: {options.Command}")
             };
         }
@@ -867,6 +870,78 @@ internal static class CrawlerApplication
         return 0;
     }
 
+    private static async Task<int> ProtectEnrichmentExportAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        switch (options.ExportMode)
+        {
+            case "new-key":
+                RequireExportOption(options.PrivateKey, "--private-key", options.ExportMode);
+                RequireExportOption(
+                    options.PublicKeyFile,
+                    "--public-key-file",
+                    options.ExportMode);
+                await EnrichmentExportProtector.GenerateKeyPairAsync(
+                    options.PrivateKey!,
+                    options.PublicKeyFile!,
+                    cancellationToken);
+                Console.WriteLine(
+                    "Par efímero creado. La clave privada no se ha mostrado.");
+                break;
+            case "encrypt":
+                RequireExportOption(
+                    options.ExportInput,
+                    "--export-input",
+                    options.ExportMode);
+                RequireExportOption(
+                    options.ExportOutput,
+                    "--export-output",
+                    options.ExportMode);
+                RequireExportOption(options.PublicKey, "--public-key", options.ExportMode);
+                await EnrichmentExportProtector.EncryptAsync(
+                    options.ExportInput!,
+                    options.ExportOutput!,
+                    options.PublicKey!,
+                    cancellationToken);
+                Console.WriteLine("Exportación privada cifrada correctamente.");
+                break;
+            case "decrypt":
+                RequireExportOption(
+                    options.ExportInput,
+                    "--export-input",
+                    options.ExportMode);
+                RequireExportOption(
+                    options.ExportOutput,
+                    "--export-output",
+                    options.ExportMode);
+                RequireExportOption(options.PrivateKey, "--private-key", options.ExportMode);
+                await EnrichmentExportProtector.DecryptAsync(
+                    options.ExportInput!,
+                    options.ExportOutput!,
+                    options.PrivateKey!,
+                    options.DeletePrivateKey,
+                    cancellationToken);
+                Console.WriteLine("Exportación privada descifrada y JSON validado.");
+                break;
+            default:
+                Console.Error.WriteLine(
+                    "protect-enrichment-export requiere --mode " +
+                    "new-key|encrypt|decrypt.");
+                return 2;
+        }
+
+        return 0;
+    }
+
+    private static void RequireExportOption(string? value, string name, string mode)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new InvalidDataException($"El modo {mode} requiere {name}.");
+        }
+    }
+
     private static ServiceProvider BuildServices(
         CliOptions options,
         CrawlerSettings settings,
@@ -979,6 +1054,7 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
               dotnet run --project src/SierraNueva.Crawler -- enrich-promotions [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-enrichment [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- protect-enrichment-export [opciones]
 
             Opciones:
               --config <ruta>          config/appsettings.json
@@ -1009,6 +1085,13 @@ internal static class CrawlerApplication
               --field <campo>          Campo individual que aceptar o rechazar
               --decision <estado>      accepted o rejected
               --report                 Crear informe HTML dentro de --state
+              --mode <modo>            new-key, encrypt o decrypt
+              --export-input <ruta>    Estado o sobre cifrado de entrada
+              --export-output <ruta>   Sobre cifrado o estado JSON de salida
+              --public-key <base64>    Clave pública efímera para cifrar
+              --public-key-file <ruta> Archivo donde crear la clave pública
+              --private-key <ruta>     Clave privada efímera local
+              --delete-private-key     Borrar la clave tras descifrar con éxito
               --no-playwright          Deshabilitar fallback JavaScript
               --no-geocoding           Deshabilitar geocodificación
               --dry-run                Procesar sin escribir
@@ -1037,6 +1120,7 @@ internal sealed class CliOptions
             "--no-geocoding",
             "--dry-run",
             "--report",
+            "--delete-private-key",
             "--verbose",
             "--help",
             "-h"
@@ -1080,6 +1164,18 @@ internal sealed class CliOptions
 
     public string? Field { get; private init; }
 
+    public string? ExportMode { get; private init; }
+
+    public string? ExportInput { get; private init; }
+
+    public string? ExportOutput { get; private init; }
+
+    public string? PublicKey { get; private init; }
+
+    public string? PublicKeyFile { get; private init; }
+
+    public string? PrivateKey { get; private init; }
+
     public string Model { get; private init; } = "gpt-5.6-luna";
 
     public EnrichmentReviewStatus? EnrichmentDecision { get; private init; }
@@ -1111,6 +1207,8 @@ internal sealed class CliOptions
 
     public bool EnrichmentReport { get; private init; }
 
+    public bool DeletePrivateKey { get; private init; }
+
     public bool Verbose { get; private init; }
 
     public bool ShowHelp { get; private init; }
@@ -1128,7 +1226,8 @@ internal sealed class CliOptions
             "review-opportunity" or
             "coverage-status" or
             "enrich-promotions" or
-            "review-enrichment"))
+            "review-enrichment" or
+            "protect-enrichment-export"))
         {
             throw new ArgumentException($"Comando desconocido: {command}");
         }
@@ -1220,6 +1319,13 @@ internal sealed class CliOptions
                 ignoreCase: true);
         }
 
+        string? exportMode = GetNullable(values, "--mode")?.ToLowerInvariant();
+        if (exportMode is not null &&
+            exportMode is not ("new-key" or "encrypt" or "decrypt"))
+        {
+            throw new ArgumentException("--mode debe ser new-key, encrypt o decrypt.");
+        }
+
         return new()
         {
             Command = command,
@@ -1246,6 +1352,12 @@ internal sealed class CliOptions
             Promotion = GetNullable(values, "--promotion"),
             Proposal = GetNullable(values, "--proposal"),
             Field = GetNullable(values, "--field"),
+            ExportMode = exportMode,
+            ExportInput = GetNullablePath(values, "--export-input"),
+            ExportOutput = GetNullablePath(values, "--export-output"),
+            PublicKey = GetNullable(values, "--public-key"),
+            PublicKeyFile = GetNullablePath(values, "--public-key-file"),
+            PrivateKey = GetNullablePath(values, "--private-key"),
             Model = GetNullable(values, "--model") ?? "gpt-5.6-luna",
             EnrichmentDecision = enrichmentDecision,
             OpportunityStatus = opportunityStatus,
@@ -1261,6 +1373,7 @@ internal sealed class CliOptions
             NoGeocoding = switches.Contains("--no-geocoding"),
             DryRun = switches.Contains("--dry-run"),
             EnrichmentReport = switches.Contains("--report"),
+            DeletePrivateKey = switches.Contains("--delete-private-key"),
             Verbose = switches.Contains("--verbose"),
             ShowHelp = switches.Contains("--help") || switches.Contains("-h")
         };
@@ -1279,6 +1392,13 @@ internal sealed class CliOptions
         string key)
     {
         return values.TryGetValue(key, out string? value) ? value : null;
+    }
+
+    private static string? GetNullablePath(
+        IReadOnlyDictionary<string, string> values,
+        string key)
+    {
+        return values.TryGetValue(key, out string? value) ? Path.GetFullPath(value) : null;
     }
 
     private static DateOnly? ParseDate(

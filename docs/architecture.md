@@ -82,6 +82,14 @@ decisión. Cada decisión afecta a un único campo. Una promoción con varios
 campos no se considera resuelta ni aporta datos al crawl hasta que todos se
 han aceptado o rechazado; después solo se aplican los campos aceptados.
 
+La recuperación desde Actions usa un canal manual separado. Una clave pública
+RSA-3072 efímera viaja como input no secreto; la clave privada permanece local.
+El runner restaura la caché sin guardarla de nuevo, cifra el JSON con una clave
+AES-256-GCM aleatoria y protege esa clave mediante RSA-OAEP-SHA256. Solo el
+sobre autenticado se convierte en artefacto, con retención de un día. El
+descifrado local falla ante cualquier alteración, valida JSON, escribe
+atómicamente y puede borrar la clave privada tras el éxito.
+
 La recolección de evidencia declara `RequireResponseBody`: mantiene robots,
 hosts, demoras y límites del crawler, pero no envía validadores HTTP
 condicionales. Un `304` es útil para conservar promociones en el crawl, pero no
@@ -294,6 +302,11 @@ promociones sin coordenada exacta usan el centroide municipal trazable y el
 workflow rechaza el artefacto si GeoJSON no cubre todas las promociones. El
 pipeline aplica también este fallback al estado histórico antes de conservar
 entradas ausentes de una respuesta HTTP 304.
+
+`export-private-enrichment.yml` es exclusivamente manual, solo tiene permiso
+de lectura y no publica Pages. Restaura el último estado privado mediante
+`actions/cache/restore`, cifra la cola y sube exclusivamente el sobre
+autenticado. Su job elimina el texto claro restaurado incluso si falla.
 
 La ejecución está programada diariamente a las 06:17 `Europe/Madrid`. El
 repositorio es público y Pages usa GitHub Actions como fuente. La ejecución

@@ -1,6 +1,8 @@
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging.Abstractions;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
@@ -482,6 +484,106 @@ public sealed class EnrichmentPipelineTests
             Assert.Contains("Actual: <strong>sin dato</strong>", html, StringComparison.Ordinal);
             Assert.False(Directory.Exists(Path.Combine(root, "public")));
             Assert.Empty(Directory.GetFiles(stateDirectory, "*.tmp"));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Fact]
+    public async Task EncryptedExport_RoundTripsAndDeletesEphemeralPrivateKey()
+    {
+        string root = Path.Combine(
+            Path.GetTempPath(),
+            $"sierranueva-export-{Guid.NewGuid():N}");
+        try
+        {
+            string input = Path.Combine(root, "promotion-enrichment.json");
+            string encrypted = Path.Combine(root, "promotion-enrichment.encrypted.json");
+            string decrypted = Path.Combine(root, "restored", "promotion-enrichment.json");
+            string privateKey = Path.Combine(root, "private.pem");
+            string publicKey = Path.Combine(root, "public.txt");
+            const string json = "{\"schemaVersion\":\"1.2\",\"secret\":\"fixture-value\"}\n";
+            Directory.CreateDirectory(root);
+            await File.WriteAllTextAsync(input, json);
+
+            await EnrichmentExportProtector.GenerateKeyPairAsync(
+                privateKey,
+                publicKey,
+                CancellationToken.None);
+            await EnrichmentExportProtector.EncryptAsync(
+                input,
+                encrypted,
+                await File.ReadAllTextAsync(publicKey),
+                CancellationToken.None);
+
+            string envelope = await File.ReadAllTextAsync(encrypted);
+            Assert.DoesNotContain("fixture-value", envelope, StringComparison.Ordinal);
+            await EnrichmentExportProtector.DecryptAsync(
+                encrypted,
+                decrypted,
+                privateKey,
+                deletePrivateKey: true,
+                CancellationToken.None);
+
+            Assert.Equal(json, await File.ReadAllTextAsync(decrypted));
+            Assert.False(File.Exists(privateKey));
+            Assert.True(File.Exists(publicKey));
+            Assert.Empty(Directory.GetFiles(root, "*.tmp", SearchOption.AllDirectories));
+        }
+        finally
+        {
+            if (Directory.Exists(root))
+            {
+                Directory.Delete(root, recursive: true);
+            }
+        }
+    }
+
+    [Fact]
+    public async Task EncryptedExport_RejectsTamperedCipherText()
+    {
+        string root = Path.Combine(
+            Path.GetTempPath(),
+            $"sierranueva-export-tamper-{Guid.NewGuid():N}");
+        try
+        {
+            string input = Path.Combine(root, "promotion-enrichment.json");
+            string encrypted = Path.Combine(root, "promotion-enrichment.encrypted.json");
+            string decrypted = Path.Combine(root, "promotion-enrichment.restored.json");
+            string privateKey = Path.Combine(root, "private.pem");
+            string publicKey = Path.Combine(root, "public.txt");
+            Directory.CreateDirectory(root);
+            await File.WriteAllTextAsync(input, "{\"secret\":\"fixture-value\"}");
+            await EnrichmentExportProtector.GenerateKeyPairAsync(
+                privateKey,
+                publicKey,
+                CancellationToken.None);
+            await EnrichmentExportProtector.EncryptAsync(
+                input,
+                encrypted,
+                await File.ReadAllTextAsync(publicKey),
+                CancellationToken.None);
+
+            JsonObject envelope = JsonNode.Parse(
+                await File.ReadAllTextAsync(encrypted))!.AsObject();
+            string cipherText = envelope["cipherText"]!.GetValue<string>();
+            envelope["cipherText"] = (cipherText[0] == 'A' ? "B" : "A") + cipherText[1..];
+            await File.WriteAllTextAsync(encrypted, envelope.ToJsonString());
+
+            await Assert.ThrowsAsync<AuthenticationTagMismatchException>(
+                () => EnrichmentExportProtector.DecryptAsync(
+                    encrypted,
+                    decrypted,
+                    privateKey,
+                    deletePrivateKey: false,
+                    CancellationToken.None));
+            Assert.False(File.Exists(decrypted));
+            Assert.True(File.Exists(privateKey));
         }
         finally
         {
