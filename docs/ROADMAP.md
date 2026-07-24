@@ -290,12 +290,16 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho:** fixture de respuesta estructurada y once pruebas offline para
   esquema, parseo, evidencia literal, caducidad, precedencia, caché previa al
   límite, presupuesto, `dry-run` gratuito y persistencia privada.
-- **Parcial:** la ejecución real `30093553895` confirmó el secreto y dos
+- **Hecho:** la ejecución real `30093553895` confirmó el secreto y dos
   respuestas HTTP 200: 3.175 tokens de entrada, 412 de salida, nueve campos
   propuestos y 0,006439 USD estimados. Una ficha previa recibió `304` sin cuerpo
   y dejó el job parcial; se corrigió forzando cuerpo y aislando el piloto de
-  Pages. Falta repetir el despacho, revisar falsos positivos y contrastar el
-  coste con el panel; no existe aceptación automática.
+  Pages.
+- **Hecho:** la repetición `30094391984` sobre la corrección terminó correcta:
+  dos promociones, ocho campos propuestos, cero fallos, 3.567 tokens de entrada,
+  409 de salida y 0,006911 USD estimados. Pages también se desplegó y ninguna
+  propuesta fue aceptada o publicada. Queda como operación manual revisar
+  citas, falsos positivos y contrastar los 0,013350 USD acumulados con el panel.
 
 ## Matriz del encargo original
 

@@ -394,6 +394,12 @@ porque el estado sintético ya está sembrado.
   `304` del caché HTTP y elevó el resultado a parcial; el job se detuvo pese a
   conservar las propuestas. La corrección posterior fuerza cuerpo completo y
   hace que el paso opcional no bloquee Pages. Ninguna propuesta fue aceptada.
+- La repetición `30094391984` sobre `5bb9b4e` validó la corrección de extremo a
+  extremo: workflow correcto en 9 min 43 s, dos promociones procesadas, ocho
+  campos propuestos, cero fallos y Pages desplegado. Consumió 3.567 tokens de
+  entrada y 409 de salida, con 0,006911 USD estimados frente a una reserva
+  máxima de 0,022815 USD. El coste acumulado estimado de ambos pilotos es
+  0,013350 USD. Ninguna propuesta fue aceptada ni publicada.
 - El workflow aplica el fallback local de centroides municipales con Nominatim
   deshabilitado y exige que todas las promociones publicadas estén presentes
   en GeoJSON. El smoke live aislado `20260723T224152829Z` confirmó 21/21
@@ -436,11 +442,12 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Repetir el piloto manual de dos promociones tras la corrección del `304`,
-    revisar cada cita y contrastar el uso registrado con el panel de OpenAI.
-    No aceptar propuestas en bloque ni habilitar todavía una programación
-    periódica de IA. El secreto de GitHub quedó confirmado por HTTP 200; la
-    clave no está cargada ni se expone en la terminal local.
+11. Revisar individualmente las ocho propuestas del piloto `30094391984`,
+    comprobar cada cita y contrastar el coste estimado acumulado de 0,013350
+    USD con el panel de OpenAI. No aceptar propuestas en bloque ni habilitar
+    todavía una programación periódica de IA. El secreto de GitHub quedó
+    confirmado por HTTP 200; la clave no está cargada ni se expone en la
+    terminal local.
 12. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 
