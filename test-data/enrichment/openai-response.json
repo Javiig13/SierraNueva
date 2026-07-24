@@ -1,0 +1,15 @@
+{
+  "id": "resp_fixture",
+  "object": "response",
+  "output": [
+    {
+      "type": "message",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "{\"fields\":[{\"field\":\"priceFrom\",\"valueText\":\"475000\",\"sourceUrl\":\"https://fixtures.sierranueva.test/cumbre\",\"evidenceText\":\"Viviendas desde 475.000 euros\",\"confidence\":0.96}]}"
+        }
+      ]
+    }
+  ]
+}

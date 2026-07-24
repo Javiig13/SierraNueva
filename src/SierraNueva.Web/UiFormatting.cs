@@ -85,6 +85,28 @@ public static class UiFormatting
         };
     }
 
+    public static int Completeness(Promotion promotion)
+    {
+        int populated = 0;
+        populated += string.IsNullOrWhiteSpace(promotion.DeveloperName) ? 0 : 1;
+        populated += promotion.PriceFrom.HasValue ? 1 : 0;
+        populated += promotion.BedroomsMin.HasValue || promotion.BedroomsMax.HasValue ? 1 : 0;
+        populated += promotion.BathroomsMin.HasValue || promotion.BathroomsMax.HasValue ? 1 : 0;
+        populated += promotion.BuiltAreaMinSqm.HasValue || promotion.BuiltAreaMaxSqm.HasValue ? 1 : 0;
+        populated += promotion.PlotAreaMinSqm.HasValue || promotion.PlotAreaMaxSqm.HasValue ? 1 : 0;
+        populated += promotion.PropertyTypes.Count > 0 ? 1 : 0;
+        populated += promotion.AvailableUnits.HasValue ? 1 : 0;
+        populated += string.IsNullOrWhiteSpace(promotion.Address) ? 0 : 1;
+        populated += string.IsNullOrWhiteSpace(promotion.DeliveryDateText) ? 0 : 1;
+        populated += promotion.LocationPrecision == LocationPrecision.ExactCoordinates ? 1 : 0;
+        return (int)Math.Round(populated / 11m * 100m, MidpointRounding.AwayFromZero);
+    }
+
+    public static string CompletenessTitle(Promotion promotion)
+    {
+        return $"{Completeness(promotion)}% de los campos principales publicados por la fuente";
+    }
+
     private static TimeZoneInfo GetMadridTimeZone()
     {
         try

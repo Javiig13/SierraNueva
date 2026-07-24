@@ -24,8 +24,10 @@ requiere trabajo de producto.
   compartible; todo tráfico externo se aborta antes de salir.
 - **Hecho:** rediseño responsive y compacto con mapa dominante, precios sobre
   marcadores, filtros compactos/avanzados y resaltado bidireccional entre mapa
-  y tarjetas. La iteración del 24 de julio eliminó el hero de 520 px y dejó el
-  resumen superior por debajo de 170 px, protegido por E2E.
+  y tarjetas. La segunda iteración del 24 de julio sustituyó el hero por una
+  franja operativa inferior a 90 px, amplió el lienzo hasta 1.980 px, ocultó
+  celdas vacías, muestra completitud y separa visualmente marcadores
+  coincidentes, protegido por E2E.
 - **Hecho:** invalidación por versión de la caché de los cuatro recursos
   públicos para mostrar cada dataset desplegado sin mezclar revisiones.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
@@ -247,12 +249,39 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   ejecución real `30081195579` verificó ambos pasos, 21/21 fuentes comerciales,
   Pages correcto y HTTP 404 para el informe privado.
 
+## P6 — Enriquecimiento verificable de fichas
+
+- **Hecho:** flujo opcional `enrich-promotions` sobre páginas oficiales, con
+  seguimiento interno acotado a profundidad uno, máximo cuatro páginas y
+  24.000 caracteres de evidencia privada por promoción.
+- **Hecho:** proveedor OpenAI Responses API sin SDK adicional, desactivado si
+  falta `OPENAI_API_KEY`, modelo configurable y salida JSON estricta por
+  esquema. La baseline, el crawl y la web no requieren clave.
+- **Hecho:** cada propuesta exige campo ausente, valor tipado, confianza mínima
+  de 0,8, URL exacta y cita literal presente en la evidencia descargada. Los
+  campos de identidad no se admiten y el modelo nunca escribe directamente en
+  el contrato público.
+- **Hecho:** cola atómica y estable en
+  `data/state/promotion-enrichment.json`, ignorada por Git y rechazada
+  explícitamente por el smoke de publicación.
+- **Hecho:** revisión explícita mediante `review-enrichment`; solo propuestas
+  aceptadas completan huecos en un crawl posterior, nunca sobrescriben una
+  extracción determinista y caducan tras 30 días. Un hash de contenido nuevo
+  convierte la aceptación anterior en `stale`.
+- **Hecho:** fixture de respuesta estructurada y cinco pruebas offline para
+  esquema, parseo, evidencia literal, caducidad, precedencia y persistencia
+  privada.
+- **Parcial:** no se ha ejecutado una petición live al proveedor porque no hay
+  una clave configurada en el entorno ni debe añadirse al repositorio. Antes de
+  automatizarlo hay que evaluar una cohorte real, revisar falsos positivos y
+  decidir presupuesto; no existe aceptación automática.
+
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 113/113 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 119/119 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 21 fuentes revisadas, perfil explícito limitado |
@@ -280,10 +309,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 113/113 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 119/119 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
 Notificaciones, usuarios, administración web, API pública, base cloud,
-aplicación móvil, OCR, IA, imágenes, hipotecas, inversión y comparación con
-portales siguen fuera del MVP.
+aplicación móvil, OCR, imágenes, hipotecas, inversión y comparación con
+portales siguen fuera del MVP. La IA solo entra como propuesta privada y
+evidenciada de campos; no sustituye la extracción ni la revisión humana.

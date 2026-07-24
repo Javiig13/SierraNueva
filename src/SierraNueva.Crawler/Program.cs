@@ -12,6 +12,7 @@ using SierraNueva.Infrastructure.Configuration;
 using SierraNueva.Infrastructure.Crawling;
 using SierraNueva.Infrastructure.Discovery;
 using SierraNueva.Infrastructure.Documents;
+using SierraNueva.Infrastructure.Enrichment;
 using SierraNueva.Infrastructure.Extraction;
 using SierraNueva.Infrastructure.Geocoding;
 using SierraNueva.Infrastructure.Persistence;
@@ -70,6 +71,12 @@ internal static class CrawlerApplication
                     options,
                     shutdown.Token),
                 "coverage-status" => await CoverageStatusAsync(
+                    options,
+                    shutdown.Token),
+                "enrich-promotions" => await EnrichPromotionsAsync(
+                    options,
+                    shutdown.Token),
+                "review-enrichment" => await ReviewEnrichmentAsync(
                     options,
                     shutdown.Token),
                 _ => throw new ArgumentException($"Comando desconocido: {options.Command}")
@@ -736,6 +743,83 @@ internal static class CrawlerApplication
         return new(loader, settings, sources, municipalities, centroidCatalog, exclusions);
     }
 
+    private static async Task<int> EnrichPromotionsAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        string? apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            Console.Error.WriteLine(
+                "Falta OPENAI_API_KEY. El crawl normal no la necesita; " +
+                "solo se exige al ejecutar enrich-promotions.");
+            return 2;
+        }
+
+        ConfigurationBundle configuration = await LoadConfigurationAsync(options, cancellationToken);
+        await using ServiceProvider services = BuildServices(
+            options,
+            configuration.Settings,
+            configuration.Exclusions);
+        IPromotionStateRepository promotionRepository =
+            services.GetRequiredService<IPromotionStateRepository>();
+        IReadOnlyList<Promotion> promotions = await promotionRepository.LoadAsync(
+            options.State,
+            cancellationToken);
+        OpenAiPromotionEnrichmentProvider provider = new(
+            services.GetRequiredService<IHttpClientFactory>(),
+            apiKey,
+            options.Model);
+        PromotionEnrichmentRunner runner = new(
+            services.GetRequiredService<IPageSource>(),
+            services.GetRequiredService<IEnrichmentStateRepository>(),
+            provider,
+            services.GetRequiredService<IClock>());
+        EnrichmentRunResult result = await runner.RunAsync(
+            promotions,
+            configuration.Sources,
+            configuration.Settings,
+            options.State,
+            options.Promotion,
+            options.MaxPromotions,
+            options.DryRun,
+            cancellationToken);
+        Console.WriteLine(
+            $"Enriquecimiento: {result.ProcessedPromotions}/{result.EligiblePromotions} " +
+            $"promociones procesadas, {result.ProposedFields} campos propuestos, " +
+            $"{result.CachedPromotions} en caché y {result.FailedPromotions} fallidas.");
+        Console.WriteLine(
+            result.DryRun
+                ? "Dry-run: no se ha escrito la cola privada."
+                : $"Revisión pendiente en {Path.Combine(options.State, JsonEnrichmentStateRepository.FileName)}.");
+        return result.FailedPromotions > 0 ? 1 : 0;
+    }
+
+    private static async Task<int> ReviewEnrichmentAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        if (options.Proposal is null || options.EnrichmentDecision is null)
+        {
+            Console.Error.WriteLine(
+                "review-enrichment requiere --proposal <id> y --decision accepted|rejected.");
+            return 2;
+        }
+
+        PromotionEnrichmentReviewer reviewer = new(
+            new JsonEnrichmentStateRepository(),
+            new SystemClock());
+        PromotionEnrichment reviewed = await reviewer.ReviewAsync(
+            options.State,
+            options.Proposal,
+            options.EnrichmentDecision.Value,
+            cancellationToken);
+        Console.WriteLine(
+            $"Propuesta {reviewed.Id}: {reviewed.Status}. " +
+            "Los campos aceptados solo completarán huecos en el siguiente crawl.");
+        return 0;
+    }
+
     private static ServiceProvider BuildServices(
         CliOptions options,
         CrawlerSettings settings,
@@ -761,6 +845,15 @@ internal static class CrawlerApplication
         services.AddHttpClient("nominatim")
             .ConfigurePrimaryHttpMessageHandler(provider =>
                 provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(2));
+        services.AddHttpClient(
+                "enrichment",
+                client =>
+                {
+                    client.BaseAddress = new("https://api.openai.com/v1/");
+                    client.Timeout = TimeSpan.FromSeconds(90);
+                })
+            .ConfigurePrimaryHttpMessageHandler(provider =>
+                provider.GetRequiredService<DnsRebindingSafeHandlerFactory>().Create(2));
 
         services.AddSingleton(exclusions);
         services.AddSingleton<IDnsResolver, SystemDnsResolver>();
@@ -772,6 +865,7 @@ internal static class CrawlerApplication
         services.AddSingleton<IDynamicPageRenderer, PlaywrightDynamicPageRenderer>();
         services.AddSingleton<IPromotionExtractor, LayeredPromotionExtractor>();
         services.AddSingleton<IPromotionStateRepository, JsonPromotionStateRepository>();
+        services.AddSingleton<IEnrichmentStateRepository, JsonEnrichmentStateRepository>();
         services.AddSingleton<IPublicDataWriter, PublicDataWriter>();
         services.AddSingleton<InternalLinkDiscoveryProvider>();
         services.AddSingleton<IUrlDiscoveryProvider, ConfiguredUrlDiscoveryProvider>();
@@ -836,6 +930,8 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- audit-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
               dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- enrich-promotions [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- review-enrichment [opciones]
 
             Opciones:
               --config <ruta>          config/appsettings.json
@@ -855,6 +951,11 @@ internal static class CrawlerApplication
               --sample-size <n>        Municipios de la auditoría (por defecto 10)
               --candidate <id>         Candidato privado que revisar
               --status <estado>        new, monitoring, rejected, verifiedSource o stale
+              --promotion <id>         Promoción concreta que enriquecer
+              --max-promotions <n>     Máximo por ejecución de IA (por defecto 8)
+              --model <id>             Modelo opcional (por defecto gpt-5.6-luna)
+              --proposal <id>          Propuesta de enriquecimiento que revisar
+              --decision <estado>      accepted o rejected
               --no-playwright          Deshabilitar fallback JavaScript
               --no-geocoding           Deshabilitar geocodificación
               --dry-run                Procesar sin escribir
@@ -919,12 +1020,22 @@ internal sealed class CliOptions
 
     public string? Candidate { get; private init; }
 
+    public string? Promotion { get; private init; }
+
+    public string? Proposal { get; private init; }
+
+    public string Model { get; private init; } = "gpt-5.6-luna";
+
+    public EnrichmentReviewStatus? EnrichmentDecision { get; private init; }
+
     public OpportunityCandidateStatus? OpportunityStatus { get; private init; }
 
     public int BatchDays { get; private init; } =
         OpportunityBackfillPlanner.MaximumBatchDays;
 
     public int SampleSize { get; private init; } = 10;
+
+    public int MaxPromotions { get; private init; } = 8;
 
     public bool StateSpecified { get; private init; }
 
@@ -949,7 +1060,9 @@ internal sealed class CliOptions
             "backfill-opportunities" or
             "audit-opportunities" or
             "review-opportunity" or
-            "coverage-status"))
+            "coverage-status" or
+            "enrich-promotions" or
+            "review-enrichment"))
         {
             throw new ArgumentException($"Comando desconocido: {command}");
         }
@@ -993,6 +1106,7 @@ internal sealed class CliOptions
             OpportunityBackfillPlanner.MaximumBatchDays,
             OpportunityBackfillPlanner.MaximumBatchDays);
         int sampleSize = ParsePositiveInt(values, "--sample-size", 10, 100);
+        int maxPromotions = ParsePositiveInt(values, "--max-promotions", 8, 100);
         OpportunityCandidateStatus? opportunityStatus = null;
         if (values.TryGetValue("--status", out string? statusText) &&
             !Enum.TryParse(statusText, ignoreCase: true, out OpportunityCandidateStatus parsedStatus))
@@ -1003,6 +1117,24 @@ internal sealed class CliOptions
         {
             opportunityStatus = Enum.Parse<OpportunityCandidateStatus>(
                 statusText,
+                ignoreCase: true);
+        }
+
+        EnrichmentReviewStatus? enrichmentDecision = null;
+        if (values.TryGetValue("--decision", out string? decisionText) &&
+            (!Enum.TryParse(
+                 decisionText,
+                 ignoreCase: true,
+                 out EnrichmentReviewStatus parsedDecision) ||
+             parsedDecision is not (
+                 EnrichmentReviewStatus.Accepted or EnrichmentReviewStatus.Rejected)))
+        {
+            throw new ArgumentException("--decision debe ser accepted o rejected.");
+        }
+        else if (decisionText is not null)
+        {
+            enrichmentDecision = Enum.Parse<EnrichmentReviewStatus>(
+                decisionText,
                 ignoreCase: true);
         }
 
@@ -1029,9 +1161,14 @@ internal sealed class CliOptions
             From = from,
             To = to,
             Candidate = GetNullable(values, "--candidate"),
+            Promotion = GetNullable(values, "--promotion"),
+            Proposal = GetNullable(values, "--proposal"),
+            Model = GetNullable(values, "--model") ?? "gpt-5.6-luna",
+            EnrichmentDecision = enrichmentDecision,
             OpportunityStatus = opportunityStatus,
             BatchDays = batchDays,
             SampleSize = sampleSize,
+            MaxPromotions = maxPromotions,
             StateSpecified = values.ContainsKey("--state"),
             NoPlaywright = switches.Contains("--no-playwright"),
             NoGeocoding = switches.Contains("--no-geocoding"),

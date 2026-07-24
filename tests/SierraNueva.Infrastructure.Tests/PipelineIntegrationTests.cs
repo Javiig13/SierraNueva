@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Crawling;
+using SierraNueva.Core.Identity;
 using SierraNueva.Core.Models;
 using SierraNueva.Core.Normalization;
 using SierraNueva.Infrastructure.Crawling;
@@ -306,6 +307,90 @@ public sealed class PipelineIntegrationTests
             using JsonDocument geoJson = JsonDocument.Parse(
                 await File.ReadAllTextAsync(Path.Combine(root, "public", "promotions.geojson")));
             Assert.Single(geoJson.RootElement.GetProperty("features").EnumerateArray());
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_AppliesOnlyReviewedEnrichmentToMissingFields()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            FakeClock clock = new(new DateTimeOffset(2026, 7, 24, 8, 0, 0, TimeSpan.Zero));
+            string canonicalUrl = "https://example.com/cumbre";
+            string promotionId = PromotionIdentity.Create(new Promotion
+            {
+                CanonicalUrl = canonicalUrl
+            });
+            JsonEnrichmentStateRepository enrichmentRepository = new();
+            await enrichmentRepository.SaveAsync(
+                Path.Combine(root, "state"),
+                new()
+                {
+                    GeneratedAtUtc = clock.UtcNow,
+                    Items =
+                    [
+                        new()
+                        {
+                            Id = "enr-reviewed",
+                            PromotionId = promotionId,
+                            PromotionName = "Residencial Cumbre",
+                            CanonicalUrl = canonicalUrl,
+                            Status = EnrichmentReviewStatus.Accepted,
+                            ReviewedAtUtc = clock.UtcNow,
+                            EvidenceFetchedAtUtc = clock.UtcNow,
+                            Fields =
+                            [
+                                new()
+                                {
+                                    Field = "priceFrom",
+                                    ValueText = "475000",
+                                    SourceUrl = canonicalUrl,
+                                    EvidenceText = "Viviendas desde 475.000 euros",
+                                    Confidence = 0.96m
+                                }
+                            ]
+                        }
+                    ]
+                },
+                CancellationToken.None);
+            MutablePageSource pages = new()
+            {
+                Pages =
+                [
+                    new FetchedPage(
+                        new(canonicalUrl),
+                        """
+                        <html><body><h1>Residencial Cumbre</h1>
+                        <p>Chalets pareados en Moralzarzal.</p></body></html>
+                        """,
+                        "text/html",
+                        clock.UtcNow,
+                        "fixture")
+                ]
+            };
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                clock,
+                enrichmentRepository);
+
+            CrawlResult result = await pipeline.RunAsync(
+                CreateRequest(root),
+                CancellationToken.None);
+
+            Promotion promotion = Assert.Single(result.Dataset.Promotions);
+            Assert.Equal(475_000m, promotion.PriceFrom);
+            Assert.Contains(
+                promotion.Evidence,
+                evidence => evidence.Extractor == "reviewed-ai-enrichment");
         }
         finally
         {

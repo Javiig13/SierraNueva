@@ -10,7 +10,7 @@
   }
 
   function formatMarkerPrice(value) {
-    if (!value) return "Ver";
+    if (!value) return "";
     if (value >= 1000000) {
       return `${new Intl.NumberFormat("es-ES", {
         maximumFractionDigits: 1
@@ -65,12 +65,41 @@
     const properties = feature.properties || {};
     const label = formatMarkerPrice(properties.priceFrom);
     return L.divIcon({
-      className: `price-marker ${precisionClass(properties.locationPrecision)}`,
+      className: `price-marker ${label ? "" : "is-unpriced"} ${precisionClass(properties.locationPrecision)}`,
       html: `<span>${label}</span><i></i>`,
       iconSize: null,
       iconAnchor: [38, 38],
       popupAnchor: [0, -38]
     });
+  }
+
+  function spreadCoincidentFeatures(features) {
+    const clones = features.map(feature => ({
+      ...feature,
+      geometry: feature.geometry
+        ? { ...feature.geometry, coordinates: [...feature.geometry.coordinates] }
+        : feature.geometry
+    }));
+    const groups = new Map();
+    for (const feature of clones) {
+      if (!feature.geometry?.coordinates) continue;
+      const [longitude, latitude] = feature.geometry.coordinates;
+      const key = `${longitude.toFixed(5)}|${latitude.toFixed(5)}`;
+      const group = groups.get(key) || [];
+      group.push(feature);
+      groups.set(key, group);
+    }
+    for (const group of groups.values()) {
+      if (group.length < 2) continue;
+      const radius = Math.min(0.005, 0.0018 + group.length * 0.00025);
+      group.forEach((feature, index) => {
+        const angle = (Math.PI * 2 * index) / group.length - Math.PI / 2;
+        feature.geometry.coordinates[0] += Math.cos(angle) * radius;
+        feature.geometry.coordinates[1] += Math.sin(angle) * radius;
+        feature.properties = { ...feature.properties, visuallySpread: true };
+      });
+    }
+    return clones;
   }
 
   function setMarkerHighlight(marker, active) {
@@ -142,7 +171,8 @@
       const allowed = new Set(visibleIds || []);
       const filtered = {
         type: "FeatureCollection",
-        features: (geoJson.features || []).filter(feature => allowed.has(feature.id))
+        features: spreadCoincidentFeatures(
+          (geoJson.features || []).filter(feature => allowed.has(feature.id)))
       };
       element.dataset.featureCount = String(filtered.features.length);
       state.layer = L.geoJSON(filtered, {

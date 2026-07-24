@@ -1,7 +1,9 @@
 using System.Reflection;
+using System.Text.Json;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Changes;
+using SierraNueva.Core.Enrichment;
 using SierraNueva.Core.Identity;
 using SierraNueva.Core.Models;
 using SierraNueva.Core.Normalization;
@@ -15,7 +17,8 @@ public sealed class CrawlPipeline(
     IGeocoder geocoder,
     IPromotionStateRepository stateRepository,
     IPublicDataWriter publicDataWriter,
-    IClock clock)
+    IClock clock,
+    IEnrichmentStateRepository? enrichmentStateRepository = null)
 {
     private readonly PromotionDeduplicator _deduplicator = new();
     private readonly ChangeDetector _changeDetector = new();
@@ -30,6 +33,11 @@ public sealed class CrawlPipeline(
         List<SourceRunResult> sourceResults = [];
         List<Promotion> extracted = [];
         List<string> runWarnings = [];
+        IReadOnlyDictionary<string, PromotionEnrichment> acceptedEnrichment =
+            await LoadAcceptedEnrichmentAsync(
+                request.StateDirectory,
+                runWarnings,
+                cancellationToken);
 
         IReadOnlyList<SourceDefinition> selectedSources = request.Sources
             .Where(source => source.Enabled)
@@ -71,6 +79,17 @@ public sealed class CrawlPipeline(
                         }
 
                         NormalizePromotion(promotion, source);
+                        string candidateId = PromotionIdentity.Create(promotion);
+                        if (acceptedEnrichment.TryGetValue(
+                                candidateId,
+                                out PromotionEnrichment? enrichment))
+                        {
+                            PromotionEnrichmentPolicy.ApplyAccepted(
+                                promotion,
+                                enrichment,
+                                clock.UtcNow);
+                        }
+
                         Promotion located = request.DisableGeocoding
                             ? promotion
                             : await geocoder.GeocodeAsync(
@@ -252,6 +271,39 @@ public sealed class CrawlPipeline(
             Run = run,
             HasPublishableData = hasPublishableData
         };
+    }
+
+    private async Task<IReadOnlyDictionary<string, PromotionEnrichment>>
+        LoadAcceptedEnrichmentAsync(
+            string stateDirectory,
+            ICollection<string> warnings,
+            CancellationToken cancellationToken)
+    {
+        if (enrichmentStateRepository is null)
+        {
+            return new Dictionary<string, PromotionEnrichment>(StringComparer.Ordinal);
+        }
+
+        try
+        {
+            EnrichmentState queue = await enrichmentStateRepository.LoadAsync(
+                stateDirectory,
+                cancellationToken);
+            return queue.Items
+                .Where(item => item.Status == EnrichmentReviewStatus.Accepted)
+                .GroupBy(item => item.PromotionId, StringComparer.Ordinal)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.OrderByDescending(item => item.ReviewedAtUtc).First(),
+                    StringComparer.Ordinal);
+        }
+        catch (Exception exception) when (
+            exception is JsonException or InvalidDataException or IOException)
+        {
+            warnings.Add(
+                $"Se ignoró el enriquecimiento privado porque no pudo leerse: {exception.Message}");
+            return new Dictionary<string, PromotionEnrichment>(StringComparer.Ordinal);
+        }
     }
 
     private static void NormalizePromotion(Promotion promotion, SourceDefinition source)

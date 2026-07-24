@@ -35,6 +35,20 @@ flowchart LR
     O --> PUB["Pipeline público de promociones"]
 ```
 
+El enriquecimiento asistido es otro flujo privado y subordinado:
+
+```mermaid
+flowchart LR
+    P["Promoción con huecos"] --> E["Página oficial + enlaces internos acotados"]
+    E --> H["Texto reducido + hash"]
+    H --> AI["Proveedor opcional con JSON Schema"]
+    AI --> V["Validación de cita, URL, tipo y confianza"]
+    V --> Q["data/state/promotion-enrichment.json"]
+    Q --> R["Revisión humana"]
+    R -->|aceptada y vigente| C["Siguiente crawl"]
+    C --> PUB["Contrato público"]
+```
+
 ## Fronteras de proyectos
 
 | Proyecto | Responsabilidad | Dependencias permitidas |
@@ -47,6 +61,11 @@ flowchart LR
 
 Core desconoce AngleSharp, PdfPig y Playwright. Las integraciones se sitúan
 detrás de interfaces para que puedan sustituirse o probarse sin red.
+
+Core también define la política de enriquecimiento y sus interfaces, pero no
+conoce OpenAI ni HTTP. Infrastructure reúne evidencia, implementa el proveedor
+Responses API y persiste la cola privada; Crawler compone los dos comandos.
+Contracts y Web no conocen esa cola.
 
 Los modelos y la orquestación del radar pertenecen a Core. Infrastructure
 descarga, interpreta y persiste los feeds. Crawler compone los comandos y
@@ -66,17 +85,20 @@ Contracts/Web no conocen candidatos administrativos.
    cerrada. Esto evita mezclar navegación, pies o promociones relacionadas.
    Los demás valores territoriales se normalizan contra el catálogo. PDF y
    Playwright son capas opcionales.
-5. Los candidatos se normalizan y reciben un identificador SHA-256 truncado.
-6. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una
+5. Si existe enriquecimiento previamente aceptado, vigente y correspondiente a
+   esa identidad, solo completa campos que siguen vacíos y añade evidencia con
+   extractor `reviewed-ai-enrichment`. Nunca reemplaza un valor determinista.
+6. Los candidatos se normalizan y reciben un identificador SHA-256 truncado.
+7. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una
    advertencia.
-7. Se aplican coordenadas explícitas o, como último recurso, un centroide
+8. Se aplican coordenadas explícitas o, como último recurso, un centroide
    municipal trazable. Los 29 centroides de configuración derivan del NGMEP
    2026 del IGN en ETRS89, compatible con WGS84 en la península.
-8. Se compara con `promotions-state.json`. Tres ausencias consecutivas en
+9. Se compara con `promotions-state.json`. Tres ausencias consecutivas en
    ejecuciones completas desactivan una promoción.
-9. Las validaciones impiden publicar rangos imposibles, URLs inválidas y
+10. Las validaciones impiden publicar rangos imposibles, URLs inválidas y
    coordenadas fuera de rango.
-10. Todos los archivos se preparan con nombres temporales y se renombran al
+11. Todos los archivos se preparan con nombres temporales y se renombran al
     final.
 
 Si una fuente falla, no se cuentan ausencias para evitar bajas falsas. Si no
@@ -220,6 +242,11 @@ Los popups se construyen con nodos y `textContent`, nunca con HTML de terceros.
 La versión 1.9.4 se sirve desde el artefacto estático, sin CDN. Si Leaflet o las
 teselas fallan, se muestra un mensaje y el listado conserva toda su
 funcionalidad.
+
+Cuando varias promociones comparten exactamente un centroide, JavaScript crea
+copias visuales desplazadas en un radio pequeño antes de pasarlas a Leaflet.
+El GeoJSON, la ficha y la precisión declarada no se modifican: el desplazamiento
+solo evita que los marcadores se tapen.
 
 ## Descubrimiento sin buscador comercial
 

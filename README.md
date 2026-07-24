@@ -153,6 +153,20 @@ SierraNueva.Crawler review-opportunity
 
 SierraNueva.Crawler coverage-status
   --state <ruta>
+
+SierraNueva.Crawler enrich-promotions
+  --config <ruta>
+  --sources <ruta>
+  --state <ruta>
+  --promotion <id>
+  --max-promotions <n>
+  --model <id>
+  --dry-run
+
+SierraNueva.Crawler review-enrichment
+  --state <ruta>
+  --proposal <id>
+  --decision <accepted|rejected>
 ```
 
 Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida,
@@ -330,12 +344,21 @@ data/state/http-cache.json
 data/state/opportunity-candidates.json
 data/state/opportunity-candidates.backup-1.json
 data/state/opportunity-candidates.backup-2.json
+data/state/promotion-enrichment.json
 ```
 
 Los archivos `opportunity-candidates*` están ignorados por Git para reducir el
 riesgo de publicar accidentalmente una cola live. El mismo contrato privado
 conserva la salud histórica de las fuentes y la instantánea municipal de
 cobertura; no se copia al frontend.
+
+`promotion-enrichment.json` también es privado e ignorado. El comando
+`enrich-promotions` solo funciona si el proceso recibe `OPENAI_API_KEY`; el
+crawl, las pruebas, la web y la automatización diaria no requieren esa
+variable. El proveedor propone únicamente campos ausentes con una cita literal
+y URL verificables. `review-enrichment` registra una decisión explícita y el
+crawl posterior solo aplica aceptaciones vigentes, sin sobrescribir valores
+obtenidos por extractores.
 
 `promotions.json` es el contrato canónico, versión `1.0`. Importes y
 superficies son números, las marcas temporales son UTC y los enums se

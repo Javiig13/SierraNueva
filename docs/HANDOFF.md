@@ -37,7 +37,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 
 - CLI `crawl`, `validate-config`, `validate-data`, `discover-opportunities`,
   `backfill-opportunities`, `audit-opportunities`, `review-opportunity` y
-  `coverage-status` con opciones y códigos de salida documentados.
+  `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
+  opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con 21
   fuentes revisadas, una URL y una página por fuente.
@@ -111,6 +112,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   estado y los informes en la caché privada, sin publicar candidatos.
 - Preparación de Pages con base `/SierraNueva/`, `.nojekyll`, fallback
   `404.html` y rechazo explícito de cualquier estado privado.
+- Enriquecimiento opcional por OpenAI Responses API sobre evidencia oficial
+  acotada. Genera propuestas privadas con esquema estricto, cita literal, URL,
+  confianza, hash y caché; sin clave no se ejecuta y el producto normal no la
+  necesita. Una propuesta solo pasa al crawl tras aceptación humana, no
+  sobrescribe datos deterministas y caduca a los 30 días.
 
 ### Datos y frontend
 
@@ -119,11 +125,15 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   reducida, registro municipal, origen, hash del ZIP y atribución CC-BY 4.0.
   `validate-config` exige coincidencia entre coordenadas y procedencia.
 - SPA en español con estados de carga/error/vacío y avisos de frescura.
-- Interfaz de consulta compacta: cabecera de 58 px, resumen operativo de una
-  sola franja en lugar del hero, filtros completos en barra/panel avanzado,
-  ordenaciones y query parameters compartibles.
+- Interfaz de consulta compacta: cabecera de 50 px, resumen operativo inferior
+  a 90 px en lugar del hero, lienzo fluido hasta 1.980 px, filtros completos en
+  barra/panel avanzado, ordenaciones y query parameters compartibles.
 - Una misma colección filtrada alimenta tarjetas y mapa. Los marcadores muestran
-  el precio y el hover/foco destaca bidireccionalmente marcador y tarjeta.
+  el precio y el hover/foco destaca bidireccionalmente marcador y tarjeta. Las
+  opciones sin precio son puntos compactos y las coordenadas coincidentes se
+  separan solo visualmente para que ninguna quede oculta.
+- Las tarjetas omiten atributos vacíos y muestran el porcentaje de campos
+  principales realmente publicados; no se rellenan guiones ni estimaciones.
 - Detalle con datos, evidencias, cambios, advertencias y enlaces.
 - Explicación estructurada del score de confianza, con base y señales.
 - Leaflet/OpenStreetMap mediante JS interop, marcadores por precisión y
@@ -147,11 +157,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          18 correctos
-Tests Infrastructure:87 correctos
+Tests Core:          21 correctos
+Tests Infrastructure:90 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               113/113 correctos
+Total:               119/119 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 29 municipios, 29 centroides y 33 fuentes de radar
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -303,11 +313,11 @@ porque el estado sintético ya está sembrado.
 ### Frontend y validación visual
 
 - El rediseño compacto del 24 de julio de 2026 se comprobó en navegador real:
-  eliminó el hero de 520 px y el bloque introductorio redundante, concentra
-  métricas y frescura en 128 px y adelanta el mapa al píxel 376 en una ventana
-  de 1281×720. La barra de filtros empieza en el píxel 224 y no hay overflow
-  horizontal. No añade recursos visuales ni dependencias externas.
-- El E2E fija una regresión máxima de 170 px para el resumen superior y mantiene
+  la segunda iteración concentra métricas y frescura en una franja de unos
+  63 px, adelanta el mapa aproximadamente al píxel 271 en una ventana de
+  1280×720 y aprovecha prácticamente todo el ancho. No añade recursos visuales
+  ni dependencias externas.
+- El E2E fija una regresión máxima de 90 px para el resumen superior y mantiene
   las comprobaciones a 390×844 para tabs, teclado y ausencia de overflow.
 - Una prueba unitaria comprueba que promociones, cambios, informe y GeoJSON
   usan el mismo token de versión y no quedan mezclados entre despliegues.
@@ -397,7 +407,11 @@ porque el estado sintético ya está sembrado.
    ficha oficial vigente o se corrija la carencia documentada.
 10. Ensayar Playwright o Nominatim solo cuando una fuente revisada realmente
    los necesite.
-11. Definir la protección y política de ramas cuando el propietario decida el
+11. Configurar `OPENAI_API_KEY` solo en un entorno privado, ejecutar
+    `enrich-promotions` sobre una cohorte pequeña, revisar cada cita y medir
+    precisión/coste antes de cualquier programación. No aceptar propuestas en
+    bloque.
+12. Definir la protección y política de ramas cuando el propietario decida el
    flujo de contribución.
 
 ## Cómo retomar en otro equipo

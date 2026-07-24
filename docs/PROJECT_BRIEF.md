@@ -303,11 +303,15 @@ innecesarias. Playwright no se inicia para fuentes estáticas.
 
 Telegram, email, usuarios, login, administración online, edición web de
 fuentes, base de datos cloud, API pública, aplicación móvil, comparación con
-portales, modelos de IA, LLM local, OCR, imágenes, valoración de inversión,
-hipotecas, redes sociales, proxies, CAPTCHA y multiusuario.
+portales, IA como fuente autónoma o requisito de ejecución, LLM local, OCR,
+imágenes, valoración de inversión, hipotecas, redes sociales, proxies, CAPTCHA
+y multiusuario.
 
-La arquitectura puede admitirlos en el futuro, pero no deben introducirse por
-anticipado.
+La excepción aprobada el 24 de julio de 2026 es un proveedor opcional que
+propone campos ausentes sobre texto oficial acotado. Cada propuesta permanece
+privada, exige cita literal y revisión humana y nunca sustituye la extracción
+determinista. La arquitectura puede admitir el resto en el futuro, pero no debe
+introducirlo por anticipado.
 
 ## 16. Infraestructura final
 

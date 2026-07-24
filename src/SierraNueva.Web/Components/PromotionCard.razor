@@ -52,28 +52,44 @@
     </div>
 
     <dl class="feature-grid">
-        <div>
-            <dt>Casa</dt>
-            <dd>@(Promotion.PropertyTypes.Count > 0 ? string.Join(", ", Promotion.PropertyTypes) : "No indicada")</dd>
-        </div>
-        <div>
-            <dt>Dormitorios</dt>
-            <dd>@UiFormatting.Range(Promotion.BedroomsMin, Promotion.BedroomsMax, "")</dd>
-        </div>
-        <div>
-            <dt>Construidos</dt>
-            <dd>@UiFormatting.Range(Promotion.BuiltAreaMinSqm, Promotion.BuiltAreaMaxSqm, "m²")</dd>
-        </div>
-        <div>
-            <dt>Parcela</dt>
-            <dd>@UiFormatting.Range(Promotion.PlotAreaMinSqm, Promotion.PlotAreaMaxSqm, "m²")</dd>
-        </div>
+        @if (Promotion.PropertyTypes.Count > 0)
+        {
+            <div>
+                <dt>Casa</dt>
+                <dd>@string.Join(", ", Promotion.PropertyTypes)</dd>
+            </div>
+        }
+        @if (Promotion.BedroomsMin.HasValue || Promotion.BedroomsMax.HasValue)
+        {
+            <div>
+                <dt>Dormitorios</dt>
+                <dd>@UiFormatting.Range(Promotion.BedroomsMin, Promotion.BedroomsMax, "")</dd>
+            </div>
+        }
+        @if (Promotion.BuiltAreaMinSqm.HasValue || Promotion.BuiltAreaMaxSqm.HasValue)
+        {
+            <div>
+                <dt>Construidos</dt>
+                <dd>@UiFormatting.Range(Promotion.BuiltAreaMinSqm, Promotion.BuiltAreaMaxSqm, "m²")</dd>
+            </div>
+        }
+        @if (Promotion.PlotAreaMinSqm.HasValue || Promotion.PlotAreaMaxSqm.HasValue)
+        {
+            <div>
+                <dt>Parcela</dt>
+                <dd>@UiFormatting.Range(Promotion.PlotAreaMinSqm, Promotion.PlotAreaMaxSqm, "m²")</dd>
+            </div>
+        }
     </dl>
 
     <div class="card-footer">
         <div class="card-meta">
             <span>@UiFormatting.Source(Promotion.SourceKind)</span>
-            <span>Revisada @UiFormatting.Date(Promotion.LastSeenUtc)</span>
+            <span class="completeness"
+                  title="@UiFormatting.CompletenessTitle(Promotion)">
+                <i style="--completeness: @UiFormatting.Completeness(Promotion).ToString(System.Globalization.CultureInfo.InvariantCulture)%"></i>
+                @UiFormatting.Completeness(Promotion)% datos
+            </span>
         </div>
         <div class="card-actions">
             <button class="card-open-button" type="button" @onclick="OpenAsync">

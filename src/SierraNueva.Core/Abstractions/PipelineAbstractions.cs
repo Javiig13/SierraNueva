@@ -47,6 +47,30 @@ public interface IPromotionStateRepository
         CancellationToken cancellationToken);
 }
 
+public interface IEnrichmentStateRepository
+{
+    Task<EnrichmentState> LoadAsync(
+        string stateDirectory,
+        CancellationToken cancellationToken);
+
+    Task SaveAsync(
+        string stateDirectory,
+        EnrichmentState queue,
+        CancellationToken cancellationToken);
+}
+
+public interface IPromotionEnrichmentProvider
+{
+    string ProviderName { get; }
+
+    string Model { get; }
+
+    Task<IReadOnlyList<EnrichmentFieldProposal>> ProposeAsync(
+        EnrichmentEvidenceDocument evidence,
+        IReadOnlyList<string> missingFields,
+        CancellationToken cancellationToken);
+}
+
 public interface IPublicDataWriter
 {
     Task WriteAsync(

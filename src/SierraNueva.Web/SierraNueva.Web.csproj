@@ -29,6 +29,7 @@
     <ItemGroup>
       <_PublishedPrivateState Include="$(_PublishedWwwroot)**/promotions-state.json;
                                       $(_PublishedWwwroot)**/promotions-state.backup-*.json;
+                                      $(_PublishedWwwroot)**/promotion-enrichment.json;
                                       $(_PublishedWwwroot)**/geocoding-cache.json;
                                       $(_PublishedWwwroot)**/http-cache.json;
                                       $(_PublishedWwwroot)**/data/state/**/*" />

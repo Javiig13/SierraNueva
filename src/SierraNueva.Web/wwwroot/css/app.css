@@ -1966,3 +1966,334 @@ input::placeholder {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Compact exploration workspace: the data, not a marketing hero, owns the viewport. */
+.site-header,
+#contenido {
+    width: min(1980px, calc(100% - 1.25rem));
+}
+
+.site-header {
+    top: 0.3rem;
+    min-height: 50px;
+    margin-top: 0.3rem;
+    padding-block: 0.28rem;
+    border-radius: 15px;
+}
+
+.brand-mark {
+    width: 31px;
+    height: 28px;
+}
+
+.header-count,
+.download-link {
+    min-height: 34px;
+    padding-block: 0.35rem;
+}
+
+.overview-bar {
+    grid-template-columns: minmax(260px, 0.8fr) minmax(420px, 1fr) auto;
+    gap: 1rem;
+    min-height: 58px;
+    margin-top: 0.42rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 8px 30px rgba(14, 46, 36, 0.08);
+    color: var(--ink);
+}
+
+.overview-copy {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.overview-copy p {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    margin: 0;
+    color: var(--green);
+    font-size: 0.59rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.overview-copy h1 {
+    overflow: hidden;
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.91rem;
+    font-weight: 720;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.overview-metrics {
+    border-color: var(--line);
+    padding-block: 0;
+}
+
+.overview-metrics div {
+    padding-block: 0;
+    border-color: var(--line);
+}
+
+.overview-metrics dt,
+.overview-update > span {
+    color: var(--ink-soft);
+}
+
+.overview-metrics dd {
+    color: var(--pine);
+    font-size: 1rem;
+}
+
+.overview-update {
+    min-width: 142px;
+}
+
+.overview-update strong {
+    color: var(--ink);
+    font-size: 0.76rem;
+}
+
+.overview-update .run-status,
+.run-status {
+    color: var(--green);
+}
+
+.workspace {
+    padding: 0.5rem 0 1.5rem;
+}
+
+.filter-panel {
+    top: 3.75rem;
+    margin-bottom: 0.45rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 32px rgba(14, 46, 36, 0.09);
+}
+
+.results-toolbar {
+    min-height: 38px;
+    margin-bottom: 0.4rem;
+}
+
+.results-toolbar h2 {
+    font-size: 1.12rem;
+}
+
+.results-layout {
+    grid-template-columns: minmax(640px, 1.9fr) minmax(390px, 0.78fr);
+    gap: 0.5rem;
+}
+
+.cards-column {
+    gap: 0.42rem;
+}
+
+.promotion-card {
+    gap: 0.4rem;
+    padding: 0.72rem 0.75rem;
+    border-radius: 14px;
+}
+
+.card-title-button {
+    font-size: 1.07rem;
+}
+
+.developer {
+    margin-top: 0.15rem;
+}
+
+.price {
+    font-size: 1.08rem;
+}
+
+.feature-grid {
+    grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+    gap: 0.32rem;
+}
+
+.feature-grid:empty {
+    display: none;
+}
+
+.feature-grid div {
+    padding: 0.4rem 0.46rem;
+    border-radius: 9px;
+}
+
+.card-footer {
+    min-height: 34px;
+}
+
+.card-meta {
+    min-width: 116px;
+}
+
+.completeness {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--ink-soft);
+}
+
+.completeness i {
+    display: inline-block;
+    width: 2.2rem;
+    height: 0.28rem;
+    border-radius: 99px;
+    background:
+        linear-gradient(
+            90deg,
+            var(--green) var(--completeness),
+            #e3e8e5 var(--completeness));
+}
+
+.map-column {
+    top: 7.55rem;
+}
+
+.map-shell {
+    height: min(860px, calc(100vh - 8rem));
+    min-height: 660px;
+    border-radius: 16px;
+}
+
+.price-marker.is-unpriced span {
+    width: 19px;
+    min-width: 19px;
+    height: 19px;
+    padding: 0;
+    border-width: 3px;
+    background: var(--green);
+}
+
+.price-marker.is-unpriced > i {
+    display: none;
+}
+
+.price-marker.is-unpriced.is-centroid span {
+    border-color: #fff;
+    background: var(--green);
+}
+
+@media (max-width: 1080px) {
+    .overview-bar {
+        grid-template-columns: 1fr auto;
+    }
+
+    .overview-metrics {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        padding-top: 0.45rem;
+        border: 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .results-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .map-column {
+        position: static;
+    }
+
+    .map-shell {
+        height: 560px;
+        min-height: 560px;
+    }
+}
+
+@media (max-width: 820px) {
+    .site-header,
+    #contenido {
+        width: calc(100% - 0.7rem);
+    }
+
+    .overview-bar {
+        gap: 0.5rem;
+        padding: 0.55rem 0.65rem;
+    }
+
+    .overview-copy {
+        display: block;
+    }
+
+    .overview-copy p {
+        display: none;
+    }
+
+    .overview-copy h1 {
+        font-size: 0.82rem;
+    }
+
+    .overview-update {
+        text-align: right;
+    }
+
+    .overview-update .run-status {
+        justify-content: flex-end;
+    }
+
+    .workspace {
+        padding-top: 0.4rem;
+    }
+
+    .filter-panel {
+        margin-bottom: 0.55rem;
+    }
+
+    .results-toolbar {
+        gap: 0.45rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .overview-bar {
+        grid-template-columns: 1fr auto;
+    }
+
+    .overview-update {
+        grid-row: auto;
+    }
+
+    .overview-update > span,
+    .overview-update .run-status {
+        display: none;
+    }
+
+    .overview-metrics {
+        grid-row: 2;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+    }
+
+    .overview-metrics div {
+        padding: 0 0.35rem;
+    }
+
+    .overview-metrics div:nth-child(3) {
+        padding-left: 0.35rem;
+    }
+
+    .overview-metrics dt {
+        font-size: 0.48rem;
+    }
+
+    .overview-metrics dd {
+        font-size: 0.88rem;
+    }
+
+    .promotion-card {
+        padding: 0.7rem;
+    }
+}

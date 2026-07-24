@@ -52,11 +52,11 @@
     {
         <section class="overview-bar" aria-labelledby="overview-title">
             <div class="overview-copy">
-                <p class="eyebrow">
+                <p>
                     <span class="live-dot" aria-hidden="true"></span>
-                    Fuentes oficiales revisadas
+                    Radar de obra nueva
                 </p>
-                <h1 id="overview-title">Casas nuevas en la Sierra, <span>sobre el mapa.</span></h1>
+                <h1 id="overview-title">Casas nuevas en la Sierra de Madrid</h1>
             </div>
 
             <dl class="overview-metrics" aria-label="Resumen de datos">
@@ -65,12 +65,8 @@
                     <dd>@_data.Promotions.Statistics.Total</dd>
                 </div>
                 <div>
-                    <dt>Nuevas</dt>
-                    <dd>@_data.Run.NewPromotions</dd>
-                </div>
-                <div>
-                    <dt>Actualizadas</dt>
-                    <dd>@_data.Run.ChangedPromotions</dd>
+                    <dt>Con precio</dt>
+                    <dd>@_data.Promotions.Statistics.WithPrice</dd>
                 </div>
                 <div>
                     <dt>Fuentes</dt>
@@ -117,7 +113,7 @@
                             @Filtered.Count
                             <span>@(Filtered.Count == 1 ? "opción encontrada" : "opciones encontradas")</span>
                         </h2>
-                        <p>Selecciona una tarjeta o un precio del mapa para abrir la ficha.</p>
+                        <p>Mapa y listado sincronizados · los datos ausentes no se estiman.</p>
                     </div>
                     <label class="sort-field">
                         <span>Orden</span>

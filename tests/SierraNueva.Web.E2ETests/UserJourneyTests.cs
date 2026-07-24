@@ -16,7 +16,7 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         await Expect(page.Locator(".overview-bar h1"))
             .ToContainTextAsync("Casas nuevas en la Sierra");
         float overviewHeight = (await page.Locator(".overview-bar").BoundingBoxAsync())?.Height ?? 0;
-        Assert.InRange(overviewHeight, 1, 170);
+        Assert.InRange(overviewHeight, 1, 90);
         await Expect(page.Locator(".promotion-card")).ToHaveCountAsync(4);
         await Expect(page.Locator(".price-marker")).ToHaveCountAsync(4);
 
