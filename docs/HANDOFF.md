@@ -249,13 +249,13 @@ Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nue
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 30125109587 para el commit edbf161
-Crawl/deploy GitHub: correcto en 30125211739, intento #1
-Radar GitHub real:   52 sanas, 0 degradadas, 0 en fallo; 29/29, 28 directas
-Cola privada real:   339 candidatos pendientes
+CI GitHub real:      correcto en 30251889184 para el commit 931d3ed
+Crawl/deploy GitHub: correcto en 30251963680, intento #33
+Radar GitHub real:   55 sanas, 0 degradadas, 0 en fallo; 29/29, 28 directas
+Cola privada real:   419 candidatos pendientes
 Run live local nuevo:20260724T222106154Z; 27/27 fuentes y 27 puntos GeoJSON
-Pages real:          correcto; 23 promociones, 23/23 fuentes y 0 fallos
-Run live actual:     20260724T205205052Z; 23 puntos GeoJSON
+Pages real:          correcto; 26 promociones, 25/25 fuentes y 0 fallos
+Run live actual:     20260727T091400152Z; 26 puntos GeoJSON, 24 activas
 Estado IA web:       correcto; promotion-enrichment.json devuelve 404
 Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
@@ -565,6 +565,17 @@ porque el estado sintético ya está sembrado.
   accesible y sano. La extracción directa queda deshabilitada, pero su sitemap
   permanece en el radar; el perfil operativo pasa a 25 fuentes comerciales y
   conserva 55 canales.
+- El commit correctivo `931d3ed` superó el CI `30251889184`. La ejecución
+  manual posterior `30251963680` validó el perfil operativo definitivo:
+  25/25 fuentes comerciales correctas y cero fallos, 26 promociones
+  publicadas —24 activas—, 26 elementos GeoJSON y despliegue de Pages
+  correcto. El radar dejó 55/55 canales sanos, cero degradados o fallidos,
+  29/29 municipios y 28 canales directos; la matriz completó 116/116
+  consultas, el backfill BOCM y la auditoría terminaron correctamente y la
+  cola privada quedó en 419 candidatos. La IA se omitió y no consumió saldo.
+  Hirimasa permanece por continuidad segura del último estado válido con una
+  ausencia consecutiva; no se borra ni se marca inactiva hasta alcanzar el
+  umbral configurado de tres ausencias.
 - El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
   tres fichas ya gobernadas por reglas y los índices municipales detectaron
   `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
@@ -625,15 +636,15 @@ porque el estado sintético ya está sembrado.
 - El estado live se restaura mediante caché privada de Actions y nunca se
   incorpora al artefacto ni se confirma en Git.
 - Pages usa GitHub Actions como fuente. La ejecución manual
-  `30125211739` completó el crawl, validó las 23 fuentes, publicó 23
+  `30251963680` completó el crawl, validó las 25 fuentes, publicó 26
   promociones y desplegó correctamente
   `https://javiig13.github.io/SierraNueva/`.
 - Se comprobó el despliegue y sus contratos por HTTP sin caché. El JSON
-  público contiene 23 promociones —19 activas—, el GeoJSON 23 elementos, el
-  `runId` es `20260724T205205052Z` y Residencial El Boalo conserva precio,
-  dormitorios, baños, unidades y promotora. Tanto
+  público contiene 26 promociones —24 activas—, el GeoJSON 26 elementos y el
+  `runId` es `20260727T091400152Z`. Tanto
   `data/state/opportunity-candidates.json` como
-  `data/state/promotion-enrichment.json` devuelven HTTP 404.
+  `data/state/promotion-enrichment.json` y
+  `data/state/opportunity-audit.json` devuelven HTTP 404.
 - La protección de rama sigue sin configurar.
 
 ## Próximo trabajo recomendado

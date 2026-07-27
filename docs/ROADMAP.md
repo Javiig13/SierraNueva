@@ -402,6 +402,14 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   después HTTP 403 también en local, pero su sitemap sigue sano. Se deshabilita
   únicamente la extracción directa y se conserva el sitemap en el radar; el
   estado operativo pasa a 25 fuentes comerciales y mantiene 55 canales.
+- **Verificado live:** el commit `931d3ed` superó el CI `30251889184` y la
+  ejecución manual `30251963680` terminó correctamente con 25/25 fuentes
+  comerciales, cero fallos, 26 promociones publicadas —24 activas— y 26
+  elementos GeoJSON. El radar quedó en 55/55 canales sanos, 29/29 municipios,
+  28 canales directos y 419 candidatos privados; las 116 consultas web, el
+  backfill BOCM, la auditoría y Pages también finalizaron correctamente. La IA
+  se omitió. La promoción histórica de Hirimasa se conserva con una ausencia
+  y solo pasará a inactiva tras el umbral seguro de tres.
 
 ## P6 — Enriquecimiento verificable de fichas
 
