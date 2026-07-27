@@ -99,6 +99,7 @@ public enum OpportunityTriageReason
     DirectPromotionTerms,
     AdministrativeTerms,
     PublicAdministrationHost,
+    PublicAdministrationWithoutResidentialTerms,
     MultipleMatchedTerms,
     RecentlyPublished,
     MunicipalityInTitleOrUrl,

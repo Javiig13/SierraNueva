@@ -10,7 +10,9 @@ public sealed class OpportunityTriageService
     [
         "obra nueva",
         "nueva promocion",
-        "promocion",
+        "promocion de viviendas",
+        "promocion inmobiliaria",
+        "promocion residencial",
         "residencial",
         "chalets",
         "viviendas unifamiliares",
@@ -137,8 +139,17 @@ public sealed class OpportunityTriageService
 
         if (IsPublicAdministrationHost(domain))
         {
-            score += 12;
             reasons.Add(OpportunityTriageReason.PublicAdministrationHost);
+            if (hasAdministrativeTerms)
+            {
+                score += 12;
+            }
+            else if (!hasDirectTerms)
+            {
+                score -= 20;
+                reasons.Add(
+                    OpportunityTriageReason.PublicAdministrationWithoutResidentialTerms);
+            }
         }
 
         if (candidate.MatchedTerms.Distinct(StringComparer.OrdinalIgnoreCase).Count() >= 2)

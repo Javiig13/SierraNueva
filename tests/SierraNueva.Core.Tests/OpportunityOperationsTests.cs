@@ -316,6 +316,40 @@ public sealed class OpportunityOperationsTests
             formItem.Reasons);
     }
 
+    [Fact]
+    public void Triage_DemotesPublicProcurementWithoutResidentialEvidence()
+    {
+        DateTimeOffset timestamp = new(2026, 7, 27, 10, 0, 0, TimeSpan.Zero);
+        OpportunityCandidate unrelatedProcurement = Candidate(
+            "Alcorcón",
+            OpportunitySourceKind.PublicProcurement,
+            OpportunityCandidateStatus.New,
+            timestamp.AddDays(-2),
+            "Actuaciones dirigidas al sector hostelero local",
+            "https://contrataciondelestado.es/wps/poc/alcorcon",
+            0.65m,
+            ["promoción"],
+            summary:
+            "Instituto Municipal de Empleo y Promoción Económica de Alcorcón.");
+        OpportunityRadarState state = new()
+        {
+            UpdatedAtUtc = timestamp.AddMinutes(-1),
+            Candidates = [unrelatedProcurement]
+        };
+
+        OpportunityTriageItem item = Assert.Single(
+            new OpportunityTriageService().Create(state, timestamp).Items);
+
+        Assert.Equal(OpportunityTriageBand.GeneralSignal, item.Band);
+        Assert.Equal(OpportunityTriagePriority.Low, item.Priority);
+        Assert.DoesNotContain(
+            OpportunityTriageReason.DirectPromotionTerms,
+            item.Reasons);
+        Assert.Contains(
+            OpportunityTriageReason.PublicAdministrationWithoutResidentialTerms,
+            item.Reasons);
+    }
+
     private static OpportunityCandidate Candidate(
         string municipality,
         OpportunitySourceKind sourceKind,

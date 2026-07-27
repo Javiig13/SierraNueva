@@ -494,10 +494,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** matriz live ampliada a 179 × 4 = 716 consultas diarias,
   límite global de 10.000 resultados y filtro SIMA con 179 slugs y hasta 200
   fichas. El timeout defensivo del job pasa de 75 a 120 minutos.
-- **Hecho local:** catálogo saneado y versionado de 567 actores, con 194
+- **Hecho local:** catálogo saneado y versionado de 569 actores, con 194
   asociados de ASPRIMA, 378 empresas de SIMA y los canales comerciales ya
   configurados. Solo guarda nombre, web, evidencia, procedencia y estado de
-  revisión; 16 están monitorizados y 551 siguen como candidatos. Ningún dato
+  revisión; 20 están monitorizados y 549 siguen como candidatos. Ningún dato
   de contacto se persiste.
 - **Hecho local:** importadores repetibles para geografía, actores y
   sincronización del radar, validación CLI y pruebas offline.
@@ -512,6 +512,23 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho live:** Pages se desplegó y los contratos públicos devolvieron HTTP
   200; los tres estados privados comprobados devolvieron HTTP 404. La interfaz
   cargó 22 promociones activas.
+- **Hecho local y smoke live:** se descifró de forma segura el triaje de 833
+  candidatos y se revisó el primer lote por dominio. Se incorporan Insur
+  Calíope, Nuevo Brunete, Cielo Arroyomolinos y NovaCiempozuelos con cuatro
+  fixtures específicas; sus cuatro fichas y sus canales de radar oficiales
+  respondieron sin fallos en ejecuciones secas.
+- **Hecho local:** el radar pasa a 60 canales —59 activos— y el perfil
+  comercial a 31 fuentes —29 automáticas—. El catálogo interno se sincroniza
+  a 569 actores, 197 con web y 20 monitorizados. No contiene contactos ni se
+  publica.
+- **Hecho local:** se codifican decisiones para promociones vendidas,
+  entregadas o plurifamiliares y se mantienen dos fichas ambiguas en
+  `monitoring`. El triaje deja de elevar «promoción económica» como promoción
+  inmobiliaria y penaliza resultados administrativos sin evidencia
+  residencial. La siguiente ejecución completa debe medir el efecto real sobre
+  la cola privada.
+- **Evidencia:** evaluación y límites en
+  `docs/source-assessments/madrid-expansion-2026-07-27.md`.
 - **Incidencia live corregida:** la ejecución `30269094453` desplegó Pages,
   pero BOCM agotó el timeout antes de alcanzar la matriz. El radar confundía
   ese timeout interno con cancelación global y el resumen confundía el
@@ -529,10 +546,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 149/149 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 154/154 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 27 revisadas; 25 automáticas y 2 manuales por bloqueo |
+| 5 | Fuente real permitida con Internet | Hecho | 31 revisadas; 29 automáticas y 2 manuales por bloqueo |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -557,7 +574,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 149/149 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 154/154 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

@@ -205,17 +205,17 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 27 definiciones revisadas y limitadas:
-25 están automatizadas; Miraflores Villas e Hirimasa se conservan
+`config/sources.live.json` contiene 31 definiciones revisadas y limitadas:
+29 están automatizadas; Miraflores Villas e Hirimasa se conservan
 deshabilitadas para comprobación manual porque sus fichas bloquean de forma
 reiterada al runner de GitHub. El sitemap de Hirimasa continúa activo en el
 radar. El perfil nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` contiene 56 fuentes y habilita 55:
-cuatro canales centrales, 28 fuentes municipales, 17 sitemaps de dominios
-comerciales oficiales, tres índices HTML comerciales acotados y tres canales
+`config/discovery-sources.live.json` contiene 60 fuentes y habilita 59:
+cuatro canales centrales, 28 fuentes municipales, 20 sitemaps de dominios
+comerciales oficiales, cuatro índices HTML comerciales acotados y tres canales
 privados de descubrimiento sectorial de SIMA, más una matriz web privada
 SearXNG. La parte
 municipal comprende cinco tablones
@@ -262,8 +262,8 @@ autores, formularios u otras colecciones ajenas al producto.
 El formato `htmlLinks` cubre únicamente índices oficiales cuyo sitemap omite
 una ficha conocida. Requiere selectores CSS explícitos, descarga una sola
 portada, no navega recursivamente y descarta enlaces HTTP o de otros hosts.
-Actualmente observa las portadas de Apremya y Trinosa y, con seguimiento de
-detalle limitado a dos fichas, el índice de Galivivienda. Las decisiones humanas
+Actualmente observa las portadas de Apremya, Trinosa y Grupo Egido y, con
+seguimiento de detalle limitado a dos fichas, el índice de Galivivienda. Las decisiones humanas
 repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
 `monitoring`, `rejected` o `stale`, pero nunca verificar una fuente.
 

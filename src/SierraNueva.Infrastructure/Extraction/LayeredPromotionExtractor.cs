@@ -1271,7 +1271,9 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         RegexOptions.IgnoreCase)]
     private static partial Regex LastUnitsRegex();
 
-    [GeneratedRegex(@"\b(?:pr[oó]ximamente|pr[oó]xima\s+fase)\b", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(
+        @"\b(?:pr[oó]ximamente|pr[oó]xima\s+fase|pr[oó]ximo\s+desarrollo|preparando\s+el\s+lanzamiento)\b",
+        RegexOptions.IgnoreCase)]
     private static partial Regex UpcomingRegex();
 
     [GeneratedRegex(

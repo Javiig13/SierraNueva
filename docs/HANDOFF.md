@@ -40,8 +40,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 27
-  definiciones revisadas: 25 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 31
+  definiciones revisadas: 29 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -219,9 +219,9 @@ Tests Core:          24 correctos
 Tests Infrastructure:117 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               149/149 correctos
+Total:               154/154 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 567 actores
+validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
@@ -672,10 +672,10 @@ cuando no existe otra señal fuerte de ciudad. Así se evitan asignaciones
 regionales falsas sin perder fichas que solo indican «Madrid».
 
 Se añadió `config/market-actors.json`, un inventario interno de configuración
-y no un dataset público. La instantánea saneada contiene 567 organizaciones:
+y no un dataset público. La instantánea saneada contiene 569 organizaciones:
 194 registros del listado oficial de ASPRIMA, 378 del directorio de empresas
 de SIMA y canales comerciales ya monitorizados que no coincidían con ellos.
-Hay 195 webs declaradas y 16 actores enlazados a fuentes live; los otros 551
+Hay 197 webs declaradas y 20 actores enlazados a fuentes live; los otros 549
 permanecen como candidatos. No se guardan correos, teléfonos, contactos ni
 descripciones. Figurar en ASPRIMA o SIMA no demuestra por sí solo que una
 entidad sea promotora ni que tenga oferta unifamiliar vigente en Madrid.
@@ -720,12 +720,40 @@ diaria de los 179 municipios queda así verificada para esta ejecución; sigue
 siendo una observación temporal, no una garantía permanente de exhaustividad
 del mercado.
 
+El artefacto cifrado de esa ejecución se recuperó mediante el workflow
+`30274617555`; el hash local coincidió con GitHub, el JSON autenticado se
+validó y la clave privada efímera se eliminó. El informe confirmó 833
+pendientes en 367 dominios: 98 altos, 298 medios, 421 bajos y 16 duplicados.
+
+La primera revisión por dominio incorpora cuatro oportunidades oficiales:
+Insur Calíope, Nuevo Brunete, Residencial Cielo Arroyomolinos y
+NovaCiempozuelos. El perfil live queda en 31 definiciones, 29 automáticas y
+dos manuales por bloqueo. Cada formato dispone de fixture y prueba; las cuatro
+fichas respondieron HTTP 200, respetaron `robots.txt` y terminaron correctas en
+smokes `dry-run` sin Playwright ni geocodificación.
+
+El radar añade los sitemaps oficiales de Grupo Insur, Soldit Homes y GEMG y el
+índice HTML acotado de Grupo Egido. Queda en 60 canales, 59 activos. Los
+smokes procesaron 61, 10, 12 y 13 entradas respectivamente, sin fallos. El
+catálogo interno se sincronizó a 569 actores, 197 con web declarada y 20
+monitorizados; no contiene contactos ni se publica.
+
+La revisión también codifica promociones vendidas, entregadas y una
+plurifamiliar fuera de alcance; Cambrija Viridis 3.0 y Larvin Hernán Cortés
+quedan en observación por falta de disponibilidad inequívoca. Se corrige el
+triaje para que «promoción económica» no sea una señal inmobiliaria y para
+penalizar hosts administrativos sin términos residenciales. La reducción real
+de la cola aún no está medida: requiere una ejecución completa que aplique las
+reglas al estado privado restaurado. Evidencia y decisiones en
+`docs/source-assessments/madrid-expansion-2026-07-27.md`.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: clasificar por dominio los 833 candidatos privados y
-convertir en fuentes configuradas solo webs oficiales que aporten promociones
-unifamiliares verificables; la matriz ya está comprobada y no debe sustituir
-esa revisión.
+Prioridad inmediata: ejecutar el pipeline completo con las cuatro fuentes
+nuevas, aplicar las reglas al estado privado restaurado y volver a exportar el
+triaje para medir la cola restante. Después, continuar por dominio con los
+candidatos medios no cubiertos; la matriz ya está comprobada y no debe
+sustituir esa revisión.
 
 1. Vigilar las 25 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

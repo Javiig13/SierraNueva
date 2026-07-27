@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "checkedAtUtc": "2026-07-27T13:10:00.0000000+00:00",
+  "checkedAtUtc": "2026-07-27T14:42:00.0000000+00:00",
   "sources": [
     {
       "id": "asprima-members",
@@ -2278,14 +2278,17 @@
       "id": "egido",
       "name": "Egido",
       "officialWebsite": "https://grupoegido.es/",
-      "reviewStatus": "candidate",
+      "reviewStatus": "monitored",
       "sourceIds": [
-        "asprima-members"
+        "asprima-members",
+        "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
-      "monitoredSourceIds": []
+      "monitoredSourceIds": [
+        "links-grupo-egido"
+      ]
     },
     {
       "id": "ego-real-estate",
@@ -2878,6 +2881,21 @@
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "gemg",
+      "name": "GEMG",
+      "officialWebsite": "https://gemg.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://gemg.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-gemg"
+      ]
     },
     {
       "id": "gesmar-2000",
@@ -3866,14 +3884,17 @@
       "id": "insur",
       "name": "Insur",
       "officialWebsite": "https://grupoinsur.com/",
-      "reviewStatus": "candidate",
+      "reviewStatus": "monitored",
       "sourceIds": [
-        "asprima-members"
+        "asprima-members",
+        "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
-      "monitoredSourceIds": []
+      "monitoredSourceIds": [
+        "sitemap-grupo-insur"
+      ]
     },
     {
       "id": "interhome",
@@ -6432,6 +6453,21 @@
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "soldit-homes",
+      "name": "Soldit Homes",
+      "officialWebsite": "https://soldithomes.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://soldithomes.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-soldit"
+      ]
     },
     {
       "id": "solvia",

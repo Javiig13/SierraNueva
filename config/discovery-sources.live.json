@@ -131,7 +131,21 @@
         { "urlPattern": "idarqhome.es/proyectos/promocion-bustarviejo", "status": "monitoring" },
         { "urlPattern": "organizacion2000.es/impulsa-los-molinos", "status": "rejected" },
         { "urlPattern": "sagelliv.es/jardines-de-san-lorenzo", "status": "rejected" },
-        { "urlPattern": "stancehomes.es/obra-nueva-en-", "status": "rejected" }
+        { "urlPattern": "stancehomes.es/obra-nueva-en-", "status": "rejected" },
+        { "urlPattern": "inmoglaciar.com/promocion/la-campina-boadilla-del-monte-fase-1", "status": "stale" },
+        { "urlPattern": "inmoglaciar.com/promocion/la-campina-fase-ii-la-campina-boadilla-del-monte-fase-2", "status": "stale" },
+        { "urlPattern": "aedashomes.com/promo-la-maquia-chalets-obra-nueva-alcala-de-henares", "status": "stale" },
+        { "urlPattern": "aelca.es/es/proyectos/los-robles-ii", "status": "stale" },
+        { "urlPattern": "grupoinsur.com/promocion-de-viviendas/adosados-en-boadilla-del-monte", "status": "stale" },
+        { "urlPattern": "aurora-homes.es/promociones/tebaris-brunete", "status": "rejected" },
+        { "urlPattern": "cambrija.es/como-son-los-chalets-de-boadilla-del-monte-en-la-urbanizacion-viridis-3-0", "status": "monitoring" },
+        { "urlPattern": "grupoegido.es/obra-nueva-madrid/pinto/7fuster", "status": "stale" },
+        { "urlPattern": "grupoegido.es/obra-nueva-madrid/san-martin-de-la-vega/novavega", "status": "stale" },
+        { "urlPattern": "aedashomes.com/promo-dendra-chalets-obra-nueva-alcala-de-henares", "status": "stale" },
+        { "urlPattern": "aedashomes.com/pisos-en-venta-en-alcala-de-henares-gumiel", "status": "stale" },
+        { "urlPattern": "aedashomes.com/promo-maranta-viviendas-obra-nueva-boadilla-del-monte", "status": "stale" },
+        { "urlPattern": "aedashomes.com/promo-zimara-viviendas-obra-nueva-boadilla-del-monte", "status": "stale" },
+        { "urlPattern": "larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte", "status": "monitoring" }
       ],
       "maxResultsPerQuery": 10,
       "searchDelayMilliseconds": 750,
@@ -826,6 +840,57 @@
       ],
       "maxDetailPages": 2,
       "maxItems": 10
+    },
+    {
+      "id": "sitemap-grupo-insur",
+      "name": "Grupo Insur — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://grupoinsur.com/Sitemaps/promocion-de-viviendas_sitemap.xml",
+      "allowedHosts": [ "grupoinsur.com", "www.grupoinsur.com" ],
+      "maxItems": 1000
+    },
+    {
+      "id": "sitemap-soldit",
+      "name": "Soldit Homes — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://soldithomes.es/promociones-sitemap1.xml",
+      "allowedHosts": [ "soldithomes.es", "www.soldithomes.es" ],
+      "maxItems": 500
+    },
+    {
+      "id": "sitemap-gemg",
+      "name": "GEMG — sitemap de promociones",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://gemg.es/page-sitemap.xml",
+      "allowedHosts": [ "gemg.es", "www.gemg.es" ],
+      "maxItems": 100
+    },
+    {
+      "id": "links-grupo-egido",
+      "name": "Grupo Egido — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://grupoegido.es/obra-nueva-madrid/",
+      "allowedHosts": [ "grupoegido.es", "www.grupoegido.es" ],
+      "itemSelectors": [
+        "a[href*='/obra-nueva-madrid/']"
+      ],
+      "reviewRules": [
+        { "urlPattern": "/pinto/7fuster/", "status": "stale" },
+        { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" }
+      ],
+      "maxItems": 200
     },
     {
       "id": "sitemap-miraflores-villas",

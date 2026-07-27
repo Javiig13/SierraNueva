@@ -72,6 +72,22 @@ public sealed class LiveSourceFixtureTests
                 "galivivienda-montelago.html"
             },
             {
+                "grupo-insur-caliope",
+                "grupo-insur-caliope.html"
+            },
+            {
+                "soldit-nuevo-brunete",
+                "soldit-nuevo-brunete.html"
+            },
+            {
+                "gemg-cielo-arroyomolinos",
+                "gemg-cielo-arroyomolinos.html"
+            },
+            {
+                "grupo-egido-novaciempozuelos",
+                "grupo-egido-novaciempozuelos.html"
+            },
+            {
                 "miraflores-villas",
                 "miraflores-villas.html"
             }
@@ -351,6 +367,46 @@ public sealed class LiveSourceFixtureTests
                 Assert.True(promotion.HasCommunityPool);
                 Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
                 Assert.Equal(["Adosado"], promotion.PropertyTypes);
+                break;
+            case "grupo-insur-caliope":
+                Assert.Equal("Insur Calíope", promotion.Name);
+                Assert.Equal(44, promotion.TotalUnits);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(
+                    ConstructionStatus.UnderConstruction,
+                    promotion.ConstructionStatus);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(["Adosado"], promotion.PropertyTypes);
+                break;
+            case "soldit-nuevo-brunete":
+                Assert.Equal("Nuevo Brunete", promotion.Name);
+                Assert.Null(promotion.TotalUnits);
+                Assert.Null(promotion.BedroomsMin);
+                Assert.Equal(CommercialStatus.Upcoming, promotion.CommercialStatus);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "gemg-cielo-arroyomolinos":
+                Assert.Equal(
+                    "Chalets en Arroyomolinos – Residencial Cielo Arroyomolinos",
+                    promotion.Name);
+                Assert.Equal(20, promotion.TotalUnits);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Equal("Concedida", promotion.BuildingLicenceStatus);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Empty(promotion.PropertyTypes);
+                break;
+            case "grupo-egido-novaciempozuelos":
+                Assert.Equal("NovaCiempozuelos | Grupo Egido", promotion.Name);
+                Assert.Null(promotion.TotalUnits);
+                Assert.Null(promotion.BedroomsMin);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(CommercialStatus.Upcoming, promotion.CommercialStatus);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Empty(promotion.PropertyTypes);
                 break;
             case "miraflores-villas":
                 Assert.Null(promotion.TotalUnits);

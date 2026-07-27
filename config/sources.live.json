@@ -1068,6 +1068,181 @@
       "notes": "Gestora de cooperativas revisada el 2026-07-24. Solo se procesan los bloques de producto, tipologías y localización; se excluyen galería, formulario y contenido corporativo. La web publica 29 identificadores pero otro material oficial indica 26 viviendas, por lo que el total permanece desconocido. Evaluación en docs/source-assessments/private-triage-expansion-2026-07-24.md."
     },
     {
+      "id": "grupo-insur-caliope",
+      "name": "Grupo Insur — Insur Calíope",
+      "baseUrl": "https://grupoinsur.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "grupoinsur.com",
+        "www.grupoinsur.com"
+      ],
+      "startUrls": [
+        "https://grupoinsur.com/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Alcalá de Henares",
+      "municipalityHints": [
+        "Alcalá de Henares"
+      ],
+      "contentSelector": "#info > .col-md-10.offset-md-1.mt-4.mb-2",
+      "additionalContentSelectors": [
+        "#info > .col-md-11.offset-md-1.mt-4.mb-2",
+        "#info > .col-md-5.offset-md-1",
+        "#info > .col-md-5.text-right"
+      ],
+      "includePatterns": [
+        "/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contact"
+      ],
+      "customSelectors": {
+        "name": "#info h1.top-text"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha marca la promoción en comercialización y con obras iniciadas, y publica 44 chalets adosados de 3 y 4 dormitorios. Se limitan los selectores a cabecera y descripción para excluir formulario, navegación y promociones relacionadas. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "soldit-nuevo-brunete",
+      "name": "Soldit Homes — Nuevo Brunete",
+      "baseUrl": "https://soldithomes.es/",
+      "enabled": true,
+      "sourceKind": "exclusiveMarketer",
+      "allowedHosts": [
+        "soldithomes.es",
+        "www.soldithomes.es"
+      ],
+      "startUrls": [
+        "https://soldithomes.es/promociones/nuevo-brunete/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Brunete",
+      "municipalityHints": [
+        "Brunete"
+      ],
+      "contentSelector": ".entry-content.contenedor-contenido > p:first-of-type",
+      "additionalContentSelectors": [
+        "h2.claim-promocion",
+        ".entry-content.contenedor-contenido > ul"
+      ],
+      "includePatterns": [
+        "/promociones/nuevo-brunete/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "h1.wp-block-post-title"
+      },
+      "notes": "Comercializadora oficial de Grupo Avintia revisada el 2026-07-27. La ficha anuncia el próximo lanzamiento de viviendas unifamiliares pareadas con jardín y lista de espera. Se excluye expresamente el párrafo urbanístico que menciona 2.700 viviendas del sector, porque no es el total de la promoción. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "gemg-cielo-arroyomolinos",
+      "name": "GEMG — Residencial Cielo Arroyomolinos",
+      "baseUrl": "https://gemg.es/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "gemg.es",
+        "www.gemg.es"
+      ],
+      "startUrls": [
+        "https://gemg.es/chalets-arroyomolinos-cielo/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Arroyomolinos",
+      "municipalityHints": [
+        "Arroyomolinos"
+      ],
+      "contentSelector": ".et_pb_section_0 .et_pb_slide_description",
+      "additionalContentSelectors": [
+        ".et_pb_section_2",
+        ".et_pb_text_3"
+      ],
+      "includePatterns": [
+        "/chalets-arroyomolinos-cielo/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": ".et_pb_slide_title"
+      },
+      "notes": "Gestora de cooperativa revisada el 2026-07-27. La ficha oficial, publicada y modificada en 2026, acredita 20 viviendas unifamiliares de 4 dormitorios y licencia concedida. Se excluye el bloque descriptivo que cita los 34 m² del salón para no confundirlo con la superficie construida de la vivienda. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "grupo-egido-novaciempozuelos",
+      "name": "Grupo Egido — NovaCiempozuelos",
+      "baseUrl": "https://grupoegido.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "grupoegido.es",
+        "www.grupoegido.es"
+      ],
+      "startUrls": [
+        "https://grupoegido.es/obra-nueva-madrid/ciempozuelos/novaciempozuelos/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Ciempozuelos",
+      "municipalityHints": [
+        "Ciempozuelos"
+      ],
+      "contentSelector": ".elementor-element-71107f2",
+      "additionalContentSelectors": [
+        ".elementor-element-d682e9f"
+      ],
+      "includePatterns": [
+        "/obra-nueva-madrid/ciempozuelos/novaciempozuelos/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha anuncia un próximo desarrollo residencial de chalets con zonas comunes y piscina, aún antes de comercialización. No se infieren número de viviendas, dormitorios, precio ni tipología concreta. Los selectores excluyen íntegramente el formulario. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
       "id": "miraflores-villas",
       "name": "Miraflores Villas — Miraflores de la Sierra",
       "baseUrl": "https://mirafloresvillas.es/",
