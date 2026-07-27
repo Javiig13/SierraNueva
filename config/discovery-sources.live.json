@@ -156,7 +156,14 @@
         { "urlPattern": "jpgestudio.es/", "status": "rejected" },
         { "urlPattern": "arquality.es/", "status": "rejected" },
         { "urlPattern": "vkmarquitectos", "status": "rejected" },
-        { "urlPattern": "vklarquitectura", "status": "rejected" }
+        { "urlPattern": "vklarquitectura", "status": "rejected" },
+        { "urlPattern": "aproperties.es/", "status": "rejected" },
+        { "urlPattern": "estatenearme.com/", "status": "rejected" },
+        { "urlPattern": "viviendasnuevas.com/", "status": "rejected" },
+        { "urlPattern": "novogar.net/propiedad/magnifica-promocion-de-pisos-en-venta-en-brunete", "status": "rejected" },
+        { "urlPattern": "stancehomes.es/promociones-residenciales-obra-nueva-boadilla", "status": "rejected" },
+        { "urlPattern": "idem.madrid.org/cartografia/planea/", "status": "monitoring" },
+        { "urlPattern": "aranjuez.es/images/files/urbanismo/", "status": "monitoring" }
       ],
       "maxResultsPerQuery": 10,
       "searchDelayMilliseconds": 750,
@@ -171,6 +178,16 @@
       "cadence": "daily",
       "urlTemplate": "https://www.bocm.es/search-day-month?field_date%5Bdate%5D={date:dd%2FMM%2Fyyyy}",
       "allowedHosts": [ "www.bocm.es" ],
+      "reviewRules": [
+        { "urlPattern": "/bocm-20260703-36", "status": "rejected" },
+        { "urlPattern": "/bocm-20260710-55", "status": "rejected" },
+        { "urlPattern": "/bocm-20260717-73", "status": "monitoring" },
+        { "urlPattern": "/bocm-20260720-43", "status": "rejected" },
+        { "urlPattern": "/bocm-20260720-54", "status": "monitoring" },
+        { "urlPattern": "/bocm-20260720-68", "status": "monitoring" },
+        { "urlPattern": "/bocm-20260722-77", "status": "monitoring" },
+        { "urlPattern": "/bocm-20260723-58", "status": "monitoring" }
+      ],
       "maxItems": 20000
     },
     {
@@ -197,7 +214,23 @@
         {
           "urlPattern": "FqoNKeKjykJ9Zh%2FyRJgM8w%3D%3D",
           "status": "rejected"
-        }
+        },
+        { "urlPattern": "02EPVF4Xt2EIYE3ZiZ%2BxmQ%3D%3D", "status": "rejected" },
+        { "urlPattern": "7tft2rYtdDWFQ%2FlhRK79lA%3D%3D", "status": "rejected" },
+        { "urlPattern": "8pPjVX9Lw%2FvjHF5qKI4aaw%3D%3D", "status": "rejected" },
+        { "urlPattern": "Av7eIyF4iQWFQ%2FlhRK79lA%3D%3D", "status": "rejected" },
+        { "urlPattern": "d1krunsAeOF%2BF6L2uCfUWg%3D%3D", "status": "rejected" },
+        { "urlPattern": "DFW7otK8%2Fr8aF6cS8TCh%2FA%3D%3D", "status": "rejected" },
+        { "urlPattern": "egH3lEv90XnpxJFXpLZ%2B2A%3D%3D", "status": "monitoring" },
+        { "urlPattern": "enOfD2WbKBG9Hd5zqvq9cg%3D%3D", "status": "rejected" },
+        { "urlPattern": "EQbVSvpL9XJQFSeKCRun4Q%3D%3D", "status": "rejected" },
+        { "urlPattern": "hTkNwr3IiHhq1DdmE7eaXg%3D%3D", "status": "rejected" },
+        { "urlPattern": "iGYcsPRYOkYwYTJJ03sHog%3D%3D", "status": "rejected" },
+        { "urlPattern": "iI%2BT4y%2F9rnqcTfjQf3USOg%3D%3D", "status": "rejected" },
+        { "urlPattern": "n%2FjlNyR1dJ7N3k3tjedSGw%3D%3D", "status": "rejected" },
+        { "urlPattern": "NipUZr2gL4i7JOCXkOhcDg%3D%3D", "status": "rejected" },
+        { "urlPattern": "nJj%2BCTIwcC5%2FR5QFTlaM4A%3D%3D", "status": "rejected" },
+        { "urlPattern": "tyuaeqOONh59PLkba5eRog%3D%3D", "status": "rejected" }
       ],
       "maxItems": 20000
     },
@@ -705,6 +738,26 @@
         {
           "urlPattern": "/promocion-residencial-real-torrelodones",
           "status": "stale"
+        },
+        {
+          "urlPattern": "/promocion-residencial-goya-y-dali-boadilla-del-monte",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/promocion-residencial-iriada-pozuelo-de-alarcon",
+          "status": "stale"
+        },
+        {
+          "urlPattern": "/promocion-residencial-murania-pozuelo-de-alarcon",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/obra-nueva-pozuelo-de-alarcon",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/promociones-residenciales-obra-nueva-majadahonda",
+          "status": "rejected"
         }
       ],
       "maxItems": 1000
@@ -743,7 +796,42 @@
       "urlTemplate": "https://www.kronoshomes.com/sitemap.xml",
       "allowedHosts": [ "www.kronoshomes.com", "kronoshomes.com" ],
       "sitemapIncludes": [ "sitemap-negocio" ],
+      "reviewRules": [
+        { "urlPattern": "/madrid/bloom/", "status": "rejected" },
+        { "urlPattern": "/madrid/brooklyn/", "status": "rejected" },
+        { "urlPattern": "/madrid/mirage/", "status": "monitoring" },
+        { "urlPattern": "/madrid/park-74/", "status": "stale" },
+        { "urlPattern": "/madrid/the-collection/", "status": "stale" },
+        { "urlPattern": "/madrid/the-valley/", "status": "stale" }
+      ],
       "maxItems": 2000
+    },
+    {
+      "id": "links-naiz",
+      "name": "Naiz Homes — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://naizhomes.com/promociones/",
+      "allowedHosts": [ "naizhomes.com", "www.naizhomes.com" ],
+      "itemSelectors": [
+        ".box a.default-btn[href^='https://naizhomes.com/promociones/']",
+        ".box a.default-btn[href^='/promociones/']"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [
+        "/promociones/"
+      ],
+      "detailContentSelectors": [
+        "main"
+      ],
+      "maxDetailPages": 20,
+      "reviewRules": [
+        { "urlPattern": "/promociones/olea-de-tempranales/", "status": "rejected" },
+        { "urlPattern": "/promociones/quercus-de-las-rozas/", "status": "rejected" }
+      ],
+      "maxItems": 1000
     },
     {
       "id": "sitemap-quinta-manzanares",
@@ -804,7 +892,43 @@
         "a[href*='/promocion/']",
         "a[href$='/etria/']"
       ],
+      "reviewRules": [
+        { "urlPattern": "/promocion/gemini/", "status": "rejected" },
+        { "urlPattern": "/promocion/soto-iii/", "status": "rejected" },
+        { "urlPattern": "/promocion/virentia/", "status": "rejected" }
+      ],
       "maxItems": 50
+    },
+    {
+      "id": "links-brosh-madrid",
+      "name": "Brosh — promociones de Madrid enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://www.brosh.es/promociones/madrid/",
+      "allowedHosts": [ "www.brosh.es", "brosh.es" ],
+      "itemSelectors": [
+        "a[href^='/promociones/madrid/']"
+      ],
+      "reviewRules": [
+        { "urlPattern": "/promociones/madrid/oporto-59/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/suite-228/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/suite-43/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/suite-getafe/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/suite-los-molinos/", "status": "rejected" },
+        { "urlPattern": "/promociones/madrid/suite-valdemoro-2/", "status": "rejected" },
+        { "urlPattern": "/promociones/madrid/suite-valdemoro/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/tablada-50/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-1/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-11-", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-3/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-7/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-8-valdemoro/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-de-bercial/", "status": "stale" },
+        { "urlPattern": "/promociones/madrid/villa-de-leguario/", "status": "stale" }
+      ],
+      "maxItems": 100
     },
     {
       "id": "sitemap-doce-fresnos",
@@ -826,6 +950,13 @@
       "cadence": "daily",
       "urlTemplate": "https://galivivienda.com/sitemap_index.xml",
       "allowedHosts": [ "galivivienda.com", "www.galivivienda.com" ],
+      "reviewRules": [
+        { "urlPattern": "/atalayas-la-dehesa-pisos-obra-nueva-madrid/", "status": "rejected" },
+        { "urlPattern": "/atalayas-torre-iii-pisos-obra-nueva-dehesa-de-la-villa-madrid/", "status": "rejected" },
+        { "urlPattern": "/nuevas-villas-blancas-chalets-obra-nueva-el-canaveral-madrid/", "status": "stale" },
+        { "urlPattern": "/pisos-obra-nueva-leganes-centro-madrid/", "status": "rejected" },
+        { "urlPattern": "/residencial-valdehenares-pisos-obra-nueva-alcala-de-henares-vppl/", "status": "rejected" }
+      ],
       "maxItems": 1000
     },
     {
@@ -861,6 +992,12 @@
       "cadence": "daily",
       "urlTemplate": "https://grupoinsur.com/Sitemaps/promocion-de-viviendas_sitemap.xml",
       "allowedHosts": [ "grupoinsur.com", "www.grupoinsur.com" ],
+      "reviewRules": [
+        { "urlPattern": "/adosados-en-boadilla-del-monte", "status": "stale" },
+        { "urlPattern": "/chalets-adosados-en-valdemoro", "status": "stale" },
+        { "urlPattern": "/chalets-en-boadilla-del-monte", "status": "stale" },
+        { "urlPattern": "/comprar-casa-villaviciosa-de-odon", "status": "stale" }
+      ],
       "maxItems": 1000
     },
     {
@@ -883,6 +1020,10 @@
       "cadence": "daily",
       "urlTemplate": "https://gemg.es/page-sitemap.xml",
       "allowedHosts": [ "gemg.es", "www.gemg.es" ],
+      "reviewRules": [
+        { "urlPattern": "/obra-nueva-alcala-de-henares-cielo/", "status": "rejected" },
+        { "urlPattern": "/obra-nueva-en-arganda-del-rey-el-cielo-de-arganda/", "status": "rejected" }
+      ],
       "maxItems": 100
     },
     {
@@ -899,7 +1040,14 @@
       ],
       "reviewRules": [
         { "urlPattern": "/pinto/7fuster/", "status": "stale" },
-        { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" }
+        { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" },
+        { "urlPattern": "/aranjuez/", "status": "rejected" },
+        { "urlPattern": "/ciempozuelos/", "status": "rejected" },
+        { "urlPattern": "/parla/", "status": "rejected" },
+        { "urlPattern": "/pinto/novapinto/", "status": "rejected" },
+        { "urlPattern": "/pinto/", "status": "rejected" },
+        { "urlPattern": "/san-martin-de-la-vega/", "status": "rejected" },
+        { "urlPattern": "/sesena-nuevo/", "status": "rejected" }
       ],
       "maxItems": 200
     },
@@ -931,7 +1079,8 @@
       ],
       "reviewRules": [
         { "urlPattern": "/las-villas-de-arroyomolinos/", "status": "stale" },
-        { "urlPattern": "/terrazas-arroyomolinos/", "status": "stale" }
+        { "urlPattern": "/terrazas-arroyomolinos/", "status": "stale" },
+        { "urlPattern": "/residencial-paladium/", "status": "stale" }
       ],
       "maxItems": 50
     },
@@ -1161,6 +1310,50 @@
         },
         {
           "urlPattern": "/oferta/suite-los-molinos/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/365-madrid-centro-coliving-en-rentabilidad/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/38-madrid-guindalera-piso-en-rentabilidad/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/5-madrid-orcasitas-piso-en-rentabilidad/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/alcorcon-madrid-41-piso-en-rentabilidad/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/aranjuez23/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/madrid-chamberi-24-piso-en-rentabilidad/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/piso-senorial-en-zona-norte-de-madrid/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/urban-mostoles-behike/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/villa-2-mostoles/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/villa-6-navalcarnero/",
+          "status": "rejected"
+        },
+        {
+          "urlPattern": "/oferta/viviendas-unifamiliares-exclusivas-confort-moderno-madrid/",
           "status": "rejected"
         }
       ],

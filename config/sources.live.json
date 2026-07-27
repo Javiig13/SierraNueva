@@ -1367,6 +1367,327 @@
       "notes": "Promotora oficial revisada el 2026-07-27. La ficha sigue en el índice de promociones en curso, marca obra comenzada y declara 18 unifamiliares pareadas directamente del promotor. Los selectores excluyen planos, galería, contacto y el salón de 30 m² para no inferir una superficie construida falsa. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
     },
     {
+      "id": "antaro-mostoles-polar",
+      "name": "Antaro — Móstoles Polar Residencial",
+      "baseUrl": "https://antaro.es/",
+      "enabled": true,
+      "sourceKind": "cooperativeManager",
+      "allowedHosts": [
+        "antaro.es",
+        "www.antaro.es"
+      ],
+      "startUrls": [
+        "https://antaro.es/promociones/mostoles-polar-residencial/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Móstoles",
+      "municipalityHints": [
+        "Móstoles"
+      ],
+      "contentSelector": ".single__promo--content",
+      "additionalContentSelectors": [
+        ".single__promo--header"
+      ],
+      "includePatterns": [
+        "/promociones/mostoles-polar-residencial/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": ".single__promo--header h1"
+      },
+      "notes": "Gestora oficial revisada el 2026-07-27. La ficha vigente declara 11 chalets unifamiliares desde 481.000 € en Móstoles. Solo se procesan la cabecera y el contenido propio de la promoción; no se siguen formularios, imágenes ni documentos. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "trinosa-bonart",
+      "name": "Trinosa — Bonart",
+      "baseUrl": "https://trinosa.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "trinosa.com",
+        "www.trinosa.com"
+      ],
+      "startUrls": [
+        "https://trinosa.com/wp-json/wp/v2/promocion/449?_fields=link,title,content"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "contentFormat": "wordpressPageJson",
+      "fixedMunicipality": "Boadilla del Monte",
+      "municipalityHints": [
+        "Boadilla del Monte",
+        "Bonanza"
+      ],
+      "contentSelector": "body",
+      "includePatterns": [
+        "bonart",
+        "/wp-json/wp/v2/promocion/449"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. El REST público canónico contiene el texto que la ficha visual carga de forma incompleta: 8 villas desde 3.200.000 €, obras iniciadas y más del 60 % vendido. El adaptador conserva como URL pública la ficha Bonart; no se procesan imágenes ni formularios. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "kronos-krest",
+      "name": "Kronos Homes — Krest",
+      "baseUrl": "https://www.kronoshomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.kronoshomes.com",
+        "kronoshomes.com"
+      ],
+      "startUrls": [
+        "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/krest/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Torrelodones",
+      "municipalityHints": [
+        "Torrelodones"
+      ],
+      "contentSelector": ".promo_cover_infos_cont",
+      "includePatterns": [
+        "/madrid/krest/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "area-de-clientes"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha declara 31 chalets pareados de 4 y 5 dormitorios en Torrelodones y estado de últimas viviendas. Solo se procesa el resumen comercial de la ficha. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "brosh-villa-2-mostoles",
+      "name": "Brosh — Villa 2 Móstoles",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/villa-2-mostoles/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Móstoles",
+      "municipalityHints": [
+        "Móstoles"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/villa-2-mostoles/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha vigente declara 17 chalets adosados de 3 dormitorios desde 580.000 €, con obras iniciadas. Los selectores excluyen contacto y promociones sugeridas. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "brosh-villa-6-navalcarnero-f1",
+      "name": "Brosh — Villa 6 Navalcarnero Fase 1",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-1/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Navalcarnero",
+      "municipalityHints": [
+        "Navalcarnero"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/villa-6-navalcarnero-fase-1/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La fase 1 vigente declara 22 chalets de 4 dormitorios, entre 262,32 y 274,41 m², con obras iniciadas. El precio permanece nulo porque la fuente no lo publica. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "brosh-villa-6-navalcarnero-f2",
+      "name": "Brosh — Villa 6 Navalcarnero Fase 2",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-2/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Navalcarnero",
+      "municipalityHints": [
+        "Navalcarnero"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/villa-6-navalcarnero-fase-2/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La fase 2 vigente declara 26 chalets adosados de 4 dormitorios desde 572.000 €, licencia concedida y obras iniciadas. Los selectores excluyen contacto y promociones sugeridas. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "naiz-aceris-pozuelo",
+      "name": "Naiz Homes — Aceris de Pozuelo",
+      "baseUrl": "https://naizhomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "naizhomes.com",
+        "www.naizhomes.com"
+      ],
+      "startUrls": [
+        "https://naizhomes.com/promociones/acerisdepozuelo/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Pozuelo de Alarcón",
+      "municipalityHints": [
+        "Pozuelo de Alarcón"
+      ],
+      "contentSelector": "main > article.promociones",
+      "includePatterns": [
+        "/promociones/acerisdepozuelo/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha anuncia una próxima promoción unifamiliar en Pozuelo sin publicar todavía unidades, precio ni tipologías; esos campos permanecen nulos. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "naiz-pinea-pozuelo",
+      "name": "Naiz Homes — Pinea de Pozuelo",
+      "baseUrl": "https://naizhomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "naizhomes.com",
+        "www.naizhomes.com"
+      ],
+      "startUrls": [
+        "https://naizhomes.com/promociones/pineadepozuelo/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Pozuelo de Alarcón",
+      "municipalityHints": [
+        "Pozuelo de Alarcón"
+      ],
+      "contentSelector": "main > article.promociones",
+      "includePatterns": [
+        "/promociones/pineadepozuelo/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha declara 11 viviendas unifamiliares independientes de 5 y 6 dormitorios, parcelas de 500 y 700 m², piscina privada y unidades disponibles. Solo se procesa el artículo de la promoción, sin el formulario de contacto. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
       "id": "miraflores-villas",
       "name": "Miraflores Villas — Miraflores de la Sierra",
       "baseUrl": "https://mirafloresvillas.es/",

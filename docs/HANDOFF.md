@@ -40,8 +40,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 34
-  definiciones revisadas: 32 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 42
+  definiciones revisadas: 40 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -99,7 +99,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
   ya figuran en el registro de fuentes.
-- Seguimiento HTML adicional para cinco índices comerciales cuyo sitemap omite
+- Seguimiento HTML adicional para siete índices comerciales cuyo sitemap omite
   fichas conocidas. Usa selectores explícitos, una sola portada, cero
   recursión y la misma validación HTTPS/host.
 - Puente privado de descubrimiento sectorial mediante SIMA: un sitemap
@@ -216,12 +216,13 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          25 correctos
-Tests Infrastructure:124 correctos
+Tests Infrastructure:132 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               157/157 correctos
+Total:               165/165 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
+validate-config live:42 fuentes, 179 municipios, 179 centroides, 64 radar, 569 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
@@ -762,14 +763,39 @@ baja. La clave RSA efímera local se eliminó y el informe detallado no se
 publicó. Evidencia y decisiones en
 `docs/source-assessments/madrid-expansion-2026-07-27.md`.
 
+Una tercera revisión recuperó y verificó el artefacto cifrado de la ejecución
+`30288195132`; su SHA-256 local fue
+`e8feb8b66e8429027fc74dba671b50d15cc11a5399907f54e4ae67b08d04ad23`.
+Se revisaron por dominio los 91 candidatos altos y se incorporaron ocho fichas
+oficiales: Antaro Móstoles Polar, Trinosa Bonart, Kronos Krest, Brosh Villa 2,
+las dos fases de Brosh Villa 6 y Naiz Aceris y Pinea. Las ocho produjeron una
+promoción en smokes HTTP reales, sin Playwright ni geocodificación. Cada
+formato dispone de fixture y aserciones específicas.
+
+El perfil live queda en 42 definiciones, 40 automáticas y dos manuales por
+bloqueo. El radar pasa a 64 canales, 63 activos: mantiene 21 sitemaps
+comerciales y amplía a siete índices HTML acotados. El índice oficial de Brosh
+procesó 26 enlaces; el de Naiz procesó 12 entradas y conservó cinco candidatos
+privados tras seguir solo sus fichas españolas. El catálogo interno conserva
+569 actores, 197 con web declarada y 24 monitorizados.
+
+La extracción se reforzó con casos observados, no inferidos: `villas` como
+inventario, superficies construidas tabulares, estado `Disponible`, «próxima
+promoción», fallback al título si el `h1` existe vacío y separación entre
+superficie construida y parcela en Bonart. Los avisos de planeamiento continúan
+como `monitoring` privado; agregadores, producto plurifamiliar, promociones
+vendidas y ruido administrativo quedan descartados mediante reglas
+reproducibles. Aún falta verificar esta ampliación en una ejecución remota
+completa.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: revisar por dominio los 91 candidatos de prioridad alta,
-incorporar solo fichas oficiales vigentes y codificar los descartes
-reproducibles. Después, continuar con los 260 candidatos medios; la matriz ya
-está comprobada y no debe sustituir esa revisión.
+Prioridad inmediata: ejecutar el lote remoto completo y comprobar 40/40 fuentes
+comerciales, 63/63 canales de radar, Pages y una nueva exportación cifrada de
+la cola. Después, continuar con los candidatos medios; la matriz ya está
+comprobada y no debe sustituir esa revisión.
 
-1. Vigilar las 32 fichas comerciales automatizadas, las fichas manuales de
+1. Vigilar las 40 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
    descarte solo ante una ficha oficial nueva, un cambio real de producto o
    disponibilidad verificable.

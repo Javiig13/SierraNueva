@@ -200,7 +200,7 @@ public sealed class ConfigurationTests
             catalog.Actors.Count(actor =>
                 actor.SourceIds.Contains("sima-companies", StringComparer.Ordinal)));
         Assert.Equal(
-            22,
+            24,
             catalog.Actors.Count(actor =>
                 actor.ReviewStatus == MarketActorReviewStatus.Monitored));
         Assert.Contains(

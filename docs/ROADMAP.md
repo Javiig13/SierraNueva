@@ -544,6 +544,22 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   pendientes en 91 alta, 260 media, 497 baja y 17 duplicados. Alta y media
   bajaron desde 98/298 pese a incorporar señales nuevas. El informe detallado
   no se publicó y la clave efímera local se eliminó.
+- **Hecho local y smoke live (tercera revisión):** se revisaron por dominio los
+  91 candidatos altos y se incorporaron ocho fichas oficiales: Antaro Móstoles
+  Polar, Trinosa Bonart, Kronos Krest, tres promociones Brosh y Naiz Aceris y
+  Pinea. Cada formato dispone de fixture, prueba específica y smoke HTTP real
+  correcto sin Playwright ni geocodificación.
+- **Hecho local:** el perfil live queda en 42 fuentes —40 automáticas— y el
+  radar en 64 canales —63 activos—, con 21 sitemaps y siete índices HTML
+  comerciales oficiales. Brosh aportó 26 enlaces desde su índice y Naiz 12
+  entradas, cinco candidatas tras el seguimiento acotado. El catálogo conserva
+  569 actores, 197 con web y 24 monitorizados.
+- **Hecho local:** la extracción reconoce villas, superficies en tablas,
+  estados disponibles y «próxima promoción», preserva el título cuando un
+  `h1` está vacío y evita confundir superficie construida con parcela.
+- **Pendiente de verificación remota:** ejecutar el lote completo diario para
+  acreditar 40/40 fuentes comerciales y 63/63 canales de radar, desplegar
+  Pages y volver a medir la cola privada cifrada.
 - **Verificado Pages:** `runId` `20260727T153254903Z`; portada y contratos
   públicos HTTP 200, con los tres estados privados comprobados en HTTP 404.
 - **Evidencia:** evaluación y límites en
@@ -565,10 +581,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 157/157 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 165/165 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 31 revisadas; 29 automáticas y 2 manuales por bloqueo |
+| 5 | Fuente real permitida con Internet | Hecho | 42 revisadas; 40 automáticas y 2 manuales por bloqueo |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -579,7 +595,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 13 | Mapa funciona | Hecho | E2E real y offline con lista/filtro compartido |
 | 14 | Mapa y lista comparten filtro | Hecho | colección única en la UI |
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
-| 16 | Enlaces a webs originales | Hecho | las 21 fichas live publican su URL oficial y la UI expone el enlace |
+| 16 | Enlaces a webs originales | Hecho | las 40 fichas live automáticas publican su URL oficial y la UI expone el enlace |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
 | 19 | Deploy Pages | Hecho | ejecución `30054208393` y URL pública verificadas |
@@ -593,7 +609,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 157/157 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 165/165 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

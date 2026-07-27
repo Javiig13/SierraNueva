@@ -308,9 +308,17 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             return null;
         }
 
-        string? name = GetMetaContent(document, "property", "og:title") ??
-                       document.QuerySelector("h1")?.TextContent.Trim() ??
-                       document.Title;
+        string? name = GetMetaContent(document, "property", "og:title");
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            name = document.QuerySelector("h1")?.TextContent.Trim();
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            name = document.Title;
+        }
+
         if (string.IsNullOrWhiteSpace(name))
         {
             return null;
@@ -1107,7 +1115,10 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
             return CommercialStatus.PreSales;
         }
 
-        return OnSaleRegex().IsMatch(text) ? CommercialStatus.OnSale : fallback;
+        return OnSaleRegex().IsMatch(text) ||
+               AvailabilityTableRegex().IsMatch(text)
+            ? CommercialStatus.OnSale
+            : fallback;
     }
 
     private static ConstructionStatus DetectConstructionStatus(
@@ -1234,12 +1245,12 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PriceRegex();
 
     [GeneratedRegex(
-        @"(?:(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)\s*(?:hasta|a|y|-)\s*(?:los?\s+)?(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m\s*(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
+        @"(?:(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)\s*(?:hasta|a|y|-)\s*(?:los?\s+)?(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?:superficie\s+)?construid[ao]s?\D{0,35}(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?))?\s*m\s*(?:²|2)|(?<min>\d{2,4}(?:[.,]\d+)?)\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?|(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?=\s+\d{1,2}\s+(?:habitaciones?|dormitorios?))|(?:adosad[oa]|chalet|paread[oa]|independiente)\s+(?<min>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?=\s+\d{1,2}\b)|(?:metros?\s*(?:²|2)|superficie)\s*:?\s*(?:desde\s+)?(?<min>\d{2,4}(?:[.,]\d+)?)(?:\s*m\s*(?:²|2))?\s*(?:hasta|a|y|-)\s*(?<max>\d{2,4}(?:[.,]\d+)?)\s*m\s*(?:²|2)(?:\s+\p{L}+){0,2}\s+construid[ao]s?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BuiltAreaRegex();
 
     [GeneratedRegex(
-        @"(?:parcelas?\D{0,35}|parcelas?\s+privadas?\s*:\s*terrenos?\s+exclusivos?\s+desde\s+)(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+)))?\s*m\s*(?:²|2)",
+        @"(?:(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))\s*m\s*(?:²|2)\s+por\s+parcela|(?:parcelas?\D{0,35}|parcelas?\s+privadas?\s*:\s*terrenos?\s+exclusivos?\s+desde\s+)(?<min>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+))(?:\s*m\s*(?:²|2))?(?:\s*(?:hasta|a|y|-)\s*(?<max>(?:\d{2,5}(?:[.,]\d+)?|\d{1,2}(?:[.\s]\d{3})+)))?\s*m\s*(?:²|2)(?!\s+construid))",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PlotAreaRegex();
 
@@ -1294,7 +1305,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex LastUnitsRegex();
 
     [GeneratedRegex(
-        @"\b(?:pr[oó]ximamente|pr[oó]xima\s+fase|pr[oó]ximo\s+desarrollo|preparando\s+el\s+lanzamiento)\b",
+        @"\b(?:pr[oó]ximamente|pr[oó]xima\s+(?:fase|promoci[oó]n)|pr[oó]ximo\s+desarrollo|preparando\s+el\s+lanzamiento)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex UpcomingRegex();
 
@@ -1302,6 +1313,11 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         @"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n|promoci[oó]n\s+disponible|promociones?\s+en\s+curso)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex OnSaleRegex();
+
+    [GeneratedRegex(
+        @"\bestado\b.{0,1000}\bdisponible\b",
+        RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    private static partial Regex AvailabilityTableRegex();
 
     [GeneratedRegex(@"precomercializaci[oó]n", RegexOptions.IgnoreCase)]
     private static partial Regex PreSalesRegex();
@@ -1328,7 +1344,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex DeliveryRegex();
 
     [GeneratedRegex(
-        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?(?:viviendas?|chalets?)\b(?!\s+disponibles?)",
+        @"(?<value>\d{1,4})\s+(?:(?:nuevas?|exclusivas?)\s+)?(?:viviendas?|chalets?|villas?)\b(?!\s+disponibles?)",
         RegexOptions.IgnoreCase)]
     private static partial Regex UnitsRegex();
 

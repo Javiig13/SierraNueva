@@ -110,3 +110,44 @@ Pages publicó el `runId` `20260727T153254903Z`. La portada y los tres contratos
 públicos respondieron HTTP 200; las rutas privadas de candidatos,
 enriquecimiento y auditoría devolvieron HTTP 404. Las siete fichas de ambos
 lotes están presentes con sus URLs oficiales.
+
+## Tercera revisión por dominio
+
+El artefacto privado cifrado de la ejecución `30288195132` se descargó,
+descifró y autenticó localmente. El SHA-256 del archivo cifrado fue
+`e8feb8b66e8429027fc74dba671b50d15cc11a5399907f54e4ae67b08d04ad23`.
+La clave RSA efímera se eliminó después de validar el contenido. La instantánea
+contenía 865 pendientes: 91 altos, 260 medios, 497 bajos y 17 duplicados
+probables. Se revisaron los 91 altos agrupados por dominio.
+
+| Fuente | Decisión | Evidencia oficial publicada | Extracción acotada |
+|---|---|---|---|
+| [Antaro Móstoles Polar](https://antaro.es/cooperativas/mostoles-polar/) | Automática | Cooperativa de 11 chalets en Móstoles, desde 481.000 € | Contenido propio de la ficha, sin navegación ni contacto |
+| [Trinosa Bonart](https://trinosa.com/promocion/bonart/) | Automática por REST pública | Ocho villas, precio desde 3,2 M€, 1.000 m² construidos y parcela de 1.500 m² | Un único contenido WordPress oficial; la URL canónica permanece en el mismo host |
+| [Kronos Krest](https://kronoshomes.com/es/promociones/krest/) | Automática | 31 pareados de 4–5 dormitorios en Torrelodones, últimas unidades | JSON-LD y bloque principal de la ficha |
+| [Brosh Villa 2](https://www.brosh.es/promociones/madrid/villa-2-mostoles/) | Automática | 17 adosados de 3 dormitorios en Móstoles, obras en curso | Tabla y descripción de la ficha |
+| [Brosh Villa 6 fase 1](https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-1/) | Automática | 22 chalets de 4 dormitorios en Navalcarnero, obras en curso | Tabla y descripción de la ficha |
+| [Brosh Villa 6 fase 2](https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-2/) | Automática | 26 adosados de 4 dormitorios, licencia y obras en curso | Tabla y descripción de la ficha |
+| [Naiz Aceris](https://naizhomes.com/promociones/aceris/) | Automática | Próxima promoción unifamiliar en Pozuelo | Solo información publicada; inventario y precio permanecen nulos |
+| [Naiz Pinea](https://naizhomes.com/promociones/pinea/) | Automática | 11 viviendas independientes de 5–6 dormitorios, parcelas de 500–700 m² | Bloque principal de la promoción |
+
+Las ocho fichas produjeron una promoción y una fuente sana en smokes HTTP
+reales sin Playwright ni geocodificación. Los casos reducidos se fijaron como
+fixtures y cubren además un `h1` vacío, `villas`, superficies en tablas, el
+estado `Disponible`, «próxima promoción» y la distinción entre superficie
+construida y parcela.
+
+El sitemap de Brosh solo enumera la portada, por lo que se añadió su índice
+oficial acotado: procesó 26 enlaces del mismo host. El sitemap multilingüe de
+Naiz no ofrecía fichas útiles de forma fiable; se sustituyó por el índice
+español, que procesó 12 entradas y generó cinco candidatos privados tras un
+seguimiento de detalle limitado. El radar queda en 64 canales —63 activos— y
+el perfil comercial en 42 fuentes —40 automáticas—. El catálogo interno
+mantiene 569 actores, 197 con web declarada y eleva a 24 los monitorizados.
+
+Las fichas vendidas o entregadas, el producto plurifamiliar, agregadores,
+directorios y ruido administrativo se codificaron como `stale` o `rejected`.
+Los expedientes de planeamiento o contratación que podrían anticipar vivienda
+permanecen en `monitoring`: son señales privadas de futuro, no promociones
+publicables. Ninguna decisión negativa concede por sí sola exhaustividad y debe
+reabrirse si aparece evidencia oficial nueva.

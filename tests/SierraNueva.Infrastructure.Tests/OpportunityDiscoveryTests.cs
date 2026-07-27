@@ -1192,7 +1192,7 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            26,
+            28,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
@@ -1200,7 +1200,7 @@ public sealed class OpportunityDiscoveryTests
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
-            7,
+            9,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(
