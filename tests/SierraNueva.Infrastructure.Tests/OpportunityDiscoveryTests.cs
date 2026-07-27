@@ -192,6 +192,44 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_TranslatesInternalHttpTimeoutWithoutMaskingExternalCancellation()
+    {
+        using TimeoutHttpClientFactory factory = new(
+            TimeSpan.FromMilliseconds(20));
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "slow-feed",
+            Name = "Fuente lenta",
+            Enabled = true,
+            Format = OpportunityFeedFormat.Rss,
+            Cadence = OpportunityFeedCadence.Once,
+            UrlTemplate = "https://official.example/feed",
+            AllowedHosts = ["official.example"],
+            MaxItems = 10
+        };
+
+        HttpRequestException timeout = await Assert.ThrowsAsync<HttpRequestException>(
+            () => reader.ReadAsync(
+                source,
+                FixtureDate,
+                FixtureDate,
+                [],
+                CancellationToken.None));
+        Assert.Contains("Timeout HTTP", timeout.Message, StringComparison.Ordinal);
+
+        using CancellationTokenSource cancellation = new();
+        cancellation.Cancel();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => reader.ReadAsync(
+                source,
+                FixtureDate,
+                FixtureDate,
+                [],
+                cancellation.Token));
+    }
+
+    [Fact]
     public async Task Parser_ReadsPcspAtomInsideZip()
     {
         byte[] atom = await File.ReadAllBytesAsync(FixturePath("pcsp-licitaciones.atom"));
@@ -1723,6 +1761,36 @@ public sealed class OpportunityDiscoveryTests
     private sealed class FixedClock(DateTimeOffset utcNow) : IClock
     {
         public DateTimeOffset UtcNow { get; } = utcNow;
+    }
+
+    private sealed class TimeoutHttpClientFactory(TimeSpan timeout)
+        : IHttpClientFactory, IDisposable
+    {
+        private readonly HttpClient _client = new(new TimeoutHandler())
+        {
+            Timeout = timeout
+        };
+
+        public HttpClient CreateClient(string name)
+        {
+            return _client;
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
+
+        private sealed class TimeoutHandler : HttpMessageHandler
+        {
+            protected override async Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                throw new InvalidOperationException("La espera debía cancelarse.");
+            }
+        }
     }
 
     private sealed class UnusedFeedReader : IOpportunityFeedReader

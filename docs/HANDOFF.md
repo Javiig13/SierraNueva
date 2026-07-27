@@ -216,10 +216,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          24 correctos
-Tests Infrastructure:116 correctos
+Tests Infrastructure:117 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               148/148 correctos
+Total:               149/149 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 567 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -686,6 +686,22 @@ configuración y pruebas. Un smoke live aislado siguió 37 fichas SIMA del nuevo
 selector `.entry-content` del formato actual. Todavía no debe afirmarse que las
 716 consultas se hayan completado en GitHub Actions hasta ejecutar y observar
 un workflow live posterior a este cambio.
+
+La primera ejecución ampliada, `30269094453`, terminó globalmente correcta y
+desplegó Pages en 6 min 5 s, con 26 promociones, 25 fuentes comerciales sanas,
+179/179 municipios en el estado restaurado y 427 candidatos privados. Sin
+embargo, el paso del radar terminó antes de llegar a la matriz: BOCM agotó el
+timeout HTTP y `OpportunityFeedReader` propagó el `TaskCanceledException` como
+cancelación global. El resumen además etiquetaba el arranque correcto de
+SearXNG como si acreditara las 716 consultas.
+
+Se corrigieron ambos defectos: un timeout interno se traduce ahora a
+`HttpRequestException` y queda aislado como fallo de esa fuente, mientras una
+cancelación externa sigue deteniendo el proceso; una prueba con `HttpClient`
+realmente temporizado cubre la diferencia. El resumen separa «arranque
+SearXNG» de «matriz web» y comprueba que el `lastRun` sea nuevo y que
+`zz-web-search-matrix` haya terminado correctamente antes de acreditar las
+716 consultas. Hace falta una segunda ejecución; la #34 no las completó.
 
 ## Próximo trabajo recomendado
 

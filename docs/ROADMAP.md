@@ -508,6 +508,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   confirmar 716/716 consultas, revisar tiempo/carga y verificar de nuevo Pages
   y la exclusión de `data/state`. Hasta entonces no se considera demostrada la
   cobertura live diaria de los 179 municipios.
+- **Incidencia live corregida:** la ejecución `30269094453` desplegó Pages,
+  pero BOCM agotó el timeout antes de alcanzar la matriz. El radar confundía
+  ese timeout interno con cancelación global y el resumen confundía el
+  arranque SearXNG con las consultas. Ahora el timeout queda aislado por fuente,
+  la cancelación externa conserva su semántica y el resumen exige un `lastRun`
+  nuevo con la fuente web correcta antes de acreditar 716/716. Pendiente
+  repetir el workflow.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último

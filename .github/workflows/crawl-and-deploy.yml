@@ -116,14 +116,45 @@ jobs:
       - name: Discover opportunities and update private coverage
         id: opportunity-radar
         continue-on-error: true
-        run: >-
-          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
-          discover-opportunities
-          --config config/appsettings.live.json
-          --discovery-sources config/discovery-sources.live.json
-          --sources config/sources.live.json
-          --municipalities config/municipalities.json
-          --state .runtime/state
+        shell: pwsh
+        run: |
+          $statePath = '.runtime/state/opportunity-candidates.json'
+          $beforeRunId = $null
+          if (Test-Path -LiteralPath $statePath) {
+            $before = Get-Content -Raw -LiteralPath $statePath |
+              ConvertFrom-Json
+            $beforeRunId = $before.lastRun.runId
+          }
+
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+            discover-opportunities `
+            --config config/appsettings.live.json `
+            --discovery-sources config/discovery-sources.live.json `
+            --sources config/sources.live.json `
+            --municipalities config/municipalities.json `
+            --state .runtime/state
+          $radarExit = $LASTEXITCODE
+
+          $matrixOutcome = 'failure'
+          $matrixItems = 0
+          if (Test-Path -LiteralPath $statePath) {
+            $after = Get-Content -Raw -LiteralPath $statePath |
+              ConvertFrom-Json
+            $matrix = @($after.lastRun.sources |
+                Where-Object sourceId -eq 'zz-web-search-matrix')
+            if ($after.lastRun.runId -ne $beforeRunId -and
+                $matrix.Count -eq 1 -and
+                $matrix[0].success) {
+              $matrixOutcome = 'success'
+              $matrixItems = $matrix[0].itemsRead
+            }
+          }
+
+          "matrix-outcome=$matrixOutcome" |
+            Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "matrix-items=$matrixItems" |
+            Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          exit $radarExit
 
       - name: Stop private SearXNG search radar
         if: always()
@@ -272,7 +303,9 @@ jobs:
         shell: pwsh
         env:
           RADAR_OUTCOME: ${{ steps.opportunity-radar.outcome }}
-          SEARCH_OUTCOME: ${{ steps.private-search.outcome }}
+          SEARCH_START_OUTCOME: ${{ steps.private-search.outcome }}
+          SEARCH_OUTCOME: ${{ steps.opportunity-radar.outputs.matrix-outcome }}
+          SEARCH_ITEMS: ${{ steps.opportunity-radar.outputs.matrix-items }}
           BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
@@ -288,7 +321,8 @@ jobs:
             $coverage = $radar.coverage
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
-          - SearXNG privado (716 consultas): $env:SEARCH_OUTCOME
+          - Arranque SearXNG privado: $env:SEARCH_START_OUTCOME
+          - Matriz web (716 consultas): $env:SEARCH_OUTCOME; $env:SEARCH_ITEMS elementos conservados
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
@@ -300,7 +334,8 @@ jobs:
           } else {
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
-          - SearXNG privado (716 consultas): $env:SEARCH_OUTCOME
+          - Arranque SearXNG privado: $env:SEARCH_START_OUTCOME
+          - Matriz web (716 consultas): $env:SEARCH_OUTCOME; $env:SEARCH_ITEMS elementos conservados
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME

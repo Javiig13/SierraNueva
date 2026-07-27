@@ -330,6 +330,10 @@ ejecuta 179 municipios por cuatro familias, 716 consultas al día. Un fallo se
 registra como degradación y nunca borra candidatos ni bloquea por sí mismo el
 último dataset comercial.
 
+Un timeout creado por `HttpClient` se traduce a fallo aislado de la fuente; no
+se confunde con la cancelación externa del proceso. Esta última sí conserva la
+salida inmediata y el código 3.
+
 La baseline usa una fixture SearXNG y no necesita Docker, Internet ni claves.
 Common Crawl puede añadirse en el futuro detrás de la misma frontera privada.
 

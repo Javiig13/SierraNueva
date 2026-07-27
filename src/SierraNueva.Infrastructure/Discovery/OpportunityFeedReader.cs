@@ -383,9 +383,10 @@ public sealed class OpportunityFeedReader(
         HttpClient client = httpClientFactory.CreateClient("opportunity-discovery");
         using HttpRequestMessage request = new(HttpMethod.Get, uri);
         request.Headers.Accept.ParseAdd("application/zip");
-        using HttpResponseMessage response = await client.SendAsync(
+        using HttpResponseMessage response = await SendWithTimeoutTranslationAsync(
+            client,
             request,
-            HttpCompletionOption.ResponseHeadersRead,
+            uri,
             cancellationToken);
         if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
@@ -466,9 +467,10 @@ public sealed class OpportunityFeedReader(
             uri.AbsolutePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
                 ? "application/zip"
                 : "application/json, application/xml, application/atom+xml, text/html");
-        using HttpResponseMessage response = await client.SendAsync(
+        using HttpResponseMessage response = await SendWithTimeoutTranslationAsync(
+            client,
             request,
-            HttpCompletionOption.ResponseHeadersRead,
+            uri,
             cancellationToken);
         if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
@@ -503,6 +505,28 @@ public sealed class OpportunityFeedReader(
         }
 
         return output.ToArray();
+    }
+
+    private static async Task<HttpResponseMessage> SendWithTimeoutTranslationAsync(
+        HttpClient client,
+        HttpRequestMessage request,
+        Uri uri,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await client.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                cancellationToken);
+        }
+        catch (OperationCanceledException exception)
+            when (!cancellationToken.IsCancellationRequested)
+        {
+            throw new HttpRequestException(
+                $"Timeout HTTP al consultar '{uri}'.",
+                exception);
+        }
     }
 
     private static IReadOnlyList<(Uri Uri, DateOnly Date)> BuildUris(
