@@ -145,7 +145,18 @@
         { "urlPattern": "aedashomes.com/pisos-en-venta-en-alcala-de-henares-gumiel", "status": "stale" },
         { "urlPattern": "aedashomes.com/promo-maranta-viviendas-obra-nueva-boadilla-del-monte", "status": "stale" },
         { "urlPattern": "aedashomes.com/promo-zimara-viviendas-obra-nueva-boadilla-del-monte", "status": "stale" },
-        { "urlPattern": "larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte", "status": "monitoring" }
+        { "urlPattern": "larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte", "status": "monitoring" },
+        { "urlPattern": "pisosaccesibles.es/?p=2077", "status": "stale" },
+        { "urlPattern": "avintiainmobiliaria.com/proyectos/avintia-nova-alcorcon", "status": "stale" },
+        { "urlPattern": "avintiainmobiliaria.com/proyectos/los-molinos-i", "status": "stale" },
+        { "urlPattern": "promored.es/obra-nueva/arganda-del-rey-real-de-arganda", "status": "rejected" },
+        { "urlPattern": "promored.es/obra-nueva/arganda-del-rey-el-mayoral", "status": "rejected" },
+        { "urlPattern": "impacthomes.es/obra-nueva-toledo-residencial-los-molinos-iii", "status": "rejected" },
+        { "urlPattern": "impacthomes.es/residencial-los-molinos-ii", "status": "rejected" },
+        { "urlPattern": "jpgestudio.es/", "status": "rejected" },
+        { "urlPattern": "arquality.es/", "status": "rejected" },
+        { "urlPattern": "vkmarquitectos", "status": "rejected" },
+        { "urlPattern": "vklarquitectura", "status": "rejected" }
       ],
       "maxResultsPerQuery": 10,
       "searchDelayMilliseconds": 750,
@@ -891,6 +902,38 @@
         { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" }
       ],
       "maxItems": 200
+    },
+    {
+      "id": "sitemap-grupo-impulsa",
+      "name": "Grupo Impulsa — sitemap de proyectos",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://www.impulsaproyectos.com/proyectos-sitemap.xml",
+      "allowedHosts": [
+        "www.impulsaproyectos.com",
+        "impulsaproyectos.com"
+      ],
+      "maxItems": 500
+    },
+    {
+      "id": "links-bimaran",
+      "name": "Bimarán — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://www.bimaran.es/promociones-en-curso",
+      "allowedHosts": [ "www.bimaran.es", "bimaran.es" ],
+      "itemSelectors": [
+        "a[href*='/promociones-en-curso/']"
+      ],
+      "reviewRules": [
+        { "urlPattern": "/las-villas-de-arroyomolinos/", "status": "stale" },
+        { "urlPattern": "/terrazas-arroyomolinos/", "status": "stale" }
+      ],
+      "maxItems": 50
     },
     {
       "id": "sitemap-miraflores-villas",

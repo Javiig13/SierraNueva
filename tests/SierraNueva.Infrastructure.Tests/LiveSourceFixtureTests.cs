@@ -88,6 +88,18 @@ public sealed class LiveSourceFixtureTests
                 "grupo-egido-novaciempozuelos.html"
             },
             {
+                "grupo-impulsa-los-molinos",
+                "grupo-impulsa-los-molinos.html"
+            },
+            {
+                "grupo-impulsa-los-molinos-ii",
+                "grupo-impulsa-los-molinos-ii.html"
+            },
+            {
+                "bimaran-arroyo-homes",
+                "bimaran-arroyo-homes.html"
+            },
+            {
                 "miraflores-villas",
                 "miraflores-villas.html"
             }
@@ -407,6 +419,37 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(CommercialStatus.Upcoming, promotion.CommercialStatus);
                 Assert.True(promotion.HasCommunityPool);
                 Assert.Empty(promotion.PropertyTypes);
+                break;
+            case "grupo-impulsa-los-molinos":
+                Assert.Equal("Los Molinos", promotion.Name);
+                Assert.Equal(14, promotion.TotalUnits);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Equal(205m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(2, promotion.GarageSpacesMin);
+                Assert.Equal(["Adosado"], promotion.PropertyTypes);
+                break;
+            case "grupo-impulsa-los-molinos-ii":
+                Assert.Equal("Los Molinos II", promotion.Name);
+                Assert.Equal(12, promotion.TotalUnits);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(222m, promotion.BuiltAreaMinSqm);
+                Assert.Equal(178m, promotion.PlotAreaMinSqm);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(2, promotion.GarageSpacesMin);
+                Assert.Empty(promotion.PropertyTypes);
+                break;
+            case "bimaran-arroyo-homes":
+                Assert.Equal("Arroyo Homes", promotion.Name);
+                Assert.Equal(18, promotion.TotalUnits);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Null(promotion.BedroomsMin);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                Assert.Equal(
+                    ConstructionStatus.UnderConstruction,
+                    promotion.ConstructionStatus);
+                Assert.Equal(["Pareado"], promotion.PropertyTypes);
                 break;
             case "miraflores-villas":
                 Assert.Null(promotion.TotalUnits);

@@ -205,17 +205,17 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 31 definiciones revisadas y limitadas:
-29 están automatizadas; Miraflores Villas e Hirimasa se conservan
+`config/sources.live.json` contiene 34 definiciones revisadas y limitadas:
+32 están automatizadas; Miraflores Villas e Hirimasa se conservan
 deshabilitadas para comprobación manual porque sus fichas bloquean de forma
 reiterada al runner de GitHub. El sitemap de Hirimasa continúa activo en el
 radar. El perfil nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` contiene 60 fuentes y habilita 59:
-cuatro canales centrales, 28 fuentes municipales, 20 sitemaps de dominios
-comerciales oficiales, cuatro índices HTML comerciales acotados y tres canales
+`config/discovery-sources.live.json` contiene 62 fuentes y habilita 61:
+cuatro canales centrales, 28 fuentes municipales, 21 sitemaps de dominios
+comerciales oficiales, cinco índices HTML comerciales acotados y tres canales
 privados de descubrimiento sectorial de SIMA, más una matriz web privada
 SearXNG. La parte
 municipal comprende cinco tablones

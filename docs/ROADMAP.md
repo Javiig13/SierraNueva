@@ -497,7 +497,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** catálogo saneado y versionado de 569 actores, con 194
   asociados de ASPRIMA, 378 empresas de SIMA y los canales comerciales ya
   configurados. Solo guarda nombre, web, evidencia, procedencia y estado de
-  revisión; 20 están monitorizados y 549 siguen como candidatos. Ningún dato
+  revisión; 22 están monitorizados y 547 siguen como candidatos. Ningún dato
   de contacto se persiste.
 - **Hecho local:** importadores repetibles para geografía, actores y
   sincronización del radar, validación CLI y pruebas offline.
@@ -521,6 +521,15 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   comercial a 31 fuentes —29 automáticas—. El catálogo interno se sincroniza
   a 569 actores, 197 con web y 20 monitorizados. No contiene contactos ni se
   publica.
+- **Hecho local y smoke live:** una segunda revisión incorpora Los Molinos y
+  Los Molinos II de Grupo Impulsa en Getafe y Arroyo Homes de Bimarán en
+  Arroyomolinos. Las tres fichas respondieron HTTP 200 y extrajeron una
+  promoción cada una; el sitemap de Impulsa procesó 11 entradas y el índice
+  HTML acotado de Bimarán cinco, sin fallos.
+- **Hecho local:** el perfil live queda en 34 fuentes —32 automáticas— y el
+  radar en 62 canales —61 activos—, con 21 sitemaps y cinco índices HTML
+  comerciales oficiales. El catálogo conserva 569 actores, 197 con web y 22
+  monitorizados.
 - **Hecho local:** se codifican decisiones para promociones vendidas,
   entregadas o plurifamiliares y se mantienen dos fichas ambiguas en
   `monitoring`. El triaje deja de elevar «promoción económica» como promoción
@@ -546,7 +555,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 154/154 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 157/157 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 31 revisadas; 29 automáticas y 2 manuales por bloqueo |
@@ -574,7 +583,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 154/154 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 157/157 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

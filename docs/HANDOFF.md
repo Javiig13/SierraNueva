@@ -40,8 +40,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 31
-  definiciones revisadas: 29 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 34
+  definiciones revisadas: 32 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -95,11 +95,11 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   centrales, municipales y comerciales; prioriza señales de un solo canal,
   huecos y controles sin señal, sin exponer la cola ni fingir una estimación de
   exhaustividad.
-- Descubrimiento comercial privado mediante 17 sitemaps de dominios oficiales
+- Descubrimiento comercial privado mediante 21 sitemaps de dominios oficiales
   ya aprobados. Se limita a HTTPS y hosts permitidos, reconoce municipio y
   señal desde la URL/títulos del sitemap y marca como verificadas las URLs que
   ya figuran en el registro de fuentes.
-- Seguimiento HTML adicional para tres índices comerciales cuyo sitemap omite
+- Seguimiento HTML adicional para cinco índices comerciales cuyo sitemap omite
   fichas conocidas. Usa selectores explícitos, una sola portada, cero
   recursión y la misma validación HTTPS/host.
 - Puente privado de descubrimiento sectorial mediante SIMA: un sitemap
@@ -215,11 +215,11 @@ La última comprobación completa antes de esta entrega obtuvo:
 ```text
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
-Tests Core:          24 correctos
-Tests Infrastructure:117 correctos
+Tests Core:          25 correctos
+Tests Infrastructure:124 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               154/154 correctos
+Total:               157/157 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
@@ -727,16 +727,20 @@ pendientes en 367 dominios: 98 altos, 298 medios, 421 bajos y 16 duplicados.
 
 La primera revisión por dominio incorpora cuatro oportunidades oficiales:
 Insur Calíope, Nuevo Brunete, Residencial Cielo Arroyomolinos y
-NovaCiempozuelos. El perfil live queda en 31 definiciones, 29 automáticas y
+NovaCiempozuelos. Una segunda revisión incorpora Los Molinos, Los Molinos II
+y Arroyo Homes. El perfil live queda en 34 definiciones, 32 automáticas y
 dos manuales por bloqueo. Cada formato dispone de fixture y prueba; las cuatro
-fichas respondieron HTTP 200, respetaron `robots.txt` y terminaron correctas en
+primeras fichas y las tres nuevas respondieron HTTP 200, respetaron `robots.txt`
+y terminaron correctas en
 smokes `dry-run` sin Playwright ni geocodificación.
 
 El radar añade los sitemaps oficiales de Grupo Insur, Soldit Homes y GEMG y el
-índice HTML acotado de Grupo Egido. Queda en 60 canales, 59 activos. Los
-smokes procesaron 61, 10, 12 y 13 entradas respectivamente, sin fallos. El
-catálogo interno se sincronizó a 569 actores, 197 con web declarada y 20
-monitorizados; no contiene contactos ni se publica.
+índice HTML acotado de Grupo Egido; sus smokes procesaron 61, 10, 12 y 13
+entradas respectivamente, sin fallos. El radar incorpora además el sitemap de
+Grupo Impulsa y el índice HTML acotado de Bimarán, cuyos smokes procesaron 11
+y 5 entradas sin fallos. El total queda en 62 canales, 61 activos. El catálogo
+interno se sincronizó a 569 actores, 197 con web declarada y 22 monitorizados;
+no contiene contactos ni se publica.
 
 La revisión también codifica promociones vendidas, entregadas y una
 plurifamiliar fuera de alcance; Cambrija Viridis 3.0 y Larvin Hernán Cortés
@@ -749,13 +753,13 @@ reglas al estado privado restaurado. Evidencia y decisiones en
 
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: ejecutar el pipeline completo con las cuatro fuentes
+Prioridad inmediata: ejecutar el pipeline completo con las siete fuentes
 nuevas, aplicar las reglas al estado privado restaurado y volver a exportar el
 triaje para medir la cola restante. Después, continuar por dominio con los
 candidatos medios no cubiertos; la matriz ya está comprobada y no debe
 sustituir esa revisión.
 
-1. Vigilar las 25 fichas comerciales automatizadas, las fichas manuales de
+1. Vigilar las 32 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
    descarte solo ante una ficha oficial nueva, un cambio real de producto o
    disponibilidad verificable.

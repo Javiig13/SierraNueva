@@ -1050,15 +1050,37 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         Action<int, int?> setter)
     {
         Match match = regex.Match(text);
-        if (!match.Success || !int.TryParse(match.Groups["min"].Value, out int minimum))
+        if (!match.Success ||
+            ParseSmallInteger(match.Groups["min"].Value) is not { } minimum)
         {
             return;
         }
 
-        int? maximum = int.TryParse(match.Groups["max"].Value, out int parsedMax)
-            ? parsedMax
-            : null;
+        int? maximum = ParseSmallInteger(match.Groups["max"].Value);
         setter(minimum, maximum);
+    }
+
+    private static int? ParseSmallInteger(string value)
+    {
+        if (int.TryParse(value, out int parsed))
+        {
+            return parsed;
+        }
+
+        return value.Trim().ToLowerInvariant() switch
+        {
+            "un" or "una" or "uno" => 1,
+            "dos" => 2,
+            "tres" => 3,
+            "cuatro" => 4,
+            "cinco" => 5,
+            "seis" => 6,
+            "siete" => 7,
+            "ocho" => 8,
+            "nueve" => 9,
+            "diez" => 10,
+            _ => null
+        };
     }
 
     private static CommercialStatus DetectCommercialStatus(
@@ -1237,7 +1259,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex BathroomsRegex();
 
     [GeneratedRegex(
-        @"(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+plazas?\s+de\s+(?:aparcamiento|garaje)\b",
+        @"(?:(?<min>\d{1,2})(?:\s*(?:a|o|y|-)\s*(?<max>\d{1,2}))?\s+plazas?\s+de\s+(?:aparcamiento|garaje)|(?:espacio(?:\s+\w+){0,2}\s+)?para\s+(?<min>un|una|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|\d{1,2})\s+(?:veh[ií]culos|coches))\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex GarageSpacesRegex();
 
@@ -1277,7 +1299,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex UpcomingRegex();
 
     [GeneratedRegex(
-        @"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n|promoci[oó]n\s+disponible)\b",
+        @"\b(?:en\s+venta|a\s+la\s+venta|comercializaci[oó]n|promoci[oó]n\s+disponible|promociones?\s+en\s+curso)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex OnSaleRegex();
 
@@ -1288,7 +1310,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex CompletedRegex();
 
     [GeneratedRegex(
-        @"\b(?:en\s+construcci[oó]n|obras?\s+iniciadas?|obra\s+en\s+ejecuci[oó]n)\b",
+        @"\b(?:en\s+construcci[oó]n|obras?\s+(?:iniciadas?|comenzadas?)|obra\s+en\s+ejecuci[oó]n)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex UnderConstructionRegex();
 

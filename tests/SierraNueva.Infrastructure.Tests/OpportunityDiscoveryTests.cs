@@ -1192,15 +1192,15 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            24,
+            26,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
-            21,
+            22,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
-            6,
+            7,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(

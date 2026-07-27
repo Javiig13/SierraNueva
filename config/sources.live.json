@@ -1243,6 +1243,130 @@
       "notes": "Promotora oficial revisada el 2026-07-27. La ficha anuncia un próximo desarrollo residencial de chalets con zonas comunes y piscina, aún antes de comercialización. No se infieren número de viviendas, dormitorios, precio ni tipología concreta. Los selectores excluyen íntegramente el formulario. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
     },
     {
+      "id": "grupo-impulsa-los-molinos",
+      "name": "Grupo Impulsa — Los Molinos",
+      "baseUrl": "https://www.impulsaproyectos.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.impulsaproyectos.com",
+        "impulsaproyectos.com"
+      ],
+      "startUrls": [
+        "https://www.impulsaproyectos.com/proyectos/los-molinos/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Getafe",
+      "municipalityHints": [
+        "Getafe"
+      ],
+      "contentSelector": ".proyecto-proyecto-activo",
+      "includePatterns": [
+        "/proyectos/los-molinos/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": ".proyecto-proyecto-activo h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha figura entre los proyectos actuales y declara 14 viviendas unifamiliares adosadas de 3 o 4 dormitorios en comercialización. Solo se procesa el artículo del proyecto. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "grupo-impulsa-los-molinos-ii",
+      "name": "Grupo Impulsa — Los Molinos II",
+      "baseUrl": "https://www.impulsaproyectos.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.impulsaproyectos.com",
+        "impulsaproyectos.com"
+      ],
+      "startUrls": [
+        "https://www.impulsaproyectos.com/proyectos/los-molinos-2/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Getafe",
+      "municipalityHints": [
+        "Getafe"
+      ],
+      "contentSelector": ".proyecto-proyecto-activo",
+      "includePatterns": [
+        "/proyectos/los-molinos-2/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "wp-admin"
+      ],
+      "customSelectors": {
+        "name": ".proyecto-proyecto-activo h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha figura entre los proyectos actuales y declara 12 viviendas unifamiliares de 3 dormitorios, 222 m² construidos y parcela de 178 m² en comercialización. Solo se procesa el artículo del proyecto. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "bimaran-arroyo-homes",
+      "name": "Bimarán — Arroyo Homes",
+      "baseUrl": "https://www.bimaran.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.bimaran.es",
+        "bimaran.es"
+      ],
+      "startUrls": [
+        "https://www.bimaran.es/promociones-en-curso/arroyo-homes/arroyomolinos/madrid/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Arroyomolinos",
+      "municipalityHints": [
+        "Arroyomolinos"
+      ],
+      "contentSelector": "#descripcion > div:nth-of-type(1)",
+      "additionalContentSelectors": [
+        "#descripcion > div:nth-of-type(9)",
+        ".property_info_header h5"
+      ],
+      "includePatterns": [
+        "/promociones-en-curso/arroyo-homes/arroyomolinos/madrid/"
+      ],
+      "excludePatterns": [
+        "aviso-legal",
+        "privacidad",
+        "cookies",
+        "contacto",
+        "admin"
+      ],
+      "customSelectors": {
+        "name": ".property_info_header h2"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-27. La ficha sigue en el índice de promociones en curso, marca obra comenzada y declara 18 unifamiliares pareadas directamente del promotor. Los selectores excluyen planos, galería, contacto y el salón de 30 m² para no inferir una superficie construida falsa. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
       "id": "miraflores-villas",
       "name": "Miraflores Villas — Miraflores de la Sierra",
       "baseUrl": "https://mirafloresvillas.es/",

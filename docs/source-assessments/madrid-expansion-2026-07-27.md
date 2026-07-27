@@ -42,6 +42,20 @@ GEMG, más el índice HTML de promociones de Grupo Egido. Los smokes aislados
 procesaron respectivamente 61/4, 10/1, 12/2 y 13/13
 entradas/candidatos, sin fallos y en `dry-run`.
 
+Una segunda revisión del mismo triaje amplía la cobertura al sur metropolitano:
+
+| Fuente | Decisión | Evidencia oficial publicada | Extracción acotada |
+|---|---|---|---|
+| [Los Molinos](https://www.impulsaproyectos.com/proyectos/los-molinos/) | Automática | 14 unifamiliares adosadas de 3–4 dormitorios, 205 m² y comercialización vigente en Getafe | Único contenedor de proyecto; 2 plazas se extraen solo de «espacio … para dos vehículos» |
+| [Los Molinos II](https://www.impulsaproyectos.com/proyectos/los-molinos-2/) | Automática | 12 unifamiliares de 3 dormitorios, 222 m² construidos, parcela de 178 m² y comercialización vigente en Getafe | Único contenedor de proyecto, sin seguir enlaces |
+| [Arroyo Homes](https://www.bimaran.es/promociones-en-curso/arroyo-homes/arroyomolinos/madrid/) | Automática | 18 unifamiliares pareadas directamente del promotor y obra comenzada en Arroyomolinos | Descripción, estado y título; se excluyen planos, galería, contacto y los 30 m² del salón |
+
+Las tres fichas respondieron HTTP 200, respetaron `robots.txt` y produjeron una
+promoción en smokes aislados sin Playwright ni geocodificación. El sitemap de
+Grupo Impulsa procesó 11 fichas y no creó duplicados de sus URLs ya
+monitorizadas. El índice HTML de Bimarán procesó cinco enlaces oficiales,
+todos dentro del host y del máximo configurado.
+
 ## Decisiones negativas y seguimiento
 
 Las siguientes páginas no se publican como oportunidades activas:
@@ -56,6 +70,12 @@ Las siguientes páginas no se publican como oportunidades activas:
 | Aurora Homes Tebaris | `rejected` | promoción plurifamiliar en bloque, fuera del alcance unifamiliar |
 | Cambrija Viridis 3.0 | `monitoring` | evidencia de lanzamiento, pero sin disponibilidad comercial actual inequívoca |
 | Grupo Larvin Hernán Cortés | `monitoring` | ficha técnica accesible y actualizada, pero sin estado comercial inequívoco |
+| Bimarán Las Villas y Terrazas Arroyomolinos | `stale` | las fichas oficiales están vendidas |
+| Avintia Nova Alcorcón y Los Molinos I | `stale` | las fichas oficiales indican promoción entregada |
+| PromoRed Real de Arganda y El Mayoral | `rejected` | promociones de vivienda colectiva, fuera del alcance unifamiliar |
+| Impact Homes «Los Molinos» | `rejected` | resultados de Toledo sin relación con Getafe |
+| PisosAccesibles Getafe | `stale` | anuncio histórico de 2019 |
+| JPGE Studio, ArQuality y VK arquitectura | `rejected` | servicios de arquitectura, no oferta comercial de vivienda |
 
 Las reglas se aplicarán al estado privado existente en la siguiente ejecución
 completa. No se atribuye una reducción concreta de la cola hasta observarla.
@@ -63,11 +83,11 @@ completa. No se atribuye una reducción concreta de la cola hasta observarla.
 ## Catálogo de actores
 
 El importador se volvió a ejecutar con las fuentes nuevas. El catálogo
-interno contiene 569 actores: 197 con web declarada y 20 enlazados ya a un
-canal monitorizado. Insur y Grupo Egido se reconciliaron con sus registros de
-ASPRIMA; GEMG y Soldit Homes se añadieron desde el catálogo live. El archivo
+interno contiene 569 actores: 197 con web declarada y 22 enlazados ya a un
+canal monitorizado. Insur, Grupo Egido, Bimarán e Impulsa se reconciliaron con
+sus registros de ASPRIMA; GEMG y Soldit Homes se añadieron desde el catálogo live. El archivo
 solo conserva nombre, web, procedencia, evidencia y relación con fuentes; no
 guarda personas, teléfonos ni correos.
 
 Este inventario amplía el universo a revisar, pero no demuestra que los otros
-549 actores tengan oferta unifamiliar vigente en la Comunidad de Madrid.
+547 actores tengan oferta unifamiliar vigente en la Comunidad de Madrid.
