@@ -596,7 +596,7 @@
       "id": "hirimasa-moralzarzal-pradillos",
       "name": "Hirimasa — C/ Pradillos Moralzarzal",
       "baseUrl": "https://hirimasa.com/",
-      "enabled": true,
+      "enabled": false,
       "sourceKind": "officialPromoter",
       "allowedHosts": [
         "hirimasa.com",
@@ -633,7 +633,7 @@
       "customSelectors": {
         "name": "[data-id='b6c39b6'] h3"
       },
-      "notes": "Promotora oficial revisada el 2026-07-23. La página contiene varias promociones: se exigen los tres bloques exclusivos de Moralzarzal y se falla de forma cerrada si cambia alguno. La señal visual de última vivienda se genera por CSS y no se publica como dato rastreado. Evaluación en docs/source-assessments/live-expansion-followup-2026-07-23.md."
+      "notes": "Promotora oficial revisada el 2026-07-23 y conservada para comprobación manual. La página y la API REST devolvieron HTTP 403 tanto localmente como desde GitHub el 2026-07-27, mientras el sitemap oficial sigue sano; la extracción directa queda deshabilitada sin proxies ni evasión y el radar continúa vigilando el dominio. Evaluación en docs/source-assessments/live-expansion-followup-2026-07-23.md."
     },
     {
       "id": "nuvare-cumbres-navalafuente",

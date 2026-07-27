@@ -397,6 +397,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   tanto la extracción como el canal de radar automáticos. El estado operativo
   queda en 26 fuentes comerciales y 55 canales; no se usa proxy, CAPTCHA,
   navegador evasivo ni copia estática presentada como live.
+- **Resuelto sin evasión:** la ejecución programada `30240033410` dejó
+  Hirimasa como único fallo comercial. La ficha y la API REST devolvieron
+  después HTTP 403 también en local, pero su sitemap sigue sano. Se deshabilita
+  únicamente la extracción directa y se conserva el sitemap en el radar; el
+  estado operativo pasa a 25 fuentes comerciales y mantiene 55 canales.
 
 ## P6 — Enriquecimiento verificable de fichas
 
@@ -476,7 +481,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 2 | Todos los tests pasan | Hecho | 140/140 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 27 revisadas; 26 automáticas y 1 manual por bloqueo |
+| 5 | Fuente real permitida con Internet | Hecho | 27 revisadas; 25 automáticas y 2 manuales por bloqueo |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |

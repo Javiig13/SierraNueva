@@ -205,9 +205,10 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
 `config/sources.live.json` contiene 27 definiciones revisadas y limitadas:
-26 están automatizadas y Miraflores Villas se conserva deshabilitada para
-comprobación manual porque su dominio bloquea de forma reiterada al runner de
-GitHub. El perfil nunca se usa en la baseline ni en pruebas automáticas.
+25 están automatizadas; Miraflores Villas e Hirimasa se conservan
+deshabilitadas para comprobación manual porque sus fichas bloquean de forma
+reiterada al runner de GitHub. El sitemap de Hirimasa continúa activo en el
+radar. El perfil nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
@@ -659,7 +660,7 @@ sigue funcionando.
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; levanta SearXNG, ejecuta las 116 consultas, actualiza después
   el resto del radar y su cobertura privada, usa las
-  26 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  25 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último
   dataset comercial válido.

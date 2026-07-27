@@ -41,8 +41,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 29 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con 27
-  definiciones revisadas: 26 automatizadas y Miraflores Villas retenida como
-  comprobación manual por bloqueo reiterado del runner.
+  definiciones revisadas: 25 automatizadas y Miraflores Villas/Hirimasa
+  retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
 - Prueba de integración del pipeline mediante un servidor HTTP real en
@@ -274,9 +274,9 @@ porque el estado sintético ya está sembrado.
 ### Prioridad de producto
 
 - La baseline sigue teniendo una única fuente activa, `fixtures-locales`. El
-  perfil separado `sources.live.json` habilita explícitamente 26 fuentes
-  limitadas, conserva una definición manual deshabilitada y no se ejecuta por
-  accidente.
+  perfil separado `sources.live.json` habilita explícitamente 25 fuentes
+  limitadas, conserva dos definiciones manuales deshabilitadas y no se ejecuta
+  por accidente.
 - El perfil del radar suma 56 definiciones, 55 habilitadas, con
   `zz-web-search-matrix`. La baseline
   usa una respuesta SearXNG reducida y la matriz live queda fijada en 116
@@ -481,7 +481,7 @@ porque el estado sintético ya está sembrado.
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
 - El workflow live se ejecuta manualmente o cada día a las 06:17
-  `Europe/Madrid`. Publica solo tras éxito completo de las 26 fuentes
+  `Europe/Madrid`. Publica solo tras éxito completo de las 25 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow actualizado ejecuta antes `discover-opportunities` con las 52
   fuentes live y escribe salud/cobertura solo bajo `.runtime/state`. Un fallo
@@ -558,6 +558,13 @@ porque el estado sintético ya está sembrado.
   revisión manual, pero ambas definiciones quedan deshabilitadas en la
   automatización; el estado operativo honesto pasa a 26 fuentes comerciales y
   55 canales de radar.
+- Las tres ejecuciones programadas posteriores sanearon el radar a 55/55
+  canales. La más reciente, `30240033410`, dejó un único fallo comercial:
+  Hirimasa devolvió HTTP 403 en su ficha. El 27 de julio la página y su API REST
+  reprodujeron el bloqueo también en local, mientras el sitemap siguió
+  accesible y sano. La extracción directa queda deshabilitada, pero su sitemap
+  permanece en el radar; el perfil operativo pasa a 25 fuentes comerciales y
+  conserva 55 canales.
 - El 24 de julio se validó localmente el nuevo embudo SIMA. Su sitemap siguió
   tres fichas ya gobernadas por reglas y los índices municipales detectaron
   `Orbia` en Collado Villalba y `Nevia` en El Escorial, ambos como candidatos
@@ -631,8 +638,8 @@ porque el estado sintético ya está sembrado.
 
 ## Próximo trabajo recomendado
 
-1. Vigilar las 26 fichas comerciales automatizadas, la ficha manual de
-   Miraflores Villas y las decisiones de triaje. Reabrir un
+1. Vigilar las 25 fichas comerciales automatizadas, las fichas manuales de
+   Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
    descarte solo ante una ficha oficial nueva, un cambio real de producto o
    disponibilidad verificable.
 2. Mantener en observación el estudio de detalle de Collado Mediano y la

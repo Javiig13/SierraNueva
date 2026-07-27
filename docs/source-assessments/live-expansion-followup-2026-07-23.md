@@ -68,6 +68,14 @@ se edite la página. Esa fragilidad es deliberadamente visible: un cambio
 estructural produce un fallo de fuente y conserva el último dataset válido, en
 vez de leer toda la página y publicar una mezcla.
 
+El 27 de julio de 2026 la ejecución programada `30240033410` recibió HTTP 403
+en la ficha. La comprobación posterior reprodujo el 403 tanto en la página como
+en la API REST pública, también desde la máquina local; el sitemap oficial
+continuó respondiendo HTTP 200 y el radar lo mantuvo sano. No se usa proxy ni
+evasión: la extracción directa queda deshabilitada y la ficha permanece como
+fuente revisada manual, mientras el sitemap sigue detectando cambios o nuevas
+URLs para reabrir la evaluación.
+
 ## Candidatas no incorporadas
 
 - **Puerta de Abantos, El Escorial:** la fuente oficial presenta un único
