@@ -683,9 +683,7 @@ entidad sea promotora ni que tenga oferta unifamiliar vigente en Madrid.
 La ampliación está comprobada localmente con fixtures, validación de
 configuración y pruebas. Un smoke live aislado siguió 37 fichas SIMA del nuevo
 ámbito, produjo 10 candidatos privados y terminó sin fallos tras incorporar el
-selector `.entry-content` del formato actual. Todavía no debe afirmarse que las
-716 consultas se hayan completado en GitHub Actions hasta ejecutar y observar
-un workflow live posterior a este cambio.
+selector `.entry-content` del formato actual.
 
 La primera ejecución ampliada, `30269094453`, terminó globalmente correcta y
 desplegó Pages en 6 min 5 s, con 26 promociones, 25 fuentes comerciales sanas,
@@ -701,13 +699,33 @@ cancelación externa sigue deteniendo el proceso; una prueba con `HttpClient`
 realmente temporizado cubre la diferencia. El resumen separa «arranque
 SearXNG» de «matriz web» y comprueba que el `lastRun` sea nuevo y que
 `zz-web-search-matrix` haya terminado correctamente antes de acreditar las
-716 consultas. Hace falta una segunda ejecución; la #34 no las completó.
+716 consultas.
+
+La segunda ejecución ampliada,
+[`30270433121`](https://github.com/Javiig13/SierraNueva/actions/runs/30270433121),
+verificó el flujo completo sobre `996c9d4`: terminó en 20 min 34 s, ejecutó
+las **716 consultas** en 15 min 22 s, conservó 609 resultados de búsqueda y
+dejó 833 candidatos privados pendientes. El radar declaró 55 fuentes sanas,
+cero degradadas y cero en fallo reiterado, con cobertura 179/179 y 28 canales
+municipales directos. El crawler publicó 26 promociones —22 activas— desde
+25/25 fuentes comerciales sanas; el `runId` público es
+`20260727T134551916Z`. La IA permaneció desactivada.
+
+Pages se desplegó correctamente. La portada, `data/run.json`,
+`data/promotions.json` y `data/promotions.geojson` devolvieron HTTP 200 sin
+caché. `data/state/opportunity-candidates.json`,
+`data/state/promotion-enrichment.json` y
+`data/state/opportunity-audit.json` devolvieron HTTP 404. La cobertura live
+diaria de los 179 municipios queda así verificada para esta ejecución; sigue
+siendo una observación temporal, no una garantía permanente de exhaustividad
+del mercado.
 
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: ejecutar una vez el workflow live ampliado, medir duración,
-resultados y fallos de las 716 consultas y comprobar después que Pages sigue sin
-publicar `data/state`.
+Prioridad inmediata: clasificar por dominio los 833 candidatos privados y
+convertir en fuentes configuradas solo webs oficiales que aporten promociones
+unifamiliares verificables; la matriz ya está comprobada y no debe sustituir
+esa revisión.
 
 1. Vigilar las 25 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

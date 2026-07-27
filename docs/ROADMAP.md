@@ -504,17 +504,21 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Verificado live aislado:** SIMA cambió su ficha a `.entry-content`; se
   añadió fixture y compatibilidad sin retirar selectores anteriores. El smoke
   siguió 37 fichas, generó 10 candidatos privados y terminó con cero fallos.
-- **Pendiente live:** ejecutar y observar el workflow ampliado completo,
-  confirmar 716/716 consultas, revisar tiempo/carga y verificar de nuevo Pages
-  y la exclusión de `data/state`. Hasta entonces no se considera demostrada la
-  cobertura live diaria de los 179 municipios.
+- **Hecho live:** la ejecución `30270433121` completó la matriz 716/716 en
+  15 min 22 s, conservó 609 resultados y dejó 833 candidatos privados. El
+  workflow completo terminó en 20 min 34 s con 55 fuentes de radar sanas,
+  cobertura 179/179, 28 canales directos, 26 promociones y 25/25 fuentes
+  comerciales correctas. La IA permaneció desactivada.
+- **Hecho live:** Pages se desplegó y los contratos públicos devolvieron HTTP
+  200; los tres estados privados comprobados devolvieron HTTP 404. La interfaz
+  cargó 22 promociones activas.
 - **Incidencia live corregida:** la ejecución `30269094453` desplegó Pages,
   pero BOCM agotó el timeout antes de alcanzar la matriz. El radar confundía
   ese timeout interno con cancelación global y el resumen confundía el
   arranque SearXNG con las consultas. Ahora el timeout queda aislado por fuente,
   la cancelación externa conserva su semántica y el resumen exige un `lastRun`
-  nuevo con la fuente web correcta antes de acreditar 716/716. Pendiente
-  repetir el workflow.
+  nuevo con la fuente web correcta antes de acreditar 716/716. La repetición
+  `30270433121` verificó la corrección.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último
@@ -525,7 +529,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 140/140 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 149/149 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 27 revisadas; 25 automáticas y 2 manuales por bloqueo |
@@ -553,7 +557,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 140/140 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 149/149 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
