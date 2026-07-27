@@ -81,6 +81,13 @@ public enum SourceRunStatus
     Failed
 }
 
+public enum MarketActorReviewStatus
+{
+    Candidate,
+    Monitored,
+    Rejected
+}
+
 public enum SkipReason
 {
     None,

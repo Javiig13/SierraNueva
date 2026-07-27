@@ -218,7 +218,7 @@ se consideran una anomalía, pero no borran candidatos ni resultados
 anteriores. `coverage-status` marca también revisiones atrasadas según la
 operación diaria, con un margen de 36 horas.
 
-Cada ejecución genera además una fotografía para los 29 municipios. Distingue
+Cada ejecución genera además una fotografía para los 179 municipios. Distingue
 cobertura municipal directa, exclusivamente central, combinada, degradada o
 todavía no comprobada; incorpora el número de canales sanos y candidatos
 pendientes. `coverage-status` presenta solo esos agregados operativos y no
@@ -326,7 +326,7 @@ solo evita que los marcadores se tapen.
 SierraNueva no raspa Google, Bing ni DuckDuckGo directamente. El workflow live
 levanta una imagen oficial SearXNG fijada por digest, accesible solo desde el
 runner, habilita su API JSON y la destruye después del radar. La matriz actual
-ejecuta 29 municipios por cuatro familias, 116 consultas al día. Un fallo se
+ejecuta 179 municipios por cuatro familias, 716 consultas al día. Un fallo se
 registra como degradación y nunca borra candidatos ni bloquea por sí mismo el
 último dataset comercial.
 

@@ -1,6 +1,6 @@
 # Fixture geográfica
 
-`ign-ngmep-municipalities-madrid-2026.csv` es una reducción de 29 filas del
+`ign-ngmep-municipalities-madrid-2026.csv` es una reducción de 179 filas del
 fichero `MUNICIPIOS.csv` incluido en `BD_MUNICIPIOS-ENTIDADES.ZIP`, edición
 2026-03 del Nomenclátor Geográfico de Municipios y Entidades de Población.
 
@@ -18,4 +18,4 @@ Fuente oficial:
 
 La reducción conserva únicamente código municipal, nombre, longitud, latitud
 y origen de coordenada. No contiene información personal ni datos ajenos a los
-29 municipios cubiertos por SierraNueva.
+179 municipios de la Comunidad de Madrid cubiertos por SierraNueva.

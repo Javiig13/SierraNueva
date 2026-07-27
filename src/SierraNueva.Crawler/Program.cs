@@ -188,10 +188,15 @@ internal static class CrawlerApplication
             await configuration.Loader.LoadOpportunityCatalogAsync(
                 options.DiscoverySources,
                 cancellationToken);
+        MarketActorCatalog marketActorCatalog =
+            await configuration.Loader.LoadMarketActorCatalogAsync(
+                options.MarketActors,
+                cancellationToken);
         errors = errors.Concat(
                 configuration.Loader.ValidateOpportunityCatalog(
                     opportunityCatalog,
                     configuration.Municipalities))
+            .Concat(configuration.Loader.ValidateMarketActorCatalog(marketActorCatalog))
             .ToArray();
         if (errors.Count == 0)
         {
@@ -199,7 +204,8 @@ internal static class CrawlerApplication
                 $"Configuración válida: {configuration.Sources.Count} fuentes y " +
                 $"{configuration.Municipalities.Count} municipios; " +
                 $"{configuration.CentroidCatalog.Sources.Count} centroides trazables; " +
-                $"{opportunityCatalog.Sources.Count} fuentes de radar.");
+                $"{opportunityCatalog.Sources.Count} fuentes de radar; " +
+                $"{marketActorCatalog.Actors.Count} actores de mercado.");
             return 0;
         }
 
@@ -1216,6 +1222,7 @@ internal static class CrawlerApplication
               --centroid-sources <ruta> config/municipality-centroids.json
               --exclusions <ruta>      config/domain-exclusions.json
               --discovery-sources <ruta> config/discovery-sources.json
+              --market-actors <ruta>    config/market-actors.json
               --output <ruta>          data/public
               --state <ruta>           data/state
               --municipality <nombre>  Filtrar municipio
@@ -1296,6 +1303,9 @@ internal sealed class CliOptions
 
     public string DiscoverySources { get; private init; } =
         "config/discovery-sources.json";
+
+    public string MarketActors { get; private init; } =
+        "config/market-actors.json";
 
     public string Output { get; private init; } = "data/public";
 
@@ -1500,6 +1510,10 @@ internal sealed class CliOptions
                 values,
                 "--discovery-sources",
                 "config/discovery-sources.json"),
+            MarketActors = Get(
+                values,
+                "--market-actors",
+                "config/market-actors.json"),
             Output = Get(values, "--output", "data/public"),
             State = Get(values, "--state", "data/state"),
             Municipality = GetNullable(values, "--municipality"),

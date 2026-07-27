@@ -59,6 +59,120 @@ public sealed class ConfigurationLoader
                ?? new();
     }
 
+    public async Task<MarketActorCatalog> LoadMarketActorCatalogAsync(
+        string path,
+        CancellationToken cancellationToken)
+    {
+        await using FileStream stream = File.OpenRead(path);
+        return await JsonSerializer.DeserializeAsync<MarketActorCatalog>(
+                   stream,
+                   JsonDefaults.Compact,
+                   cancellationToken)
+               ?? throw new InvalidDataException(
+                   $"El archivo '{path}' no contiene un catálogo de actores.");
+    }
+
+    public IReadOnlyList<string> ValidateMarketActorCatalog(MarketActorCatalog catalog)
+    {
+        List<string> errors = [];
+        if (catalog.SchemaVersion != "1.0")
+        {
+            errors.Add("El catálogo de actores debe usar el contrato 1.0.");
+        }
+
+        if (catalog.CheckedAtUtc == default ||
+            catalog.CheckedAtUtc.Offset != TimeSpan.Zero)
+        {
+            errors.Add("checkedAtUtc del catálogo de actores debe estar expresado en UTC.");
+        }
+
+        if (catalog.Sources.Count == 0)
+        {
+            errors.Add("El catálogo de actores necesita al menos una fuente.");
+        }
+
+        foreach (IGrouping<string, MarketActorCatalogSource> duplicate in catalog.Sources
+                     .GroupBy(source => source.Id, StringComparer.OrdinalIgnoreCase)
+                     .Where(group => group.Count() > 1))
+        {
+            errors.Add($"Id de procedencia de actores duplicado: {duplicate.Key}.");
+        }
+
+        foreach (MarketActorCatalogSource source in catalog.Sources)
+        {
+            if (string.IsNullOrWhiteSpace(source.Id) ||
+                string.IsNullOrWhiteSpace(source.Name) ||
+                !IsHttpsUrl(source.Url))
+            {
+                errors.Add(
+                    "Toda procedencia de actores necesita id, nombre y URL HTTPS.");
+            }
+        }
+
+        if (catalog.Actors.Count == 0)
+        {
+            errors.Add("El catálogo de actores no puede estar vacío.");
+        }
+
+        foreach (IGrouping<string, MarketActorDefinition> duplicate in catalog.Actors
+                     .GroupBy(actor => actor.Id, StringComparer.OrdinalIgnoreCase)
+                     .Where(group => group.Count() > 1))
+        {
+            errors.Add($"Id de actor duplicado: {duplicate.Key}.");
+        }
+
+        HashSet<string> knownSourceIds = catalog.Sources
+            .Select(source => source.Id)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        foreach (MarketActorDefinition actor in catalog.Actors)
+        {
+            if (string.IsNullOrWhiteSpace(actor.Id) ||
+                string.IsNullOrWhiteSpace(actor.Name))
+            {
+                errors.Add("Todo actor necesita id y nombre.");
+            }
+
+            if (actor.OfficialWebsite is not null &&
+                !IsHttpsUrl(actor.OfficialWebsite))
+            {
+                errors.Add(
+                    $"La web oficial de '{actor.Id}' debe ser una URL HTTPS válida.");
+            }
+
+            if (actor.SourceIds.Count == 0 ||
+                actor.SourceIds.Any(sourceId => !knownSourceIds.Contains(sourceId)))
+            {
+                errors.Add(
+                    $"'{actor.Id}' necesita procedencias conocidas.");
+            }
+
+            if (actor.EvidenceUrls.Count == 0 ||
+                actor.SourceIds.Any(string.IsNullOrWhiteSpace) ||
+                actor.EvidenceUrls.Any(url => !IsHttpsUrl(url)) ||
+                actor.MonitoredSourceIds.Any(string.IsNullOrWhiteSpace))
+            {
+                errors.Add(
+                    $"Las referencias de '{actor.Id}' deben ser no vacías y HTTPS.");
+            }
+
+            if (actor.ReviewStatus == MarketActorReviewStatus.Monitored &&
+                actor.MonitoredSourceIds.Count == 0)
+            {
+                errors.Add(
+                    $"'{actor.Id}' está monitorizado pero no referencia ningún canal.");
+            }
+        }
+
+        return errors;
+    }
+
+    private static bool IsHttpsUrl(string value)
+    {
+        return Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) &&
+               uri.Scheme == Uri.UriSchemeHttps &&
+               !string.IsNullOrWhiteSpace(uri.Host);
+    }
+
     public async Task<OpportunityDiscoveryCatalog> LoadOpportunityCatalogAsync(
         string path,
         CancellationToken cancellationToken)
@@ -321,10 +435,10 @@ public sealed class ConfigurationLoader
                     "followDetailPages.");
             }
 
-            if (source.MaxDetailPages is < 1 or > 50)
+            if (source.MaxDetailPages is < 1 or > 250)
             {
                 errors.Add(
-                    $"maxDetailPages de '{source.Id}' debe estar entre 1 y 50.");
+                    $"maxDetailPages de '{source.Id}' debe estar entre 1 y 250.");
             }
 
             if (source.DetailUrlIncludes.Any(string.IsNullOrWhiteSpace) ||
@@ -434,6 +548,25 @@ public sealed class ConfigurationLoader
                      .Where(group => group.Count() > 1))
         {
             errors.Add($"Municipio duplicado: {duplicate.Key}.");
+        }
+
+        foreach (MunicipalityDefinition municipality in municipalities)
+        {
+            if (string.IsNullOrWhiteSpace(municipality.OfficialName))
+            {
+                errors.Add("Todo municipio necesita un nombre oficial.");
+            }
+
+            if (municipality.Aliases.Any(string.IsNullOrWhiteSpace) ||
+                municipality.Localities.Any(string.IsNullOrWhiteSpace) ||
+                municipality.SearchTerms.Any(string.IsNullOrWhiteSpace) ||
+                municipality.RecognitionTerms.Any(string.IsNullOrWhiteSpace) ||
+                municipality.RecognitionExclusions.Any(string.IsNullOrWhiteSpace))
+            {
+                errors.Add(
+                    $"Los términos geográficos de '{municipality.OfficialName}' " +
+                    "no pueden estar vacíos.");
+            }
         }
 
         ValidateCentroids(municipalities, centroidCatalog, errors);

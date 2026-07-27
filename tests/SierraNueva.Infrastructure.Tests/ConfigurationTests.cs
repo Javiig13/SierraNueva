@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using SierraNueva.Contracts;
 using SierraNueva.Infrastructure.Configuration;
 
@@ -142,7 +143,7 @@ public sealed class ConfigurationTests
             .Select(line => line.Split(';'))
             .ToDictionary(fields => fields[1], StringComparer.Ordinal);
 
-        Assert.Equal(29, municipalities.Count);
+        Assert.Equal(179, municipalities.Count);
         Assert.Equal(municipalities.Count, catalog.Sources.Count);
         Assert.Equal(municipalities.Count, fixture.Count);
         Assert.Equal("ETRS89", catalog.CoordinateReferenceSystem);
@@ -167,5 +168,69 @@ public sealed class ConfigurationTests
             Assert.Equal(latitude, municipality.Latitude);
             Assert.Equal(longitude, municipality.Longitude);
         }
+    }
+
+    [Fact]
+    public async Task MarketActorCatalog_IsSanitizedVersionedAndTraceable()
+    {
+        string path = Path.Combine(
+            AppContext.BaseDirectory,
+            "config",
+            "market-actors.json");
+        ConfigurationLoader loader = new();
+        MarketActorCatalog catalog = await loader.LoadMarketActorCatalogAsync(
+            path,
+            CancellationToken.None);
+
+        Assert.Empty(loader.ValidateMarketActorCatalog(catalog));
+        Assert.Equal("1.0", catalog.SchemaVersion);
+        Assert.Equal(567, catalog.Actors.Count);
+        Assert.Contains(
+            catalog.Sources,
+            source => source.Id == "asprima-members");
+        Assert.Contains(
+            catalog.Sources,
+            source => source.Id == "sima-companies");
+        Assert.Equal(
+            194,
+            catalog.Actors.Count(actor =>
+                actor.SourceIds.Contains("asprima-members", StringComparer.Ordinal)));
+        Assert.Equal(
+            378,
+            catalog.Actors.Count(actor =>
+                actor.SourceIds.Contains("sima-companies", StringComparer.Ordinal)));
+        Assert.Equal(
+            16,
+            catalog.Actors.Count(actor =>
+                actor.ReviewStatus == MarketActorReviewStatus.Monitored));
+        Assert.Contains(
+            catalog.Actors,
+            actor =>
+                actor.ReviewStatus == MarketActorReviewStatus.Monitored &&
+                actor.MonitoredSourceIds.Count > 0);
+        Assert.All(
+            catalog.Actors.Where(actor => actor.OfficialWebsite is not null),
+            actor => Assert.StartsWith("https://", actor.OfficialWebsite));
+
+        using JsonDocument document = JsonDocument.Parse(
+            await File.ReadAllTextAsync(path));
+        string[] allowedActorFields =
+        [
+            "evidenceUrls",
+            "id",
+            "monitoredSourceIds",
+            "name",
+            "officialWebsite",
+            "reviewStatus",
+            "sourceIds"
+        ];
+        Assert.All(
+            document.RootElement.GetProperty("actors").EnumerateArray(),
+            actor => Assert.Equal(
+                allowedActorFields,
+                actor.EnumerateObject()
+                    .Select(property => property.Name)
+                    .Order(StringComparer.Ordinal)
+                    .ToArray()));
     }
 }

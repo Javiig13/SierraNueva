@@ -1,6 +1,6 @@
 # Entrega y continuidad
 
-Fecha de corte: **24 de julio de 2026**.
+Fecha de corte: **27 de julio de 2026**.
 
 SierraNueva dispone de una vertical local completa y determinista: fixtures →
 descubrimiento → extracción → normalización → geolocalización → cambios →
@@ -39,7 +39,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `backfill-opportunities`, `audit-opportunities`, `review-opportunity` y
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
-- Registro JSON de fuentes, 29 municipios editables y blocklist.
+- Registro JSON de fuentes, 179 municipios editables y blocklist.
 - Perfil predeterminado completamente offline y perfil live explícito con 27
   definiciones revisadas: 25 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
@@ -88,10 +88,10 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 - Registro privado de salud por fuente con último intento/éxito/fallo,
   respuestas vacías consecutivas, siguiente revisión prevista y escalado de
   degradación a fallo reiterado.
-- Instantánea privada de cobertura para los 29 municipios, separando canal
+- Instantánea privada de cobertura para los 179 municipios, separando canal
   directo, central, combinado, degradado o no comprobado. `coverage-status`
   muestra solo agregados y puntos ciegos.
-- Auditoría temporal privada que estratifica los 29 municipios por señales
+- Auditoría temporal privada que estratifica los 179 municipios por señales
   centrales, municipales y comerciales; prioriza señales de un solo canal,
   huecos y controles sin señal, sin exponer la cola ni fingir una estimación de
   exhaustividad.
@@ -103,7 +103,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   fichas conocidas. Usa selectores explícitos, una sola portada, cero
   recursión y la misma validación HTTPS/host.
 - Puente privado de descubrimiento sectorial mediante SIMA: un sitemap
-  residencial filtrado por los 29 municipios y dos índices acotados para
+  residencial filtrado por los 179 municipios y dos índices acotados para
   Collado Villalba y El Escorial, donde los slugs no incluyen la localidad.
   Solo sigue fichas seleccionadas, conserva enlaces externos normalizados sin
   visitarlos y contabiliza dominios aún no monitorizados. El directorio nunca
@@ -119,7 +119,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   RSA-3072 efímera local, AAD independiente, artefacto de un día y borrado del
   texto claro en el runner.
 - Radar web privado mediante SearXNG efímero: cuatro familias por cada uno de
-  los 29 municipios, 116 consultas diarias completas, API JSON local,
+  los 179 municipios, 716 consultas diarias completas, API JSON local,
   deduplicación por URL y exclusión de portales/redes. Los resultados parten de
   confianza reducida, viven solo en la cola privada y requieren fuente oficial.
 - Descarga temporal acotada para los ZIP mensuales de PCSP y dos backups
@@ -176,7 +176,7 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
 ### Datos y frontend
 
 - Dataset sintético versionado con cuatro promociones y estado asociado.
-- Los 29 centroides proceden del NGMEP 2026 del IGN; se conserva una fixture
+- Los 179 centroides proceden del NGMEP 2026 del IGN; se conserva una fixture
   reducida, registro municipal, origen, hash del ZIP y atribución CC-BY 4.0.
   `validate-config` exige coincidencia entre coordenadas y procedencia.
 - SPA en español con estados de carga/error/vacío y avisos de frescura.
@@ -216,19 +216,19 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          24 correctos
-Tests Infrastructure:113 correctos
+Tests Infrastructure:116 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               145/145 correctos
+Total:               148/148 correctos
 Formato:             sin cambios requeridos
-validate-config:     1 fuente, 29 municipios, 29 centroides y 34 fuentes de radar
+validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 567 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
 Publish Web:         smoke correcto; data/public incluido y data/state ausente
 Live limitado local: 27 fuentes; 27 promociones válidas y activas, 0 fallos
 Mapa live local:     27/27 promociones; 26 centroides municipales y 1 exacta
-Radar offline:       34 candidatos; 34/34 fuentes sanas; cobertura 29/29
+Radar offline:       35 candidatos; 34/34 fuentes sanas; cobertura 179/179
 Matriz web offline:  1 candidato filtrado; sin red ni Docker
 Matriz web GitHub:   567 resultados; 340 candidatos; 116/116 consultas
 Triaje offline:      34/34 pendientes clasificados; estado original intacto
@@ -245,6 +245,7 @@ Enlaces live:        12 enlaces; 2/2 sanos; 2 conocidos y 0 pendientes
 Nuevos sitemaps live:64 URLs; 3/3 sanos y 0 candidatos nuevos
 Enlaces Galivivienda:1 ficha seguida; fuente sana y 1 candidato privado
 SIMA live aislado:   3/3 sanas; Orbia y Nevia nuevas; 1 dominio no monitorizado
+SIMA ampliado live:  37 fichas actuales; 10 candidatos; 0 fallos
 Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nuevo
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
@@ -647,7 +648,50 @@ porque el estado sintético ya está sembrado.
   `data/state/opportunity-audit.json` devuelven HTTP 404.
 - La protección de rama sigue sin configurar.
 
+## Ampliación a toda la Comunidad de Madrid
+
+El 27 de julio de 2026 se amplió el ámbito configurado de los 29 municipios
+originales de la Sierra a los **179 municipios oficiales de la Comunidad de
+Madrid**. Los nombres, códigos y centroides se regeneran desde
+`MUNICIPIOS.csv` del NGMEP 2026 mediante
+`scripts/import-madrid-municipalities.ps1`; el ZIP oficial conserva el mismo
+SHA-256 ya documentado. Los alias y localidades originales se preservan.
+
+La matriz web live pasa de 116 a **716 consultas diarias** —179 municipios por
+cuatro familias—, eleva su límite global a 10.000 resultados y SIMA admite los
+179 slugs con un máximo defensivo de 200 fichas. El workflow refleja el nuevo
+volumen y amplía su timeout defensivo de 75 a 120 minutos. El radar offline
+produjo 35 candidatos desde fixtures y cobertura
+central sana 179/179; los canales municipales directos siguen siendo 28, por
+lo que 151 municipios dependen inicialmente de los canales centrales y del
+descubrimiento web.
+
+El reconocimiento de Madrid capital conserva el término «Madrid», pero excluye
+las frases regionales «Comunidad de Madrid» y «Comunidad Autónoma de Madrid»
+cuando no existe otra señal fuerte de ciudad. Así se evitan asignaciones
+regionales falsas sin perder fichas que solo indican «Madrid».
+
+Se añadió `config/market-actors.json`, un inventario interno de configuración
+y no un dataset público. La instantánea saneada contiene 567 organizaciones:
+194 registros del listado oficial de ASPRIMA, 378 del directorio de empresas
+de SIMA y canales comerciales ya monitorizados que no coincidían con ellos.
+Hay 195 webs declaradas y 16 actores enlazados a fuentes live; los otros 551
+permanecen como candidatos. No se guardan correos, teléfonos, contactos ni
+descripciones. Figurar en ASPRIMA o SIMA no demuestra por sí solo que una
+entidad sea promotora ni que tenga oferta unifamiliar vigente en Madrid.
+
+La ampliación está comprobada localmente con fixtures, validación de
+configuración y pruebas. Un smoke live aislado siguió 37 fichas SIMA del nuevo
+ámbito, produjo 10 candidatos privados y terminó sin fallos tras incorporar el
+selector `.entry-content` del formato actual. Todavía no debe afirmarse que las
+716 consultas se hayan completado en GitHub Actions hasta ejecutar y observar
+un workflow live posterior a este cambio.
+
 ## Próximo trabajo recomendado
+
+Prioridad inmediata: ejecutar una vez el workflow live ampliado, medir duración,
+resultados y fallos de las 716 consultas y comprobar después que Pages sigue sin
+publicar `data/state`.
 
 1. Vigilar las 25 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

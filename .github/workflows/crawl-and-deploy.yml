@@ -39,7 +39,7 @@ jobs:
   build:
     name: Crawl and build Pages artifact
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
@@ -288,7 +288,7 @@ jobs:
             $coverage = $radar.coverage
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
-          - SearXNG privado (116 consultas): $env:SEARCH_OUTCOME
+          - SearXNG privado (716 consultas): $env:SEARCH_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
@@ -300,7 +300,7 @@ jobs:
           } else {
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
-          - SearXNG privado (116 consultas): $env:SEARCH_OUTCOME
+          - SearXNG privado (716 consultas): $env:SEARCH_OUTCOME
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME

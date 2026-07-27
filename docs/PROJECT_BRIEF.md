@@ -8,7 +8,8 @@ expresamente el 23 de julio de 2026 después de cerrar la baseline local.
 ## 1. Producto
 
 SierraNueva localiza, rastrea, normaliza y presenta promociones de obra nueva
-unifamiliar en la Sierra de Madrid. Debe priorizar:
+unifamiliar en toda la Comunidad de Madrid, manteniendo un foco editorial
+especial en la Sierra. Debe priorizar:
 
 - promotoras y micrositios oficiales;
 - gestoras de cooperativas;
@@ -122,9 +123,11 @@ tracking y barra final de URL, nombres societarios y alias geográficos. Se
 conserva la grafía original para presentación. Un posible duplicado ambiguo no
 se fusiona: se conserva y genera una advertencia.
 
-## 6. Cobertura geográfica inicial
+## 6. Cobertura geográfica
 
-Los 29 municipios editables son:
+El catálogo actual incluye los **179 municipios oficiales de la Comunidad de
+Madrid**, con nombre y centroide trazables contra el NGMEP 2026 del IGN. El
+alcance original estaba formado por estos 29 municipios de la Sierra:
 
 Alpedrete, Becerril de la Sierra, Bustarviejo, Cabanillas de la Sierra,
 Cercedilla, Collado Mediano, Collado Villalba, El Boalo, El Escorial,
@@ -135,7 +138,11 @@ Chavela, San Lorenzo de El Escorial, Santa María de la Alameda, Soto del Real,
 Torrelodones, Valdemaqueda y Zarzalejo.
 
 Cada entrada admite nombre oficial, alias, localidades, centro, bounding box,
-estado habilitado y términos de búsqueda sin recompilar.
+estado habilitado, términos de búsqueda, reconocimiento y exclusión contextual
+sin recompilar. Los 29 municipios originales conservan sus alias y localidades.
+El municipio de Madrid excluye la frase genérica «Comunidad de Madrid» salvo
+que aparezca además una señal fuerte de la capital; una mención simple a Madrid
+sigue siendo válida.
 
 ## 7. Fuentes y descubrimiento
 

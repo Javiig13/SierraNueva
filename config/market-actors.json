@@ -1,0 +1,7469 @@
+{
+  "schemaVersion": "1.0",
+  "checkedAtUtc": "2026-07-27T13:10:00.0000000+00:00",
+  "sources": [
+    {
+      "id": "asprima-members",
+      "name": "ASPRIMA — listado de socios",
+      "url": "https://asprima.es/listado-de-socios/"
+    },
+    {
+      "id": "sierranueva-live-catalog",
+      "name": "SierraNueva — fuentes comerciales monitorizadas",
+      "url": "https://github.com/Javiig13/SierraNueva/blob/main/config/discovery-sources.live.json"
+    },
+    {
+      "id": "sima-companies",
+      "name": "SIMA — directorio de empresas",
+      "url": "https://simaexpo.com/empresas/"
+    }
+  ],
+  "actors": [
+    {
+      "id": "3c-inmobiliaria-srl",
+      "name": "3C INMOBILIARIA, SRL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/3c-inmobiliaria-srl/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "3d-estate",
+      "name": "3D Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/3d-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "7-park",
+      "name": "7 Park",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/7-park/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "a-g-luxembourg-am-s-a",
+      "name": "A&G Luxembourg Am S.A.",
+      "officialWebsite": "https://aygglobalinvestors.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aa-trust-capital",
+      "name": "AA Trust Capital",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aa-trust-capital/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "abauco",
+      "name": "ABAUCO",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/abauco/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "abc-corredera-s-l",
+      "name": "Abc Corredera S.L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "acciona",
+      "name": "Acciona",
+      "officialWebsite": "https://inmobiliaria.acciona.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "acp-malaga",
+      "name": "ACP Málaga",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/acp-malaga/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "acr",
+      "name": "Acr",
+      "officialWebsite": "https://acr.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "activitas",
+      "name": "Activitas",
+      "officialWebsite": "https://activitasinversioninmobiliaria.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "activitas-inversion-inmobiliaria",
+      "name": "Actívitas Inversión Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/activitas-inversion-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "activum-gestion-de-proyectos-inmobiliarios-s-l",
+      "name": "Activum Gestión De Proyectos Inmobiliarios S.L.",
+      "officialWebsite": "https://activum.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "addient",
+      "name": "Addient",
+      "officialWebsite": "https://addient.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "adeti",
+      "name": "ADETI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/adeti/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "adinor",
+      "name": "Adinor",
+      "officialWebsite": "https://adinor.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "adrisa",
+      "name": "Adrisa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aeclu",
+      "name": "Aeclu",
+      "officialWebsite": "https://aeclu.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aedas-homes",
+      "name": "AEDAS HOMES",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aedas-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aelca",
+      "name": "Aelca",
+      "officialWebsite": "https://aelca.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aev-asociacion-espanola-de-analisis-de-valor",
+      "name": "AEV Asociación Española de Análisis de Valor",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aev-asociacion-espanola-de-analisis-de-valor/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "paisnaturd",
+      "name": "Agencia de Turismo Inmobiliario Dominicano PaisnatuRD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/paisnaturd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "agencia-de-vivienda-social",
+      "name": "Agencia de Vivienda Social",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/agencia-de-vivienda-social/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ahorradoras",
+      "name": "Ahorradoras",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ahorradoras/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aklea",
+      "name": "Aklea",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aklea/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alana-ocean-paradise-beach-condos-residences",
+      "name": "Alana – Ocean Paradise Beach Condos & Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/alana-ocean-paradise-beach-condos-residences/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alcamesan",
+      "name": "ALCAMESAN",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/alcamesan/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aleta",
+      "name": "ALETA – Alianza Empresarial Turística de La Altagracia",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aleta/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alex-de-la-rotta-p-a-miami-real-estate-offers",
+      "name": "Alex De La Rotta P.A. / Miami Real Estate Offers",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/alex-de-la-rotta-p-a-miami-real-estate-offers/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "algonovo-real-estate",
+      "name": "Algonovo Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/algonovo-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alia",
+      "name": "Alia",
+      "officialWebsite": "https://aliatasaciones.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aliseda",
+      "name": "Aliseda",
+      "officialWebsite": "https://alisedainmobiliaria.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alma-cana-group",
+      "name": "Alma Cana Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/alma-cana-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "almond-real-estate-2",
+      "name": "ALMOND Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/almond-real-estate-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alquiler-seguro",
+      "name": "Alquiler Seguro",
+      "officialWebsite": "https://alquilerseguro.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/alquiler-seguro/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "alta-real-estate-s-l",
+      "name": "Alta Real Estate S.L.",
+      "officialWebsite": "https://altarealestate.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "althena-guinotprunera",
+      "name": "Althena | Guinotprunera",
+      "officialWebsite": "https://somosalthena.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "altosa",
+      "name": "Altosa",
+      "officialWebsite": "https://grupoaltosa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "altter",
+      "name": "Altter",
+      "officialWebsite": "https://altter.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://altter.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-altter"
+      ]
+    },
+    {
+      "id": "amenabar",
+      "name": "Amenabar",
+      "officialWebsite": "https://amenabar.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "andersen",
+      "name": "Andersen",
+      "officialWebsite": "https://es.andersen.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "anida",
+      "name": "Anida",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "antaro",
+      "name": "Antaro",
+      "officialWebsite": "https://antaro.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://antaro.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-antaro"
+      ]
+    },
+    {
+      "id": "aon-iberia-correduria-de-seguros-y-reaseguros-sau",
+      "name": "Aon Iberia Correduria De Seguros Y Reaseguros Sau",
+      "officialWebsite": "https://aon.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "apartamentos-rd",
+      "name": "Apartamentos RD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/apartamentos-rd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "apave",
+      "name": "Apave",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/apave/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "acp-cataluna",
+      "name": "APCE Catalunya",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/acp-cataluna/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "acpespana",
+      "name": "APCEspaña",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/acpespana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "apei-asociacion-profesional-de-expertos-inmobiliarios",
+      "name": "APEI – Asociación Profesional de Expertos Inmobiliarios",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/apei-asociacion-profesional-de-expertos-inmobiliarios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "apollo",
+      "name": "Apollo",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/apollo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "appii",
+      "name": "APPII-Associação Portuguesa de Promotores e Investidores Imobiliários",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/appii/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "apremya-homes",
+      "name": "Apremya Homes",
+      "officialWebsite": "https://apremyahomes.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://apremyahomes.es/"
+      ],
+      "monitoredSourceIds": [
+        "links-apremya",
+        "sitemap-apremya"
+      ]
+    },
+    {
+      "id": "aprova",
+      "name": "APROVA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aprova/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aq-acentor",
+      "name": "Aq Acentor",
+      "officialWebsite": "https://aq-acentor.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "arcano-capital",
+      "name": "Arcano Capital",
+      "officialWebsite": "https://arcanopartners.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "argis",
+      "name": "Argis",
+      "officialWebsite": "https://argis.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "arnaiz",
+      "name": "Arnaiz",
+      "officialWebsite": "https://a-arnaiz.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "arpada",
+      "name": "Arpada",
+      "officialWebsite": "https://arpada.net/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "arrenta",
+      "name": "Arrenta",
+      "officialWebsite": "https://arrenta.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asentis",
+      "name": "Asentis",
+      "officialWebsite": "https://asentis.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asg",
+      "name": "Asg",
+      "officialWebsite": "https://asg-homes.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aei",
+      "name": "Asociación de Agentes y Empresas Inmobiliarias – AEI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/aei/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asociacion-de-desarrolladores-inmobiliarios-chile",
+      "name": "Asociación de Desarrolladores Inmobiliarios CHILE – ADI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/asociacion-de-desarrolladores-inmobiliarios-chile/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asociacion-mujeres-prof-del-sector-inmobiliario",
+      "name": "Asociación Mujeres Prof. del Sector Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/asociacion-mujeres-prof-del-sector-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asprima",
+      "name": "ASPRIMA-Asociación de Promotores Inmobiliarios de Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/asprima/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "asval",
+      "name": "ASVAL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/asval/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "at-valor",
+      "name": "At Valor",
+      "officialWebsite": "https://atvalor.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "aurora-homes",
+      "name": "Aurora Homes",
+      "officialWebsite": "https://aurora-homes.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/aurora-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "avaibook",
+      "name": "Avaibook",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/avaibook/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "avalmadrid",
+      "name": "Avalmadrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/avalmadrid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "avantespacia",
+      "name": "Avantespacia",
+      "officialWebsite": "https://avantespacia.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ayuntamiento-de-brunete",
+      "name": "Ayuntamiento de Brunete",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ayuntamiento-de-brunete/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ayuntamiento-de-madrid",
+      "name": "Ayuntamiento de Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ayuntamiento-de-madrid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "azora",
+      "name": "Azora",
+      "officialWebsite": "https://azora.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "azuaga-seguros",
+      "name": "Azuaga Seguros",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/azuaga-seguros/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "azzam",
+      "name": "AZZAM",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/azzam/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bafre-inmobiliaria",
+      "name": "Bafre Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/bafre-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "banco-multiple-lopez-haro",
+      "name": "Banco López de Haro",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/banco-multiple-lopez-haro/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "basico",
+      "name": "Basico",
+      "officialWebsite": "https://basico.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "basico-homes",
+      "name": "Básico Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/basico-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-bavarian",
+      "name": "Bavarian Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-bavarian/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "baycana",
+      "name": "Baycana Properties",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/baycana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bdo",
+      "name": "Bdo",
+      "officialWebsite": "https://bdo.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bilba",
+      "name": "Bilba",
+      "officialWebsite": "https://bilba.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/bilba/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bimaran",
+      "name": "Bimaran",
+      "officialWebsite": "https://bimaran.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "blue-diamond",
+      "name": "BLUE DIAMOND",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/blue-diamond/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bnp",
+      "name": "Bnp",
+      "officialWebsite": "https://realestate.bnpparibas.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bossh-hotels-apartments",
+      "name": "Bossh Hotels & Apartments",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/bossh-hotels-apartments/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "brainsre",
+      "name": "Brainsre",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/brainsre/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bravus",
+      "name": "Bravus",
+      "officialWebsite": "https://bravus-ip.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "brick-by-brick-desarrollos-inmobiliarios-s-l",
+      "name": "Brick By Brick Desarrollos Inmobiliarios S.L.",
+      "officialWebsite": "https://ecotechhouse.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "brosh",
+      "name": "Brosh",
+      "officialWebsite": "https://brosh.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/brosh/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "bruzalek-gestion",
+      "name": "Bruzalek Gestión",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/bruzalek-gestion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "butech",
+      "name": "BUTECH",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/butech/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "caixa-bank",
+      "name": "Caixa Bank",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/caixa-bank/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cajupi-mancha-s-l",
+      "name": "Cajupi Mancha, S.L.",
+      "officialWebsite": "https://cajupimancha.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cala-crancs-homes",
+      "name": "Cala Crancs Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cala-crancs-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "canadevi",
+      "name": "CANADEVI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/canadevi/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cano-y-escario-arquitectura-s-l-p",
+      "name": "Cano Y Escario Arquitectura S.L.P.",
+      "officialWebsite": "https://canoyescario.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cap-cana",
+      "name": "Cap Cana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cap-cana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "caribbean-invests-rd",
+      "name": "Caribbean Invests RD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/caribbean-invests-rd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "casa-47",
+      "name": "CASA 47",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/casa-47/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "casa-de-las-torres",
+      "name": "Casa De Las Torres",
+      "officialWebsite": "https://casadelastorres.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "casafari",
+      "name": "CASAFARI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/casafari/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cases-lacambra",
+      "name": "Cases & Lacambra",
+      "officialWebsite": "https://caseslacambra.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "castelo-capital",
+      "name": "CASTELO CAPITAL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/castelo-capital/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "catella-property-spain-s-a",
+      "name": "CATELLA PROPERTY SPAIN S.A.",
+      "officialWebsite": "https://catella.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cbre",
+      "name": "Cbre",
+      "officialWebsite": "https://cbre.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/cbre/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cegid",
+      "name": "Cegid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cegid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-tecnologico-del-notariado",
+      "name": "Centro Tecnológico del Notariado",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-tecnologico-del-notariado/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "century-21-espana",
+      "name": "CENTURY 21 España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/century-21-espana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cepi",
+      "name": "CEPI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cepi/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "certigenera",
+      "name": "Certigenera",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/certigenera/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "chamartin",
+      "name": "Chamartin",
+      "officialWebsite": "https://kese.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "china-fm",
+      "name": "China FM",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/china-fm/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "city-las-terrenas-srl",
+      "name": "CITY LAS TERRENAS SRL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/city-las-terrenas-srl/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ciudad-del-sol-punta-cana",
+      "name": "Ciudad del Sol – Punta Cana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ciudad-del-sol-punta-cana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "civilmek",
+      "name": "CIVILMEK",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/civilmek/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "civisa",
+      "name": "Civisa",
+      "officialWebsite": "https://grupocivisa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "civislend",
+      "name": "Civislend",
+      "officialWebsite": "https://civislend.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "civislend-inversiones-inmobiliarias",
+      "name": "CIVISLEND – Inversiones Inmobiliarias",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/civislend-inversiones-inmobiliarias/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "clerhp-estructuras",
+      "name": "CLERHP Estructuras",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/clerhp-estructuras/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "club-de-inversoras",
+      "name": "Club de Inversoras",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/club-de-inversoras/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "club-hemingway",
+      "name": "Club Hemingway",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/club-hemingway/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "clubfunding",
+      "name": "ClubFunding",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/clubfunding/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "consultoriacma-com",
+      "name": "CMAtech.AI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/consultoriacma-com/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "coapi-madrid",
+      "name": "COAPI Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/coapi-madrid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "coarsa",
+      "name": "Coarsa",
+      "officialWebsite": "https://coarsa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cogesa",
+      "name": "Cogesa",
+      "officialWebsite": "https://grupocogesa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "colegio-de-ingenieros-de-caminos-canales-y-puertos",
+      "name": "Colegio de Ingenieros de Caminos, Canales y Puertos",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/colegio-de-ingenieros-de-caminos-canales-y-puertos/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "colliers",
+      "name": "Colliers",
+      "officialWebsite": "https://colliers.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "comision-gestora-ape-05-31-centro-de-negocios-chamartin",
+      "name": "COMISIÓN GESTORA APE 05.31 CENTRO DE NEGOCIOS-CHAMARTIN",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "comision-gestora-de-la-nueva-centralidad-del-este",
+      "name": "Comision Gestora De La Nueva Centralidad Del Este",
+      "officialWebsite": "https://nuevacentralidaddeleste.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "comite-espanol-de-acnur",
+      "name": "Comité Español de ACNUR",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/comite-espanol-de-acnur/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "comunidad-de-madrid",
+      "name": "Comunidad de Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/comunidad-de-madrid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "concovi",
+      "name": "Concovi – Confederación de Cooperativas de Viviendas de España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/concovi/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "consejeria-de-vivienda-transportes-e-infraestructuras-2",
+      "name": "Consejería de Vivienda, Transportes e Infraestructuras",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/consejeria-de-vivienda-transportes-e-infraestructuras-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "coapi",
+      "name": "Consejo General COAPI de España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/coapi/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "consejo-general-del-notariado",
+      "name": "Consejo General del Notariado",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/consejo-general-del-notariado/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "construcciones-residenciales-y-sociales",
+      "name": "Construcciones Residenciales Y Sociales",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "construcciones-sukia-eraikuntzak-s-l",
+      "name": "CONSTRUCCIONES SUKIA ERAIKUNTZAK S.L.",
+      "officialWebsite": "https://sukia.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nivel",
+      "name": "Constructora Nivel",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/nivel/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "constructora-rizek",
+      "name": "Constructora Rizek",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/constructora-rizek/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "consultants",
+      "name": "Consultants",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cooperopen",
+      "name": "CooperOpen",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cooperopen/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cooptima",
+      "name": "Cooptima Servicios Inmobiliarios",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cooptima/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "coral-golf-resort",
+      "name": "Coral Golf Resort",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/coral-golf-resort/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cordia",
+      "name": "Cordia",
+      "officialWebsite": "https://cordia.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "corelex-global-abogados-inmobiliarios",
+      "name": "Corelex Global – Abogados Inmobiliarios",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/corelex-global-abogados-inmobiliarios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "coword",
+      "name": "Coword",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/coword/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cp-pinilla",
+      "name": "Cp Pinilla",
+      "officialWebsite": "https://cpgrupo.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "crea",
+      "name": "Crea",
+      "officialWebsite": "https://creamadridnuevonorte.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cresia-desarrolladora-inmobiliaria",
+      "name": "CRESIA Desarrolladora Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cresia-desarrolladora-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "crowdhouse-europe-s-l",
+      "name": "CROWDHOUSE EUROPE S.L.",
+      "officialWebsite": "https://sodacrowd.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cruise-on-land",
+      "name": "Cruise On Land",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cruise-on-land/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "culmia",
+      "name": "Culmia",
+      "officialWebsite": "https://culmia.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "cvu",
+      "name": "CVU",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/cvu/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "dazia",
+      "name": "Dazia",
+      "officialWebsite": "https://daziacapital.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "dea-capital",
+      "name": "DeA Capital",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/dea-capital/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "dea-capital-real-estate-iberia-s-l",
+      "name": "Dea Capital Real Estate Iberia, S.L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "deconova-international-group",
+      "name": "DecoNova International Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/deconova-international-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "deklara",
+      "name": "Deklara",
+      "officialWebsite": "https://deklara.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "delano-residences",
+      "name": "Delano Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/delano-residences/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "delano-residences-hotel-miami",
+      "name": "Delano Residences & Hotel Miami",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/delano-residences-hotel-miami/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "delta",
+      "name": "Delta",
+      "officialWebsite": "https://gidelta.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "dmarchee",
+      "name": "DMARCHEE",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/dmarchee/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "doce-fresnos",
+      "name": "Doce Fresnos",
+      "officialWebsite": "https://docefresnos.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://docefresnos.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-doce-fresnos"
+      ]
+    },
+    {
+      "id": "dominican-properties",
+      "name": "Dominican Properties",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/dominican-properties/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "domoblock",
+      "name": "Domoblock",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/domoblock/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "dulcamara-hoteles",
+      "name": "Dulcamara Hoteles",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/dulcamara-hoteles/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ebrosa",
+      "name": "Ebrosa",
+      "officialWebsite": "https://ebrosa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "edifesa",
+      "name": "Edifesa",
+      "officialWebsite": "https://edifesa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "egido",
+      "name": "Egido",
+      "officialWebsite": "https://grupoegido.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ego-real-estate",
+      "name": "eGO Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ego-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "eic",
+      "name": "Eic",
+      "officialWebsite": "https://eici.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "el-inmobiliario-mes-a-mes",
+      "name": "El Inmobiliario mes a mes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/el-inmobiliario-mes-a-mes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "el-mundo",
+      "name": "El Mundo",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/el-mundo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "elite-servicios-financieros",
+      "name": "Elite Servicios Financieros",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/elite-servicios-financieros/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "emerald-green",
+      "name": "Emerald Green Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/emerald-green/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "emerige",
+      "name": "Emerige",
+      "officialWebsite": "https://emerige.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "emporium-developers",
+      "name": "Emporium Developers",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/emporium-developers/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "empresa-municipal-de-la-vivienda-y-suelo-ed-madrid-s-a-emvs-madrid",
+      "name": "EMVS Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/empresa-municipal-de-la-vivienda-y-suelo-ed-madrid-s-a-emvs-madrid/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "engel-volkers",
+      "name": "ENGEL & VÖLKERS",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/engel-volkers/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "entorno-group",
+      "name": "Entorno Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/entorno-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "eqa",
+      "name": "Eqa",
+      "officialWebsite": "https://eqa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "esriv-inmobiliarias-real-estate",
+      "name": "ESRIV Inmobiliarias Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/esriv-inmobiliarias-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "estei",
+      "name": "Estei",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/estei/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "eurobuild",
+      "name": "Eurobuild",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/eurobuild/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "eurodron",
+      "name": "Eurodron",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/eurodron/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "evelyn-henriquez-asociados",
+      "name": "Evelyn Henríquez & Asociados",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/evelyn-henriquez-asociados/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "eversheds-sutherland",
+      "name": "Eversheds Sutherland",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/eversheds-sutherland/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "everything-coliving",
+      "name": "Everything Coliving",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/everything-coliving/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "exp-espana",
+      "name": "eXp España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/exp-espana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "exp-luxury",
+      "name": "eXp Luxury",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/exp-luxury/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "expo-miami-real-estate",
+      "name": "Expo Miami Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/expo-miami-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "exxacon",
+      "name": "EXXACON",
+      "officialWebsite": "https://exxacon.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://exxacon.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-exxacon"
+      ]
+    },
+    {
+      "id": "faec",
+      "name": "FAEC-Federación Provincial Agrupaciones Empresarios Construcción Cádiz",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/faec/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fcvcam",
+      "name": "FCVCAM",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/fcvcam/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "federacion-de-cooperativas-de-viviendas-y-rehabilitacion",
+      "name": "Federación de Cooperativas de Viviendas y Rehabilitación",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/federacion-de-cooperativas-de-viviendas-y-rehabilitacion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ferrocarril",
+      "name": "Ferrocarril",
+      "officialWebsite": "https://grupoferrocarril.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ferrovial",
+      "name": "Ferrovial",
+      "officialWebsite": "https://ferrovial.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fiabci",
+      "name": "FIABCI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/fiabci/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fiduciam",
+      "name": "Fiduciam",
+      "officialWebsite": "https://fiduciam.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/fiduciam/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "finaer",
+      "name": "Finaer",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/finaer/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "finaer-compania-de-garantias-s-l",
+      "name": "Finaer Compañía De Garantias S.L.",
+      "officialWebsite": "https://finaer.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fogesa",
+      "name": "Fogesa",
+      "officialWebsite": "https://grupofogesa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "foro-consultores",
+      "name": "Foro Consultores",
+      "officialWebsite": "https://foroconsultores.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fotocasa",
+      "name": "Fotocasa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/fotocasa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "franava",
+      "name": "Franava",
+      "officialWebsite": "https://franava.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "frida-kahlo-wynwood-residences",
+      "name": "Frida Kahlo Wynwood Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/frida-kahlo-wynwood-residences/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "frontal-xxi",
+      "name": "Frontal Xxi",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "fundspeople",
+      "name": "FundsPeople",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/fundspeople/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "galivivienda",
+      "name": "Galivivienda",
+      "officialWebsite": "https://galivivienda.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://galivivienda.com/"
+      ],
+      "monitoredSourceIds": [
+        "links-galivivienda",
+        "sitemap-galivivienda"
+      ]
+    },
+    {
+      "id": "gama-inmobiliaria",
+      "name": "GAMA INMOBILIARIA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gama-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gamadecor",
+      "name": "GAMADECOR",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gamadecor/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "garden-city-punta-cana",
+      "name": "Garden City Punta Cana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/garden-city-punta-cana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gea-architects",
+      "name": "GEA ARCHITECTS",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gea-architects/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gea-architects-international-s-l-u",
+      "name": "Gea Architects International, S.L.U.",
+      "officialWebsite": "https://geaarchitects.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gesmar-2000",
+      "name": "Gesmar Inversión en Dubái",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gesmar-2000/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gesproin-group",
+      "name": "Gesproin Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gesproin-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gestilar",
+      "name": "Gestilar",
+      "officialWebsite": "https://gestilar.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gestinmo",
+      "name": "GestInmo Madrid",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gestinmo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gestion-de-activos-entreriver-s-l",
+      "name": "GESTION DE ACTIVOS ENTRERIVER, S.L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gestion-y-ejecucion-de-obra-civil-sa",
+      "name": "GESTION Y EJECUCION DE OBRA CIVIL SA",
+      "officialWebsite": "https://grupogyo.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gestiono",
+      "name": "Gestiono",
+      "officialWebsite": "https://gestiono.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gesvalt",
+      "name": "Gesvalt",
+      "officialWebsite": "https://gesvalt.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gesvieco",
+      "name": "Gesvieco",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gesvieco/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gibobs",
+      "name": "Gibobs",
+      "officialWebsite": "https://gibobs.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gibobs-allbanks",
+      "name": "GIBOBS allbanks",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gibobs-allbanks/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gilmar",
+      "name": "Gilmar",
+      "officialWebsite": "https://gilmar.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gilmar-consulting-inmobiliario",
+      "name": "GILMAR Consulting Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gilmar-consulting-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gomez-acebo-pombo-abogados-s-l",
+      "name": "Gómez-Acebo & Pombo Abogados S.L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "goolzoom",
+      "name": "Goolzoom",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/goolzoom/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "goom-spain",
+      "name": "Goom Spain",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/goom-spain/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gr-homes",
+      "name": "GR Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gr-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "green-parana",
+      "name": "Green Paraná",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/green-parana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "greystar-spain-s-l",
+      "name": "Greystar Spain S. L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "7palms",
+      "name": "Grupo 7Palms",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/7palms/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-adu",
+      "name": "Grupo ADU",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-adu/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-arrasate",
+      "name": "Grupo Arrasate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-arrasate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-bricket",
+      "name": "Grupo Bricket",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-bricket/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-cetosa",
+      "name": "Grupo Cetosa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-cetosa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-index-madrid",
+      "name": "Grupo Index Madrid",
+      "officialWebsite": "https://grupoindexmadrid.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://grupoindexmadrid.com/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-grupo-index"
+      ]
+    },
+    {
+      "id": "grupo-inmobiliario-roca",
+      "name": "Grupo Inmobiliario Roca",
+      "officialWebsite": "https://gruporoca.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/grupo-inmobiliario-roca/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-joseda-2",
+      "name": "Grupo Joseda",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-joseda-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-ortiz",
+      "name": "Grupo Ortiz",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-ortiz/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-paseo-del-sendero",
+      "name": "Grupo Paseo del Sendero",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-paseo-del-sendero/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-pecsa",
+      "name": "Grupo Pecsa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-pecsa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-re-max-vantagem",
+      "name": "Grupo RE/MAX Vantagem",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-re-max-vantagem/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-seneas",
+      "name": "Grupo Seneas",
+      "officialWebsite": "https://seneas.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-sociedad-de-tasacion",
+      "name": "Grupo ST",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-sociedad-de-tasacion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "grupo-tecniobras",
+      "name": "Grupo Tecniobras",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/grupo-tecniobras/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "habitat-inmobiliaria",
+      "name": "Habitat Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/habitat-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "helcor-inmobiliaria",
+      "name": "HELCOR Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/helcor-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hercesa",
+      "name": "Hercesa",
+      "officialWebsite": "https://hercesa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hestia",
+      "name": "Hestia Inversión Patrimonial",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hestia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hibo-consigue-la-mejor-hipoteca-para-tus-clientes",
+      "name": "Hibo | Consigue la mejor hipoteca para tus clientes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hibo-consigue-la-mejor-hipoteca-para-tus-clientes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hijes",
+      "name": "Hijes",
+      "officialWebsite": "https://hijes.co/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hines",
+      "name": "Hines",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hines/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hipoges-2",
+      "name": "HIPOGES",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hipoges-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hirimasa",
+      "name": "Hirimasa",
+      "officialWebsite": "https://hirimasa.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://hirimasa.com/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-hirimasa"
+      ]
+    },
+    {
+      "id": "hola-venezuela",
+      "name": "Hola Venezuela",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hola-venezuela/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hollis",
+      "name": "Hollis",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hollis/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "homent-capital-2",
+      "name": "HOMENT CAPITAL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/homent-capital-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "homming",
+      "name": "Homming",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/homming/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "homyhub",
+      "name": "HOMYHUB",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/homyhub/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "hotel-101-global",
+      "name": "Hotel 101 Global",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/hotel-101-global/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "housfy",
+      "name": "Housfy | La nueva era inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/housfy/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "housingo-by-david-de-gea",
+      "name": "HousinGo by David de Gea",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/housingo-by-david-de-gea/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ht-venezuela-capital",
+      "name": "HT Venezuela Capital",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ht-venezuela-capital/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "iberdrola",
+      "name": "Iberdrola",
+      "officialWebsite": "https://iberdrolainmobiliaria.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "iberdrola-inmobiliaria",
+      "name": "Iberdrola Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/iberdrola-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "iberian-property",
+      "name": "Iberian Property",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/iberian-property/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "iberinmo",
+      "name": "Iberinmo",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/iberinmo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ideal-home",
+      "name": "Ideal Home",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ideal-home/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "idealista",
+      "name": "Idealista",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/idealista/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "idealista-news",
+      "name": "Idealista News",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/idealista-news/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ie-real-estate-club",
+      "name": "IE Real Estate Club",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ie-real-estate-club/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "igres-inversion",
+      "name": "Igres Inversion",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/igres-inversion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ikasa",
+      "name": "Ikasa",
+      "officialWebsite": "https://ikasa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ikea",
+      "name": "IKEA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ikea/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ilex",
+      "name": "Ilex",
+      "officialWebsite": "https://ilexgestion.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "immofrauen",
+      "name": "Immofrauen",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/immofrauen/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "impact-homes",
+      "name": "Impact Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/impact-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "impulsa",
+      "name": "Impulsa",
+      "officialWebsite": "https://impulsaproyectos.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inara-homes",
+      "name": "Inara Homes",
+      "officialWebsite": "https://inarahomes.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://inarahomes.com/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-inara"
+      ]
+    },
+    {
+      "id": "inbisa",
+      "name": "Inbisa",
+      "officialWebsite": "https://inbisa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "infinitum",
+      "name": "INFINITUM",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/infinitum/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ingescasa",
+      "name": "Ingescasa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ingescasa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inmoglaciar",
+      "name": "Inmoglaciar",
+      "officialWebsite": "https://inmoglaciar.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inmouno",
+      "name": "Inmouno",
+      "officialWebsite": "https://inmounoresidencial.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inmovilla",
+      "name": "Inmovilla",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/inmovilla/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "innova-real-estate",
+      "name": "Innova Real Estate Punta Cana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/innova-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "insur",
+      "name": "Insur",
+      "officialWebsite": "https://grupoinsur.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "interhome",
+      "name": "INTERHOME",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/interhome/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "intrum",
+      "name": "Intrum",
+      "officialWebsite": "https://intrum.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inversiva",
+      "name": "Inversiva",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/inversiva/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "investfy",
+      "name": "Investfy Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/investfy/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "inviertis",
+      "name": "Inviertis",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/inviertis/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ip-ingenium",
+      "name": "Ip Ingenium",
+      "officialWebsite": "https://ipingenium.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "itron",
+      "name": "ITRON CONSTRUCTORA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/itron/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ivanovs-ai",
+      "name": "IVANOVS.AI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ivanovs-ai/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "jarama",
+      "name": "Jarama",
+      "officialWebsite": "https://jarama.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "jarquil",
+      "name": "Jarquil",
+      "officialWebsite": "https://jarquil.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "joyfasa-sl",
+      "name": "Joyfasa, Sl",
+      "officialWebsite": "https://joyfasa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "jubenial",
+      "name": "Jubenial",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/jubenial/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "junta-de-compensacion-valgrande",
+      "name": "Junta de Compensación VALGRANDE",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/junta-de-compensacion-valgrande/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "kampodomo",
+      "name": "Kampodomo",
+      "officialWebsite": "https://kampodomo.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "kategora",
+      "name": "Kategora Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/kategora/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "keep-in-tax",
+      "name": "Keep In Tax",
+      "officialWebsite": "https://keepintax.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "keky-vel-legacy-real-estate-para-extranjeros",
+      "name": "Keky Vel Legacy. Real Estate para Extranjeros",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/keky-vel-legacy-real-estate-para-extranjeros/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "keller-williams",
+      "name": "Keller Williams",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/keller-williams/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "kontaktu-ai",
+      "name": "Kontaktu AI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/kontaktu-ai/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "krion",
+      "name": "KRION",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/krion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "kronos",
+      "name": "Kronos",
+      "officialWebsite": "https://kronoshomes.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "asprima-members",
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-kronos"
+      ]
+    },
+    {
+      "id": "kronos-homes-2",
+      "name": "Kronos Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/kronos-homes-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ktesios",
+      "name": "Ktesios",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ktesios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lantic-colonial",
+      "name": "L’ANTIC COLONIAL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lantic-colonial/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "la-cambrija",
+      "name": "La Cambrija",
+      "officialWebsite": "https://cambrija.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "la-quinta-de-manzanares",
+      "name": "La Quinta de Manzanares",
+      "officialWebsite": "https://laquintademanzanares.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://laquintademanzanares.com/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-quinta-manzanares"
+      ]
+    },
+    {
+      "id": "lagoom-living",
+      "name": "Lagoom Living",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lagoom-living/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "landco",
+      "name": "Landco",
+      "officialWebsite": "https://landco.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/landco/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lanida",
+      "name": "LANĪDA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lanida/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lapithus",
+      "name": "Lapithus",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lapithus/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lare-luxury",
+      "name": "Lare Luxury",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lare-luxury/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "larimar-city",
+      "name": "Larimar City & Resort",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/larimar-city/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "laura-acevedo-real-estate",
+      "name": "Laura Acevedo Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/laura-acevedo-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "layetana",
+      "name": "Layetana",
+      "officialWebsite": "https://layetana.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "legal-expertise",
+      "name": "Legal Expertise",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/legal-expertise/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "letsinvest",
+      "name": "Letsinvest",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/letsinvest/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "level",
+      "name": "Level",
+      "officialWebsite": "https://acp-level.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "libra",
+      "name": "Libra",
+      "officialWebsite": "https://libragp.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "livensa-living",
+      "name": "Livensa Living",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/livensa-living/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "llave-de-oro",
+      "name": "Llave De Oro",
+      "officialWebsite": "https://lallavedeoro.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "loaisa",
+      "name": "Loaisa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/loaisa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lobe",
+      "name": "Lobe",
+      "officialWebsite": "https://grupolobe.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lof-cocinas",
+      "name": "Lof Cocinas",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lof-cocinas/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "loft-home-rd",
+      "name": "Loft Home RD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/loft-home-rd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "loiola",
+      "name": "Loiola",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/loiola/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "loopnet",
+      "name": "LoopNet",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/loopnet/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "los-ahijones",
+      "name": "Los Ahijones",
+      "officialWebsite": "https://ahijones.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/los-ahijones/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "los-berrocales",
+      "name": "Los Berrocales",
+      "officialWebsite": "https://losberrocales.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/los-berrocales/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "los-cerros",
+      "name": "Los Cerros",
+      "officialWebsite": "https://loscerros.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/los-cerros/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lucas-trading-s-l",
+      "name": "LUCAS TRADING S.L.",
+      "officialWebsite": "https://lucasfox.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lumon",
+      "name": "Lumon España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lumon/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "lystos",
+      "name": "Lystos",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/lystos/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mg",
+      "name": "M&G",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mg/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mapasubastas",
+      "name": "MapaSubastas",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mapasubastas/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mar-azul",
+      "name": "MAR AZUL",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mar-azul/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mar-diaz-inversiones-internacionales",
+      "name": "Mar Díaz Inversión en Paraguay",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mar-diaz-inversiones-internacionales/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "maria-ordonez",
+      "name": "María Ordoñez",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/maria-ordonez/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "masa",
+      "name": "Masa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/masa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "metros2",
+      "name": "Metros2",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/metros2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "metrovacesa",
+      "name": "Metrovacesa",
+      "officialWebsite": "https://metrovacesa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/metrovacesa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mi-mujeres-inmobiliarias-chile",
+      "name": "MI – Mujeres Inmobiliarias Chile",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mi-mujeres-inmobiliarias-chile/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "miami-realtors",
+      "name": "MIAMI REALTORS®",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/miami-realtors/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ministerio-de-vivienda-y-agenda-urbana",
+      "name": "Ministerio de Vivienda y Agenda Urbana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ministerio-de-vivienda-y-agenda-urbana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "moasure",
+      "name": "Moasure",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/moasure/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "modelandum-real-estate-financial-modeling",
+      "name": "Modelandum | Real Estate Financial Modeling",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/modelandum-real-estate-financial-modeling/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "momentum",
+      "name": "Momentum",
+      "officialWebsite": "https://momentumreim.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "montebalito",
+      "name": "Montebalito",
+      "officialWebsite": "https://montebalito.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "montepino",
+      "name": "Montepino",
+      "officialWebsite": "https://montepino.net/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "monthisa",
+      "name": "Monthisa",
+      "officialWebsite": "https://monthisa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "morada-constructoras",
+      "name": "Morada Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/morada-constructoras/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "morph-architecture-meets-engineering-s-l",
+      "name": "Morph- Architecture Meets Engineering, S.L.",
+      "officialWebsite": "https://morph.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "moyua-homes-sl",
+      "name": "MOYUA HOMES SL",
+      "officialWebsite": "https://moyuahomes.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mr-home",
+      "name": "MR Home",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mr-home/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "muliv-mujeres-lideres-por-la-vivienda",
+      "name": "MULIV – Mujeres Líderes por la Vivienda",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/muliv-mujeres-lideres-por-la-vivienda/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "gs-real-llc",
+      "name": "Multiplica Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/gs-real-llc/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "muppy",
+      "name": "Muppy",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/muppy/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "murelli",
+      "name": "Murelli",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/murelli/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mvgm",
+      "name": "Mvgm",
+      "officialWebsite": "https://mvgm.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mxn-real-estate",
+      "name": "MXN Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mxn-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nader-enterprises",
+      "name": "Nader Enterprises",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/nader-enterprises/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "naiz-homes",
+      "name": "Naiz Homes",
+      "officialWebsite": "https://naizhomes.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/naiz-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "namirial",
+      "name": "Namirial",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/namirial/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "napisa",
+      "name": "Napisa",
+      "officialWebsite": "https://napisa.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "neinor",
+      "name": "Neinor",
+      "officialWebsite": "https://neinorhomes.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "neinor-homes",
+      "name": "Neinor Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/neinor-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nido-capital",
+      "name": "Nido Capital",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/nido-capital/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nido-grupo",
+      "name": "Nido Grupo",
+      "officialWebsite": "https://nidogrupo.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nidra-homes",
+      "name": "NiDra Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/nidra-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "noken",
+      "name": "NOKEN",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/noken/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nomad",
+      "name": "NOMAD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/nomad/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "norforest",
+      "name": "Norforest",
+      "officialWebsite": "https://norforest.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "noval-properties",
+      "name": "Noval Properties",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/noval-properties/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nozar",
+      "name": "Nozar",
+      "officialWebsite": "https://nozar.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "nuvare",
+      "name": "NUVARE",
+      "officialWebsite": "https://nuvare.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://nuvare.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-nuvare"
+      ]
+    },
+    {
+      "id": "obra-nueva-com-comunidades-san-nicolas-s-l",
+      "name": "Obra Nueva.Com: Comunidades San Nicolas S.L.",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "observatorio-inmobiliario",
+      "name": "Observatorio Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/observatorio-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ocn-resort-and-residences",
+      "name": "OCN RESORT AND RESIDENCES",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ocn-resort-and-residences/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "oger",
+      "name": "OGER",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/oger/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ohla",
+      "name": "Ohla",
+      "officialWebsite": "https://ohla-group.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "okan-tower",
+      "name": "Okan Tower",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/okan-tower/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "oliva-nova",
+      "name": "Oliva Nova · CHG",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/oliva-nova/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "oncisa",
+      "name": "Oncisa",
+      "officialWebsite": "https://oncisa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "one-laguna-residences-marina",
+      "name": "One Laguna Residences and Marina",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/one-laguna-residences-marina/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "one-life-housing",
+      "name": "One Life Housing",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/one-life-housing/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "one-trade",
+      "name": "One Trade – Wyndham Partners",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/one-trade/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "one-twenty-brickell-residences",
+      "name": "One Twenty Brickell Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/one-twenty-brickell-residences/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "onivia",
+      "name": "ONIVIA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/onivia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ora-gestion",
+      "name": "Ora Gestión",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ora-gestion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ores-bryan",
+      "name": "Ores & Bryan | MIC Insurance – OM Suscripción de Riesgos",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ores-bryan/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ores-y-bryan",
+      "name": "Ores Y Bryan",
+      "officialWebsite": "https://oresybryan.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "orinoquia",
+      "name": "Orinoquia",
+      "officialWebsite": "https://orinoquia.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "panoramic-inmobiliaria-2026",
+      "name": "Panoramic Inmobiliaria 2026",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/panoramic-inmobiliaria-2026/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "pecsa",
+      "name": "Pecsa",
+      "officialWebsite": "https://pecsa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "396810",
+      "name": "PÉREZ REAL ESTATE",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/396810/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "perez-llorca-abogados-s-l-p",
+      "name": "Pérez-Llorca Abogados, S.L.P.",
+      "officialWebsite": "https://perezllorca.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "persuadis-marketing-inmobiliario",
+      "name": "Persuadis Marketing Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/persuadis-marketing-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "petra-urbana",
+      "name": "Petra Urbana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/petra-urbana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "pisoya",
+      "name": "Piso Ya",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/pisoya/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "pisopro",
+      "name": "pisopro",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/pisopro/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "pisos-com",
+      "name": "Pisos.com",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/pisos-com/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "plandeprotecciondealquiler-com",
+      "name": "Plan de protección de alquiler.com",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/plandeprotecciondealquiler-com/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "planradar",
+      "name": "PlanRadar",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/planradar/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "plusval",
+      "name": "Plusval",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/plusval/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "png-desarrollos",
+      "name": "Png Desarrollos",
+      "officialWebsite": "https://pngdesarrollos.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "porcelanosa",
+      "name": "PORCELANOSA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/porcelanosa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "porcelanosa-grupo",
+      "name": "PORCELANOSA Grupo",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/porcelanosa-grupo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "praemia",
+      "name": "Praemia",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/praemia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "premier-espana",
+      "name": "Premier España",
+      "officialWebsite": "https://premierinmobiliaria.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "princeton",
+      "name": "Princeton",
+      "officialWebsite": "https://princetonplc.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "prisma",
+      "name": "Prisma",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/prisma/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "procorsa",
+      "name": "Procorsa",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "proel",
+      "name": "Proel",
+      "officialWebsite": "https://proelconsultoria.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "proel-consultoria",
+      "name": "PROEL CONSULTORÍA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/proel-consultoria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "projected-living",
+      "name": "Projected Living",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/projected-living/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "promur",
+      "name": "Promur",
+      "officialWebsite": "https://promur.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "prophero",
+      "name": "PropHero",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/prophero/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "prop-pilot",
+      "name": "PropPilot.ai",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/prop-pilot/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "provia",
+      "name": "PROVIA-Asociación de Promotores Inmobiliarios de la Provincia de Alicante",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/provia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "pryconsa",
+      "name": "Pryconsa",
+      "officialWebsite": "https://pryconsa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "punta-bergatin",
+      "name": "Punta Bergatín",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/punta-bergatin/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "punta-cana-realtors-developers",
+      "name": "Punta Cana Realtors & Developers",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/punta-cana-realtors-developers/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "q-living",
+      "name": "Q Living",
+      "officialWebsite": "https://qliving-realestate.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "q-living-real-estate",
+      "name": "Q-Living Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/q-living-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "qc-construccion",
+      "name": "QC Construcción",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/qc-construccion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "qobrix",
+      "name": "Qobrix",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/qobrix/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "radio-inter",
+      "name": "Radio Inter",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/radio-inter/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "raizers",
+      "name": "Raizers",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/raizers/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "re-max",
+      "name": "RE/MAX España",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/re-max/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "real-estate-business-review",
+      "name": "Real Estate Business Review",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/real-estate-business-review/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "real-estate-cartagena",
+      "name": "Real Estate Cartagena",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/real-estate-cartagena/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "realia",
+      "name": "Realia",
+      "officialWebsite": "https://realia.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "realty-group",
+      "name": "Realty Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/realty-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rebs",
+      "name": "Rebs Real Estate Business School",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rebs/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "red-global-espana-gestion-y-explotacion-de-franquicias",
+      "name": "Red global España Gestión y Explotación de Franquicias",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/red-global-espana-gestion-y-explotacion-de-franquicias/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "reines-grupo-inmobiliario",
+      "name": "Reines Grupo Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/reines-grupo-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "remax-coast-ii",
+      "name": "REMAX Coast II",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/remax-coast-ii/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "remax-collection",
+      "name": "REMAX Collection",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/remax-collection/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "remax-commercial",
+      "name": "REMAX Commercial",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/remax-commercial/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "remax-ocean-punta-cana",
+      "name": "REMAX Ocean Punta Cana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/remax-ocean-punta-cana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "renta-garantizada",
+      "name": "Renta Garantizada",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/renta-garantizada/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rental-advance",
+      "name": "Rental Advance",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rental-advance/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rentalia",
+      "name": "Rentalia",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rentalia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rentger",
+      "name": "Rentger",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rentger/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rentitup",
+      "name": "RentitUp",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rentitup/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "republica-dominicana",
+      "name": "República Dominicana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/republica-dominicana/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "residencial-alpedrete",
+      "name": "Residencial Alpedrete",
+      "officialWebsite": "https://residencialalpedrete.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://residencialalpedrete.com/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-residencial-alpedrete"
+      ]
+    },
+    {
+      "id": "residencial-centro",
+      "name": "Residencial Centro",
+      "officialWebsite": "https://residencialcentro.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "resimo",
+      "name": "Resimo",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/resimo/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ecoconstruccion",
+      "name": "Revista EcoConstrucción",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ecoconstruccion/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rics",
+      "name": "RICS",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rics/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rks",
+      "name": "RKS Asset Management",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/rks/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "roes-international-real-estate",
+      "name": "ROES INTERNATIONAL – Real Estate",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/roes-international-real-estate/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "roes-international-by-exp",
+      "name": "Roes International by eXp",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/roes-international-by-exp/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "roi-capital",
+      "name": "Roi Capital",
+      "officialWebsite": "https://casasroicapital.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rsk-asset-management-s-l",
+      "name": "Rsk Asset Management S.L.",
+      "officialWebsite": "https://rks-am.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "rta",
+      "name": "Rta",
+      "officialWebsite": "https://rtagrupo.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "safebrok",
+      "name": "Safebrok",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/safebrok/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "safti",
+      "name": "SAFTI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/safti/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "salas-plushabit",
+      "name": "SALAS PLUSHABIT",
+      "officialWebsite": "https://salas.plus/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "san-martin",
+      "name": "San Martín",
+      "officialWebsite": "https://construccionessanmartin.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sandi",
+      "name": "Sandi",
+      "officialWebsite": "https://sandi.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sartriges",
+      "name": "Sartriges",
+      "officialWebsite": "https://gesarqus.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "savills",
+      "name": "Savills",
+      "officialWebsite": "https://savills.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/savills/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "selvadentro-tulum",
+      "name": "Selvadentro Tulum – Tierra de Cenotes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/selvadentro-tulum/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "blue-reserve-corozalito",
+      "name": "Serena Blue Residences",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/blue-reserve-corozalito/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "serviland",
+      "name": "Serviland",
+      "officialWebsite": "https://servihabitat.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "mercado-media-network",
+      "name": "Set de prensa – República Dominicana",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/mercado-media-network/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "shoma-homes",
+      "name": "Shoma Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/shoma-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sinergia",
+      "name": "Sinergia",
+      "officialWebsite": "https://sinergia24.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "single-homes",
+      "name": "Single Homes",
+      "officialWebsite": "https://singlehome.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sira-homes",
+      "name": "Sira Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/sira-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "snapland",
+      "name": "Snapland",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/snapland/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sociedad-de-tasacion",
+      "name": "Sociedad De Tasacion",
+      "officialWebsite": "https://st-tasacion.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sodacrowd",
+      "name": "SodaCrowd",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/sodacrowd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "sogeviso",
+      "name": "Sogeviso",
+      "officialWebsite": "https://sogeviso.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "solvia",
+      "name": "Solvia",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/solvia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "spain-4-investors",
+      "name": "Spain 4 investors",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/spain-4-investors/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "spanientrend",
+      "name": "Spanientrend",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/spanientrend/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "spdomus-gestion-integral-del-alquilar",
+      "name": "SPDOMUS – Gestión Integral del Alquilar",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/spdomus-gestion-integral-del-alquilar/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "stance-homes",
+      "name": "STANCE Homes",
+      "officialWebsite": "https://stancehomes.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://stancehomes.es/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-stance"
+      ]
+    },
+    {
+      "id": "stockcrowd-in",
+      "name": "StockCrowd IN",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/stockcrowd-in/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "stoneweg",
+      "name": "Stoneweg",
+      "officialWebsite": "https://stonewegliving.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "stt",
+      "name": "Stt",
+      "officialWebsite": "https://sttmadrid.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "t-buggy",
+      "name": "T-BUGGY",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/t-buggy/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "taaf",
+      "name": "TAAF",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/taaf/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tecnitasa",
+      "name": "Tecnitasa",
+      "officialWebsite": "https://octcontrolia.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tecnoapi",
+      "name": "Tecnoapi",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/tecnoapi/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tectum",
+      "name": "Tectum",
+      "officialWebsite": "https://tectumgm.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ten-bkrinke",
+      "name": "Ten Bkrinke",
+      "officialWebsite": "https://tenbrinke.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "testa-homes",
+      "name": "Testa Homes",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/testa-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "the-don-dom-enterprise",
+      "name": "The Don Dom — BECCA Boutique Real Estate Developer",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/the-don-dom-enterprise/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "the-reserve-at-nisibon",
+      "name": "The Reserve at Nisibon",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/the-reserve-at-nisibon/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "thefringe-labs",
+      "name": "TheFringe/LABS",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/thefringe-labs/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tiburon-by-gialde",
+      "name": "Tiburón by Gialde",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/tiburon-by-gialde/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tinsa",
+      "name": "Tinsa",
+      "officialWebsite": "https://tinsa.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/tinsa/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tm-grupo-inmobiliario",
+      "name": "TM Grupo Inmobiliario",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/tm-grupo-inmobiliario/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "top-gestion",
+      "name": "Top Gestion",
+      "officialWebsite": "https://grupotopgestion.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "torimbia",
+      "name": "Torimbia",
+      "officialWebsite": "https://torimbia.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "torre-rioja-madrid-socimi-s-a-u",
+      "name": "TORRE RIOJA MADRID SOCIMI, S.A.U.",
+      "officialWebsite": "https://torrerioja.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "toshiba",
+      "name": "Toshiba",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/toshiba/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tq-eurocredit",
+      "name": "TQ Eurocredit",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/tq-eurocredit/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tq-eurocredit-bcn-s-l-u",
+      "name": "Tq Eurocredit-Bcn, S.L.U.",
+      "officialWebsite": "https://tqeurocredit.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "trece-home-inmobiliaria",
+      "name": "Trece Home Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/trece-home-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "trinosa",
+      "name": "Trinosa",
+      "officialWebsite": "https://trinosa.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "asprima-members",
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": [
+        "links-trinosa",
+        "sitemap-trinosa"
+      ]
+    },
+    {
+      "id": "trivima",
+      "name": "TRIVIMA",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/trivima/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ttt-moneycorp-limited",
+      "name": "TTT Moneycorp Limited",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ttt-moneycorp-limited/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "tu-casa-rd",
+      "name": "Tu Casa RD",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/tu-casa-rd/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "twin-peaks-capital",
+      "name": "Twin Peaks Capital",
+      "officialWebsite": "https://twinpeakscapital.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "ucab",
+      "name": "UCAB",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/ucab/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "udi-group",
+      "name": "UDI Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/udi-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "uli",
+      "name": "ULI",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/uli/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "umbra-insurance-broker",
+      "name": "Umbra Insurance Broker",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/umbra-insurance-broker/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "unidad-administrativa-de-bienes-revertidos",
+      "name": "Unidad Administrativa de Bienes Revertidos",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/unidad-administrativa-de-bienes-revertidos/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "uppol",
+      "name": "Uppol",
+      "officialWebsite": "https://uppol.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "urban-group",
+      "name": "Urban Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/urban-group/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "urban-input-group-sl",
+      "name": "URBAN INPUT GROUP SL",
+      "officialWebsite": "https://urbaninput.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "urbania",
+      "name": "Urbania",
+      "officialWebsite": "https://byurbania.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "urbanitae",
+      "name": "Urbanitae",
+      "officialWebsite": "https://urbanitae.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/urbanitae/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "urbei-platform-investments",
+      "name": "Urbei Platform & Investments",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/urbei-platform-investments/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "utopia-development-2",
+      "name": "UTOPIA DEVELOPMENT",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/utopia-development-2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "uve-valoraciones",
+      "name": "Uve Valoraciones",
+      "officialWebsite": "https://v-valoraciones.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vae-homes",
+      "name": "VAE HOMES",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vae-homes/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "valdebebas",
+      "name": "Valdebebas",
+      "officialWebsite": "https://valdebebas.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "valdecarros",
+      "name": "Valdecarros",
+      "officialWebsite": "https://valdecarros.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/valdecarros/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "valenor",
+      "name": "Valenor",
+      "officialWebsite": "https://valenor.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "valladares-ingenieria-sl",
+      "name": "Valladares Ingenieria Sl",
+      "officialWebsite": "https://i-valladares.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "valum",
+      "name": "Valum",
+      "officialWebsite": "https://valumre.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vencar-capital-s-l",
+      "name": "VENCAR CAPITAL S.L.",
+      "officialWebsite": "https://vencarcapital.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "venturiquestrealty",
+      "name": "Venturiquestrealty",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/venturiquestrealty/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "veritat",
+      "name": "Veritat",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/veritat/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vesari",
+      "name": "Vesari",
+      "officialWebsite": "https://vesari.info/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-live-catalog"
+      ],
+      "evidenceUrls": [
+        "https://vesari.info/"
+      ],
+      "monitoredSourceIds": [
+        "sitemap-vesari"
+      ]
+    },
+    {
+      "id": "via-agora",
+      "name": "Via Agora",
+      "officialWebsite": "https://viaagora.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/via-agora/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "via-celere",
+      "name": "Via Célere",
+      "officialWebsite": "https://viacelere.com/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members",
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/",
+        "https://simaexpo.com/empresas/via-celere/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vida-inmobiliaria",
+      "name": "Vida Inmobiliaria",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vida-inmobiliaria/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vierci-development",
+      "name": "VIERCI DEVELOPMENT",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vierci-development/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vista-marina-residence",
+      "name": "Vista Marina Residence",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vista-marina-residence/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vitalis-tower-aventura",
+      "name": "Vitalis Tower Aventura",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vitalis-tower-aventura/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vitrinemedia",
+      "name": "Vitrinemedia",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vitrinemedia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vivantia",
+      "name": "Vivantia Homes x iNNSiDE by Meliá – Punta Cana Developments",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vivantia/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "viveme",
+      "name": "Viveme",
+      "officialWebsite": "https://viveme.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "robera",
+      "name": "Viviendas Robera",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/robera/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vivin-app",
+      "name": "vivin.app",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vivin-app/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "viviz",
+      "name": "VÍVIZ",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/viviz/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "vonan-properties",
+      "name": "Vonan Properties",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/vonan-properties/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "walliance",
+      "name": "Walliance Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/walliance/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "welz",
+      "name": "Welz",
+      "officialWebsite": "https://welz.co/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "wendy-marte-asociados",
+      "name": "Wendy Marte & Abogados",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/wendy-marte-asociados/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "wires",
+      "name": "Wires",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/wires/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "xm2",
+      "name": "XM2 – Por metro cuadrado",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/xm2/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "xtone",
+      "name": "Xtone",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/xtone/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "zapata",
+      "name": "Zapata",
+      "officialWebsite": "https://zapata.es/",
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "asprima-members"
+      ],
+      "evidenceUrls": [
+        "https://asprima.es/listado-de-socios/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "zennio",
+      "name": "Zennio",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/zennio/"
+      ],
+      "monitoredSourceIds": []
+    },
+    {
+      "id": "zoemar-group",
+      "name": "Zoemar Group",
+      "officialWebsite": null,
+      "reviewStatus": "candidate",
+      "sourceIds": [
+        "sima-companies"
+      ],
+      "evidenceUrls": [
+        "https://simaexpo.com/empresas/zoemar-group/"
+      ],
+      "monitoredSourceIds": []
+    }
+  ]
+}

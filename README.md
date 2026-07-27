@@ -1,7 +1,8 @@
 # SierraNueva
 
 SierraNueva localiza, normaliza y presenta promociones de obra nueva unifamiliar
-en la Sierra de Madrid. El repositorio contiene un crawler/ETL en .NET y una
+en toda la Comunidad de Madrid, con foco especial en la Sierra. El repositorio
+contiene un crawler/ETL en .NET y una
 aplicación Blazor WebAssembly completamente estática. El MVP prioriza fuentes
 oficiales y excluye los grandes portales inmobiliarios.
 
@@ -34,7 +35,7 @@ comprobada e integraciones live que aún requieren trabajo.
 - Ejecuta un radar privado y separado para señales de BOCM, BOE, contratación
   pública y suelo público, sin confundirlas con promociones verificadas.
 - Recorre diariamente una matriz web completa mediante un SearXNG privado y
-  efímero: 29 municipios por cuatro familias de consulta, sin raspar HTML de
+  efímero: 179 municipios por cuatro familias de consulta, sin raspar HTML de
   buscadores ni publicar sus resultados.
 - Mantiene un registro privado de salud por fuente y una instantánea de
   cobertura por municipio; detecta fallos repetidos y respuestas vacías
@@ -268,7 +269,7 @@ repetibles se declaran mediante `reviewRules`; pueden marcar coincidencias como
 
 Los canales `industryDirectory` son un embudo privado distinto: SIMA se usa
 solo para descubrir nombres y dominios que aún no estén en el registro. El
-lector sigue como máximo 50 fichas desde el sitemap filtrado por municipio y
+lector sigue como máximo 200 fichas desde el sitemap filtrado por municipio y
 cinco desde cada uno de los índices de Collado Villalba y El Escorial. Solo
 extrae bloques y enlaces configurados, elimina parámetros de seguimiento y no
 visita los dominios externos. Ninguna ficha del directorio se convierte por sí
@@ -278,9 +279,9 @@ unifamiliar: una fuente oficial técnicamente apta no se integra si publica
 pisos o cualquier otro producto fuera del alcance de SierraNueva.
 
 El canal `zz-web-search-matrix` levanta SearXNG únicamente durante la ejecución
-live y consulta su API JSON local. Cruza los 29 municipios con cuatro familias
+live y consulta su API JSON local. Cruza los 179 municipios con cuatro familias
 de búsqueda —producto, promotor/cooperativa, planeamiento/licencias y
-suelo/parcelas—: **116 consultas diarias completas**. Deduplica por URL, limita
+suelo/parcelas—: **716 consultas diarias completas**. Deduplica por URL, limita
 cada consulta a diez resultados, descarta portales y redes sociales y exige que
 el título o fragmento contenga señales reales del radar. La consulta solo
 aporta el municipio; no se conserva como evidencia ni basta para publicar.
@@ -382,9 +383,10 @@ dotnet run --project src/SierraNueva.Crawler -c Release -- crawl `
 ```
 
 La evaluación de identidad, condiciones, `robots.txt`, alcance y mitigaciones
-está en [docs/source-assessments](docs/source-assessments). La matriz completa
-de los 29 municipios está en
-[docs/source-coverage.md](docs/source-coverage.md). Ambas revisiones deben
+está en [docs/source-assessments](docs/source-assessments). La matriz histórica
+de los 29 municipios originales está en
+[docs/source-coverage.md](docs/source-coverage.md); la cobertura operativa
+actual se calcula sobre los 179 municipios configurados. Ambas revisiones deben
 repetirse antes de automatizar o ampliar el rastreo.
 
 Playwright es un fallback explícito. Se ejecuta solo si la configuración global
@@ -393,17 +395,36 @@ incluye evasión, fingerprints falsos ni resolución de CAPTCHA.
 
 ## Configurar municipios
 
-[config/municipalities.json](config/municipalities.json) contiene los 29
-municipios iniciales. Se pueden habilitar, deshabilitar o ampliar sin
+[config/municipalities.json](config/municipalities.json) contiene los 179
+municipios oficiales de la Comunidad de Madrid. Se pueden habilitar,
+deshabilitar o ampliar sin
 recompilar. Los alias permiten resolver, por ejemplo, Cerceda y Mataelpino como
 localidades de El Boalo.
 
-Los 29 municipios incluyen coordenadas procedentes del Nomenclátor Geográfico
+Los 179 municipios incluyen coordenadas procedentes del Nomenclátor Geográfico
 de Municipios y Entidades de Población 2026 del IGN. La fuente publica ETRS89,
 compatible con WGS84 en la península. La trazabilidad, el registro municipal,
 el hash del ZIP original y la atribución están en
 [config/municipality-centroids.json](config/municipality-centroids.json) y
 `validate-config` comprueba automáticamente que ambos archivos coinciden.
+
+El inventario trazable de organizaciones está en
+[config/market-actors.json](config/market-actors.json). Contiene candidatos
+obtenidos del listado público de ASPRIMA y actores ya enlazados a fuentes live;
+no es un listado de promotoras confirmadas y no se publica en la SPA. Solo
+guarda nombre, web, procedencia y estado de revisión, nunca datos de contacto.
+`validate-config` valida también este catálogo.
+
+Los tres mantenimientos son repetibles:
+
+```powershell
+./scripts/import-madrid-municipalities.ps1 -SourceCsv <MUNICIPIOS.csv>
+./scripts/sync-discovery-geography.ps1
+./scripts/import-market-actors.ps1
+```
+
+El primero requiere el CSV oficial descargado manualmente del IGN y los dos
+últimos sincronizan el radar live y el inventario sectorial respectivamente.
 
 Nominatim está deshabilitado por defecto. Si se habilita, usa caché persistente,
 una sola solicitud simultánea y un máximo inicial de cuatro solicitudes por
@@ -658,7 +679,7 @@ sigue funcionando.
 - `.github/workflows/ci.yml` reproduce la baseline offline en cada push y pull
   request. `.github/workflows/crawl-and-deploy.yml` se puede lanzar
   manualmente y está programado cada día a las 06:17, zona
-  `Europe/Madrid`; levanta SearXNG, ejecuta las 116 consultas, actualiza después
+  `Europe/Madrid`; levanta SearXNG, ejecuta las 716 consultas, actualiza después
   el resto del radar y su cobertura privada, usa las
   25 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial

@@ -438,6 +438,38 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Parser_ReadsCurrentDirectoryEntryContentWithoutInventingLinks()
+    {
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "industry-directory-current",
+            Name = "Directorio sectorial actual",
+            Enabled = true,
+            SourceKind = OpportunitySourceKind.IndustryDirectory,
+            Format = OpportunityFeedFormat.Sitemap,
+            Cadence = OpportunityFeedCadence.Daily,
+            AllowedHosts = ["industry-fixture.test"],
+            DetailContentSelectors = [".entry-content"],
+            DetailLinkSelectors = [".entry-content a[href^='https://']"]
+        };
+        byte[] content = await File.ReadAllBytesAsync(
+            FixturePath("industry-directory-detail-current.html"));
+
+        OpportunityFeedItem item = new OpportunityFeedParser().ParseDetailPage(
+            source,
+            content,
+            new("https://industry-fixture.test/oferta/a114-arganda-del-rey/"),
+            null);
+
+        Assert.Equal("A114 Arganda del Rey", item.Title);
+        Assert.Contains(
+            "oferta de viviendas",
+            item.Summary,
+            StringComparison.OrdinalIgnoreCase);
+        Assert.Empty(item.RelatedUrls);
+    }
+
+    [Fact]
     public async Task Reader_FollowsDirectoryDetailsFoundInABoundedHtmlIndex()
     {
         OpportunitySourceDefinition source = new()
@@ -650,6 +682,104 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Pipeline_DistinguishesMadridCityFromTheRegion()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition source = new()
+            {
+                Id = "regional-feed",
+                Name = "Fuente regional",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.RegionalGazette,
+                Format = OpportunityFeedFormat.Rss,
+                Cadence = OpportunityFeedCadence.Daily
+            };
+            OpportunityFeedItem regional = new()
+            {
+                ExternalId = "regional",
+                Title = "Promoción de viviendas en la Comunidad de Madrid",
+                Summary = "Nueva oferta residencial regional",
+                OfficialUrl = "https://example.test/regional"
+            };
+            OpportunityFeedItem city = new()
+            {
+                ExternalId = "city",
+                Title = "Promoción de viviendas del Ayuntamiento de Madrid",
+                Summary = "Nueva oferta residencial en Madrid capital",
+                OfficialUrl = "https://example.test/city"
+            };
+            OpportunityFeedItem plainCity = new()
+            {
+                ExternalId = "plain-city",
+                Title = "Residencial Norte Madrid",
+                Summary = "Nueva promoción de viviendas",
+                OfficialUrl = "https://example.test/plain-city"
+            };
+            OpportunityDiscoveryPipeline pipeline = new(
+                new ScriptedFeedReader(
+                    (object)new OpportunityFeedItem[] { regional, city, plainCity }),
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 7, 27, 13, 0, 0, TimeSpan.Zero)));
+
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = new()
+                    {
+                        Terms =
+                        [
+                            new()
+                            {
+                                Term = "promoción",
+                                Kind = OpportunityKind.ResidentialDevelopment
+                            }
+                        ],
+                        ContextTerms = ["viviendas", "residencial"],
+                        Sources = [source]
+                    },
+                    Municipalities =
+                    [
+                        new()
+                        {
+                            OfficialName = "Madrid",
+                            RecognitionTerms =
+                            [
+                                "Madrid capital",
+                                "municipio de Madrid",
+                                "Ayuntamiento de Madrid"
+                            ],
+                            RecognitionExclusions =
+                            [
+                                "Comunidad de Madrid",
+                                "Comunidad Autónoma de Madrid"
+                            ]
+                        }
+                    ],
+                    StateDirectory = directory,
+                    From = FixtureDate,
+                    To = FixtureDate
+                },
+                CancellationToken.None);
+
+            Assert.Equal(
+                ["city", "plain-city"],
+                result.State.Candidates
+                    .Select(candidate => candidate.ExternalId)
+                    .Order(StringComparer.Ordinal)
+                    .ToArray());
+            Assert.All(
+                result.State.Candidates,
+                candidate => Assert.Equal("Madrid", candidate.Municipality));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_FiltersNoisePersistsPrivatelyAndPreservesReview()
     {
         string directory = CreateTempDirectory();
@@ -684,7 +814,7 @@ public sealed class OpportunityDiscoveryTests
                 request,
                 CancellationToken.None);
 
-            Assert.Equal(34, first.Run.NewCandidates);
+            Assert.Equal(35, first.Run.NewCandidates);
             Assert.Equal(
                 [
                     "Alpedrete",
@@ -698,6 +828,7 @@ public sealed class OpportunityDiscoveryTests
                     "El Escorial",
                     "Fresnedillas de la Oliva",
                     "Galapagar",
+                    "Getafe",
                     "Guadalix de la Sierra",
                     "Guadarrama",
                     "Hoyo de Manzanares",
@@ -736,16 +867,16 @@ public sealed class OpportunityDiscoveryTests
                 source => Assert.Equal(
                     OpportunitySourceHealthStatus.Healthy,
                     source.Status));
-            Assert.Equal(29, first.State.Coverage.MunicipalitiesTotal);
+            Assert.Equal(179, first.State.Coverage.MunicipalitiesTotal);
             Assert.Equal(28, first.State.Coverage.MunicipalitiesWithDirectSource);
             Assert.Equal(28, first.State.Coverage.MunicipalitiesWithHealthyDirectSource);
-            Assert.Equal(29, first.State.Coverage.MunicipalitiesWithHealthyCoverage);
-            Assert.Equal(34, first.State.Coverage.PendingCandidates);
+            Assert.Equal(179, first.State.Coverage.MunicipalitiesWithHealthyCoverage);
+            Assert.Equal(35, first.State.Coverage.PendingCandidates);
             Assert.Equal(1, first.State.Coverage.CommercialSources);
             Assert.Equal(1, first.State.Coverage.HealthyCommercialSources);
             Assert.Equal(1, first.State.Coverage.CommercialDomainsMonitored);
             Assert.Equal(1, first.State.Coverage.HealthyCommercialDomains);
-            Assert.Equal(34, first.State.Coverage.NewCandidates);
+            Assert.Equal(35, first.State.Coverage.NewCandidates);
             Assert.Equal(0, first.State.Coverage.MonitoringCandidates);
             Assert.Equal(0, first.State.Coverage.RejectedCandidates);
             Assert.Equal(0, first.State.Coverage.VerifiedSourceCandidates);
@@ -779,12 +910,12 @@ public sealed class OpportunityDiscoveryTests
                 CancellationToken.None);
 
             Assert.Equal(0, second.Run.NewCandidates);
-            Assert.Equal(34, second.Run.UpdatedCandidates);
+            Assert.Equal(35, second.Run.UpdatedCandidates);
             Assert.Equal(
                 OpportunityCandidateStatus.Monitoring,
                 second.State.Candidates.Single(candidate => candidate.Id == reviewed.Id).Status);
             Assert.Equal(34, second.State.SourceHealth.Count);
-            Assert.Equal(29, second.State.Coverage.MunicipalitiesWithHealthyCoverage);
+            Assert.Equal(179, second.State.Coverage.MunicipalitiesWithHealthyCoverage);
         }
         finally
         {
@@ -1048,7 +1179,7 @@ public sealed class OpportunityDiscoveryTests
         Assert.Equal(3, directories.Length);
         Assert.All(directories, source => Assert.True(source.FollowDetailPages));
         Assert.Equal(
-            29,
+            179,
             Assert.Single(
                 directories,
                 source => source.Format == OpportunityFeedFormat.Sitemap)
@@ -1062,7 +1193,7 @@ public sealed class OpportunityDiscoveryTests
         Assert.Equal(OpportunityFeedFormat.SearxngJson, liveSearch.Format);
         Assert.Equal(4, liveSearch.SearchQueryTemplates.Count);
         Assert.Equal(
-            116,
+            716,
             liveSearch.SearchQueryTemplates.Count *
             municipalities.Count(municipality => municipality.Enabled));
         Assert.NotNull(offlineSearch.FixturePath);

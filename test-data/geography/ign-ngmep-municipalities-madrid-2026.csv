@@ -1,30 +1,180 @@
 COD_GEO;NOMBRE_ACTUAL;LONGITUD_ETRS89;LATITUD_ETRS89;ORIGENCOOR
-28050;Alpedrete;-4.023479111;40.65886957;Detección automática
-28090;Becerril de la Sierra;-3.989401413;40.71626362;Detección automática
-28140;Bustarviejo;-3.709861585;40.85908309;Detección automática
-28145;Cabanillas de la Sierra;-3.625928271;40.81959964;Detección automática
-28190;Cercedilla;-4.055287611;40.7416083;Detección automática
-28230;Collado Mediano;-4.024391261;40.69365743;Detección automática
-28235;Collado Villalba;-3.991592449;40.64579798;Detección automática
-28115;El Boalo;-3.920170778;40.71710553;Detección automática
-28270;El Escorial;-4.129576412;40.58510059;Detección automática
-28280;Fresnedillas de la Oliva;-4.172037839;40.48651273;Detección automática
-28305;Galapagar;-4.006090877;40.5805253;Detección automática
-28335;Guadalix de la Sierra;-3.692752779;40.78487273;Detección automática
-28340;Guadarrama;-4.08879044;40.67252357;Detección automática
-28360;Hoyo de Manzanares;-3.907251019;40.62286422;Detección automática
-28150;La Cabrera;-3.615634572;40.86419421;Detección automática
-28425;Los Molinos;-4.073654968;40.71480945;Detección automática
-28400;Manzanares el Real;-3.865187;40.72681157;Detección automática
-28415;Miraflores de la Sierra;-3.766720793;40.8138022;Detección automática
-28440;Moralzarzal;-3.971736269;40.67907394;Detección automática
-28455;Navacerrada;-4.014591371;40.72896591;Detección automática
-28460;Navalafuente;-3.676124515;40.82334194;Detección automática
-28465;Navalagamella;-4.122788384;40.46930953;Detección automática
-28605;Robledo de Chavela;-4.238261978;40.50079633;Detección automática
-28635;San Lorenzo de El Escorial;-4.148963237;40.5914354;Detección automática
-28655;Santa María de la Alameda;-4.257917119;40.59570644;Detección automática
-28690;Soto del Real;-3.786895514;40.75317934;Detección automática
-28730;Torrelodones;-3.929300988;40.5756;Detección automática
-28765;Valdemaqueda;-4.295726845;40.51115053;Detección automática
-28885;Zarzalejo;-4.181377779;40.54730901;Detección automática
+28010;Ajalvir;-3.4809416610000001;40.534270960000001;Detección automática
+28015;Alameda del Valle;-3.8436363189999998;40.918056319999998;Detección automática
+28025;Alcalá de Henares;-3.3648670219999999;40.481792859999999;Detección automática
+28030;Alcobendas;-3.6418711099999999;40.547459060000001;Detección automática
+28035;Alcorcón;-3.8287944810000001;40.349499489999999;Detección automática
+28040;Aldea del Fresno;-4.203837772;40.324913240000001;Detección automática
+28045;Algete;-3.4978383609999999;40.59625449;Detección automática
+28050;Alpedrete;-4.0234791110000003;40.65886957;Detección automática
+28055;Ambite;-3.1815646979999999;40.328997370000003;Detección automática
+28060;Anchuelo;-3.2686679359999999;40.465516800000003;Detección automática
+28065;Aranjuez;-3.6035249660000002;40.032192080000002;Detección automática
+28070;Arganda del Rey;-3.4374574739999999;40.300793630000001;Detección automática
+28075;Arroyomolinos;-3.9201993549999998;40.267709549999999;Detección automática
+28085;Batres;-3.9207890189999999;40.209124539999998;Detección automática
+28090;Becerril de la Sierra;-3.989401413;40.716263619999999;Detección automática
+28095;Belmonte de Tajo;-3.3395689220000002;40.133746530000003;Detección automática
+28105;Berzosa del Lozoya;-3.523852362;40.975394979999997;Detección automática
+28110;Boadilla del Monte;-3.8791742849999999;40.407821609999999;Detección automática
+28120;Braojos;-3.6423851740000002;41.03944001;Detección automática
+28125;Brea de Tajo;-3.1096615879999998;40.230020430000003;Detección automática
+28130;Brunete;-3.9977407;40.40543263;Detección automática
+28135;Buitrago del Lozoya;-3.6364468410000002;40.993480630000001;Investigación
+28140;Bustarviejo;-3.7098615850000001;40.859083089999999;Detección automática
+28145;Cabanillas de la Sierra;-3.6259282709999998;40.81959964;Detección automática
+28155;Cadalso de los Vidrios;-4.4414597640000002;40.301621470000001;Detección automática
+28160;Camarma de Esteruelas;-3.3786827150000001;40.549125979999999;Detección automática
+28165;Campo Real;-3.3815978109999998;40.338026810000002;Detección automática
+28170;Canencia;-3.737669264;40.909773950000002;Detección automática
+28175;Carabaña;-3.237934493;40.257162440000002;Detección automática
+28180;Casarrubuelos;-3.8331942720000001;40.171171270000002;Detección automática
+28185;Cenicientos;-4.467560991;40.263449620000003;Detección automática
+28190;Cercedilla;-4.0552876109999998;40.741608300000003;Detección automática
+28195;Cervera de Buitrago;-3.5298112000000001;40.922508059999998;Detección automática
+28255;Chapinería;-4.2098085210000002;40.379191769999998;Detección automática
+28260;Chinchón;-3.423102611;40.139941929999999;Detección automática
+28200;Ciempozuelos;-3.6182841890000002;40.158952880000001;Detección automática
+28205;Cobeña;-3.50499033;40.56790548;Detección automática
+28230;Collado Mediano;-4.0243912609999999;40.693657430000002;Detección automática
+28235;Collado Villalba;-3.9915924490000001;40.645797979999998;Detección automática
+28215;Colmenar de Oreja;-3.3874650239999999;40.10772128;Detección automática
+28210;Colmenar del Arroyo;-4.1986070340000001;40.418338140000003;Detección automática
+28220;Colmenar Viejo;-3.7661495409999999;40.658808049999998;Detección automática
+28225;Colmenarejo;-4.0167740649999999;40.560926629999997;Detección automática
+28240;Corpa;-3.2630119;40.424794349999999;Detección automática
+28245;Coslada;-3.5655604489999999;40.426278740000001;Detección automática
+28250;Cubas de la Sagra;-3.8383449459999999;40.191263640000003;Detección automática
+28265;Daganzo de Arriba;-3.4578944140000001;40.544939470000003;Detección automática
+28020;El Álamo;-3.990672328;40.230312060000003;Detección automática
+28080;El Atazar;-3.4715824;40.933964019999998;Detección automática
+28100;El Berrueco;-3.5613465099999999;40.887569030000002;Detección automática
+28115;El Boalo;-3.9201707780000001;40.717105529999998;Detección automática
+28270;El Escorial;-4.1295764119999996;40.585100590000003;Detección automática
+28420;El Molar;-3.5821528420000002;40.732770960000003;Detección automática
+28810;El Vellón;-3.5821027029999999;40.766029170000003;Detección automática
+28275;Estremera;-3.1066210230000002;40.184659760000002;Detección automática
+28280;Fresnedillas de la Oliva;-4.1720378389999997;40.486512730000001;Detección automática
+28285;Fresno de Torote;-3.4118808299999999;40.592792209999999;Mapa
+28290;Fuenlabrada;-3.7998026149999999;40.284031499999998;Detección automática
+28295;Fuente el Saz de Jarama;-3.5138703740000001;40.634171629999997;Detección automática
+28300;Fuentidueña de Tajo;-3.1595441219999998;40.118607900000001;Detección automática
+28305;Galapagar;-4.0060908770000001;40.580525299999998;Detección automática
+28310;Garganta de los Montes;-3.6877657639999999;40.921526819999997;Detección automática
+28315;Gargantilla del Lozoya y Pinilla de Buitrago;-3.7185899729999998;40.96483533;Detección automática
+28320;Gascones;-3.641804864;41.017884279999997;Detección automática
+28325;Getafe;-3.7323321460000001;40.305551250000001;Detección automática
+28330;Griñón;-3.8528887749999998;40.213132000000002;Detección automática
+28335;Guadalix de la Sierra;-3.6927527790000001;40.784872729999996;Detección automática
+28340;Guadarrama;-4.0887904400000004;40.672523570000003;Detección automática
+28350;Horcajo de la Sierra-Aoslos;-3.585785446;41.066683619999999;Detección automática
+28355;Horcajuelo de la Sierra;-3.5453810059999999;41.060207669999997;Detección automática
+28360;Hoyo de Manzanares;-3.9072510189999998;40.622864219999997;Detección automática
+28365;Humanes de Madrid;-3.8290423250000001;40.250805929999999;Detección automática
+28005;La Acebeda;-3.6247933259999998;41.08685277;Detección automática
+28150;La Cabrera;-3.6156345719999998;40.864194210000001;Detección automática
+28345;La Hiruela;-3.4546392209999999;41.07784659;Detección automática
+28670;La Serna del Monte;-3.6251109490000002;41.02985786;Detección automática
+28615;Las Rozas de Madrid;-3.8743685449999998;40.493130569999998;Detección automática
+28370;Leganés;-3.758378081;40.327054740000001;Detección automática
+28375;Loeches;-3.4093351109999999;40.38383529;Detección automática
+28425;Los Molinos;-4.0736549679999996;40.714809449999997;Detección automática
+28665;Los Santos de la Humosa;-3.2576213049999998;40.50167604;Detección automática
+28380;Lozoya;-3.7918188979999998;40.951341329999998;Detección automática
+28385;Lozoyuela-Navas-Sieteiglesias;-3.6177046439999998;40.926302010000001;Detección automática
+28390;Madarcos;-3.5820312790000002;41.047514530000001;Detección automática
+28001;Madrid;-3.6919781939999998;40.419025519999998;Detección automática
+28395;Majadahonda;-3.8725246210000002;40.472862929999998;Detección automática
+28400;Manzanares el Real;-3.8651870000000002;40.726811570000002;Detección automática
+28405;Meco;-3.3244516389999998;40.55256404;Detección automática
+28410;Mejorada del Campo;-3.4846766690000002;40.396071820000003;Detección automática
+28415;Miraflores de la Sierra;-3.7667207930000002;40.813802199999998;Detección automática
+28430;Montejo de la Sierra;-3.5300260099999998;41.059589430000003;Detección automática
+28435;Moraleja de Enmedio;-3.8616688950000002;40.260236050000003;Detección automática
+28440;Moralzarzal;-3.971736269;40.679073940000002;Detección automática
+28445;Morata de Tajuña;-3.437003485;40.229510169999998;Detección automática
+28450;Móstoles;-3.8653985280000001;40.322713710000002;Detección automática
+28455;Navacerrada;-4.0145913709999999;40.728965909999999;Detección automática
+28460;Navalafuente;-3.6761245150000001;40.823341939999999;Detección automática
+28465;Navalagamella;-4.1227883839999997;40.469309529999997;Detección automática
+28470;Navalcarnero;-4.015144008;40.290824260000001;Detección automática
+28475;Navarredonda y San Mamés;-3.7256786970000002;40.990842800000003;Detección automática
+28480;Navas del Rey;-4.251577277;40.384099450000001;Detección automática
+28485;Nuevo Baztán;-3.2434145129999998;40.365451749999998;Detección automática
+28490;Olmeda de las Fuentes;-3.222243159;40.368827369999998;Detección automática
+28495;Orusco de Tajuña;-3.2084954219999999;40.285165210000002;Detección automática
+28500;Paracuellos de Jarama;-3.5318628510000001;40.505130819999998;Detección automática
+28505;Parla;-3.7727034330000002;40.237594369999997;Detección automática
+28510;Patones;-3.485073302;40.85568739;Investigación
+28515;Pedrezuela;-3.6030946159999999;40.745326900000002;Detección automática
+28520;Pelayos de la Presa;-4.3342559539999996;40.359270870000003;Detección automática
+28525;Perales de Tajuña;-3.352146158;40.234544440000001;Detección automática
+28530;Pezuela de las Torres;-3.177530532;40.418671359999998;Detección automática
+28535;Pinilla del Valle;-3.8184174870000001;40.926428389999998;Detección automática
+28540;Pinto;-3.7000964019999998;40.240991829999999;Detección automática
+28545;Piñuécar-Gandullas;-3.5995586469999998;41.033223280000001;Detección automática
+28550;Pozuelo de Alarcón;-3.8139325849999999;40.434379710000002;Detección automática
+28555;Pozuelo del Rey;-3.3219801000000002;40.366225370000002;Detección automática
+28560;Prádena del Rincón;-3.5408708959999999;41.043806080000003;Detección automática
+28565;Puebla de la Sierra;-3.4450021999999998;41.012212490000003;Detección automática
+28570;Puentes Viejas;-3.584357909;40.965284779999998;Detección automática
+28575;Quijorna;-4.0570767060000001;40.4264011;Detección automática
+28580;Rascafría;-3.880406282;40.90404891;Detección automática
+28585;Redueña;-3.6037007399999998;40.816438519999998;Detección automática
+28590;Ribatejada;-3.3927299610000001;40.666660759999999;Detección automática
+28595;Rivas-Vaciamadrid;-3.5477933230000001;40.354978819999999;Coordinado_IGR Poblaciones
+28600;Robledillo de la Jara;-3.5250883979999998;40.952606320000001;Detección automática
+28605;Robledo de Chavela;-4.2382619779999997;40.50079633;Detección automática
+28610;Robregordo;-3.5940051230000001;41.1056387;Detección automática
+28620;Rozas de Puerto Real;-4.4907692700000004;40.310235900000002;Detección automática
+28625;San Agustín del Guadalix;-3.615755214;40.678382059999997;Detección automática
+28630;San Fernando de Henares;-3.535159932;40.424993290000003;Detección automática
+28635;San Lorenzo de El Escorial;-4.1489632370000002;40.591435400000002;Detección automática
+28640;San Martín de la Vega;-3.5685954679999998;40.207839030000002;Detección automática
+28645;San Martín de Valdeiglesias;-4.3975714249999998;40.361931439999999;Detección automática
+28650;San Sebastián de los Reyes;-3.6263966929999998;40.547563279999999;Detección automática
+28655;Santa María de la Alameda;-4.257917119;40.595706440000001;Detección automática
+28660;Santorcaz;-3.2331154369999999;40.47217079;Detección automática
+28675;Serranillos del Valle;-3.8857839059999999;40.204689209999998;Detección automática
+28680;Sevilla la Nueva;-4.0272349329999999;40.347654599999998;Detección automática
+28685;Somosierra;-3.5817835229999999;41.133154740000002;Detección automática
+28690;Soto del Real;-3.7868955139999998;40.753179340000003;Detección automática
+28695;Talamanca de Jarama;-3.511037569;40.745261370000001;Detección automática
+28700;Tielmes;-3.3151550300000001;40.245995309999998;Detección automática
+28705;Titulcia;-3.5708141389999999;40.137154189999997;Detección automática
+28710;Torrejón de Ardoz;-3.479824013;40.459173870000001;Detección automática
+28715;Torrejón de la Calzada;-3.799326427;40.200891630000001;Detección automática
+28720;Torrejón de Velasco;-3.7773332329999998;40.187062500000003;Detección automática
+28725;Torrelaguna;-3.5385398800000001;40.827900800000002;Detección automática
+28730;Torrelodones;-3.929300988;40.575600000000001;Detección automática
+28735;Torremocha de Jarama;-3.4960909309999999;40.835358829999997;Detección automática
+28740;Torres de la Alameda;-3.3628152390000001;40.405946270000001;Detección automática
+28742;Tres Cantos;-3.7122070809999999;40.599067599999998;Detección automática
+28745;Valdaracete;-3.1945098629999999;40.211225900000002;Detección automática
+28750;Valdeavero;-3.3330438089999999;40.631054970000001;Detección automática
+28755;Valdelaguna;-3.3672883179999999;40.161988430000001;Detección automática
+28760;Valdemanco;-3.6629717020000001;40.872553940000003;Detección automática
+28765;Valdemaqueda;-4.2957268449999999;40.511150530000002;Detección automática
+28770;Valdemorillo;-4.0683533250000004;40.501042239999997;Detección automática
+28775;Valdemoro;-3.6770018269999998;40.190765020000001;Detección automática
+28780;Valdeolmos-Alalpardo;-3.4749854529999999;40.628808589999998;Detección automática
+28785;Valdepiélagos;-3.465943835;40.76060923;Detección automática
+28790;Valdetorres de Jarama;-3.5124126919999998;40.695172030000002;Detección automática
+28795;Valdilecha;-3.3031714299999999;40.29577347;Detección automática
+28800;Valverde de Alcalá;-3.2988310969999999;40.419644810000001;Detección automática
+28805;Velilla de San Antonio;-3.4878619290000001;40.3669571;Detección automática
+28815;Venturada;-3.6209723579999999;40.798488110000001;Detección automática
+28820;Villa del Prado;-4.3054997659999996;40.276717210000001;Detección automática
+28825;Villaconejos;-3.4850958350000001;40.104160489999998;Detección automática
+28830;Villalbilla;-3.2986884000000001;40.43250956;Detección automática
+28835;Villamanrique de Tajo;-3.2401836230000001;40.06880932;Detección automática
+28840;Villamanta;-4.1101288250000003;40.299555689999998;Detección automática
+28845;Villamantilla;-4.1307068139999998;40.338057200000002;Detección automática
+28850;Villanueva de la Cañada;-4.0054064790000004;40.446575860000003;Detección automática
+28855;Villanueva de Perales;-4.1015058440000001;40.346599249999997;Detección automática
+28860;Villanueva del Pardillo;-3.9642701759999999;40.490695760000001;Detección automática
+28865;Villar del Olmo;-3.2356483260000002;40.336570250000001;Detección automática
+28870;Villarejo de Salvanés;-3.2761563480000002;40.168887460000001;Detección automática
+28875;Villaviciosa de Odón;-3.9018820000000001;40.358606999999999;Investigación
+28880;Villavieja del Lozoya;-3.671650622;41.006481299999997;Detección automática
+28885;Zarzalejo;-4.181377779;40.547309009999999;Detección automática

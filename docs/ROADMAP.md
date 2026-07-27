@@ -481,6 +481,38 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   propuesta fue aceptada o publicada. Queda como operación manual revisar
   citas, falsos positivos y contrastar los 0,013350 USD acumulados con el panel.
 
+## P8 — Cobertura de toda la Comunidad de Madrid
+
+- **Hecho local:** catálogo de 179 municipios importado desde el
+  `MUNICIPIOS.csv` oficial del NGMEP 2026, con códigos, centroides ETRS89,
+  trazabilidad y fixture reducida completa. Los alias y localidades del
+  alcance original se conservan.
+- **Hecho local:** términos de reconocimiento y exclusión contextual para
+  Madrid capital; una mención genérica a la Comunidad de Madrid ya no se
+  clasifica como ciudad, mientras que «Madrid» sin contexto regional y la
+  pista municipal explícita de SearXNG se conservan.
+- **Hecho local:** matriz live ampliada a 179 × 4 = 716 consultas diarias,
+  límite global de 10.000 resultados y filtro SIMA con 179 slugs y hasta 200
+  fichas. El timeout defensivo del job pasa de 75 a 120 minutos.
+- **Hecho local:** catálogo saneado y versionado de 567 actores, con 194
+  asociados de ASPRIMA, 378 empresas de SIMA y los canales comerciales ya
+  configurados. Solo guarda nombre, web, evidencia, procedencia y estado de
+  revisión; 16 están monitorizados y 551 siguen como candidatos. Ningún dato
+  de contacto se persiste.
+- **Hecho local:** importadores repetibles para geografía, actores y
+  sincronización del radar, validación CLI y pruebas offline.
+- **Verificado live aislado:** SIMA cambió su ficha a `.entry-content`; se
+  añadió fixture y compatibilidad sin retirar selectores anteriores. El smoke
+  siguió 37 fichas, generó 10 candidatos privados y terminó con cero fallos.
+- **Pendiente live:** ejecutar y observar el workflow ampliado completo,
+  confirmar 716/716 consultas, revisar tiempo/carga y verificar de nuevo Pages
+  y la exclusión de `data/state`. Hasta entonces no se considera demostrada la
+  cobertura live diaria de los 179 municipios.
+- **Criterio de aceptación:** 179 municipios/centroides validados, 716
+  consultas configuradas sin muestreo, inventario sin datos personales,
+  baseline offline verde y workflow live observado sin pérdida del último
+  dataset válido.
+
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |

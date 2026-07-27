@@ -121,6 +121,10 @@ public sealed class MunicipalityDefinition
     public bool Enabled { get; init; } = true;
 
     public IReadOnlyList<string> SearchTerms { get; init; } = [];
+
+    public IReadOnlyList<string> RecognitionTerms { get; init; } = [];
+
+    public IReadOnlyList<string> RecognitionExclusions { get; init; } = [];
 }
 
 public sealed class MunicipalityCentroidCatalog
@@ -159,6 +163,43 @@ public sealed class MunicipalityCentroidSource
     public string SourceUrl { get; init; } = string.Empty;
 
     public DateTimeOffset CheckedAtUtc { get; init; }
+}
+
+public sealed class MarketActorCatalog
+{
+    public string SchemaVersion { get; init; } = string.Empty;
+
+    public DateTimeOffset CheckedAtUtc { get; init; }
+
+    public IReadOnlyList<MarketActorCatalogSource> Sources { get; init; } = [];
+
+    public IReadOnlyList<MarketActorDefinition> Actors { get; init; } = [];
+}
+
+public sealed class MarketActorCatalogSource
+{
+    public string Id { get; init; } = string.Empty;
+
+    public string Name { get; init; } = string.Empty;
+
+    public string Url { get; init; } = string.Empty;
+}
+
+public sealed class MarketActorDefinition
+{
+    public string Id { get; init; } = string.Empty;
+
+    public string Name { get; init; } = string.Empty;
+
+    public string? OfficialWebsite { get; init; }
+
+    public MarketActorReviewStatus ReviewStatus { get; init; }
+
+    public IReadOnlyList<string> SourceIds { get; init; } = [];
+
+    public IReadOnlyList<string> EvidenceUrls { get; init; } = [];
+
+    public IReadOnlyList<string> MonitoredSourceIds { get; init; } = [];
 }
 
 public sealed class DomainExclusions

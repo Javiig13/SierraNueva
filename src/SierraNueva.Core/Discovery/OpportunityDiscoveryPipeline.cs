@@ -668,6 +668,8 @@ public sealed class OpportunityDiscoveryPipeline(
     {
         return municipalities
             .Where(municipality => municipality.Enabled)
+            .Where(municipality =>
+                !IsExcludedMunicipalityReference(searchable, municipality))
             .Select(municipality => new
             {
                 Municipality = municipality,
@@ -685,6 +687,11 @@ public sealed class OpportunityDiscoveryPipeline(
 
     private static IEnumerable<string> MunicipalityTerms(MunicipalityDefinition municipality)
     {
+        foreach (string recognitionTerm in municipality.RecognitionTerms)
+        {
+            yield return TextNormalizer.NormalizeForComparison(recognitionTerm);
+        }
+
         yield return TextNormalizer.NormalizeForComparison(municipality.OfficialName);
         foreach (string locality in municipality.Localities)
         {
@@ -699,6 +706,20 @@ public sealed class OpportunityDiscoveryPipeline(
                 yield return normalized;
             }
         }
+    }
+
+    private static bool IsExcludedMunicipalityReference(
+        string searchable,
+        MunicipalityDefinition municipality)
+    {
+        return municipality.RecognitionExclusions.Any(exclusion =>
+                   ContainsNormalizedTerm(
+                       searchable,
+                       TextNormalizer.NormalizeForComparison(exclusion))) &&
+               !municipality.RecognitionTerms.Any(recognition =>
+                   ContainsNormalizedTerm(
+                       searchable,
+                       TextNormalizer.NormalizeForComparison(recognition)));
     }
 
     private static bool ContainsTerm(string searchable, string term)

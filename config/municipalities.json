@@ -1,6 +1,84 @@
 {
-  "_coordinatesNote": "Los 29 centroides proceden del NGMEP 2026 del IGN en ETRS89, compatible con WGS84 en la península. Consulta municipality-centroids.json para la trazabilidad CC-BY 4.0.",
+  "_coordinatesNote": "Los 179 centroides proceden del NGMEP 2026 del IGN en ETRS89, compatible con WGS84 en la península. Consulta municipality-centroids.json para la trazabilidad CC-BY 4.0.",
+  "_searchScopeNote": "Cobertura completa de los 179 municipios de la Comunidad de Madrid; los 29 municipios originales conservan sus alias y localidades.",
   "municipalities": [
+    {
+      "officialName": "Ajalvir",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.53427096,
+      "longitude": -3.480941661,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Alameda del Valle",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.91805632,
+      "longitude": -3.843636319,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Alcalá de Henares",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.48179286,
+      "longitude": -3.364867022,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Alcobendas",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.54745906,
+      "longitude": -3.64187111,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Alcorcón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.34949949,
+      "longitude": -3.828794481,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Aldea del Fresno",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.32491324,
+      "longitude": -4.203837772,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Algete",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.59625449,
+      "longitude": -3.497838361,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
     {
       "officialName": "Alpedrete",
       "aliases": [],
@@ -8,7 +86,75 @@
       "latitude": 40.65886957,
       "longitude": -4.023479111,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Ambite",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.32899737,
+      "longitude": -3.181564698,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Anchuelo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.4655168,
+      "longitude": -3.268667936,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Aranjuez",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.03219208,
+      "longitude": -3.603524966,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Arganda del Rey",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.30079363,
+      "longitude": -3.437457474,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Arroyomolinos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.26770955,
+      "longitude": -3.920199355,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Batres",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.20912454,
+      "longitude": -3.920789019,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Becerril de la Sierra",
@@ -19,7 +165,86 @@
       "latitude": 40.71626362,
       "longitude": -3.989401413,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Belmonte de Tajo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.13374653,
+      "longitude": -3.339568922,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Berzosa del Lozoya",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.97539498,
+      "longitude": -3.523852362,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Boadilla del Monte",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.40782161,
+      "longitude": -3.879174285,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Braojos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.03944001,
+      "longitude": -3.642385174,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Brea de Tajo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.23002043,
+      "longitude": -3.109661588,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Brunete",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.40543263,
+      "longitude": -3.9977407,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Buitrago del Lozoya",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.99348063,
+      "longitude": -3.636446841,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Bustarviejo",
@@ -28,7 +253,9 @@
       "latitude": 40.85908309,
       "longitude": -3.709861585,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Cabanillas de la Sierra",
@@ -37,7 +264,86 @@
       "latitude": 40.81959964,
       "longitude": -3.625928271,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Cadalso de los Vidrios",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.30162147,
+      "longitude": -4.441459764,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Camarma de Esteruelas",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.54912598,
+      "longitude": -3.378682715,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Campo Real",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.33802681,
+      "longitude": -3.381597811,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Canencia",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.90977395,
+      "longitude": -3.737669264,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Carabaña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.25716244,
+      "longitude": -3.237934493,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Casarrubuelos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.17117127,
+      "longitude": -3.833194272,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Cenicientos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.26344962,
+      "longitude": -4.467560991,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Cercedilla",
@@ -46,7 +352,64 @@
       "latitude": 40.7416083,
       "longitude": -4.055287611,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Cervera de Buitrago",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.92250806,
+      "longitude": -3.5298112,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Chapinería",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.37919177,
+      "longitude": -4.209808521,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Chinchón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.13994193,
+      "longitude": -3.423102611,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Ciempozuelos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.15895288,
+      "longitude": -3.618284189,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Cobeña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.56790548,
+      "longitude": -3.50499033,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Collado Mediano",
@@ -55,7 +418,9 @@
       "latitude": 40.69365743,
       "longitude": -4.024391261,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Collado Villalba",
@@ -69,7 +434,130 @@
       "latitude": 40.64579798,
       "longitude": -3.991592449,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Colmenar de Oreja",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.10772128,
+      "longitude": -3.387465024,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Colmenar del Arroyo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.41833814,
+      "longitude": -4.198607034,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Colmenar Viejo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.65880805,
+      "longitude": -3.766149541,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Colmenarejo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.56092663,
+      "longitude": -4.016774065,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Corpa",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.42479435,
+      "longitude": -3.2630119,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Coslada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.42627874,
+      "longitude": -3.565560449,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Cubas de la Sagra",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.19126364,
+      "longitude": -3.838344946,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Daganzo de Arriba",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.54493947,
+      "longitude": -3.457894414,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "El Álamo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.23031206,
+      "longitude": -3.990672328,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "El Atazar",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.93396402,
+      "longitude": -3.4715824,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "El Berrueco",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.88756903,
+      "longitude": -3.56134651,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "El Boalo",
@@ -86,7 +574,9 @@
       "searchTerms": [
         "Cerceda obra nueva",
         "Mataelpino viviendas"
-      ]
+      ],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "El Escorial",
@@ -95,7 +585,42 @@
       "latitude": 40.58510059,
       "longitude": -4.129576412,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "El Molar",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.73277096,
+      "longitude": -3.582152842,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "El Vellón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.76602917,
+      "longitude": -3.582102703,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Estremera",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.18465976,
+      "longitude": -3.106621023,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Fresnedillas de la Oliva",
@@ -106,7 +631,53 @@
       "latitude": 40.48651273,
       "longitude": -4.172037839,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Fresno de Torote",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.59279221,
+      "longitude": -3.41188083,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Fuenlabrada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.2840315,
+      "longitude": -3.799802615,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Fuente el Saz de Jarama",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.63417163,
+      "longitude": -3.513870374,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Fuentidueña de Tajo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.1186079,
+      "longitude": -3.159544122,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Galapagar",
@@ -117,7 +688,64 @@
       "latitude": 40.5805253,
       "longitude": -4.006090877,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Garganta de los Montes",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.92152682,
+      "longitude": -3.687765764,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Gargantilla del Lozoya y Pinilla de Buitrago",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.96483533,
+      "longitude": -3.718589973,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Gascones",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.01788428,
+      "longitude": -3.641804864,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Getafe",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.30555125,
+      "longitude": -3.732332146,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Griñón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.213132,
+      "longitude": -3.852888775,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Guadalix de la Sierra",
@@ -128,7 +756,9 @@
       "latitude": 40.78487273,
       "longitude": -3.692752779,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Guadarrama",
@@ -137,7 +767,31 @@
       "latitude": 40.67252357,
       "longitude": -4.08879044,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Horcajo de la Sierra-Aoslos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.06668362,
+      "longitude": -3.585785446,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Horcajuelo de la Sierra",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.06020767,
+      "longitude": -3.545381006,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Hoyo de Manzanares",
@@ -148,7 +802,31 @@
       "latitude": 40.62286422,
       "longitude": -3.907251019,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Humanes de Madrid",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.25080593,
+      "longitude": -3.829042325,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "La Acebeda",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.08685277,
+      "longitude": -3.624793326,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "La Cabrera",
@@ -157,7 +835,64 @@
       "latitude": 40.86419421,
       "longitude": -3.615634572,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "La Hiruela",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.07784659,
+      "longitude": -3.454639221,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "La Serna del Monte",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.02985786,
+      "longitude": -3.625110949,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Las Rozas de Madrid",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.49313057,
+      "longitude": -3.874368545,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Leganés",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.32705474,
+      "longitude": -3.758378081,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Loeches",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.38383529,
+      "longitude": -3.409335111,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Los Molinos",
@@ -166,7 +901,82 @@
       "latitude": 40.71480945,
       "longitude": -4.073654968,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Los Santos de la Humosa",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.50167604,
+      "longitude": -3.257621305,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Lozoya",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.95134133,
+      "longitude": -3.791818898,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Lozoyuela-Navas-Sieteiglesias",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.92630201,
+      "longitude": -3.617704644,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Madarcos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.04751453,
+      "longitude": -3.582031279,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Madrid",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.41902552,
+      "longitude": -3.691978194,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [
+        "Madrid capital",
+        "municipio de Madrid",
+        "Ayuntamiento de Madrid"
+      ],
+      "recognitionExclusions": [
+        "Comunidad de Madrid",
+        "Comunidad Autónoma de Madrid"
+      ]
+    },
+    {
+      "officialName": "Majadahonda",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.47286293,
+      "longitude": -3.872524621,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Manzanares el Real",
@@ -179,7 +989,31 @@
       "enabled": true,
       "searchTerms": [
         "La Pedriza"
-      ]
+      ],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Meco",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.55256404,
+      "longitude": -3.324451639,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Mejorada del Campo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.39607182,
+      "longitude": -3.484676669,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Miraflores de la Sierra",
@@ -190,7 +1024,31 @@
       "latitude": 40.8138022,
       "longitude": -3.766720793,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Montejo de la Sierra",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.05958943,
+      "longitude": -3.53002601,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Moraleja de Enmedio",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.26023605,
+      "longitude": -3.861668895,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Moralzarzal",
@@ -199,7 +1057,31 @@
       "latitude": 40.67907394,
       "longitude": -3.971736269,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Morata de Tajuña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.22951017,
+      "longitude": -3.437003485,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Móstoles",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.32271371,
+      "longitude": -3.865398528,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Navacerrada",
@@ -208,7 +1090,9 @@
       "latitude": 40.72896591,
       "longitude": -4.014591371,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Navalafuente",
@@ -217,7 +1101,9 @@
       "latitude": 40.82334194,
       "longitude": -3.676124515,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Navalagamella",
@@ -226,7 +1112,306 @@
       "latitude": 40.46930953,
       "longitude": -4.122788384,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Navalcarnero",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.29082426,
+      "longitude": -4.015144008,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Navarredonda y San Mamés",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.9908428,
+      "longitude": -3.725678697,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Navas del Rey",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.38409945,
+      "longitude": -4.251577277,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Nuevo Baztán",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.36545175,
+      "longitude": -3.243414513,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Olmeda de las Fuentes",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.36882737,
+      "longitude": -3.222243159,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Orusco de Tajuña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.28516521,
+      "longitude": -3.208495422,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Paracuellos de Jarama",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.50513082,
+      "longitude": -3.531862851,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Parla",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.23759437,
+      "longitude": -3.772703433,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Patones",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.85568739,
+      "longitude": -3.485073302,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pedrezuela",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.7453269,
+      "longitude": -3.603094616,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pelayos de la Presa",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.35927087,
+      "longitude": -4.334255954,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Perales de Tajuña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.23454444,
+      "longitude": -3.352146158,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pezuela de las Torres",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.41867136,
+      "longitude": -3.177530532,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pinilla del Valle",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.92642839,
+      "longitude": -3.818417487,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pinto",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.24099183,
+      "longitude": -3.700096402,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Piñuécar-Gandullas",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.03322328,
+      "longitude": -3.599558647,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pozuelo de Alarcón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.43437971,
+      "longitude": -3.813932585,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Pozuelo del Rey",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.36622537,
+      "longitude": -3.3219801,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Prádena del Rincón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.04380608,
+      "longitude": -3.540870896,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Puebla de la Sierra",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.01221249,
+      "longitude": -3.4450022,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Puentes Viejas",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.96528478,
+      "longitude": -3.584357909,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Quijorna",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.4264011,
+      "longitude": -4.057076706,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Rascafría",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.90404891,
+      "longitude": -3.880406282,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Redueña",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.81643852,
+      "longitude": -3.60370074,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Ribatejada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.66666076,
+      "longitude": -3.392729961,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Rivas-Vaciamadrid",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.35497882,
+      "longitude": -3.547793323,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Robledillo de la Jara",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.95260632,
+      "longitude": -3.525088398,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Robledo de Chavela",
@@ -237,7 +1422,53 @@
       "latitude": 40.50079633,
       "longitude": -4.238261978,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Robregordo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.1056387,
+      "longitude": -3.594005123,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Rozas de Puerto Real",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.3102359,
+      "longitude": -4.49076927,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "San Agustín del Guadalix",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.67838206,
+      "longitude": -3.615755214,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "San Fernando de Henares",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.42499329,
+      "longitude": -3.535159932,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "San Lorenzo de El Escorial",
@@ -249,7 +1480,42 @@
       "latitude": 40.5914354,
       "longitude": -4.148963237,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "San Martín de la Vega",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.20783903,
+      "longitude": -3.568595468,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "San Martín de Valdeiglesias",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.36193144,
+      "longitude": -4.397571425,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "San Sebastián de los Reyes",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.54756328,
+      "longitude": -3.626396693,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Santa María de la Alameda",
@@ -260,7 +1526,53 @@
       "latitude": 40.59570644,
       "longitude": -4.257917119,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Santorcaz",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.47217079,
+      "longitude": -3.233115437,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Serranillos del Valle",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.20468921,
+      "longitude": -3.885783906,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Sevilla la Nueva",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.3476546,
+      "longitude": -4.027234933,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Somosierra",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.13315474,
+      "longitude": -3.581783523,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Soto del Real",
@@ -271,7 +1583,86 @@
       "latitude": 40.75317934,
       "longitude": -3.786895514,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Talamanca de Jarama",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.74526137,
+      "longitude": -3.511037569,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Tielmes",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.24599531,
+      "longitude": -3.31515503,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Titulcia",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.13715419,
+      "longitude": -3.570814139,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torrejón de Ardoz",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.45917387,
+      "longitude": -3.479824013,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torrejón de la Calzada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.20089163,
+      "longitude": -3.799326427,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torrejón de Velasco",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.1870625,
+      "longitude": -3.777333233,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torrelaguna",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.8279008,
+      "longitude": -3.53853988,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Torrelodones",
@@ -282,7 +1673,86 @@
       "latitude": 40.5756,
       "longitude": -3.929300988,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torremocha de Jarama",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.83535883,
+      "longitude": -3.496090931,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Torres de la Alameda",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.40594627,
+      "longitude": -3.362815239,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Tres Cantos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.5990676,
+      "longitude": -3.712207081,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdaracete",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.2112259,
+      "longitude": -3.194509863,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdeavero",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.63105497,
+      "longitude": -3.333043809,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdelaguna",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.16198843,
+      "longitude": -3.367288318,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdemanco",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.87255394,
+      "longitude": -3.662971702,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Valdemaqueda",
@@ -291,7 +1761,251 @@
       "latitude": 40.51115053,
       "longitude": -4.295726845,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdemorillo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.50104224,
+      "longitude": -4.068353325,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdemoro",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.19076502,
+      "longitude": -3.677001827,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdeolmos-Alalpardo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.62880859,
+      "longitude": -3.474985453,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdepiélagos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.76060923,
+      "longitude": -3.465943835,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdetorres de Jarama",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.69517203,
+      "longitude": -3.512412692,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valdilecha",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.29577347,
+      "longitude": -3.30317143,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Valverde de Alcalá",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.41964481,
+      "longitude": -3.298831097,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Velilla de San Antonio",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.3669571,
+      "longitude": -3.487861929,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Venturada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.79848811,
+      "longitude": -3.620972358,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villa del Prado",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.27671721,
+      "longitude": -4.305499766,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villaconejos",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.10416049,
+      "longitude": -3.485095835,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villalbilla",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.43250956,
+      "longitude": -3.2986884,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villamanrique de Tajo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.06880932,
+      "longitude": -3.240183623,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villamanta",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.29955569,
+      "longitude": -4.110128825,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villamantilla",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.3380572,
+      "longitude": -4.130706814,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villanueva de la Cañada",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.44657586,
+      "longitude": -4.005406479,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villanueva de Perales",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.34659925,
+      "longitude": -4.101505844,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villanueva del Pardillo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.49069576,
+      "longitude": -3.964270176,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villar del Olmo",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.33657025,
+      "longitude": -3.235648326,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villarejo de Salvanés",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.16888746,
+      "longitude": -3.276156348,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villaviciosa de Odón",
+      "aliases": [],
+      "localities": [],
+      "latitude": 40.358607,
+      "longitude": -3.901882,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
+    },
+    {
+      "officialName": "Villavieja del Lozoya",
+      "aliases": [],
+      "localities": [],
+      "latitude": 41.0064813,
+      "longitude": -3.671650622,
+      "enabled": true,
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     },
     {
       "officialName": "Zarzalejo",
@@ -302,7 +2016,9 @@
       "latitude": 40.54730901,
       "longitude": -4.181377779,
       "enabled": true,
-      "searchTerms": []
+      "searchTerms": [],
+      "recognitionTerms": [],
+      "recognitionExclusions": []
     }
   ]
 }
