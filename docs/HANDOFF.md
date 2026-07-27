@@ -250,13 +250,13 @@ Radar live local:    50/50 sanas; 29/29 municipios; 7 pendientes y 1 dominio nue
 Candidatos revisados: 0 nuevos; 2 en seguimiento; 0 dominios sin monitorizar
 Backfill BOCM live:  1.909 entradas; 1/1 lote y 0 candidatos (24 jun–24 jul)
 Radar live conjunto: éxito parcial; PCSP recibió HTML del WAF en lugar de ZIP
-CI GitHub real:      correcto en 30251889184 para el commit 931d3ed
-Crawl/deploy GitHub: correcto en 30251963680, intento #33
-Radar GitHub real:   55 sanas, 0 degradadas, 0 en fallo; 29/29, 28 directas
-Cola privada real:   419 candidatos pendientes
+CI GitHub real:      correcto en 30278248263 para el commit f14a9d2
+Crawl/deploy GitHub: correcto en 30279016501, intento #37
+Radar GitHub real:   61 sanas, 0 degradadas, 0 en fallo; 179/179, 28 directas
+Cola privada real:   865 pendientes; 91 alta, 260 media, 497 baja, 17 duplicados
 Run live local nuevo:20260724T222106154Z; 27/27 fuentes y 27 puntos GeoJSON
-Pages real:          correcto; 26 promociones, 25/25 fuentes y 0 fallos
-Run live actual:     20260727T091400152Z; 26 puntos GeoJSON, 24 activas
+Pages real:          correcto; 33 promociones, 32/32 fuentes y 0 fallos
+Run live actual:     20260727T153254903Z; 33 puntos GeoJSON, 26 activas
 Estado IA web:       correcto; promotion-enrichment.json devuelve 404
 Workflow P5 real:    backfill y auditoría correctos en 30086510831
 Estado privado web:  correcto; data/state/opportunity-audit.json devuelve 404
@@ -746,18 +746,28 @@ La revisión también codifica promociones vendidas, entregadas y una
 plurifamiliar fuera de alcance; Cambrija Viridis 3.0 y Larvin Hernán Cortés
 quedan en observación por falta de disponibilidad inequívoca. Se corrige el
 triaje para que «promoción económica» no sea una señal inmobiliaria y para
-penalizar hosts administrativos sin términos residenciales. La reducción real
-de la cola aún no está medida: requiere una ejecución completa que aplique las
-reglas al estado privado restaurado. Evidencia y decisiones en
+penalizar hosts administrativos sin términos residenciales.
+
+El commit `f14a9d2` superó el CI `30278248263`. El workflow `30279016501`
+completó 716/716 consultas, conservó 612 resultados, dejó 61/61 canales sanos
+y cobertura 179/179. El crawler publicó 33 promociones —26 activas— y 33
+puntos GeoJSON desde 32/32 fuentes correctas, sin fallos; incorporó tres altas
+y una modificación. Pages y sus contratos públicos devolvieron HTTP 200 y los
+tres estados privados comprobados HTTP 404. La IA se omitió.
+
+La exportación cifrada `30281037199` midió 865 candidatos pendientes: 91 alta,
+260 media, 497 baja y 17 duplicados. Alta y media bajaron respecto a 98/298,
+aunque la matriz incorporó señales nuevas; el crecimiento se concentra en
+baja. La clave RSA efímera local se eliminó y el informe detallado no se
+publicó. Evidencia y decisiones en
 `docs/source-assessments/madrid-expansion-2026-07-27.md`.
 
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: ejecutar el pipeline completo con las siete fuentes
-nuevas, aplicar las reglas al estado privado restaurado y volver a exportar el
-triaje para medir la cola restante. Después, continuar por dominio con los
-candidatos medios no cubiertos; la matriz ya está comprobada y no debe
-sustituir esa revisión.
+Prioridad inmediata: revisar por dominio los 91 candidatos de prioridad alta,
+incorporar solo fichas oficiales vigentes y codificar los descartes
+reproducibles. Después, continuar con los 260 candidatos medios; la matriz ya
+está comprobada y no debe sustituir esa revisión.
 
 1. Vigilar las 32 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

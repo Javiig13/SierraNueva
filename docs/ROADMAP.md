@@ -517,10 +517,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   Calíope, Nuevo Brunete, Cielo Arroyomolinos y NovaCiempozuelos con cuatro
   fixtures específicas; sus cuatro fichas y sus canales de radar oficiales
   respondieron sin fallos en ejecuciones secas.
-- **Hecho local:** el radar pasa a 60 canales —59 activos— y el perfil
-  comercial a 31 fuentes —29 automáticas—. El catálogo interno se sincroniza
-  a 569 actores, 197 con web y 20 monitorizados. No contiene contactos ni se
-  publica.
+- **Hecho local (primer lote):** el radar pasa a 60 canales —59 activos— y el
+  perfil comercial a 31 fuentes —29 automáticas—. El catálogo interno se
+  sincroniza a 569 actores, 197 con web y 20 monitorizados. No contiene
+  contactos ni se publica.
 - **Hecho local y smoke live:** una segunda revisión incorpora Los Molinos y
   Los Molinos II de Grupo Impulsa en Getafe y Arroyo Homes de Bimarán en
   Arroyomolinos. Las tres fichas respondieron HTTP 200 y extrajeron una
@@ -534,8 +534,18 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   entregadas o plurifamiliares y se mantienen dos fichas ambiguas en
   `monitoring`. El triaje deja de elevar «promoción económica» como promoción
   inmobiliaria y penaliza resultados administrativos sin evidencia
-  residencial. La siguiente ejecución completa debe medir el efecto real sobre
-  la cola privada.
+  residencial.
+- **Verificado live:** el commit `f14a9d2` superó el CI `30278248263` y la
+  ejecución `30279016501` completó 716/716 consultas, conservó 612 resultados,
+  dejó 61/61 canales sanos, cobertura 179/179 y 32/32 fuentes comerciales
+  correctas. Publicó 33 promociones —26 activas— y 33 puntos GeoJSON sin
+  fallos; la IA se omitió.
+- **Verificado privado:** la exportación cifrada `30281037199` clasificó 865
+  pendientes en 91 alta, 260 media, 497 baja y 17 duplicados. Alta y media
+  bajaron desde 98/298 pese a incorporar señales nuevas. El informe detallado
+  no se publicó y la clave efímera local se eliminó.
+- **Verificado Pages:** `runId` `20260727T153254903Z`; portada y contratos
+  públicos HTTP 200, con los tres estados privados comprobados en HTTP 404.
 - **Evidencia:** evaluación y límites en
   `docs/source-assessments/madrid-expansion-2026-07-27.md`.
 - **Incidencia live corregida:** la ejecución `30269094453` desplegó Pages,

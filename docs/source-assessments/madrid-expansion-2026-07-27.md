@@ -77,8 +77,12 @@ Las siguientes páginas no se publican como oportunidades activas:
 | PisosAccesibles Getafe | `stale` | anuncio histórico de 2019 |
 | JPGE Studio, ArQuality y VK arquitectura | `rejected` | servicios de arquitectura, no oferta comercial de vivienda |
 
-Las reglas se aplicarán al estado privado existente en la siguiente ejecución
-completa. No se atribuye una reducción concreta de la cola hasta observarla.
+Las reglas se aplicaron al estado privado existente en la ejecución completa
+`30279016501`. El triaje cifrado posterior `30281037199` confirmó 865
+pendientes: 91 de prioridad alta, 260 media, 497 baja y 17 duplicados. Frente
+a la instantánea anterior, alta bajó de 98 a 91 y media de 298 a 260 aunque la
+matriz conservó más señales; el aumento total procede principalmente de
+resultados nuevos clasificados como baja. El informe detallado siguió privado.
 
 ## Catálogo de actores
 
@@ -91,3 +95,18 @@ guarda personas, teléfonos ni correos.
 
 Este inventario amplía el universo a revisar, pero no demuestra que los otros
 547 actores tengan oferta unifamiliar vigente en la Comunidad de Madrid.
+
+## Verificación completa
+
+El commit `f14a9d2` superó el CI `30278248263`. La ejecución manual
+`30279016501` completó las 716 consultas, conservó 612 resultados de búsqueda,
+dejó 61/61 canales de radar sanos y cobertura 179/179 con 28 canales
+municipales directos. Las 32 fuentes comerciales automáticas terminaron
+correctas y sin fallos; se publicaron 33 promociones válidas —26 activas— y 33
+elementos GeoJSON, con tres altas y una modificación en ese crawl. La IA se
+omitió.
+
+Pages publicó el `runId` `20260727T153254903Z`. La portada y los tres contratos
+públicos respondieron HTTP 200; las rutas privadas de candidatos,
+enriquecimiento y auditoría devolvieron HTTP 404. Las siete fichas de ambos
+lotes están presentes con sus URLs oficiales.
