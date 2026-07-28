@@ -614,7 +614,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** un `304 Not Modified` ya no cuenta como ausencia comercial.
   La URL se considera vista, reinicia el contador y reactiva un falso negativo
   previo; tres 304 consecutivos y la recuperación están cubiertos por prueba.
-  Falta desplegar la corrección y exportar la nueva cola cifrada.
+- **Verificado remoto:** `30361782414` reactivó `TOMILLAR` desde el estado real
+  al recibir un 304, confirmando la corrección. La cuarta ejecución manual
+  seguida saturó varias webs y terminó parcial con 31/46 fuentes, pero la
+  escritura segura conservó las 47 promociones y desplegó Pages. No se debe
+  repetir el lote hasta la ventana diaria; entonces hay que comprobar las tres
+  fichas cuyos canales estuvieron entre los fallidos y exportar la cola
+  cifrada.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último

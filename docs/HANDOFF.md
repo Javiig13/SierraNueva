@@ -881,12 +881,25 @@ que la ficha no había cambiado. El merge reconoce ahora las URLs
 reactiva el estado previo erróneo. La prueba reproduce tres 304 consecutivos y
 la recuperación; una ausencia real sigue desactivando tras el umbral.
 
+La ejecución
+[`30361782414`](https://github.com/Javiig13/SierraNueva/actions/runs/30361782414)
+confirmó la corrección sobre el estado real: `TOMILLAR`, previamente inactiva
+por el mismo defecto, se publicó como `reactivated` al recibir su 304. El
+cuarto crawl manual consecutivo saturó varias webs: terminó `partialSuccess`
+con 31 fuentes correctas y 15 fallidas por timeout o páginas intermedias sin el
+selector esperado. La escritura segura conservó las 47 promociones y Pages;
+no se sustituyó el dataset por una salida vacía. Los Molinos, Los Molinos II y
+Quercus Dorf siguen inactivos porque sus tres fuentes estuvieron entre las
+fallidas, no porque la corrección de 304 fallase. Deben recuperarse en la
+siguiente ventana diaria, sin encadenar más peticiones.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: desplegar la corrección de los `304 Not Modified`,
-comprobar la reactivación segura de las tres fichas afectadas y exportar el
-nuevo recuento cifrado de la cola. Después, continuar con los candidatos
-medios; la matriz ya está comprobada y no debe sustituir esa revisión.
+Prioridad inmediata: dejar descansar las fuentes hasta la siguiente ventana
+diaria, comprobar entonces la recuperación de Los Molinos, Los Molinos II y
+Quercus Dorf, y exportar el nuevo recuento cifrado de la cola. Después,
+continuar con los candidatos medios; la matriz ya está comprobada y no debe
+sustituir esa revisión.
 
 1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
