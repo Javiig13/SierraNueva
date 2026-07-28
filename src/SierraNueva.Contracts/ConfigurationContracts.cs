@@ -64,6 +64,8 @@ public sealed class SourceDefinition
 
     public IReadOnlyList<string> StartUrls { get; init; } = [];
 
+    public IReadOnlyList<string> KnownPromotionUrls { get; init; } = [];
+
     public bool UseRobots { get; init; } = true;
 
     public bool UseSitemaps { get; init; } = true;

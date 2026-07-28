@@ -151,3 +151,42 @@ Los expedientes de planeamiento o contratación que podrían anticipar vivienda
 permanecen en `monitoring`: son señales privadas de futuro, no promociones
 publicables. Ninguna decisión negativa concede por sí sola exhaustividad y debe
 reabrirse si aparece evidencia oficial nueva.
+
+## Cuarta revisión por dominio
+
+El 28 de julio se reabrió Mirage porque la ficha oficial ya publica estado
+`En Comercialización`, precios y tipología. La promoción combina producto
+unifamiliar y plurifamiliar: SierraNueva la incorpora porque existe producto
+unifamiliar explícito, pero no inventa un subtipo más concreto ni reparte
+inventario entre ambos. El smoke HTTP real obtuvo una promoción válida sin
+Playwright ni geocodificación.
+
+| Fuente | Decisión | Evidencia oficial publicada | Extracción acotada |
+|---|---|---|---|
+| [Kronos Mirage](https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/mirage/) | Automática | En comercialización en Villanueva de la Cañada; 3 dormitorios y precios publicados entre 790.800 € y 920.800 € | Bloque de resumen comercial y JSON-LD; no se siguen planos, imágenes, formularios ni área de clientes |
+| [Cambrija Viridiana](https://cambrija.es/obra-nueva-viridiana/) | Automática | Adosados y pareados configurables de 4–5 dormitorios desde 1.232.000 € en Boadilla del Monte | Contenido de la página; no se descargan planos, imágenes ni formularios |
+| [Larvin Hernán Cortés](https://larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte/) | Automática | Unifamiliares configurables de 3–5 dormitorios y piscina comunitaria en Boadilla del Monte | Contenido propio; precio e inventario permanecen nulos |
+| [Larvin Chalets en Rivas](https://larvin.es/venta-chalets-madrid/chalets-en-rivas-vaciamadrid/) | Automática | 14 unifamiliares configurables de 3–4 dormitorios en Rivas-Vaciamadrid | Contenido propio; se registra como alias la URL antigua enlazada por el índice |
+| [Larvin Monte de la Villa](https://larvin.es/venta-chalets-madrid/chalets-villaviciosa-de-odon/) | Automática | Viviendas individuales de 4 dormitorios y parcelas de 525 m² en Villaviciosa de Odón | Contenido propio; precio e inventario permanecen nulos |
+| [Larvin Residencial 48](https://larvin.es/venta-chalets-madrid/chalets-en-villaviciosa-de-odon/) | Automática | Viviendas individuales de 3 dormitorios con piscina comunitaria en Villaviciosa de Odón | Contenido propio; no se traslada el contador del índice a la ficha |
+
+El índice regional de Kronos no es una promoción y se descarta mediante una
+regla anclada al final de URL para no afectar a sus fichas hijas. Dos
+resultados de `obrasnuevas.com` devolvieron la portada general en lugar de la
+ficha anunciada y quedaron `rejected`; el agregador no se usa como fuente
+canónica. Bonart dejó de reaparecer como nueva mediante una equivalencia
+explícita y validada entre la URL REST usada para extraer y su URL pública.
+
+El enlace del artículo antiguo de Viridis conduce ahora a Viridiana, cuya
+ficha primaria sí contiene evidencia comercial vigente; el artículo se marca
+`stale` y la ficha se integra. El índice oficial de Larvin se recorre con cinco
+enlaces y seguimiento acotado de sus bloques de contenido. Cuatro URLs quedan
+`verifiedSource`; la promoción de Pozuelo declara expresamente
+`PROMOCIÓN VENDIDA` y queda `stale`. La detección geográfica prioriza título y
+URL antes del bloque de recomendaciones para impedir que “otras promociones”
+reasigne el municipio.
+
+Las seis altas de esta cuarta revisión produjeron una promoción válida cada
+una mediante HTTP real, sin Playwright ni geocodificación. El perfil live queda
+en 48 fuentes —46 automáticas— y el radar en 66 canales —65 activos—: 30
+canales comerciales, con 23 sitemaps y 10 índices HTML acotados.

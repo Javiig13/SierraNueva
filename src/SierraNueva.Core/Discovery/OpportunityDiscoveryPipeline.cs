@@ -504,6 +504,8 @@ public sealed class OpportunityDiscoveryPipeline(
     {
         string searchable = TextNormalizer.NormalizeForComparison(
             $"{item.Title} {item.Summary}");
+        string locationSearchable = TextNormalizer.NormalizeForComparison(
+            $"{item.Title} {item.OfficialUrl}");
         MunicipalityDefinition? municipality = !string.IsNullOrWhiteSpace(
             item.MunicipalityHint)
             ? municipalities.FirstOrDefault(candidate =>
@@ -513,7 +515,8 @@ public sealed class OpportunityDiscoveryPipeline(
                     item.MunicipalityHint,
                     StringComparison.OrdinalIgnoreCase))
             : string.IsNullOrWhiteSpace(source.FixedMunicipality)
-                ? FindMunicipality(searchable, municipalities)
+                ? FindMunicipality(locationSearchable, municipalities) ??
+                  FindMunicipality(searchable, municipalities)
                 : municipalities.FirstOrDefault(candidate =>
                 candidate.Enabled &&
                 string.Equals(
@@ -593,9 +596,9 @@ public sealed class OpportunityDiscoveryPipeline(
         }
 
         return source.ReviewRules
-            .FirstOrDefault(rule => item.OfficialUrl.Contains(
-                rule.UrlPattern,
-                StringComparison.OrdinalIgnoreCase))
+            .FirstOrDefault(rule => MatchesReviewRule(
+                item.OfficialUrl,
+                rule.UrlPattern))
             ?.Status ?? OpportunityCandidateStatus.New;
     }
 
@@ -619,9 +622,9 @@ public sealed class OpportunityDiscoveryPipeline(
             }
 
             OpportunityCandidateStatus? reviewedStatus = source.ReviewRules
-                .FirstOrDefault(rule => candidate.OfficialUrl.Contains(
-                    rule.UrlPattern,
-                    StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(rule => MatchesReviewRule(
+                    candidate.OfficialUrl,
+                    rule.UrlPattern))
                 ?.Status;
             if (!reviewedStatus.HasValue ||
                 reviewedStatus.Value == candidate.Status)
@@ -634,6 +637,13 @@ public sealed class OpportunityDiscoveryPipeline(
         }
 
         return updated;
+    }
+
+    private static bool MatchesReviewRule(string url, string pattern)
+    {
+        return pattern.EndsWith('$')
+            ? url.EndsWith(pattern[..^1], StringComparison.OrdinalIgnoreCase)
+            : url.Contains(pattern, StringComparison.OrdinalIgnoreCase);
     }
 
     private static OpportunityCandidate CopyWithStatus(

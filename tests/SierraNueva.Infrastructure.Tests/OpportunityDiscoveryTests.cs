@@ -230,6 +230,59 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Reader_RetriesOneInternalTimeoutAndParsesTheRecoveredFeed()
+    {
+        const string feed =
+            """
+            <?xml version="1.0" encoding="utf-8"?>
+            <rss version="2.0">
+              <channel>
+                <item>
+                  <guid>navalafuente-recovered</guid>
+                  <title>Licencia para viviendas en Navalafuente</title>
+                  <link>https://www.navalafuente.org/noticia-recuperada</link>
+                  <pubDate>Tue, 28 Jul 2026 05:00:00 GMT</pubDate>
+                </item>
+              </channel>
+            </rss>
+            """;
+        using RecoveringTimeoutHttpClientFactory factory = new(
+            TimeSpan.FromMilliseconds(20),
+            feed);
+        OpportunityFeedReader reader = new(
+            factory,
+            new OpportunityFeedParser(),
+            new CrawlerSettings
+            {
+                MaxRetries = 1
+            });
+        OpportunitySourceDefinition source = new()
+        {
+            Id = "noticias-navalafuente",
+            Name = "Navalafuente",
+            Enabled = true,
+            Format = OpportunityFeedFormat.Rss,
+            Cadence = OpportunityFeedCadence.Once,
+            UrlTemplate = "https://www.navalafuente.org/feed/",
+            AllowedHosts = ["www.navalafuente.org"],
+            FixedMunicipality = "Navalafuente",
+            MaxItems = 10
+        };
+
+        IReadOnlyList<OpportunityFeedItem> items = await reader.ReadAsync(
+            source,
+            FixtureDate,
+            FixtureDate,
+            [],
+            CancellationToken.None);
+
+        OpportunityFeedItem item = Assert.Single(items);
+        Assert.Equal("navalafuente-recovered", item.ExternalId);
+        Assert.Contains("Navalafuente", item.Title, StringComparison.Ordinal);
+        Assert.Equal(2, factory.RequestCount);
+    }
+
+    [Fact]
     public async Task Parser_ReadsPcspAtomInsideZip()
     {
         byte[] atom = await File.ReadAllBytesAsync(FixturePath("pcsp-licitaciones.atom"));
@@ -720,6 +773,160 @@ public sealed class OpportunityDiscoveryTests
     }
 
     [Fact]
+    public async Task Pipeline_AppliesEndAnchoredReviewWithoutRejectingPromotionChildren()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition source = new()
+            {
+                Id = "official-sitemap",
+                Name = "Sitemap oficial",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+                Format = OpportunityFeedFormat.Sitemap,
+                ReviewRules =
+                [
+                    new()
+                    {
+                        UrlPattern = "/promociones/madrid/$",
+                        Status = OpportunityCandidateStatus.Rejected
+                    }
+                ]
+            };
+            OpportunityDiscoveryCatalog catalog = new()
+            {
+                Terms =
+                [
+                    new()
+                    {
+                        Term = "promoción",
+                        Kind = OpportunityKind.ResidentialDevelopment
+                    }
+                ],
+                ContextTerms = ["viviendas"],
+                Sources = [source]
+            };
+            OpportunityFeedItem[] items =
+            [
+                new()
+                {
+                    ExternalId = "index",
+                    Title = "Promoción de viviendas en Madrid",
+                    OfficialUrl = "https://official.example/promociones/madrid/"
+                },
+                new()
+                {
+                    ExternalId = "mirage",
+                    Title = "Promoción de viviendas Mirage",
+                    Summary = "Viviendas en Villanueva de la Cañada",
+                    OfficialUrl = "https://official.example/promociones/madrid/mirage/"
+                }
+            ];
+            OpportunityDiscoveryPipeline pipeline = new(
+                new ScriptedFeedReader((IReadOnlyList<OpportunityFeedItem>)items),
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 7, 28, 12, 0, 0, TimeSpan.Zero)));
+
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = catalog,
+                    Municipalities =
+                    [
+                        new() { OfficialName = "Madrid" },
+                        new() { OfficialName = "Villanueva de la Cañada" }
+                    ],
+                    StateDirectory = directory,
+                    From = FixtureDate,
+                    To = FixtureDate
+                },
+                CancellationToken.None);
+
+            Assert.Equal(
+                OpportunityCandidateStatus.Rejected,
+                Assert.Single(
+                    result.State.Candidates,
+                    candidate => candidate.ExternalId == "index").Status);
+            Assert.Equal(
+                OpportunityCandidateStatus.New,
+                Assert.Single(
+                    result.State.Candidates,
+                    candidate => candidate.ExternalId == "mirage").Status);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_PrioritizesCandidateTitleAndUrlOverRelatedPromotionText()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition source = new()
+            {
+                Id = "official-links",
+                Name = "Promociones oficiales",
+                Enabled = true,
+                SourceKind = OpportunitySourceKind.OfficialCommercialWebsite,
+                Format = OpportunityFeedFormat.HtmlLinks
+            };
+            OpportunityFeedItem item = new()
+            {
+                ExternalId = "boadilla",
+                Title = "Chalets en Boadilla del Monte",
+                Summary =
+                    "Promoción de viviendas unifamiliares. " +
+                    "Otras promociones: Villaviciosa de Odón.",
+                OfficialUrl = "https://official.example/chalets-boadilla-del-monte/"
+            };
+            OpportunityDiscoveryPipeline pipeline = new(
+                new ScriptedFeedReader(
+                    (IReadOnlyList<OpportunityFeedItem>)[item]),
+                new JsonOpportunityStateRepository(),
+                new FixedClock(new(2026, 7, 28, 12, 0, 0, TimeSpan.Zero)));
+
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(
+                new()
+                {
+                    Catalog = new()
+                    {
+                        Terms =
+                        [
+                            new()
+                            {
+                                Term = "promoción",
+                                Kind = OpportunityKind.ResidentialDevelopment
+                            }
+                        ],
+                        ContextTerms = ["viviendas"],
+                        Sources = [source]
+                    },
+                    Municipalities =
+                    [
+                        new() { OfficialName = "Villaviciosa de Odón" },
+                        new() { OfficialName = "Boadilla del Monte" }
+                    ],
+                    StateDirectory = directory,
+                    From = FixtureDate,
+                    To = FixtureDate
+                },
+                CancellationToken.None);
+
+            Assert.Equal(
+                "Boadilla del Monte",
+                Assert.Single(result.State.Candidates).Municipality);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_DistinguishesMadridCityFromTheRegion()
     {
         string directory = CreateTempDirectory();
@@ -1192,15 +1399,15 @@ public sealed class OpportunityDiscoveryTests
             source => source.SourceKind ==
                       OpportunitySourceKind.OfficialCommercialWebsite);
         Assert.Equal(
-            28,
+            30,
             live.Sources.Count(source =>
                 source.SourceKind == OpportunitySourceKind.OfficialCommercialWebsite));
         Assert.Equal(
-            22,
+            23,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.Sitemap));
         Assert.Equal(
-            9,
+            10,
             live.Sources.Count(source =>
                 source.Format == OpportunityFeedFormat.HtmlLinks));
         Assert.All(
@@ -1789,6 +1996,55 @@ public sealed class OpportunityDiscoveryTests
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
                 throw new InvalidOperationException("La espera debía cancelarse.");
+            }
+        }
+    }
+
+    private sealed class RecoveringTimeoutHttpClientFactory(
+        TimeSpan timeout,
+        string recoveredContent) : IHttpClientFactory, IDisposable
+    {
+        private readonly RecoveringTimeoutHandler _handler = new(recoveredContent);
+
+        public int RequestCount => _handler.RequestCount;
+
+        public HttpClient CreateClient(string name)
+        {
+            HttpClient client = new(_handler, disposeHandler: false)
+            {
+                Timeout = timeout
+            };
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("SierraNueva.Tests/1.0");
+            return client;
+        }
+
+        public void Dispose()
+        {
+            _handler.Dispose();
+        }
+
+        private sealed class RecoveringTimeoutHandler(string content) : HttpMessageHandler
+        {
+            public int RequestCount { get; private set; }
+
+            protected override async Task<HttpResponseMessage> SendAsync(
+                HttpRequestMessage request,
+                CancellationToken cancellationToken)
+            {
+                RequestCount++;
+                if (RequestCount == 1)
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                }
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    RequestMessage = request,
+                    Content = new StringContent(
+                        content,
+                        System.Text.Encoding.UTF8,
+                        "application/rss+xml")
+                };
             }
         }
     }

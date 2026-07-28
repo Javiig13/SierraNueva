@@ -112,6 +112,30 @@ public sealed class LiveSourceFixtureTests
                 "kronos-krest.html"
             },
             {
+                "kronos-mirage",
+                "kronos-mirage.html"
+            },
+            {
+                "cambrija-viridiana",
+                "cambrija-viridiana.html"
+            },
+            {
+                "larvin-hernan-cortes",
+                "larvin-hernan-cortes.html"
+            },
+            {
+                "larvin-rivas-zipi-zape",
+                "larvin-rivas-zipi-zape.html"
+            },
+            {
+                "larvin-monte-villa",
+                "larvin-monte-villa.html"
+            },
+            {
+                "larvin-residencial-48",
+                "larvin-residencial-48.html"
+            },
+            {
                 "brosh-villa-2-mostoles",
                 "brosh-villa-2-mostoles.html"
             },
@@ -512,6 +536,49 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(5, promotion.BedroomsMax);
                 Assert.Equal(CommercialStatus.LastUnits, promotion.CommercialStatus);
                 Assert.Equal(["Pareado"], promotion.PropertyTypes);
+                break;
+            case "kronos-mirage":
+                Assert.Equal("Mirage", promotion.Name);
+                Assert.Equal(790_800m, promotion.PriceFrom);
+                Assert.Equal(920_800m, promotion.PriceTo);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Null(promotion.BedroomsMax);
+                Assert.Equal(CommercialStatus.OnSale, promotion.CommercialStatus);
+                break;
+            case "cambrija-viridiana":
+                Assert.Equal("VIRIDIANA", promotion.Name);
+                Assert.Equal(1_232_000m, promotion.PriceFrom);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(5, promotion.BedroomsMax);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Equal(["Adosado", "Pareado"], promotion.PropertyTypes);
+                break;
+            case "larvin-hernan-cortes":
+                Assert.Equal("Chalets en Boadilla del Monte", promotion.Name);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(5, promotion.BedroomsMax);
+                Assert.True(promotion.HasCommunityPool);
+                break;
+            case "larvin-rivas-zipi-zape":
+                Assert.Equal("Chalets en Rivas", promotion.Name);
+                Assert.Equal(14, promotion.TotalUnits);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Null(promotion.PriceFrom);
+                break;
+            case "larvin-monte-villa":
+                Assert.Equal("Chalets en Villaviciosa de Odón", promotion.Name);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(525m, promotion.PlotAreaMinSqm);
+                Assert.Contains("Independiente", promotion.PropertyTypes);
+                break;
+            case "larvin-residencial-48":
+                Assert.Equal("Viviendas en Villaviciosa de Odón", promotion.Name);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.True(promotion.HasCommunityPool);
+                Assert.Contains("Independiente", promotion.PropertyTypes);
+                Assert.Null(promotion.TotalUnits);
                 break;
             case "brosh-villa-2-mostoles":
                 Assert.Equal("Villa 2 Móstoles", promotion.Name);

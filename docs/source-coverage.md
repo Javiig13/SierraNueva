@@ -1,6 +1,6 @@
 # Cobertura de fuentes
 
-Fecha de revisión: **24 de julio de 2026**.
+Fecha de revisión: **28 de julio de 2026**.
 
 Esta matriz documenta una búsqueda sistemática para los 29 municipios del
 alcance. Es una fotografía verificable, no una afirmación de que no existan
@@ -60,3 +60,14 @@ reducida, prueba offline y recorrido live aislado. Antes de ejecutar el perfil
 de forma periódica hay que volver a revisar identidad, condiciones,
 `robots.txt`, vigencia y selectores. Una candidata descartada puede reevaluarse
 si publica la información que falta o corrige la discrepancia.
+
+## Ampliación regional posterior
+
+La matriz original de 29 municipios de Sierra quedó intacta, pero el alcance
+operativo se amplió después a los 179 municipios de la Comunidad de Madrid.
+El 28 de julio se integró Kronos Mirage en Villanueva de la Cañada: la ficha
+oficial publica viviendas unifamiliares y plurifamiliares de tres dormitorios,
+estado de comercialización y precios entre 790.800 € y 920.800 €. El perfil
+live pasa a 48 fuentes revisadas, 46 automáticas y dos manuales. Además de
+Mirage, la revisión incorporó Viridiana de Cambrija y cuatro fichas oficiales
+de Larvin en Boadilla del Monte, Rivas-Vaciamadrid y Villaviciosa de Odón.

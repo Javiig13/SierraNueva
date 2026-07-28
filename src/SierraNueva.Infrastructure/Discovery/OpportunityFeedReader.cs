@@ -7,12 +7,26 @@ namespace SierraNueva.Infrastructure.Discovery;
 
 public sealed class OpportunityFeedReader(
     IHttpClientFactory httpClientFactory,
-    OpportunityFeedParser parser) : IOpportunityFeedReader
+    OpportunityFeedParser parser,
+    CrawlerSettings settings) : IOpportunityFeedReader
 {
     private const int MaximumDocumentBytes = 64 * 1024 * 1024;
     private const int MaximumArchiveBytes = 512 * 1024 * 1024;
     private const int MaximumSitemapDocuments = 50;
     private const int MaximumSitemapDepth = 2;
+
+    public OpportunityFeedReader(
+        IHttpClientFactory httpClientFactory,
+        OpportunityFeedParser parser)
+        : this(
+            httpClientFactory,
+            parser,
+            new CrawlerSettings
+            {
+                MaxRetries = 0
+            })
+    {
+    }
 
     public async Task<IReadOnlyList<OpportunityFeedItem>> ReadAsync(
         OpportunitySourceDefinition source,
@@ -381,12 +395,10 @@ public sealed class OpportunityFeedReader(
         CancellationToken cancellationToken)
     {
         HttpClient client = httpClientFactory.CreateClient("opportunity-discovery");
-        using HttpRequestMessage request = new(HttpMethod.Get, uri);
-        request.Headers.Accept.ParseAdd("application/zip");
-        using HttpResponseMessage response = await SendWithTimeoutTranslationAsync(
+        using HttpResponseMessage response = await SendGetWithRetryAsync(
             client,
-            request,
             uri,
+            "application/zip",
             cancellationToken);
         if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
@@ -462,15 +474,15 @@ public sealed class OpportunityFeedReader(
         string clientName = "opportunity-discovery")
     {
         HttpClient client = httpClientFactory.CreateClient(clientName);
-        using HttpRequestMessage request = new(HttpMethod.Get, uri);
-        request.Headers.Accept.ParseAdd(
-            uri.AbsolutePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
-                ? "application/zip"
-                : "application/json, application/xml, application/atom+xml, text/html");
-        using HttpResponseMessage response = await SendWithTimeoutTranslationAsync(
+        string accept = uri.AbsolutePath.EndsWith(
+            ".zip",
+            StringComparison.OrdinalIgnoreCase)
+            ? "application/zip"
+            : "application/json, application/xml, application/atom+xml, text/html";
+        using HttpResponseMessage response = await SendGetWithRetryAsync(
             client,
-            request,
             uri,
+            accept,
             cancellationToken);
         if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Gone)
         {
@@ -507,26 +519,59 @@ public sealed class OpportunityFeedReader(
         return output.ToArray();
     }
 
-    private static async Task<HttpResponseMessage> SendWithTimeoutTranslationAsync(
+    private async Task<HttpResponseMessage> SendGetWithRetryAsync(
         HttpClient client,
-        HttpRequestMessage request,
         Uri uri,
+        string accept,
         CancellationToken cancellationToken)
     {
-        try
+        for (int attempt = 0; attempt <= settings.MaxRetries; attempt++)
         {
-            return await client.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
+            using HttpRequestMessage request = new(HttpMethod.Get, uri);
+            request.Headers.Accept.ParseAdd(accept);
+            try
+            {
+                HttpResponseMessage response = await client.SendAsync(
+                    request,
+                    HttpCompletionOption.ResponseHeadersRead,
+                    cancellationToken);
+                if (!IsTransient(response.StatusCode) ||
+                    attempt == settings.MaxRetries)
+                {
+                    return response;
+                }
+
+                response.Dispose();
+            }
+            catch (OperationCanceledException exception)
+                when (!cancellationToken.IsCancellationRequested)
+            {
+                if (attempt == settings.MaxRetries)
+                {
+                    throw new HttpRequestException(
+                        $"Timeout HTTP al consultar '{uri}' tras " +
+                        $"{attempt + 1} intento(s).",
+                        exception);
+                }
+            }
+
+            await Task.Delay(
+                TimeSpan.FromMilliseconds(250 * (attempt + 1)),
                 cancellationToken);
         }
-        catch (OperationCanceledException exception)
-            when (!cancellationToken.IsCancellationRequested)
-        {
-            throw new HttpRequestException(
-                $"Timeout HTTP al consultar '{uri}'.",
-                exception);
-        }
+
+        throw new InvalidOperationException("El bucle de reintentos terminó sin respuesta.");
+    }
+
+    private static bool IsTransient(HttpStatusCode status)
+    {
+        return status is
+            HttpStatusCode.RequestTimeout or
+            HttpStatusCode.TooManyRequests or
+            HttpStatusCode.InternalServerError or
+            HttpStatusCode.BadGateway or
+            HttpStatusCode.ServiceUnavailable or
+            HttpStatusCode.GatewayTimeout;
     }
 
     private static IReadOnlyList<(Uri Uri, DateOnly Date)> BuildUris(

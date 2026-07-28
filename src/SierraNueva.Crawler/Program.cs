@@ -330,7 +330,8 @@ internal static class CrawlerApplication
                 SourceFilter = options.Source,
                 KnownPromotionUrls = knownSources
                     .Where(source => source.Enabled)
-                    .SelectMany(source => source.StartUrls)
+                    .SelectMany(source =>
+                        source.StartUrls.Concat(source.KnownPromotionUrls))
                     .ToArray(),
                 DryRun = options.DryRun
             },
@@ -450,7 +451,7 @@ internal static class CrawlerApplication
             cancellationToken);
         string[] knownPromotionUrls = knownSources
             .Where(item => item.Enabled)
-            .SelectMany(item => item.StartUrls)
+            .SelectMany(item => item.StartUrls.Concat(item.KnownPromotionUrls))
             .ToArray();
         DateTimeOffset startedAtUtc = DateTimeOffset.UtcNow;
         List<OpportunityBackfillBatchResult> batchResults = [];
@@ -1161,6 +1162,7 @@ internal static class CrawlerApplication
     {
         ServiceCollection services = new();
         services.AddLogging(builder => builder.AddSimpleConsole());
+        services.AddSingleton(settings);
         services.AddSingleton<IDnsResolver, SystemDnsResolver>();
         services.AddSingleton<DnsRebindingSafeHandlerFactory>();
         services.AddHttpClient(

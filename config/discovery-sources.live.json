@@ -138,7 +138,7 @@
         { "urlPattern": "aelca.es/es/proyectos/los-robles-ii", "status": "stale" },
         { "urlPattern": "grupoinsur.com/promocion-de-viviendas/adosados-en-boadilla-del-monte", "status": "stale" },
         { "urlPattern": "aurora-homes.es/promociones/tebaris-brunete", "status": "rejected" },
-        { "urlPattern": "cambrija.es/como-son-los-chalets-de-boadilla-del-monte-en-la-urbanizacion-viridis-3-0", "status": "monitoring" },
+        { "urlPattern": "cambrija.es/como-son-los-chalets-de-boadilla-del-monte-en-la-urbanizacion-viridis-3-0", "status": "stale" },
         { "urlPattern": "grupoegido.es/obra-nueva-madrid/pinto/7fuster", "status": "stale" },
         { "urlPattern": "grupoegido.es/obra-nueva-madrid/san-martin-de-la-vega/novavega", "status": "stale" },
         { "urlPattern": "aedashomes.com/promo-dendra-chalets-obra-nueva-alcala-de-henares", "status": "stale" },
@@ -162,6 +162,8 @@
         { "urlPattern": "viviendasnuevas.com/", "status": "rejected" },
         { "urlPattern": "novogar.net/propiedad/magnifica-promocion-de-pisos-en-venta-en-brunete", "status": "rejected" },
         { "urlPattern": "stancehomes.es/promociones-residenciales-obra-nueva-boadilla", "status": "rejected" },
+        { "urlPattern": "obrasnuevas.com/promociones/nuevas-praderas_el-boalo", "status": "rejected" },
+        { "urlPattern": "obrasnuevas.com/promociones/residencial-velilla-futura-fase-ii_", "status": "rejected" },
         { "urlPattern": "idem.madrid.org/cartografia/planea/", "status": "monitoring" },
         { "urlPattern": "aranjuez.es/images/files/urbanismo/", "status": "monitoring" }
       ],
@@ -797,6 +799,7 @@
       "allowedHosts": [ "www.kronoshomes.com", "kronoshomes.com" ],
       "sitemapIncludes": [ "sitemap-negocio" ],
       "reviewRules": [
+        { "urlPattern": "/es/proyectos-obra-nueva/madrid/$", "status": "rejected" },
         { "urlPattern": "/madrid/bloom/", "status": "rejected" },
         { "urlPattern": "/madrid/brooklyn/", "status": "rejected" },
         { "urlPattern": "/madrid/mirage/", "status": "monitoring" },
@@ -805,6 +808,45 @@
         { "urlPattern": "/madrid/the-valley/", "status": "stale" }
       ],
       "maxItems": 2000
+    },
+    {
+      "id": "sitemap-cambrija",
+      "name": "Cambrija — sitemap comercial",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "sitemap",
+      "cadence": "daily",
+      "urlTemplate": "https://cambrija.es/sitemap_index.xml",
+      "allowedHosts": [ "cambrija.es", "www.cambrija.es" ],
+      "sitemapIncludes": [ "page-sitemap" ],
+      "fixedMunicipality": "Boadilla del Monte",
+      "maxItems": 1000
+    },
+    {
+      "id": "links-larvin",
+      "name": "Grupo Larvin — promociones enlazadas",
+      "enabled": true,
+      "sourceKind": "officialCommercialWebsite",
+      "format": "htmlLinks",
+      "cadence": "daily",
+      "urlTemplate": "https://larvin.es/venta-chalets-madrid/",
+      "allowedHosts": [ "larvin.es", "www.larvin.es" ],
+      "itemSelectors": [
+        ".the_content_wrapper a[href*='/venta-chalets-madrid/']"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [
+        "/venta-chalets-madrid/"
+      ],
+      "detailContentSelectors": [
+        ".the_content_wrapper"
+      ],
+      "maxDetailPages": 20,
+      "ignoreExclusionTerms": true,
+      "reviewRules": [
+        { "urlPattern": "/chalets-pozuelo-de-alarcon/", "status": "stale" }
+      ],
+      "maxItems": 1000
     },
     {
       "id": "links-naiz",

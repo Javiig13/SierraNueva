@@ -282,10 +282,13 @@ public sealed class ConfigurationLoader
             }
 
             if (!string.IsNullOrWhiteSpace(source.FixedMunicipality) &&
-                source.SourceKind != OpportunitySourceKind.MunicipalNoticeBoard)
+                source.SourceKind is not (
+                    OpportunitySourceKind.MunicipalNoticeBoard or
+                    OpportunitySourceKind.OfficialCommercialWebsite))
             {
                 errors.Add(
-                    $"Solo un tablón municipal puede fijar municipio en '{source.Id}'.");
+                    $"Solo un tablón municipal o una fuente comercial oficial " +
+                    $"acotada puede fijar municipio en '{source.Id}'.");
             }
 
             if (source.SourceKind == OpportunitySourceKind.MunicipalNoticeBoard &&
@@ -339,10 +342,13 @@ public sealed class ConfigurationLoader
             }
 
             if (source.IgnoreExclusionTerms &&
-                source.SourceKind != OpportunitySourceKind.IndustryDirectory)
+                source.SourceKind is not (
+                    OpportunitySourceKind.IndustryDirectory or
+                    OpportunitySourceKind.OfficialCommercialWebsite))
             {
                 errors.Add(
-                    $"Solo un directorio residencial acotado puede omitir exclusiones en " +
+                    $"Solo un directorio residencial o una web comercial oficial " +
+                    $"acotada puede omitir exclusiones en " +
                     $"'{source.Id}'.");
             }
 
@@ -478,7 +484,7 @@ public sealed class ConfigurationLoader
                         StringComparison.OrdinalIgnoreCase)))
             {
                 errors.Add(
-                    $"El tablón '{source.Id}' fija un municipio desconocido o deshabilitado: " +
+                    $"La fuente '{source.Id}' fija un municipio desconocido o deshabilitado: " +
                     $"'{source.FixedMunicipality}'.");
             }
         }
@@ -523,6 +529,25 @@ public sealed class ConfigurationLoader
                     (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
                     errors.Add($"URL no válida en '{source.Id}': {url}");
+                }
+            }
+
+            foreach (string url in source.KnownPromotionUrls)
+            {
+                if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) ||
+                    (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+                {
+                    errors.Add($"URL de promoción conocida no válida en '{source.Id}': {url}");
+                    continue;
+                }
+
+                if (!source.AllowedHosts.Contains(
+                        uri.Host,
+                        StringComparer.OrdinalIgnoreCase))
+                {
+                    errors.Add(
+                        $"La URL de promoción conocida de '{source.Id}' usa un host " +
+                        $"no permitido: {uri.Host}.");
                 }
             }
 

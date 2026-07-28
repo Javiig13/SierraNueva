@@ -120,6 +120,29 @@ public sealed class ConfigurationTests
     }
 
     [Fact]
+    public void Validation_RejectsKnownPromotionUrlOutsideAllowedHosts()
+    {
+        IReadOnlyList<string> errors = new ConfigurationLoader().Validate(
+            new CrawlerSettings(),
+            [
+                new SourceDefinition
+                {
+                    Id = "reviewed",
+                    Name = "Reviewed source",
+                    Enabled = true,
+                    FixturePath = "fixture.html",
+                    AllowedHosts = ["official.example"],
+                    KnownPromotionUrls = ["https://unreviewed.example/promotion"]
+                }
+            ],
+            [new MunicipalityDefinition { OfficialName = "Moralzarzal" }]);
+
+        Assert.Contains(
+            errors,
+            error => error.Contains("host no permitido", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task VersionedIgnFixture_MatchesEveryConfiguredMunicipality()
     {
         string configDirectory = Path.Combine(AppContext.BaseDirectory, "config");

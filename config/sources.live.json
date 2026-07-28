@@ -1421,6 +1421,9 @@
       "startUrls": [
         "https://trinosa.com/wp-json/wp/v2/promocion/449?_fields=link,title,content"
       ],
+      "knownPromotionUrls": [
+        "https://trinosa.com/promocion/bonart/"
+      ],
       "useRobots": true,
       "useSitemaps": false,
       "followInternalLinks": false,
@@ -1487,6 +1490,248 @@
         "name": "h1"
       },
       "notes": "Promotora oficial revisada el 2026-07-27. La ficha declara 31 chalets pareados de 4 y 5 dormitorios en Torrelodones y estado de últimas viviendas. Solo se procesa el resumen comercial de la ficha. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "kronos-mirage",
+      "name": "Kronos Homes — Mirage",
+      "baseUrl": "https://www.kronoshomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.kronoshomes.com",
+        "kronoshomes.com"
+      ],
+      "startUrls": [
+        "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/mirage/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Villanueva de la Cañada",
+      "municipalityHints": [
+        "Villanueva de la Cañada",
+        "Los Pocillos"
+      ],
+      "contentSelector": ".promo_cover_infos_cont",
+      "includePatterns": [
+        "/madrid/mirage/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "area-de-clientes"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha declara viviendas unifamiliares y plurifamiliares de 3 dormitorios desde 790.800 € en Villanueva de la Cañada y estado de comercialización. Solo se procesa el resumen comercial de la ficha. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "cambrija-viridiana",
+      "name": "Cambrija — Viridiana",
+      "baseUrl": "https://cambrija.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "cambrija.es",
+        "www.cambrija.es"
+      ],
+      "startUrls": [
+        "https://cambrija.es/obra-nueva-viridiana/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "requireResponseBody": true,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Boadilla del Monte",
+      "municipalityHints": [
+        "Boadilla del Monte",
+        "La Cárcava"
+      ],
+      "contentSelector": ".elementor.elementor-10",
+      "includePatterns": [
+        "/obra-nueva-viridiana/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha vigente publica viviendas adosadas y pareadas configurables de 4–5 dormitorios desde 1.232.000 € en Boadilla del Monte. Se procesa únicamente el contenido de la página; no se descargan planos, imágenes ni formularios. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "larvin-hernan-cortes",
+      "name": "Grupo Larvin — Residencial Hernán Cortés",
+      "baseUrl": "https://larvin.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "larvin.es",
+        "www.larvin.es"
+      ],
+      "startUrls": [
+        "https://larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "requireResponseBody": true,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Boadilla del Monte",
+      "municipalityHints": [
+        "Boadilla del Monte",
+        "Hernán Cortés"
+      ],
+      "contentSelector": ".the_content_wrapper",
+      "includePatterns": [
+        "/venta-chalets-madrid/chalets-boadilla-del-monte/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha pública vigente describe Residencial Larvin Hernán Cortés, viviendas unifamiliares configurables de 3–5 dormitorios con piscina comunitaria en Boadilla del Monte. Precio e inventario permanecen nulos porque no se publican. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "larvin-rivas-zipi-zape",
+      "name": "Grupo Larvin — Chalets en Rivas",
+      "baseUrl": "https://larvin.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "larvin.es",
+        "www.larvin.es"
+      ],
+      "startUrls": [
+        "https://larvin.es/venta-chalets-madrid/chalets-en-rivas-vaciamadrid/"
+      ],
+      "knownPromotionUrls": [
+        "https://larvin.es/venta-chalets-madrid/chalets-pareados-en-rivas-vaciamadrid/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "requireResponseBody": true,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Rivas-Vaciamadrid",
+      "municipalityHints": [
+        "Rivas-Vaciamadrid",
+        "Zipi y Zape"
+      ],
+      "contentSelector": ".the_content_wrapper",
+      "includePatterns": [
+        "/venta-chalets-madrid/chalets-en-rivas-vaciamadrid/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha vigente publica 14 viviendas unifamiliares configurables de 3–4 dormitorios en la calle Zipi y Zape de Rivas-Vaciamadrid. Precio y subtipo permanecen nulos. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "larvin-monte-villa",
+      "name": "Grupo Larvin — Monte de la Villa",
+      "baseUrl": "https://larvin.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "larvin.es",
+        "www.larvin.es"
+      ],
+      "startUrls": [
+        "https://larvin.es/venta-chalets-madrid/chalets-villaviciosa-de-odon/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "requireResponseBody": true,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Villaviciosa de Odón",
+      "municipalityHints": [
+        "Villaviciosa de Odón",
+        "Monte de la Villa"
+      ],
+      "contentSelector": ".the_content_wrapper",
+      "includePatterns": [
+        "/venta-chalets-madrid/chalets-villaviciosa-de-odon/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha vigente describe viviendas individuales de 4 dormitorios sobre parcelas de 525 m² en Monte de la Villa, Villaviciosa de Odón. Precio e inventario permanecen nulos. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+    },
+    {
+      "id": "larvin-residencial-48",
+      "name": "Grupo Larvin — Residencial Larvin 48",
+      "baseUrl": "https://larvin.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "larvin.es",
+        "www.larvin.es"
+      ],
+      "startUrls": [
+        "https://larvin.es/venta-chalets-madrid/chalets-en-villaviciosa-de-odon/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "requireResponseBody": true,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Villaviciosa de Odón",
+      "municipalityHints": [
+        "Villaviciosa de Odón",
+        "Monte de la Villa"
+      ],
+      "contentSelector": ".the_content_wrapper",
+      "includePatterns": [
+        "/venta-chalets-madrid/chalets-en-villaviciosa-de-odon/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "h1"
+      },
+      "notes": "Promotora oficial revisada el 2026-07-28. La ficha vigente identifica Residencial Larvin 48, viviendas individuales de 3 dormitorios con piscina comunitaria en Monte de la Villa, Villaviciosa de Odón. No se traslada el contador del índice ni se publica precio porque la ficha no los declara. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
     },
     {
       "id": "brosh-villa-2-mostoles",

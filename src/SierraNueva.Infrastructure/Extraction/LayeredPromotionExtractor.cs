@@ -1057,15 +1057,24 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
         string text,
         Action<int, int?> setter)
     {
-        Match match = regex.Match(text);
-        if (!match.Success ||
-            ParseSmallInteger(match.Groups["min"].Value) is not { } minimum)
+        int[] values = regex.Matches(text)
+            .Select(match => (Match)match)
+            .SelectMany(match => new[]
+            {
+                ParseSmallInteger(match.Groups["min"].Value),
+                ParseSmallInteger(match.Groups["max"].Value)
+            })
+            .Where(value => value is > 0)
+            .Select(value => value!.Value)
+            .Distinct()
+            .Order()
+            .ToArray();
+        if (values.Length == 0)
         {
             return;
         }
 
-        int? maximum = ParseSmallInteger(match.Groups["max"].Value);
-        setter(minimum, maximum);
+        setter(values[0], values.Length > 1 ? values[^1] : null);
     }
 
     private static int? ParseSmallInteger(string value)
@@ -1260,7 +1269,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PlotAreaValueRegex();
 
     [GeneratedRegex(
-        @"(?<!m\s)(?<min>\d{1,2})(?:\s*(?:a|o|y|/|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?)",
+        @"(?<!m\s)(?:(?<max>\d{1,2})\s+dormitorios?\s+configurables?\s+a\s+(?<min>\d{1,2})\s+dormitorios?|(?<min>\d{1,2})(?:\s*(?:a|o|y|/|-)\s*(?<max>\d{1,2}))?\s+(?:dormitorios?|habitaciones?))",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex BedroomsRegex();
 

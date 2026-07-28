@@ -1,6 +1,6 @@
 # Entrega y continuidad
 
-Fecha de corte: **27 de julio de 2026**.
+Fecha de corte: **28 de julio de 2026**.
 
 SierraNueva dispone de una vertical local completa y determinista: fixtures →
 descubrimiento → extracción → normalización → geolocalización → cambios →
@@ -40,8 +40,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 42
-  definiciones revisadas: 40 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 48
+  definiciones revisadas: 46 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
@@ -216,13 +216,13 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          25 correctos
-Tests Infrastructure:132 correctos
+Tests Infrastructure:142 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               165/165 correctos
+Total:               175/175 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
-validate-config live:42 fuentes, 179 municipios, 179 centroides, 64 radar, 569 actores
+validate-config live:48 fuentes, 179 municipios, 179 centroides, 66 radar, 569 actores
 Crawl offline:       éxito, 4 promociones de 4 páginas
 validate-data:       correcto
 Dry-run IA offline:  2 llamadas planificadas, 0 llamadas reales, 0 USD
@@ -788,14 +788,67 @@ vendidas y ruido administrativo quedan descartados mediante reglas
 reproducibles. Aún falta verificar esta ampliación en una ejecución remota
 completa.
 
+## Actualización verificada del 28 de julio de 2026
+
+La ejecución programada `30331478110` —commit `5fd377c`, intento 39— publicó el
+`runId` `20260728T054032275Z`: 41 promociones, 35 activas, 40/40 fuentes
+comerciales correctas y 41 puntos GeoJSON. El radar conservó 179/179
+municipios con vigilancia, 27 canales municipales directos, 62 fuentes sanas,
+una degradada y ninguna en fallo reiterado. La matriz produjo 628 resultados
+de búsqueda; la IA se omitió.
+
+La única degradación fue `noticias-navalafuente`: el RSS oficial agotó un
+timeout en esa ejecución. El lector del radar reintenta ahora, con una
+petición nueva por intento, timeouts internos y respuestas HTTP transitorias
+408/429/500/502/503/504 hasta `MaxRetries`. La prueba offline simula el primer
+timeout y la recuperación; un smoke posterior del RSS real respondió HTTP 200.
+La corrección aún debe confirmarse dentro del siguiente workflow completo.
+
+La exportación cifrada `30351950285` se descargó y autenticó localmente. El
+SHA-256 del artefacto fue
+`8a7e3b0f77c8479236f1e8b219b474a00b7f856b3d30511bcc7a8fba33348014`;
+la clave RSA efímera se eliminó tras descifrar. La cola contenía 843
+pendientes: 18 alta, 276 media, 532 baja y 17 duplicados. De los 18 altos, 14
+eran señales ya revisadas en `monitoring` —planeamiento, contratación o
+promoción aún insuficiente— y cuatro eran `new`.
+
+Los cuatro nuevos quedaron resueltos: dos URLs de `obrasnuevas.com` devolvían
+una portada genérica y quedaron `rejected`; el índice regional de Kronos queda
+`rejected` con una regla anclada que no afecta a fichas hijas; Bonart pasa a
+`verifiedSource` mediante un alias explícito entre su REST de extracción y su
+URL pública. Las reglas ancladas conservan la semántica histórica de
+coincidencia parcial y solo interpretan `$` como final de URL.
+
+La revisión encontró seis fichas comerciales oficiales aptas: Kronos Mirage,
+Cambrija Viridiana y cuatro promociones de Larvin en Boadilla, Rivas y
+Villaviciosa de Odón. Pozuelo se descartó porque la propia ficha indica
+`PROMOCIÓN VENDIDA`. Las seis altas disponen de fixture, prueba específica y
+smoke HTTP real correcto sin Playwright ni geocodificación. La extracción
+agrega rangos enteros observados y reconoce “5 dormitorios configurables a 4”
+como 4–5; el radar prioriza título y URL para el municipio antes que un bloque
+de “otras promociones”.
+
+El perfil live queda en 48 fuentes revisadas —46 automáticas— y el radar en 66
+canales —65 activos—, 30 de ellos comerciales: 23 sitemaps y 10 índices HTML
+acotados. Cambrija aportó una URL ya verificada; el índice Larvin procesó cinco
+fichas y las clasificó como cuatro verificadas y una vendida. Las URLs
+canónicas distintas de la URL técnica de extracción se declaran y validan
+contra `allowedHosts`; nunca se verifican por dominio completo.
+
+La baseline posterior quedó verde con SDK `10.0.301`: restore, build Release
+sin advertencias, 175/175 tests —25 Core, 142 Infrastructure, 5 Web y 3 E2E—,
+formato, configuración, radar offline 34/34, crawl offline de cuatro
+promociones, validación de datos y publish con datos públicos presentes y
+estado privado ausente.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: ejecutar el lote remoto completo y comprobar 40/40 fuentes
-comerciales, 63/63 canales de radar, Pages y una nueva exportación cifrada de
-la cola. Después, continuar con los candidatos medios; la matriz ya está
-comprobada y no debe sustituir esa revisión.
+Prioridad inmediata: ejecutar el lote remoto completo y comprobar 46/46 fuentes
+comerciales, 65/65 canales de radar, la recuperación de Navalafuente, Pages y
+el nuevo recuento cifrado de la cola. Después, continuar con los candidatos
+medios; la matriz ya está comprobada y no debe sustituir esa revisión.
 
-1. Vigilar las 40 fichas comerciales automatizadas, las fichas manuales de
+1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
    descarte solo ante una ficha oficial nueva, un cambio real de producto o
    disponibilidad verificable.

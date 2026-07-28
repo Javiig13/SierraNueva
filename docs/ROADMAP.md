@@ -571,6 +571,31 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   la cancelación externa conserva su semántica y el resumen exige un `lastRun`
   nuevo con la fuente web correcta antes de acreditar 716/716. La repetición
   `30270433121` verificó la corrección.
+- **Verificado remoto actual:** la ejecución programada `30331478110` publicó
+  41 promociones —35 activas—, 40/40 fuentes comerciales y 41 puntos GeoJSON.
+  El radar conservó 179/179 municipios, 62 fuentes sanas, una degradada y
+  ninguna en fallo reiterado; la única degradación fue el timeout del RSS de
+  Navalafuente.
+- **Hecho local:** el lector del radar reintenta timeouts internos y respuestas
+  HTTP transitorias hasta `MaxRetries`; la recuperación está cubierta offline
+  y el RSS real respondió HTTP 200 en un smoke posterior. Falta acreditar el
+  resultado en el siguiente workflow completo.
+- **Verificado privado:** la exportación cifrada `30351950285` contenía 843
+  pendientes: 18 alta, 276 media, 532 baja y 17 duplicados. Catorce altos ya
+  estaban en seguimiento. Los cuatro nuevos se resolvieron como dos URLs de
+  agregador rechazadas, un índice Kronos rechazado y Bonart verificado mediante
+  su alias canónico.
+- **Hecho local y smoke live (cuarta revisión):** se incorporan Kronos Mirage,
+  Cambrija Viridiana y cuatro promociones de Larvin en Boadilla, Rivas y
+  Villaviciosa. Pozuelo permanece `stale` porque la ficha oficial declara
+  `PROMOCIÓN VENDIDA`. Las seis altas tienen fixture, prueba y smoke HTTP real
+  correcto sin Playwright ni geocodificación.
+- **Hecho local:** el perfil live pasa a 48 fuentes —46 automáticas— y el radar
+  a 66 canales —65 activos—, 30 comerciales: 23 sitemaps y 10 índices HTML.
+  La baseline completa queda en 175/175 pruebas y publish sin estado privado.
+- **Pendiente de verificación remota:** comprobar 46/46 fuentes, 65/65 canales,
+  la recuperación de Navalafuente, el nuevo dataset de Pages y otra exportación
+  cifrada de la cola.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último
@@ -581,10 +606,10 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 165/165 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 175/175 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
-| 5 | Fuente real permitida con Internet | Hecho | 42 revisadas; 40 automáticas y 2 manuales por bloqueo |
+| 5 | Fuente real permitida con Internet | Hecho | 48 revisadas; 46 automáticas y 2 manuales por bloqueo |
 | 6 | `promotions.json` válido | Hecho | `validate-data` |
 | 7 | `promotions.csv` válido | Hecho | pruebas de persistencia |
 | 8 | `promotions.geojson` válido | Hecho | pruebas y publicación |
@@ -595,7 +620,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 13 | Mapa funciona | Hecho | E2E real y offline con lista/filtro compartido |
 | 14 | Mapa y lista comparten filtro | Hecho | colección única en la UI |
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
-| 16 | Enlaces a webs originales | Hecho | las 40 fichas live automáticas publican su URL oficial y la UI expone el enlace |
+| 16 | Enlaces a webs originales | Hecho | las 46 fichas live automáticas publican su URL oficial y la UI expone el enlace |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
 | 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
 | 19 | Deploy Pages | Hecho | ejecución `30054208393` y URL pública verificadas |
@@ -609,7 +634,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 165/165 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 175/175 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 
