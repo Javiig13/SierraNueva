@@ -785,8 +785,8 @@ promoción», fallback al título si el `h1` existe vacío y separación entre
 superficie construida y parcela en Bonart. Los avisos de planeamiento continúan
 como `monitoring` privado; agregadores, producto plurifamiliar, promociones
 vendidas y ruido administrativo quedan descartados mediante reglas
-reproducibles. Aún falta verificar esta ampliación en una ejecución remota
-completa.
+reproducibles. La ampliación quedó verificada en la ejecución remota descrita
+abajo.
 
 ## Actualización verificada del 28 de julio de 2026
 
@@ -802,7 +802,7 @@ timeout en esa ejecución. El lector del radar reintenta ahora, con una
 petición nueva por intento, timeouts internos y respuestas HTTP transitorias
 408/429/500/502/503/504 hasta `MaxRetries`. La prueba offline simula el primer
 timeout y la recuperación; un smoke posterior del RSS real respondió HTTP 200.
-La corrección aún debe confirmarse dentro del siguiente workflow completo.
+La ejecución `30354344817` confirmó después la recuperación en GitHub.
 
 La exportación cifrada `30351950285` se descargó y autenticó localmente. El
 SHA-256 del artefacto fue
@@ -841,12 +841,29 @@ formato, configuración, radar offline 34/34, crawl offline de cuatro
 promociones, validación de datos y publish con datos públicos presentes y
 estado privado ausente.
 
+El commit `dcb68fc` superó el CI `30354283967`. La ejecución manual
+[`30354344817`](https://github.com/Javiig13/SierraNueva/actions/runs/30354344817)
+terminó correctamente y desplegó Pages con `runId`
+`20260728T114649927Z`: 47 promociones —43 activas—, seis altas, dos cambios,
+46/46 fuentes comerciales y cero fallos. Las seis fichas nuevas aparecen en
+el dataset publicado. La matriz ejecutó 716 consultas, conservó 634 resultados
+y dejó 883 candidatos privados pendientes; la IA se omitió y no consumió
+saldo.
+
+Navalafuente terminó sano gracias al reintento. El radar mantuvo 179/179
+municipios, 27 canales directos, 64 fuentes sanas, una degradada y ninguna en
+fallo reiterado. La única incidencia fue `tablon-los-molinos`, que respondió
+HTTP 403 desde el runner aunque localmente devolvía 200. La ruta oficial
+equivalente `action=inicioTablon` devuelve el mismo documento que
+`verAnuncios&tipoTablon=1`; el smoke aislado procesó sus 19 entradas con
+HTTP 200. El cambio queda pendiente de una segunda comprobación en GitHub.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: ejecutar el lote remoto completo y comprobar 46/46 fuentes
-comerciales, 65/65 canales de radar, la recuperación de Navalafuente, Pages y
-el nuevo recuento cifrado de la cola. Después, continuar con los candidatos
-medios; la matriz ya está comprobada y no debe sustituir esa revisión.
+Prioridad inmediata: confirmar en GitHub la ruta equivalente del tablón de Los
+Molinos y exportar el nuevo recuento cifrado de la cola. Después, continuar con
+los candidatos medios; la matriz ya está comprobada y no debe sustituir esa
+revisión.
 
 1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

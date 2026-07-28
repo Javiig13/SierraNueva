@@ -593,9 +593,17 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** el perfil live pasa a 48 fuentes —46 automáticas— y el radar
   a 66 canales —65 activos—, 30 comerciales: 23 sitemaps y 10 índices HTML.
   La baseline completa queda en 175/175 pruebas y publish sin estado privado.
-- **Pendiente de verificación remota:** comprobar 46/46 fuentes, 65/65 canales,
-  la recuperación de Navalafuente, el nuevo dataset de Pages y otra exportación
-  cifrada de la cola.
+- **Verificado remoto:** el commit `dcb68fc` superó CI `30354283967` y la
+  ejecución `30354344817` desplegó Pages con 47 promociones —43 activas—, seis
+  altas, dos cambios y 46/46 fuentes comerciales correctas. La matriz completó
+  716 consultas, conservó 634 resultados y la IA permaneció omitida.
+- **Verificado remoto:** Navalafuente se recuperó con el reintento. El radar
+  mantuvo 179/179 municipios, 27 canales directos y 64 fuentes sanas; solo
+  `tablon-los-molinos` quedó degradado por HTTP 403 desde GitHub.
+- **Hecho local:** la ruta oficial equivalente del tablón de Los Molinos se
+  cambia a `action=inicioTablon`. Entrega exactamente el mismo HTML que la
+  ruta anterior y el smoke aislado procesó 19 entradas con HTTP 200. Falta
+  confirmar esta recuperación en GitHub y exportar la nueva cola cifrada.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último

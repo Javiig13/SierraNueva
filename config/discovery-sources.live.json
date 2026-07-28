@@ -285,7 +285,7 @@
       "sourceKind": "municipalNoticeBoard",
       "format": "eAdminHtml",
       "cadence": "once",
-      "urlTemplate": "https://sede.ayuntamiento-losmolinos.es/eAdmin/Tablon.do?action=verAnuncios&tipoTablon=1",
+      "urlTemplate": "https://sede.ayuntamiento-losmolinos.es/eAdmin/Tablon.do?action=inicioTablon",
       "allowedHosts": [ "sede.ayuntamiento-losmolinos.es" ],
       "fixedMunicipality": "Los Molinos",
       "maxItems": 1000
