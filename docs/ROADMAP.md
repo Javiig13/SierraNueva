@@ -600,10 +600,13 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Verificado remoto:** Navalafuente se recuperó con el reintento. El radar
   mantuvo 179/179 municipios, 27 canales directos y 64 fuentes sanas; solo
   `tablon-los-molinos` quedó degradado por HTTP 403 desde GitHub.
-- **Hecho local:** la ruta oficial equivalente del tablón de Los Molinos se
-  cambia a `action=inicioTablon`. Entrega exactamente el mismo HTML que la
-  ruta anterior y el smoke aislado procesó 19 entradas con HTTP 200. Falta
-  confirmar esta recuperación en GitHub y exportar la nueva cola cifrada.
+- **Verificado remoto:** la ruta equivalente `action=inicioTablon` tampoco
+  evita el bloqueo por IP: `30356769502` recibió HTTP 403 y escaló Los Molinos
+  a fallo reiterado, manteniendo 179/179 municipios por redundancia.
+- **Hecho local:** sin evadir la sede bloqueada, Los Molinos pasa al archivo
+  público de bandos y avisos de la web oficial municipal. El selector
+  `.post__title` procesó 15 entradas y fuente sana en el smoke HTTP real.
+  Falta confirmar el nuevo host en GitHub y exportar la nueva cola cifrada.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último

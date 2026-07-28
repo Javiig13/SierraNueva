@@ -853,17 +853,24 @@ saldo.
 Navalafuente terminó sano gracias al reintento. El radar mantuvo 179/179
 municipios, 27 canales directos, 64 fuentes sanas, una degradada y ninguna en
 fallo reiterado. La única incidencia fue `tablon-los-molinos`, que respondió
-HTTP 403 desde el runner aunque localmente devolvía 200. La ruta oficial
-equivalente `action=inicioTablon` devuelve el mismo documento que
-`verAnuncios&tipoTablon=1`; el smoke aislado procesó sus 19 entradas con
-HTTP 200. El cambio queda pendiente de una segunda comprobación en GitHub.
+HTTP 403 desde el runner aunque localmente devolvía 200. Cambiar a la ruta
+equivalente `action=inicioTablon` no alteró el bloqueo por IP: la ejecución
+`30356769502` volvió a recibir 403 y marcó el canal como fallo reiterado, sin
+impedir 46/46 fuentes comerciales, 47 promociones ni Pages.
+
+No se evade el control de la sede. El canal se traslada a la publicación
+oficial y pública de bandos y avisos del propio Ayuntamiento de Los Molinos,
+en `www.ayuntamiento-losmolinos.es/?post_type=lsvr_notice`. El selector
+acotado `.post__title` produjo 15 entradas y fuente sana en un smoke HTTP real;
+BOCM, BOE, PCSP y la matriz web mantienen la redundancia central. Falta
+confirmar el nuevo host desde GitHub.
 
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: confirmar en GitHub la ruta equivalente del tablón de Los
-Molinos y exportar el nuevo recuento cifrado de la cola. Después, continuar con
-los candidatos medios; la matriz ya está comprobada y no debe sustituir esa
-revisión.
+Prioridad inmediata: confirmar en GitHub el canal público alternativo del
+Ayuntamiento de Los Molinos y exportar el nuevo recuento cifrado de la cola.
+Después, continuar con los candidatos medios; la matriz ya está comprobada y
+no debe sustituir esa revisión.
 
 1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

@@ -280,15 +280,16 @@
     },
     {
       "id": "tablon-los-molinos",
-      "name": "Ayuntamiento de Los Molinos — tablón electrónico",
+      "name": "Ayuntamiento de Los Molinos — bandos y avisos",
       "enabled": true,
       "sourceKind": "municipalNoticeBoard",
-      "format": "eAdminHtml",
+      "format": "html",
       "cadence": "once",
-      "urlTemplate": "https://sede.ayuntamiento-losmolinos.es/eAdmin/Tablon.do?action=inicioTablon",
-      "allowedHosts": [ "sede.ayuntamiento-losmolinos.es" ],
+      "urlTemplate": "https://www.ayuntamiento-losmolinos.es/?post_type=lsvr_notice",
+      "allowedHosts": [ "www.ayuntamiento-losmolinos.es" ],
+      "itemSelectors": [ ".post__title" ],
       "fixedMunicipality": "Los Molinos",
-      "maxItems": 1000
+      "maxItems": 100
     },
     {
       "id": "tablon-moralzarzal",
