@@ -333,6 +333,77 @@ public sealed class PipelineIntegrationTests
     }
 
     [Fact]
+    public async Task Pipeline_TreatsNotModifiedPageAsSeenAndReactivatesPriorFalseNegative()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            MutablePageSource pages = new();
+            FakeClock clock = new(new DateTimeOffset(2026, 7, 20, 8, 0, 0, TimeSpan.Zero));
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                clock);
+            CrawlRequest request = CreateRequest(root);
+            pages.Pages =
+            [
+                new FetchedPage(
+                    new("https://example.com/cumbre"),
+                    """
+                    <html><head><meta property="og:title" content="Residencial Cumbre"></head>
+                    <body><h1>Residencial Cumbre</h1>
+                    <p>Promoción de chalets pareados en Moralzarzal. Desde 475.000 €.</p>
+                    </body></html>
+                    """,
+                    "text/html",
+                    clock.UtcNow,
+                    "fixture")
+            ];
+
+            await pipeline.RunAsync(request, CancellationToken.None);
+            pages.Pages = [];
+            pages.Warnings = ["HTTP_NOT_MODIFIED: https://example.com/cumbre"];
+            for (int run = 0; run < 3; run++)
+            {
+                clock.Advance(TimeSpan.FromDays(1));
+                CrawlResult unchanged = await pipeline.RunAsync(
+                    request,
+                    CancellationToken.None);
+                Promotion promotion = Assert.Single(unchanged.Dataset.Promotions);
+                Assert.True(promotion.Active);
+                Assert.Equal(0, promotion.ConsecutiveMisses);
+                Assert.Equal(clock.UtcNow, promotion.LastSeenUtc);
+            }
+
+            IReadOnlyList<Promotion> state = await new JsonPromotionStateRepository().LoadAsync(
+                Path.Combine(root, "state"),
+                CancellationToken.None);
+            Promotion incorrectlyInactive = Assert.Single(state);
+            incorrectlyInactive.Active = false;
+            incorrectlyInactive.ConsecutiveMisses = 3;
+            await new JsonPromotionStateRepository().SaveAsync(
+                Path.Combine(root, "state"),
+                state,
+                CancellationToken.None);
+
+            clock.Advance(TimeSpan.FromDays(1));
+            CrawlResult recovered = await pipeline.RunAsync(request, CancellationToken.None);
+
+            Assert.True(Assert.Single(recovered.Dataset.Promotions).Active);
+            Assert.Equal(
+                ChangeKind.Reactivated,
+                Assert.Single(recovered.Changes.Changes).Kind);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task Pipeline_GeocodesPreviousStateWhenSourceReturnsNoPage()
     {
         string root = CreateTempDirectory();
@@ -630,6 +701,8 @@ public sealed class PipelineIntegrationTests
     {
         public IReadOnlyList<FetchedPage> Pages { get; set; } = [];
 
+        public IReadOnlyList<string> Warnings { get; set; } = [];
+
         public Task<PageBatch> FetchAsync(
             SourceDefinition source,
             CrawlerSettings settings,
@@ -641,7 +714,8 @@ public sealed class PipelineIntegrationTests
             return Task.FromResult(new PageBatch
             {
                 Pages = Pages,
-                DiscoveredUrls = Pages.Count
+                DiscoveredUrls = Pages.Count,
+                Warnings = Warnings
             });
         }
     }

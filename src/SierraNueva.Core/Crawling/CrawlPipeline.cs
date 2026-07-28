@@ -173,9 +173,33 @@ public sealed class CrawlPipeline(
 
         bool canCountMisses = sourceResults.Count > 0 &&
                               sourceResults.All(result => result.Status == SourceRunStatus.Success);
+        HashSet<string> notModifiedUrls = GetNotModifiedUrls(sourceResults);
         HashSet<string> seenIds = merged.Select(promotion => promotion.Id).ToHashSet(StringComparer.Ordinal);
         foreach (Promotion old in previous.Where(promotion => !seenIds.Contains(promotion.Id)))
         {
+            if (WasConfirmedNotModified(old, notModifiedUrls))
+            {
+                bool wasActive = old.Active;
+                old.LastSeenUtc = now;
+                old.ConsecutiveMisses = 0;
+                old.Active = true;
+                if (!wasActive)
+                {
+                    old.LastChangedUtc = now;
+                    PromotionChange? change = _changeDetector.Detect(
+                        CloneWithActive(old, false),
+                        old,
+                        now);
+                    if (change is not null)
+                    {
+                        changes.Add(change);
+                    }
+                }
+
+                merged.Add(old);
+                continue;
+            }
+
             if (canCountMisses)
             {
                 old.ConsecutiveMisses++;
@@ -304,6 +328,35 @@ public sealed class CrawlPipeline(
                 $"Se ignoró el enriquecimiento privado porque no pudo leerse: {exception.Message}");
             return new Dictionary<string, PromotionEnrichment>(StringComparer.Ordinal);
         }
+    }
+
+    private static HashSet<string> GetNotModifiedUrls(
+        IReadOnlyList<SourceRunResult> sourceResults)
+    {
+        const string prefix = "HTTP_NOT_MODIFIED:";
+        return sourceResults
+            .Where(result => result.Status == SourceRunStatus.Success)
+            .SelectMany(result => result.Warnings)
+            .Where(warning => warning.StartsWith(
+                prefix,
+                StringComparison.OrdinalIgnoreCase))
+            .Select(warning => warning[prefix.Length..].Trim())
+            .Select(url => Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+                ? UrlNormalizer.Normalize(uri.AbsoluteUri)
+                : string.Empty)
+            .Where(url => url.Length > 0)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static bool WasConfirmedNotModified(
+        Promotion promotion,
+        IReadOnlySet<string> notModifiedUrls)
+    {
+        return promotion.SourceUrls
+            .Append(promotion.CanonicalUrl)
+            .Where(url => Uri.TryCreate(url, UriKind.Absolute, out _))
+            .Select(UrlNormalizer.Normalize)
+            .Any(notModifiedUrls.Contains);
     }
 
     private static void NormalizePromotion(Promotion promotion, SourceDefinition source)

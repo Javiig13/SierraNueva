@@ -592,7 +592,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   correcto sin Playwright ni geocodificación.
 - **Hecho local:** el perfil live pasa a 48 fuentes —46 automáticas— y el radar
   a 66 canales —65 activos—, 30 comerciales: 23 sitemaps y 10 índices HTML.
-  La baseline completa queda en 175/175 pruebas y publish sin estado privado.
+  La baseline completa queda en 176/176 pruebas y publish sin estado privado.
 - **Verificado remoto:** el commit `dcb68fc` superó CI `30354283967` y la
   ejecución `30354344817` desplegó Pages con 47 promociones —43 activas—, seis
   altas, dos cambios y 46/46 fuentes comerciales correctas. La matriz completó
@@ -606,7 +606,15 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** sin evadir la sede bloqueada, Los Molinos pasa al archivo
   público de bandos y avisos de la web oficial municipal. El selector
   `.post__title` procesó 15 entradas y fuente sana en el smoke HTTP real.
-  Falta confirmar el nuevo host en GitHub y exportar la nueva cola cifrada.
+  La ejecución `30359180713` confirmó el nuevo host en GitHub con 15 entradas.
+- **Verificado remoto:** `30359180713` publicó 47 promociones desde 46/46
+  fuentes comerciales y mantuvo 179/179 municipios. Los Molinos se recuperó;
+  el único parcial fue un HTTP 500 aislado de San Lorenzo, sano en los dos
+  pases anteriores.
+- **Hecho local:** un `304 Not Modified` ya no cuenta como ausencia comercial.
+  La URL se considera vista, reinicia el contador y reactiva un falso negativo
+  previo; tres 304 consecutivos y la recuperación están cubiertos por prueba.
+  Falta desplegar la corrección y exportar la nueva cola cifrada.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último
@@ -617,7 +625,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 175/175 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 176/176 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 48 revisadas; 46 automáticas y 2 manuales por bloqueo |
@@ -645,7 +653,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 175/175 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 176/176 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

@@ -219,7 +219,7 @@ Tests Core:          25 correctos
 Tests Infrastructure:142 correctos
 Tests Web:           5 correctos
 Tests Web E2E:       3 correctos
-Total:               175/175 correctos
+Total:               176/176 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
 validate-config live:48 fuentes, 179 municipios, 179 centroides, 66 radar, 569 actores
@@ -836,7 +836,7 @@ canónicas distintas de la URL técnica de extracción se declaran y validan
 contra `allowedHosts`; nunca se verifican por dominio completo.
 
 La baseline posterior quedó verde con SDK `10.0.301`: restore, build Release
-sin advertencias, 175/175 tests —25 Core, 142 Infrastructure, 5 Web y 3 E2E—,
+sin advertencias, 176/176 tests —25 Core, 143 Infrastructure, 5 Web y 3 E2E—,
 formato, configuración, radar offline 34/34, crawl offline de cuatro
 promociones, validación de datos y publish con datos públicos presentes y
 estado privado ausente.
@@ -862,15 +862,31 @@ No se evade el control de la sede. El canal se traslada a la publicación
 oficial y pública de bandos y avisos del propio Ayuntamiento de Los Molinos,
 en `www.ayuntamiento-losmolinos.es/?post_type=lsvr_notice`. El selector
 acotado `.post__title` produjo 15 entradas y fuente sana en un smoke HTTP real;
-BOCM, BOE, PCSP y la matriz web mantienen la redundancia central. Falta
-confirmar el nuevo host desde GitHub.
+BOCM, BOE, PCSP y la matriz web mantienen la redundancia central.
+
+La ejecución
+[`30359180713`](https://github.com/Javiig13/SierraNueva/actions/runs/30359180713)
+confirmó después el nuevo canal: `tablon-los-molinos` terminó sano con 15
+entradas. Publicó 47 promociones desde 46/46 fuentes comerciales, mantuvo
+179/179 municipios, ejecutó las 716 consultas y desplegó Pages con `runId`
+`20260728T124855983Z`; la IA siguió omitida. El único parcial fue un HTTP 500
+aislado de `tablon-san-lorenzo`, sano en los dos pases anteriores: 64 fuentes
+sanas, una degradada y ninguna en fallo reiterado.
+
+Ese pase reveló además un falso negativo del crawler comercial: una respuesta
+`304 Not Modified` dejaba cero páginas para extraer y contaba como ausencia.
+Tras tres pases podía desactivar una promoción aunque el servidor confirmase
+que la ficha no había cambiado. El merge reconoce ahora las URLs
+`HTTP_NOT_MODIFIED` como vistas, actualiza `LastSeenUtc`, reinicia ausencias y
+reactiva el estado previo erróneo. La prueba reproduce tres 304 consecutivos y
+la recuperación; una ausencia real sigue desactivando tras el umbral.
 
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: confirmar en GitHub el canal público alternativo del
-Ayuntamiento de Los Molinos y exportar el nuevo recuento cifrado de la cola.
-Después, continuar con los candidatos medios; la matriz ya está comprobada y
-no debe sustituir esa revisión.
+Prioridad inmediata: desplegar la corrección de los `304 Not Modified`,
+comprobar la reactivación segura de las tres fichas afectadas y exportar el
+nuevo recuento cifrado de la cola. Después, continuar con los candidatos
+medios; la matriz ya está comprobada y no debe sustituir esa revisión.
 
 1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un
