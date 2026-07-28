@@ -909,13 +909,21 @@ conservado está incompleto. La paleta pasa de monocromo verde a una combinació
 de azul noche, esmeralda, coral, violeta y ámbar, con contraste medido por la
 suite E2E y sin imágenes ni dependencias externas.
 
+El commit `d257955` superó la baseline local con 178/178 pruebas y se publicó
+mediante la ejecución
+[`30382540723`](https://github.com/Javiig13/SierraNueva/actions/runs/30382540723).
+El resultado comercial volvió a ser completo: 46/46 fuentes correctas, cero
+fallos, 47 promociones publicadas y 46 activas en el `runId`
+`20260728T174035404Z`. Se reactivaron Quercus Dorf, Névola, Los Molinos, Los
+Molinos II y Los Pinarejos. Pages muestra el nuevo diseño y los tres caminos
+privados comprobados continúan en HTTP 404. La IA se omitió y no consumió
+saldo.
+
 ## Próximo trabajo recomendado
 
-Prioridad inmediata: dejar descansar las fuentes hasta la siguiente ventana
-diaria, comprobar entonces la recuperación de Los Molinos, Los Molinos II y
-Quercus Dorf, y exportar el nuevo recuento cifrado de la cola. Después,
-continuar con los candidatos medios; la matriz ya está comprobada y no debe
-sustituir esa revisión.
+Prioridad inmediata: exportar el nuevo recuento cifrado de la cola y continuar
+con los candidatos medios; la matriz y la recuperación comercial ya están
+comprobadas y no deben sustituir esa revisión.
 
 1. Vigilar las 46 fichas comerciales automatizadas, las fichas manuales de
    Miraflores Villas/Hirimasa y las decisiones de triaje. Reabrir un

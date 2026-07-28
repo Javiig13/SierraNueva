@@ -28,13 +28,14 @@ requiere trabajo de producto.
   franja operativa inferior a 90 px, amplió el lienzo hasta 1.980 px, ocultó
   celdas vacías, muestra completitud y separa visualmente marcadores
   coincidentes, protegido por E2E.
-- **Hecho local:** tercera iteración en formato aplicación de altura completa:
+- **Verificado Pages:** tercera iteración en formato aplicación de altura completa:
   mapa persistente, scroll independiente y acotado del listado, zoom Leaflet
   con rueda y una paleta multicolor con respaldos sólidos para contraste. El
   estado parcial deja de ocupar una franja y explica cuántas fuentes se
   verificaron ahora y cuántas conservan su último dato válido. Dos nuevas
   pruebas de navegador cubren scroll y rueda sin retirar las comprobaciones
-  responsive y de accesibilidad.
+  responsive y de accesibilidad. La ejecución `30382540723` publicó el cambio
+  con 46/46 fuentes comerciales correctas.
 - **Hecho:** invalidación por versión de la caché de los cuatro recursos
   públicos para mostrar cada dataset desplegado sin mezclar revisiones.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
@@ -628,6 +629,11 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   repetir el lote hasta la ventana diaria; entonces hay que comprobar las tres
   fichas cuyos canales estuvieron entre los fallidos y exportar la cola
   cifrada.
+- **Verificado remoto:** `30382540723` resolvió la fotografía parcial después
+  de dejar descansar las fuentes: 46/46 correctas, cero fallos, 47 promociones
+  publicadas y 46 activas. Reactivó Quercus Dorf, Névola, Los Molinos, Los
+  Molinos II y Los Pinarejos, desplegó el nuevo workspace y mantuvo el estado
+  privado fuera de Pages. La IA se omitió.
 - **Criterio de aceptación:** 179 municipios/centroides validados, 716
   consultas configuradas sin muestreo, inventario sin datos personales,
   baseline offline verde y workflow live observado sin pérdida del último
