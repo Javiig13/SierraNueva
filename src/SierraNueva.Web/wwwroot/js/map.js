@@ -131,9 +131,16 @@
       if (!state) {
         const map = L.map(element, {
           zoomControl: false,
-          scrollWheelZoom: false,
+          scrollWheelZoom: true,
+          wheelDebounceTime: 35,
+          wheelPxPerZoomLevel: 70,
           preferCanvas: false
         }).setView([40.68, -3.9], 10);
+        const syncZoom = () => {
+          element.dataset.zoom = String(map.getZoom());
+        };
+        map.on("zoomend", syncZoom);
+        syncZoom();
         L.control.zoom({ position: "bottomright" }).addTo(map);
         L.tileLayer(tileUrl, {
           attribution,
@@ -207,6 +214,7 @@
           paddingBottomRight: [42, 42]
         });
       }
+      element.dataset.zoom = String(state.map.getZoom());
       applyHighlight(state, state.highlightedId);
       setTimeout(() => state.map.invalidateSize(), 0);
     },
@@ -227,6 +235,7 @@
         maps.delete(element);
       }
       delete element.dataset.featureCount;
+      delete element.dataset.zoom;
     }
   };
 })();

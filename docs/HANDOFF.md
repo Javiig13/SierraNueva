@@ -216,10 +216,10 @@ La última comprobación completa antes de esta entrega obtuvo:
 SDK usado y fijado:  10.0.301
 Build Release:       correcto, 0 advertencias, 0 errores
 Tests Core:          25 correctos
-Tests Infrastructure:142 correctos
+Tests Infrastructure:143 correctos
 Tests Web:           5 correctos
-Tests Web E2E:       3 correctos
-Total:               176/176 correctos
+Tests Web E2E:       5 correctos
+Total:               178/178 correctos
 Formato:             sin cambios requeridos
 validate-config:     1 fuente, 179 municipios, 179 centroides, 34 radar, 569 actores
 validate-config live:48 fuentes, 179 municipios, 179 centroides, 66 radar, 569 actores
@@ -836,7 +836,7 @@ canónicas distintas de la URL técnica de extracción se declaran y validan
 contra `allowedHosts`; nunca se verifican por dominio completo.
 
 La baseline posterior quedó verde con SDK `10.0.301`: restore, build Release
-sin advertencias, 176/176 tests —25 Core, 143 Infrastructure, 5 Web y 3 E2E—,
+sin advertencias, 178/178 tests —25 Core, 143 Infrastructure, 5 Web y 5 E2E—,
 formato, configuración, radar offline 34/34, crawl offline de cuatro
 promociones, validación de datos y publish con datos públicos presentes y
 estado privado ausente.
@@ -892,6 +892,22 @@ no se sustituyó el dataset por una salida vacía. Los Molinos, Los Molinos II y
 Quercus Dorf siguen inactivos porque sus tres fuentes estuvieron entre las
 fallidas, no porque la corrección de 304 fallase. Deben recuperarse en la
 siguiente ventana diaria, sin encadenar más peticiones.
+
+La interfaz se reorganizó después como un espacio de exploración de altura
+completa en escritorio. El documento ya no se desplaza: el mapa permanece
+visible y el listado usa su propio scroll con `overscroll-behavior` acotado.
+Leaflet admite zoom con la rueda y expone su nivel únicamente para la prueba
+E2E. Dos regresiones de navegador comprueban que la rueda sobre el listado no
+mueve la página ni el mapa y que la rueda sobre el mapa cambia el zoom. En
+móvil se conserva la navegación por pestañas y el scroll normal del documento.
+
+El aviso ancho de «actualización parcial» se sustituyó por información
+operativa junto al recuento: separa fuentes verificadas en la ejecución de
+fuentes cuyo último dato válido ha quedado protegido. No se oculta ni se
+reclasifica un fallo; se elimina la impresión incorrecta de que el dataset
+conservado está incompleto. La paleta pasa de monocromo verde a una combinación
+de azul noche, esmeralda, coral, violeta y ámbar, con contraste medido por la
+suite E2E y sin imágenes ni dependencias externas.
 
 ## Próximo trabajo recomendado
 

@@ -84,13 +84,6 @@
             </div>
         </section>
 
-        @if (_data.Run.Status == RunStatus.PartialSuccess)
-        {
-            <div class="notice notice-warning" role="status">
-                <strong>Actualización parcial.</strong>
-                Algunas fuentes fallaron; se conservan sus últimos datos válidos.
-            </div>
-        }
         @if (_data.Run.DataFreshness.IsStale)
         {
             <div class="notice notice-stale" role="status">
@@ -113,7 +106,21 @@
                             @Filtered.Count
                             <span>@(Filtered.Count == 1 ? "opción encontrada" : "opciones encontradas")</span>
                         </h2>
-                        <p>Mapa y listado sincronizados · los datos ausentes no se estiman.</p>
+                        @if (_data.Run.Status == RunStatus.PartialSuccess)
+                        {
+                            <p class="source-health source-health-protected" role="status">
+                                <i aria-hidden="true"></i>
+                                <strong>@_data.Run.SuccessfulSources verificadas ahora</strong>
+                                <span>· @_data.Run.FailedSources con su último dato protegido</span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="source-health">
+                                <i aria-hidden="true"></i>
+                                Mapa y listado sincronizados · usa la rueda para acercar
+                            </p>
+                        }
                     </div>
                     <label class="sort-field">
                         <span>Orden</span>
@@ -160,7 +167,9 @@
                     <div id="panel-list"
                          class="cards-column mobile-@_mobileTab"
                          role="tabpanel"
-                         aria-labelledby="tab-list">
+                         aria-labelledby="tab-list"
+                         aria-label="Listado de promociones"
+                         tabindex="0">
                         @if (Filtered.Count == 0)
                         {
                             <div class="empty-results">
@@ -391,7 +400,7 @@
         return status switch
         {
             RunStatus.Success => "Revisión completada",
-            RunStatus.PartialSuccess => "Revisión parcial",
+            RunStatus.PartialSuccess => "Datos anteriores protegidos",
             RunStatus.Failed => "Última revisión fallida",
             _ => "Datos pendientes de validación"
         };

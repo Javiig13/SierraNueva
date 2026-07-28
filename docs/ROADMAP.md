@@ -28,6 +28,13 @@ requiere trabajo de producto.
   franja operativa inferior a 90 px, amplió el lienzo hasta 1.980 px, ocultó
   celdas vacías, muestra completitud y separa visualmente marcadores
   coincidentes, protegido por E2E.
+- **Hecho local:** tercera iteración en formato aplicación de altura completa:
+  mapa persistente, scroll independiente y acotado del listado, zoom Leaflet
+  con rueda y una paleta multicolor con respaldos sólidos para contraste. El
+  estado parcial deja de ocupar una franja y explica cuántas fuentes se
+  verificaron ahora y cuántas conservan su último dato válido. Dos nuevas
+  pruebas de navegador cubren scroll y rueda sin retirar las comprobaciones
+  responsive y de accesibilidad.
 - **Hecho:** invalidación por versión de la caché de los cuatro recursos
   públicos para mostrar cada dataset desplegado sin mezclar revisiones.
 - **Hecho:** auditoría básica responsive, teclado, contraste y semántica de
@@ -592,7 +599,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   correcto sin Playwright ni geocodificación.
 - **Hecho local:** el perfil live pasa a 48 fuentes —46 automáticas— y el radar
   a 66 canales —65 activos—, 30 comerciales: 23 sitemaps y 10 índices HTML.
-  La baseline completa queda en 176/176 pruebas y publish sin estado privado.
+  La baseline completa queda en 178/178 pruebas y publish sin estado privado.
 - **Verificado remoto:** el commit `dcb68fc` superó CI `30354283967` y la
   ejecución `30354344817` desplegó Pages con 47 promociones —43 activas—, seis
   altas, dos cambios y 46/46 fuentes comerciales correctas. La matriz completó
@@ -631,7 +638,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | # | Criterio | Estado | Evidencia o siguiente paso |
 |---:|---|---|---|
 | 1 | Compila en .NET 10 | Hecho | SDK fijado y build Release correcto |
-| 2 | Todos los tests pasan | Hecho | 176/176 en la entrega |
+| 2 | Todos los tests pasan | Hecho | 178/178 en la entrega |
 | 3 | Crawler ejecutable localmente | Hecho | CLI y scripts |
 | 4 | Crawler offline contra fixtures | Hecho | 4 promociones sintéticas |
 | 5 | Fuente real permitida con Internet | Hecho | 48 revisadas; 46 automáticas y 2 manuales por bloqueo |
@@ -659,7 +666,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 27 | README permite ejecutar desde cero | Hecho | scripts y comandos manuales |
 | 28 | Sin código esencial pendiente | Hecho | vertical local, cobertura P1/P2 y registro continuo P5 completos; ampliación de fuentes incremental |
 | 29 | Repo limpio y estructurado | Hecho | monorepo y Git local |
-| 30 | `dotnet test` ejecutado e informado | Hecho | 176/176 en la entrega |
+| 30 | `dotnet test` ejecutado e informado | Hecho | 178/178 en la entrega |
 
 ## Fuera de esta hoja de ruta inmediata
 

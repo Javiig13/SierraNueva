@@ -205,17 +205,17 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 42 definiciones revisadas y limitadas:
-40 están automatizadas; Miraflores Villas e Hirimasa se conservan
+`config/sources.live.json` contiene 48 definiciones revisadas y limitadas:
+46 están automatizadas; Miraflores Villas e Hirimasa se conservan
 deshabilitadas para comprobación manual porque sus fichas bloquean de forma
 reiterada al runner de GitHub. El sitemap de Hirimasa continúa activo en el
 radar. El perfil nunca se usa en la baseline ni en pruebas automáticas.
 
 El radar sigue el mismo principio. `config/discovery-sources.json` usa 33
 fuentes con fixtures y es completamente offline.
-`config/discovery-sources.live.json` contiene 64 fuentes y habilita 63:
-cuatro canales centrales, 28 fuentes municipales, 21 sitemaps de dominios
-comerciales oficiales, siete índices HTML comerciales acotados y tres canales
+`config/discovery-sources.live.json` contiene 66 fuentes y habilita 65:
+cuatro canales centrales, fuentes municipales, 23 sitemaps de dominios
+comerciales oficiales, diez índices HTML comerciales acotados y tres canales
 privados de descubrimiento sectorial de SIMA, más una matriz web privada
 SearXNG. La parte
 municipal comprende cinco tablones
@@ -683,7 +683,7 @@ sigue funcionando.
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; levanta SearXNG, ejecuta las 716 consultas, actualiza después
   el resto del radar y su cobertura privada, usa las
-  25 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  46 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último
   dataset comercial válido.

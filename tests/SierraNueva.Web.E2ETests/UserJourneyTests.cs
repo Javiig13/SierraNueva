@@ -76,6 +76,69 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
     }
 
     [Fact]
+    public async Task DesktopKeepsMapVisibleWhileOnlyTheResultsListScrolls()
+    {
+        await using IBrowserContext context = await fixture.CreateContextAsync(1440, 900);
+        IPage page = await context.NewPageAsync();
+
+        await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
+        ILocator map = page.Locator(".map");
+        ILocator list = page.Locator(".cards-column");
+        await Expect(map).ToHaveAttributeAsync("data-feature-count", "4");
+
+        float mapTopBefore = (await map.BoundingBoxAsync())?.Y ?? -1;
+        double pageScrollBefore = await page.EvaluateAsync<double>("() => window.scrollY");
+        await list.EvaluateAsync(
+            """
+            element => {
+              const cards = [...element.querySelectorAll(".promotion-card")];
+              for (let repeat = 0; repeat < 2; repeat += 1) {
+                cards.forEach(card => element.append(card.cloneNode(true)));
+              }
+            }
+            """);
+        await list.HoverAsync();
+        await page.Mouse.WheelAsync(0, 700);
+        await page.WaitForFunctionAsync(
+            "element => element.scrollTop > 0",
+            await list.ElementHandleAsync());
+        double listScroll = await list.EvaluateAsync<double>("element => element.scrollTop");
+        double pageScrollAfter = await page.EvaluateAsync<double>("() => window.scrollY");
+        float mapTopAfter = (await map.BoundingBoxAsync())?.Y ?? -2;
+
+        Assert.True(listScroll > 0, "El listado no absorbió el desplazamiento.");
+        Assert.Equal(pageScrollBefore, pageScrollAfter);
+        Assert.InRange(Math.Abs(mapTopAfter - mapTopBefore), 0, 1);
+    }
+
+    [Fact]
+    public async Task MouseWheelZoomsTheMap()
+    {
+        await using IBrowserContext context = await fixture.CreateContextAsync(1440, 900);
+        IPage page = await context.NewPageAsync();
+
+        await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
+        ILocator map = page.Locator(".map");
+        await Expect(map).ToHaveAttributeAsync("data-feature-count", "4");
+        int zoomBefore = int.Parse(
+            await map.GetAttributeAsync("data-zoom") ??
+            throw new InvalidOperationException("Leaflet no expuso el zoom inicial."),
+            System.Globalization.CultureInfo.InvariantCulture);
+
+        await map.HoverAsync(new() { Position = new() { X = 500, Y = 300 } });
+        await page.Mouse.WheelAsync(0, -600);
+        await Expect(map).Not.ToHaveAttributeAsync(
+            "data-zoom",
+            zoomBefore.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        int zoomAfter = int.Parse(
+            await map.GetAttributeAsync("data-zoom") ??
+            throw new InvalidOperationException("Leaflet no actualizó el zoom."),
+            System.Globalization.CultureInfo.InvariantCulture);
+
+        Assert.True(zoomAfter > zoomBefore);
+    }
+
+    [Fact]
     public async Task KeyboardSemanticsAndKeyTextMeetBasicAccessibilityChecks()
     {
         await using IBrowserContext context = await fixture.CreateContextAsync(1440, 1000);
