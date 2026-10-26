@@ -1005,8 +1005,36 @@ identidad y enriquecimiento revisado incluso tras varios cambios de nombre, sin
 confundir una página de origen JSON-LD compartida ni fusionar identidades
 ambiguas. Estas regresiones elevan la suite local a 208 pruebas.
 
-Queda por verificar el siguiente despliegue completo que incorpore esta
-adaptación de Soldit; el smoke aislado no acredita todavía su publicación.
+El cierre remoto quedó verificado sobre `fcb649c`, con CI Linux
+[`40409990597`](https://github.com/Javiig13/SierraNueva/actions/runs/40409990597)
+y despliegue completo
+[`40410451805`](https://github.com/Javiig13/SierraNueva/actions/runs/40410451805).
+Pages sirve `20261026T224314513Z`, finalizado a las 23:46 hora de Madrid:
+47 promociones, 46 activas, 24 con precio, 47 puntos de mapa y 43/46 fuentes
+correctas. Albor aparece con los datos actuales y el identificador original,
+sin alta duplicada ni reinicio de la primera observación. Permanecen fallidas
+Móstoles Polar, Quercus Dorf y Osnola, con su último dato protegido y advertencia
+de antigüedad por ficha; no se confirma su disponibilidad.
+
+El segundo pase restauró correctamente `crawler-state-40400108357` y registró
+`PRIVATE_STATE_MISSING=false`: se comprobó tanto la recuperación sin caché del
+primer pase como la continuidad con estado privado del siguiente. La matriz
+completó de nuevo las 716 consultas, conservando 615 elementos; radar, backfill
+de 31 días, auditoría y triaje terminaron correctamente. La cola contiene 530
+pendientes: 37 altos, 169 medios, 318 bajos y 6 duplicados probables. La
+incidencia #1 se actualizó a 43/46 y 32 altas nuevas prioritarias sin revisar,
+retiró el aviso de caché caducada y añadió un único comentario por los cambios
+reales de salud. La IA volvió a omitirse.
+
+El checkpoint final es `9c30ebbcffac7ff283d68d3ffab931ae442d6387`,
+descendiente del checkpoint anterior: contiene solo los cinco contratos y sus
+blobs coinciden byte a byte con Pages. Las 47 identidades del dataset de
+septiembre se mantienen también en GeoJSON. El navegador real verifica el
+resumen 43/46, Albor y mapa visible, sin desbordamiento de documento a
+1440×1000. Los tres caminos privados siguen en 404 y el workflow está
+`active`, con horario diario 06:17 `Europe/Madrid`. Todavía no se ha observado
+el próximo disparo automático; no se garantiza continuidad de terceros ni
+cobertura exhaustiva del mercado.
 
 ## Próximo trabajo recomendado
 

@@ -58,6 +58,12 @@ sin Playwright ni geocodificación. Conservó las 47 identidades del checkpoint,
 URL, unidades, dormitorios y precio actuales. La salida y el estado del smoke
 son temporales y no se emplean para desplegar el resto de fuentes.
 
+El despliegue completo
+[`40410451805`](https://github.com/Javiig13/SierraNueva/actions/runs/40410451805)
+publicó y verificó la misma ficha en Pages y en el checkpoint, junto a las
+otras 46 identidades protegidas. El resultado comercial terminó con 43/46
+fuentes correctas; Soldit ya no figura entre las fallidas.
+
 El radar diario añade los sitemaps oficiales de Grupo Insur, Soldit Homes y
 GEMG, más el índice HTML de promociones de Grupo Egido. Los smokes aislados
 procesaron respectivamente 61/4, 10/1, 12/2 y 13/13
