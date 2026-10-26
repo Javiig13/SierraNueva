@@ -1,0 +1,873 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "sn-03f0ba9859441931178b",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.865398528,
+          40.32271371
+        ]
+      },
+      "properties": {
+        "name": "Villa 2 M\u00F3stoles",
+        "municipality": "M\u00F3stoles",
+        "priceFrom": 580000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-2-mostoles"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-05cc1288d57aa7135f01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.865187,
+          40.72681157
+        ]
+      },
+      "properties": {
+        "name": "Residencial Villa B\u00E1rbara- Madrid",
+        "municipality": "Manzanares el Real",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://galivivienda.com/residencial-villa-barbara"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-0e6a8db8d6244149edb1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.692752779,
+          40.78487273
+        ]
+      },
+      "properties": {
+        "name": "N\u00E9vola Homes - Donde tu vida respira m\u00E1s",
+        "municipality": "Guadalix de la Sierra",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://nevolahomes.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-105d6c245b81db72bdfe",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.692752779,
+          40.78487273
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n Prado de Noria",
+        "municipality": "Guadalix de la Sierra",
+        "priceFrom": 479500,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://antaro.es/promociones/prado-de-noria"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-111edbcc28eb293dc5e9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.238261978,
+          40.50079633
+        ]
+      },
+      "properties": {
+        "name": "ROBLEDO DE CHAVELA",
+        "municipality": "Robledo de Chavela",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.vesari.info/robledo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-138d4d188fe07c2278bd",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.732332146,
+          40.30555125
+        ]
+      },
+      "properties": {
+        "name": "Los Molinos",
+        "municipality": "Getafe",
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.impulsaproyectos.com/proyectos/los-molinos"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-1da891935c399b2d99c7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.709861585,
+          40.85908309
+        ]
+      },
+      "properties": {
+        "name": "Residencial Montemilano - Bustarviejo",
+        "municipality": "Bustarviejo",
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://residencialmontemilano.es/registro"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-1fdd940359dbd9b8c585",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.991592449,
+          40.64579798
+        ]
+      },
+      "properties": {
+        "name": "Residencial Puerta de Villalba",
+        "municipality": "Collado Villalba",
+        "priceFrom": 695500,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://apremyahomes.es/residencial-puerta-de-villalba"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-2150a20c3210232d866c",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.901882,
+          40.358607
+        ]
+      },
+      "properties": {
+        "name": "Viviendas en Villaviciosa de Od\u00F3n",
+        "municipality": "Villaviciosa de Od\u00F3n",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-en-villaviciosa-de-odon"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-27edc347609d8c343908",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.547793323,
+          40.35497882
+        ]
+      },
+      "properties": {
+        "name": "Chalets en Rivas",
+        "municipality": "Rivas-Vaciamadrid",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-en-rivas-vaciamadrid"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-2d41dbff5847f740bc66",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.929300988,
+          40.5756
+        ]
+      },
+      "properties": {
+        "name": "Krest",
+        "municipality": "Torrelodones",
+        "priceFrom": 1130000,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "exactCoordinates",
+        "canonicalUrl": "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/krest"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-337b2cba17be02a09f54",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.901882,
+          40.358607
+        ]
+      },
+      "properties": {
+        "name": "Chalets en Villaviciosa de Od\u00F3n",
+        "municipality": "Villaviciosa de Od\u00F3n",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-villaviciosa-de-odon"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-38c0794761a65a37692a",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.023479111,
+          40.65886957
+        ]
+      },
+      "properties": {
+        "name": "RESIDENCIAL ALPEDRETE LA BELLOTA",
+        "municipality": "Alpedrete",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://residencialalpedrete.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-3a25aa72a5e99afbf231",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.181377779,
+          40.54730901
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n Residencial Claveles - NUVARE",
+        "municipality": "Zarzalejo",
+        "priceFrom": 380000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://nuvare.es/promocion-residencial-claveles"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-3d9e1e4f7ae4a7c4d68d",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.006090877,
+          40.5805253
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n Essentia Galapagar",
+        "municipality": "Galapagar",
+        "priceFrom": 875000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://stancehomes.es/promocion-essentia-galapagar"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-41ba38fc851df8e5ce71",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.920170778,
+          40.71710553
+        ]
+      },
+      "properties": {
+        "name": "El Mirador de Sierra Bonita",
+        "municipality": "El Boalo",
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://grupoindexmadrid.com/el-mirador-de-sierra-bonita-el-boalo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-49bb93639aa9914bebfa",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.865187,
+          40.72681157
+        ]
+      },
+      "properties": {
+        "name": "Chalets de obra nueva en Manzanares el Real - LA QUINTA DE MANZANARES",
+        "municipality": "Manzanares el Real",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.laquintademanzanares.com/manzanares.html"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-4c126735cf3dbd426068",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.732332146,
+          40.30555125
+        ]
+      },
+      "properties": {
+        "name": "Los Molinos II",
+        "municipality": "Getafe",
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.impulsaproyectos.com/proyectos/los-molinos-2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-4f40fe133bd811ff7ca1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.813932585,
+          40.43437971
+        ]
+      },
+      "properties": {
+        "name": "Pinea de Pozuelo | Naiz Homes",
+        "municipality": "Pozuelo de Alarc\u00F3n",
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://naizhomes.com/promociones/pineadepozuelo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-4f531d02a0414f323dbd",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.971736269,
+          40.67907394
+        ]
+      },
+      "properties": {
+        "name": "Doce Fresnos | Chalets Pareados",
+        "municipality": "Moralzarzal",
+        "priceFrom": 465000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://docefresnos.es/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-5c22bf3666df23587ad0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.181377779,
+          40.54730901
+        ]
+      },
+      "properties": {
+        "name": "PROMOCI\u00D3N OSNOLA ZARZALEJO",
+        "municipality": "Zarzalejo",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://stancehomes.es/promocion-osnola-zarzalejo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-6f0f0f9b166829e1abab",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.971736269,
+          40.67907394
+        ]
+      },
+      "properties": {
+        "name": "Moralzarzal, C/ Pradillos, zona de las Hachazuelas",
+        "municipality": "Moralzarzal",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://hirimasa.com/promociones-en-venta"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-6f41bf5d2e685c0548d6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.813932585,
+          40.43437971
+        ]
+      },
+      "properties": {
+        "name": "Aceris de Pozuelo | Naiz Homes",
+        "municipality": "Pozuelo de Alarc\u00F3n",
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://naizhomes.com/promociones/acerisdepozuelo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-789b45e6824b710b00f0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.879174285,
+          40.40782161
+        ]
+      },
+      "properties": {
+        "name": "VIRIDIANA",
+        "municipality": "Boadilla del Monte",
+        "priceFrom": 1232000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://cambrija.es/obra-nueva-viridiana"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-7a52e405d042f9fb40ef",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.148963237,
+          40.5914354
+        ]
+      },
+      "properties": {
+        "name": "Etria : Una vivienda nueva para una vida ya construida",
+        "municipality": "San Lorenzo de El Escorial",
+        "priceFrom": 590000,
+        "commercialStatus": "preSales",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://trinosa.com/etria"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-7b4abaefa2129d5748fc",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.879174285,
+          40.40782161
+        ]
+      },
+      "properties": {
+        "name": "Chalets en Boadilla del Monte",
+        "municipality": "Boadilla del Monte",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-7b895038cd822cbe3ce0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.006090877,
+          40.5805253
+        ]
+      },
+      "properties": {
+        "name": "RESIDENCIAL NAVATA NATURE",
+        "municipality": "Galapagar",
+        "priceFrom": 915000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.altter.es/residencial-navata-nature"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-7c379964d348a00ddc96",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.015144008,
+          40.29082426
+        ]
+      },
+      "properties": {
+        "name": "Villa 6 Navalcarnero | Fase 2",
+        "municipality": "Navalcarnero",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-800ac4ca68c91f2072e6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.006090877,
+          40.5805253
+        ]
+      },
+      "properties": {
+        "name": "Living Natura, viviendas de obra nueva en La Colonia de Torrelodones",
+        "municipality": "Galapagar",
+        "priceFrom": 995000,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.exxacon.es/promocion/living-natura"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-883e20dbcbd5d0209a64",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.865187,
+          40.72681157
+        ]
+      },
+      "properties": {
+        "name": "Montelago Residencial",
+        "municipality": "Manzanares el Real",
+        "priceFrom": 543500,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://galivivienda.com/chalets-obra-nueva-montelago-residencial"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-90d3952f4dae056cbffa",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.9977407,
+          40.40543263
+        ]
+      },
+      "properties": {
+        "name": "Nuevo Brunete",
+        "municipality": "Brunete",
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://soldithomes.es/promociones/nuevo-brunete"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-92a3d079e7fff7fbfd05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.879174285,
+          40.40782161
+        ]
+      },
+      "properties": {
+        "name": "Bonart",
+        "municipality": "Boadilla del Monte",
+        "priceFrom": 3200000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://trinosa.com/promocion/bonart"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-93f1752f47856556240b",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.08879044,
+          40.67252357
+        ]
+      },
+      "properties": {
+        "name": "Quercus Dorf Guadarrama",
+        "municipality": "Guadarrama",
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.gilmar.es/inmueble/quercus-dorf-guadarrama"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-9465b90aee10b4e90352",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.364867022,
+          40.48179286
+        ]
+      },
+      "properties": {
+        "name": "Insur Cal\u00EDope",
+        "municipality": "Alcal\u00E1 de Henares",
+        "priceFrom": 568000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://grupoinsur.com/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-a02e900690cb63696338",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.989401413,
+          40.71626362
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n Los Trigales",
+        "municipality": "Becerril de la Sierra",
+        "priceFrom": 395013,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://antaro.es/promociones/los-trigales"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-a063e355d43904a5ca6c",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.929300988,
+          40.5756
+        ]
+      },
+      "properties": {
+        "name": "Onix",
+        "municipality": "Torrelodones",
+        "priceFrom": 1130000,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "exactCoordinates",
+        "canonicalUrl": "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/onix"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-a6072f15a84f29722351",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.692752779,
+          40.78487273
+        ]
+      },
+      "properties": {
+        "name": "TOMILLAR",
+        "municipality": "Guadalix de la Sierra",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.vesari.info/guadalix"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-a90acb677e194f8d860d",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.920199355,
+          40.26770955
+        ]
+      },
+      "properties": {
+        "name": "Arroyo Homes",
+        "municipality": "Arroyomolinos",
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.bimaran.es/promociones-en-curso/arroyo-homes/arroyomolinos/madrid"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-b52291028ee546de9924",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.618284189,
+          40.15895288
+        ]
+      },
+      "properties": {
+        "name": "NovaCiempozuelos | Grupo Egido",
+        "municipality": "Ciempozuelos",
+        "commercialStatus": "upcoming",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://grupoegido.es/obra-nueva-madrid/ciempozuelos/novaciempozuelos"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-c1b6a7022854d96029a0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.920170778,
+          40.71710553
+        ]
+      },
+      "properties": {
+        "name": "Residencial El Boalo",
+        "municipality": "El Boalo",
+        "priceFrom": 499000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.inarahomes.com/inara-smart-homes-viviendas-eco-eficientes-e-innovadoras"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-d789253bb09b3c7a8ce7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.015144008,
+          40.29082426
+        ]
+      },
+      "properties": {
+        "name": "Villa 6 Navalcarnero | Fase 1",
+        "municipality": "Navalcarnero",
+        "priceFrom": 568000,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-d897b466d4b7cc8cf59d",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.005406479,
+          40.44657586
+        ]
+      },
+      "properties": {
+        "name": "Mirage",
+        "municipality": "Villanueva de la Ca\u00F1ada",
+        "priceFrom": 790800,
+        "commercialStatus": "onSale",
+        "locationPrecision": "exactCoordinates",
+        "canonicalUrl": "https://www.kronoshomes.com/es/proyectos-obra-nueva/madrid/mirage"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-da575fc0ef66ec5680e8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.148963237,
+          40.5914354
+        ]
+      },
+      "properties": {
+        "name": "CUARTET O",
+        "municipality": "San Lorenzo de El Escorial",
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.vesari.info/cuarteto"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-ec2e10ec89aa5f7ee6a4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.920199355,
+          40.26770955
+        ]
+      },
+      "properties": {
+        "name": "Chalets en Arroyomolinos \u2013 Residencial Cielo Arroyomolinos",
+        "municipality": "Arroyomolinos",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://gemg.es/chalets-arroyomolinos-cielo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-f1b1914647ed6f00556e",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.766720793,
+          40.8138022
+        ]
+      },
+      "properties": {
+        "name": "Los Pinarejos - Casas en la sierra de Madrid para vivir todo el a\u00F1o",
+        "municipality": "Miraflores de la Sierra",
+        "priceFrom": 545000,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.lospinarejos.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-f51aed108788f3a7f32c",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.865398528,
+          40.32271371
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n M\u00F3stoles Polar Residencial",
+        "municipality": "M\u00F3stoles",
+        "priceFrom": 481000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://antaro.es/promociones/mostoles-polar-residencial"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-f68a43a6ddb866df06ec",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.676124515,
+          40.82334194
+        ]
+      },
+      "properties": {
+        "name": "Promoci\u00F3n Residencial Cumbres de Navalafuente - NUVARE",
+        "municipality": "Navalafuente",
+        "priceFrom": 543000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://nuvare.es/promocion-cumbres-de-navalafuente"
+      }
+    }
+  ]
+}
