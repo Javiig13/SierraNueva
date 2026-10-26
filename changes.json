@@ -1,8 +1,26 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
-  "runId": "20261026T213557759Z",
+  "generatedAtUtc": "2026-10-26T22:46:36.2752184+00:00",
+  "runId": "20261026T224314513Z",
   "changes": [
+    {
+      "id": "change-e916700387c0484d",
+      "promotionId": "sn-90d3952f4dae056cbffa",
+      "promotionName": "Albor",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T22:46:36.2752184+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "566000"
+        },
+        {
+          "field": "commercialStatus",
+          "previousValue": "Upcoming",
+          "currentValue": "Unknown"
+        }
+      ]
+    },
     {
       "id": "change-b83e10380eedefd2",
       "promotionId": "sn-789b45e6824b710b00f0",
