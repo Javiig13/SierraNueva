@@ -540,6 +540,126 @@ public sealed class PipelineIntegrationTests
         }
     }
 
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Pipeline_RecoversExpiredCacheWithoutLosingFailedSourcesOrReplacingDataOnTotalFailure(bool failAll)
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            DateTimeOffset previousCheck = new(2026, 9, 27, 5, 0, 0, TimeSpan.Zero);
+            FakeClock clock = new(new DateTimeOffset(2026, 10, 26, 20, 0, 0, TimeSpan.Zero));
+            Promotion[] previous =
+            [
+                new()
+                {
+                    Name = "Residencial Cumbre",
+                    Municipality = "Moralzarzal",
+                    CanonicalUrl = "https://example.com/cumbre"
+                },
+                new()
+                {
+                    Name = "Residencial protegido",
+                    Municipality = "Moralzarzal",
+                    CanonicalUrl = "https://example.com/unavailable"
+                }
+            ];
+            foreach (Promotion promotion in previous)
+            {
+                promotion.Id = PromotionIdentity.Create(promotion);
+                promotion.FirstSeenUtc = previousCheck.AddMonths(-2);
+                promotion.LastSeenUtc = previousCheck;
+                promotion.LastChangedUtc = previousCheck;
+                promotion.SourceUrls = [promotion.CanonicalUrl];
+                promotion.SourceKind = SourceKind.OfficialPromoter;
+                promotion.SourceConfidence = 0.9m;
+                promotion.Latitude = 40.675;
+                promotion.Longitude = -3.969;
+                promotion.LocationPrecision = LocationPrecision.MunicipalityCentroid;
+            }
+            string output = Path.Combine(root, "public");
+            await new PublicDataWriter().WriteAsync(
+                output,
+                new()
+                {
+                    RunId = "before-cache-expired",
+                    GeneratedAtUtc = previousCheck,
+                    Promotions = previous
+                },
+                new() { RunId = "before-cache-expired" },
+                new() { RunId = "before-cache-expired" },
+                CancellationToken.None);
+            string priorJson = await File.ReadAllTextAsync(Path.Combine(output, "promotions.json"));
+            MutablePageSource pages = new()
+            {
+                FailedSourceIds = failAll ? ["fixture", "unavailable"] : ["unavailable"],
+                Pages =
+                [
+                    new(
+                        new("https://example.com/cumbre"),
+                        "<html><body><h1>Residencial Cumbre</h1><p>Chalets pareados en Moralzarzal.</p></body></html>",
+                        "text/html",
+                        clock.UtcNow)
+                ]
+            };
+            CrawlRequest baseline = CreateRequest(root);
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(publicDataDirectory: output),
+                new PublicDataWriter(),
+                clock);
+
+            CrawlResult result = await pipeline.RunAsync(new()
+            {
+                Sources =
+                [
+                    baseline.Sources[0],
+                    new()
+                    {
+                        Id = "unavailable",
+                        Name = "Fuente fallida",
+                        Enabled = true,
+                        BaseUrl = "https://example.com",
+                        StartUrls = ["https://example.com/unavailable"]
+                    }
+                ],
+                Municipalities = baseline.Municipalities,
+                Settings = baseline.Settings,
+                OutputDirectory = output,
+                StateDirectory = baseline.StateDirectory
+            }, CancellationToken.None);
+
+            Assert.Equal(2, result.Dataset.Promotions.Count);
+            Promotion protectedPromotion = Assert.Single(
+                result.Dataset.Promotions, promotion => promotion.Id == previous[1].Id);
+            Assert.Equal(previousCheck, protectedPromotion.LastSeenUtc);
+            Assert.Equal(previous[1].FirstSeenUtc, protectedPromotion.FirstSeenUtc);
+            Assert.True(protectedPromotion.Active);
+            Assert.Equal(0, protectedPromotion.ConsecutiveMisses);
+            Assert.DoesNotContain(result.Changes.Changes, change => change.Kind == ChangeKind.Added);
+            Assert.Equal(failAll ? RunStatus.Failed : RunStatus.PartialSuccess, result.Run.Status);
+            Assert.Equal(!failAll, result.HasPublishableData);
+            if (failAll)
+            {
+                Assert.Equal(priorJson, await File.ReadAllTextAsync(Path.Combine(output, "promotions.json")));
+                Assert.False(Directory.Exists(baseline.StateDirectory));
+            }
+            else
+            {
+                IReadOnlyList<Promotion> saved = await new JsonPromotionStateRepository().LoadAsync(
+                    baseline.StateDirectory, CancellationToken.None);
+                Assert.Equal(2, saved.Count);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
     private static CrawlRequest CreateRequest(
         string root,
         SourceDefinition? source = null)
@@ -703,6 +823,8 @@ public sealed class PipelineIntegrationTests
 
         public IReadOnlyList<string> Warnings { get; set; } = [];
 
+        public IReadOnlyList<string> FailedSourceIds { get; set; } = [];
+
         public Task<PageBatch> FetchAsync(
             SourceDefinition source,
             CrawlerSettings settings,
@@ -711,6 +833,11 @@ public sealed class PipelineIntegrationTests
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (FailedSourceIds.Contains(source.Id))
+            {
+                throw new HttpRequestException("Fallo HTTP simulado de la fuente.");
+            }
+
             return Task.FromResult(new PageBatch
             {
                 Pages = Pages,

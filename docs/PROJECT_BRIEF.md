@@ -340,6 +340,13 @@ La implementación usa permisos mínimos, concurrencia, horario diario 06:17
 `data/state`. El estado live se mantiene en caché privada de Actions, no en
 commits del bot.
 
+El refuerzo operativo de octubre conserva además los cinco contratos ya
+públicos en una rama `public-data`, después del despliegue, sin versionar estado
+privado ni modificar las fixtures de `main`. Permite reconstruir el histórico
+comercial cuando caduca la caché. Una incidencia operativa nativa de GitHub
+avisa de fallos y de recuentos de candidatos prioritarios; no introduce
+notificaciones a compradores, servicios externos ni publicación de la cola.
+
 El propietario autorizó hacer público el repositorio. Pages está activo con
 GitHub Actions como fuente y la ejecución manual real `30033934500` desplegó
 correctamente `https://javiig13.github.io/SierraNueva/`, sin incluir

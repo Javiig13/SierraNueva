@@ -40,6 +40,11 @@ jobs:
     name: Crawl and build Pages artifact
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      issues: write
 
     steps:
       - name: Checkout
@@ -79,6 +84,25 @@ jobs:
           --config config/appsettings.live.json
           --sources config/sources.live.json
           --discovery-sources config/discovery-sources.live.json
+
+      - name: Restore the durable public checkpoint
+        id: previous-data
+        shell: pwsh
+        run: |
+          $copies = @(
+            '.runtime/state/promotions-state.json',
+            '.runtime/state/promotions-state.backup-1.json',
+            '.runtime/state/promotions-state.backup-2.json'
+          )
+          $missing = @($copies | Where-Object {
+            Test-Path -LiteralPath $_ -PathType Leaf
+          }).Count -eq 0
+          "private-state-missing=$($missing.ToString().ToLowerInvariant())" |
+            Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          ./scripts/sync-public-data.ps1 -Mode Restore -PublicDirectory .runtime/public
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
+            validate-data --output .runtime/public
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Start private SearXNG search radar
         id: private-search
@@ -204,6 +228,14 @@ jobs:
           --state .runtime/state
           --sample-size 10
 
+      - name: Classify pending opportunities privately
+        id: opportunity-triage
+        continue-on-error: true
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          triage-opportunities
+          --state .runtime/state
+
       - name: Crawl reviewed live sources
         id: live-crawl
         shell: bash
@@ -299,6 +331,19 @@ jobs:
         with:
           path: artifacts/publish/wwwroot
 
+      - name: Upload the five public checkpoint files
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: public-checkpoint
+          path: |
+            .runtime/public/promotions.json
+            .runtime/public/promotions.csv
+            .runtime/public/promotions.geojson
+            .runtime/public/changes.json
+            .runtime/public/run.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Write crawl summary
         shell: pwsh
         env:
@@ -309,12 +354,20 @@ jobs:
           BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
+          TRIAGE_OUTCOME: ${{ steps.opportunity-triage.outcome }}
+          PRIVATE_STATE_MISSING: ${{ steps.previous-data.outputs.private-state-missing }}
           ENRICHMENT_OUTCOME: ${{ steps.promotion-enrichment.outcome }}
           CRAWL_EXIT: ${{ steps.live-crawl.outputs.exit-code }}
         run: |
           $run = Get-Content -Raw -LiteralPath .runtime/public/run.json |
             ConvertFrom-Json
           $coveragePath = '.runtime/state/opportunity-candidates.json'
+          $triageSummary = '- Triaje privado: no disponible'
+          $triagePath = '.runtime/state/opportunity-triage.json'
+          if (Test-Path -LiteralPath $triagePath) {
+            $triage = Get-Content -Raw -LiteralPath $triagePath | ConvertFrom-Json
+            $triageSummary = "- Triaje privado: $($triage.highPriority) alta, $($triage.mediumPriority) media y $($triage.lowPriority) baja; resultado $env:TRIAGE_OUTCOME"
+          }
           if (Test-Path -LiteralPath $coveragePath) {
             $radar = Get-Content -Raw -LiteralPath $coveragePath |
               ConvertFrom-Json
@@ -351,8 +404,36 @@ jobs:
           - Fuentes correctas: $($run.successfulSources)
           - Fuentes fallidas: $($run.failedSources)
           - Run ID: ``$($run.runId)``
+          - Caché comercial ausente al arrancar: $env:PRIVATE_STATE_MISSING; recuperación desde checkpoint público si era necesaria
+          $triageSummary
           $radarSummary
           "@ | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+
+      - name: Open or update the monitoring issue without private candidates
+        id: monitoring-issue
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_OUTCOME: ${{ job.status }}
+          RADAR_OUTCOME: ${{ steps.opportunity-radar.outcome }}
+          SEARCH_OUTCOME: ${{ steps.opportunity-radar.outputs.matrix-outcome }}
+          TRIAGE_OUTCOME: ${{ steps.opportunity-triage.outcome }}
+          PRIVATE_STATE_MISSING: ${{ steps.previous-data.outputs.private-state-missing }}
+          CRAWL_EXIT: ${{ steps.live-crawl.outputs.exit-code }}
+        run: >-
+          ./scripts/update-monitoring-issue.ps1
+          -PublicDirectory .runtime/public
+          -StateDirectory .runtime/state
+
+      - name: Report a monitoring delivery failure without blocking valid data
+        if: always() && steps.monitoring-issue.outcome == 'failure'
+        shell: pwsh
+        run: |
+          Write-Output '::warning::No se pudo actualizar la incidencia de vigilancia; revisar permisos de Issues y este log.'
+          '- Vigilancia: falló la entrega de la alerta de GitHub; no se ha ocultado ni bloqueado el dataset válido.' |
+            Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
 
   deploy:
     name: Deploy GitHub Pages
@@ -367,3 +448,31 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+
+  checkpoint:
+    name: Preserve the deployed public dataset
+    needs: deploy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Download this run's public checkpoint
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download $env:GITHUB_RUN_ID --repo $env:GITHUB_REPOSITORY `
+            --name public-checkpoint --dir .runtime/public
+          if ($LASTEXITCODE -ne 0) {
+            throw 'No se pudo recuperar el checkpoint público de esta ejecución.'
+          }
+
+      - name: Version the actual public data without changing main
+        shell: pwsh
+        run: ./scripts/sync-public-data.ps1 -Mode Save -PublicDirectory .runtime/public

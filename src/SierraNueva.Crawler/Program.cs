@@ -1132,7 +1132,10 @@ internal static class CrawlerApplication
         services.AddSingleton<IPdfTextExtractor, PdfPigTextExtractor>();
         services.AddSingleton<IDynamicPageRenderer, PlaywrightDynamicPageRenderer>();
         services.AddSingleton<IPromotionExtractor, LayeredPromotionExtractor>();
-        services.AddSingleton<IPromotionStateRepository, JsonPromotionStateRepository>();
+        services.AddSingleton<IPromotionStateRepository>(provider =>
+            new JsonPromotionStateRepository(
+                provider.GetRequiredService<ILogger<JsonPromotionStateRepository>>(),
+                options.Command == "crawl" ? options.Output : null));
         services.AddSingleton<IEnrichmentStateRepository, JsonEnrichmentStateRepository>();
         services.AddSingleton<IPublicDataWriter, PublicDataWriter>();
         services.AddSingleton<InternalLinkDiscoveryProvider>();

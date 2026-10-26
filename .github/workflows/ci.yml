@@ -51,6 +51,10 @@ jobs:
       - name: Test
         run: dotnet test SierraNueva.sln -c Release --no-build
 
+      - name: Verify checkpoint recovery and monitoring privacy offline
+        shell: pwsh
+        run: ./scripts/test-automation.ps1
+
       - name: Verify formatting
         run: dotnet format SierraNueva.sln --verify-no-changes --no-restore
 

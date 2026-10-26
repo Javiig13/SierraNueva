@@ -85,6 +85,18 @@
     <div class="card-footer">
         <div class="card-meta">
             <span>@UiFormatting.Source(Promotion.SourceKind)</span>
+            <span class="verification @(IsStale ? "verification-stale" : null)"
+                  title="Última comprobación satisfactoria de la ficha; no garantiza disponibilidad actual.">
+                @if (Promotion.LastSeenUtc == default)
+                {
+                    <span>Sin comprobación registrada</span>
+                }
+                else
+                {
+                    @(IsStale ? "Sin verificar desde" : "Comprobada")
+                    <time datetime="@Promotion.LastSeenUtc.ToString("O")">@UiFormatting.Date(Promotion.LastSeenUtc)</time>
+                }
+            </span>
             <span class="completeness"
                   title="@UiFormatting.CompletenessTitle(Promotion)">
                 <i style="--completeness: @UiFormatting.Completeness(Promotion).ToString(System.Globalization.CultureInfo.InvariantCulture)%"></i>
@@ -107,6 +119,9 @@
     public Promotion Promotion { get; set; } = null!;
 
     [Parameter]
+    public int StaleAfterHours { get; set; } = 96;
+
+    [Parameter]
     public bool IsNew { get; set; }
 
     [Parameter]
@@ -120,6 +135,8 @@
 
     [Parameter]
     public EventCallback<Promotion> OnOpen { get; set; }
+
+    private bool IsStale => UiFormatting.IsStale(Promotion.LastSeenUtc, StaleAfterHours);
 
     private Task OpenAsync()
     {

@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
 
@@ -73,6 +74,51 @@ public sealed class UserJourneyTests(WebApplicationFixture fixture)
         await Expect(page.Locator("#panel-list")).ToBeHiddenAsync();
         Assert.True(await page.EvaluateAsync<bool>(
             "() => document.documentElement.scrollWidth <= document.documentElement.clientWidth"));
+    }
+
+    [Fact]
+    public async Task OldDatasetWarnsEvenWhenThePublishedFreshnessFlagIsFalse()
+    {
+        await using IBrowserContext context = await fixture.CreateContextAsync(1440, 900);
+        DateTimeOffset old = DateTimeOffset.UtcNow.AddDays(-7);
+        bool stale = true;
+        await context.RouteAsync("**/data/promotions.json?*", async route =>
+        {
+            IAPIResponse response = await route.FetchAsync();
+            JsonNode dataset = JsonNode.Parse(await response.TextAsync())!;
+            DateTimeOffset checkedAt = stale ? old : DateTimeOffset.UtcNow;
+            dataset["generatedAtUtc"] = checkedAt;
+            foreach (JsonNode? promotion in dataset["promotions"]!.AsArray())
+            {
+                promotion!["lastSeenUtc"] = checkedAt;
+            }
+
+            await route.FulfillAsync(new() { Response = response, Body = dataset.ToJsonString() });
+        });
+        await context.RouteAsync("**/data/run.json?*", async route =>
+        {
+            IAPIResponse response = await route.FetchAsync();
+            JsonNode report = JsonNode.Parse(await response.TextAsync())!;
+            report["dataFreshness"]!["isStale"] = false;
+            report["dataFreshness"]!["newestSourceCheckUtc"] = stale ? old : DateTimeOffset.UtcNow;
+            report["dataFreshness"]!["staleAfterHours"] = 36;
+            await route.FulfillAsync(new() { Response = response, Body = report.ToJsonString() });
+        });
+        IPage page = await context.NewPageAsync();
+
+        await page.GotoAsync(fixture.BaseAddress.AbsoluteUri);
+
+        await Expect(page.Locator("main > .notice-stale")).ToContainTextAsync("Datos desactualizados");
+        await Expect(page.Locator(".overview-update .run-status")).ToHaveTextAsync("Sin actualización reciente");
+        await Expect(page.Locator(".verification-stale")).ToHaveCountAsync(4);
+        await page.Locator(".card-title-button").First.ClickAsync();
+        await Expect(page.Locator(".detail-panel .notice-stale"))
+            .ToContainTextAsync("no se ha podido verificar recientemente");
+        await page.Keyboard.PressAsync("Escape");
+        stale = false;
+        await page.GetByRole(AriaRole.Button, new() { Name = "Volver a comprobar" }).ClickAsync();
+        await Expect(page.Locator("main > .notice-stale")).ToHaveCountAsync(0);
+        await Expect(page.Locator(".verification-stale")).ToHaveCountAsync(0);
     }
 
     [Fact]

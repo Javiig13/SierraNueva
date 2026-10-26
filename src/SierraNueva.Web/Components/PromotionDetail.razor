@@ -15,6 +15,14 @@
             <span>@UiFormatting.Construction(Promotion.ConstructionStatus)</span>
         </div>
 
+        @if (UiFormatting.IsStale(Promotion.LastSeenUtc, StaleAfterHours))
+        {
+            <p class="notice notice-stale" role="status">
+                Esta ficha no se ha podido verificar recientemente.
+                Conservamos su último dato válido; confirma precio y disponibilidad en la fuente oficial.
+            </p>
+        }
+
         <p class="detail-price">@UiFormatting.Price(Promotion.PriceFrom)</p>
         @if (Promotion.PriceTo.HasValue)
         {
@@ -39,6 +47,10 @@
             <div><dt>Promotora</dt><dd>@(Promotion.DeveloperName ?? "No indicada")</dd></div>
             <div><dt>Fuente</dt><dd>@UiFormatting.Source(Promotion.SourceKind)</dd></div>
             <div><dt>Confianza</dt><dd>@Promotion.SourceConfidence.ToString("P0")</dd></div>
+            <div>
+                <dt>Última comprobación</dt>
+                <dd>@(Promotion.LastSeenUtc == default ? "No registrada" : UiFormatting.Date(Promotion.LastSeenUtc))</dd>
+            </div>
             <div><dt>Localización</dt><dd>@UiFormatting.Location(Promotion.LocationPrecision)</dd></div>
             @if (Promotion.TotalUnits.HasValue)
             {
@@ -141,6 +153,9 @@
 
     [Parameter, EditorRequired]
     public Promotion Promotion { get; set; } = null!;
+
+    [Parameter]
+    public int StaleAfterHours { get; set; } = 96;
 
     [Parameter]
     public IReadOnlyList<PromotionChange> Changes { get; set; } = [];

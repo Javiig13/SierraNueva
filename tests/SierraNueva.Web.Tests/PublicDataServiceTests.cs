@@ -30,6 +30,22 @@ public sealed class PublicDataServiceTests
             handler.Requests.Select(uri => uri.AbsolutePath));
     }
 
+    [Fact]
+    public async Task LoadAsync_UsesANewCacheTokenWhenTheUserChecksAgain()
+    {
+        RecordingHandler handler = new();
+        using HttpClient httpClient = new(handler) { BaseAddress = new("https://example.test/") };
+        PublicDataService service = new(httpClient);
+
+        await service.LoadAsync(CancellationToken.None);
+        await service.LoadAsync(CancellationToken.None);
+
+        Assert.Equal(8, handler.Requests.Count);
+        Assert.Single(handler.Requests.Take(4).Select(uri => uri.Query).Distinct(StringComparer.Ordinal));
+        Assert.Single(handler.Requests.Skip(4).Select(uri => uri.Query).Distinct(StringComparer.Ordinal));
+        Assert.NotEqual(handler.Requests[0].Query, handler.Requests[4].Query);
+    }
+
     private sealed class RecordingHandler : HttpMessageHandler
     {
         public List<Uri> Requests { get; } = [];

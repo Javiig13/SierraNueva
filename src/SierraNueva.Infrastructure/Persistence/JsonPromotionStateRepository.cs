@@ -8,7 +8,8 @@ using SierraNueva.Infrastructure.Serialization;
 namespace SierraNueva.Infrastructure.Persistence;
 
 public sealed class JsonPromotionStateRepository(
-    ILogger<JsonPromotionStateRepository>? logger = null) : IPromotionStateRepository
+    ILogger<JsonPromotionStateRepository>? logger = null,
+    string? publicDataDirectory = null) : IPromotionStateRepository
 {
     private const string StateFileName = "promotions-state.json";
     private const string BackupOneFileName = "promotions-state.backup-1.json";
@@ -18,6 +19,11 @@ public sealed class JsonPromotionStateRepository(
             LogLevel.Warning,
             new EventId(3001, "UnreadablePromotionState"),
             "No se pudo leer el estado {StatePath}; se intentará la siguiente copia.");
+    private static readonly Action<ILogger, int, string, Exception?> LogRecoveredPublicState =
+        LoggerMessage.Define<int, string>(
+            LogLevel.Warning,
+            new EventId(3002, "RecoveredPublicPromotionState"),
+            "No hay estado comercial privado; se recuperan {PromotionCount} promociones del dataset público {DatasetPath}.");
     private readonly ILogger<JsonPromotionStateRepository> _logger =
         logger ?? NullLogger<JsonPromotionStateRepository>.Instance;
 
@@ -59,12 +65,51 @@ public sealed class JsonPromotionStateRepository(
 
         if (failures.Count == 0)
         {
-            return [];
+            return await LoadPublicFallbackAsync(cancellationToken);
         }
 
         throw new InvalidDataException(
             "El estado principal y todas sus copias de seguridad están dañados o no se pueden leer.",
             new AggregateException(failures));
+    }
+
+    private async Task<IReadOnlyList<Promotion>> LoadPublicFallbackAsync(
+        CancellationToken cancellationToken)
+    {
+        if (publicDataDirectory is null)
+        {
+            return [];
+        }
+
+        string path = Path.Combine(publicDataDirectory, "promotions.json");
+        if (!File.Exists(path))
+        {
+            return [];
+        }
+
+        await using FileStream stream = File.OpenRead(path);
+        PromotionDataset? dataset = await JsonSerializer.DeserializeAsync<PromotionDataset>(
+            stream,
+            JsonDefaults.Compact,
+            cancellationToken);
+        if (dataset is null ||
+            dataset.SchemaVersion != "1.0" ||
+            string.IsNullOrWhiteSpace(dataset.RunId) ||
+            dataset.GeneratedAtUtc == default ||
+            dataset.Promotions is not { Count: > 0 } ||
+            dataset.Promotions.Any(promotion =>
+                promotion is null ||
+                string.IsNullOrWhiteSpace(promotion.Id) ||
+                promotion.LastSeenUtc == default) ||
+            dataset.Promotions.Select(promotion => promotion.Id)
+                .Distinct(StringComparer.Ordinal).Count() != dataset.Promotions.Count)
+        {
+            throw new InvalidDataException(
+                $"El dataset público '{path}' no es válido para recuperar el estado comercial.");
+        }
+
+        LogRecoveredPublicState(_logger, dataset.Promotions.Count, path, null);
+        return dataset.Promotions;
     }
 
     public async Task SaveAsync(

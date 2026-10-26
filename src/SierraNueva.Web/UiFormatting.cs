@@ -30,6 +30,16 @@ public static class UiFormatting
         return TimeZoneInfo.ConvertTime(value, zone).ToString("d MMM yyyy", Spanish);
     }
 
+    public static bool IsStale(
+        DateTimeOffset checkedAtUtc,
+        int staleAfterHours,
+        DateTimeOffset? now = null)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(staleAfterHours);
+        return checkedAtUtc == default ||
+               (now ?? DateTimeOffset.UtcNow) - checkedAtUtc > TimeSpan.FromHours(staleAfterHours);
+    }
+
     public static string Commercial(CommercialStatus status)
     {
         return status switch

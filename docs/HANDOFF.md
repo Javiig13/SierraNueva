@@ -1,6 +1,9 @@
 # Entrega y continuidad
 
-Fecha de corte: **28 de julio de 2026**.
+Fecha de corte: **26 de octubre de 2026**.
+
+La recuperación operativa de octubre se documenta al final. Los recuentos live
+de julio son fotografías históricas, no acreditan continuidad hasta hoy.
 
 SierraNueva dispone de una vertical local completa y determinista: fixtures →
 descubrimiento → extracción → normalización → geolocalización → cambios →
@@ -918,6 +921,61 @@ fallos, 47 promociones publicadas y 46 activas en el `runId`
 Molinos II y Los Pinarejos. Pages muestra el nuevo diseño y los tres caminos
 privados comprobados continúan en HTTP 404. La IA se omitió y no consumió
 saldo.
+
+## Recuperación operativa del 26 de octubre de 2026
+
+La revisión detectó una interrupción real, no solo una fecha de cambios antigua:
+GitHub marcó `Crawl and deploy` como `disabled_inactivity` el 27 de septiembre,
+tras 60 días sin actividad del repositorio. El último pase fue `36294554006`,
+con `runId` `20260927T045523938Z`: 47 promociones, 46 activas y 44/46 fuentes
+correctas. Quercus Dorf conservaba su comprobación del 31 de agosto y Osnola la
+del 1 de septiembre. El resto se comprobó el 27 de septiembre.
+
+La API de Actions confirmó cero cachés privadas disponibles. Se reactivó el
+workflow y el primer despacho `40395538827` se canceló antes del crawl al
+confirmar la caducidad: el código anterior habría empezado sin histórico y
+podía omitir precisamente las fichas de fuentes fallidas. Se protegieron los
+cinco contratos de Pages y se conservó ese dataset de 47 promociones en la rama
+`public-data`, sin candidatos privados ni cambios en `main`.
+
+El refuerzo implementa:
+
+- Checkpoints públicos reales después del despliegue, con allowlist de cinco
+  archivos, identidad de ejecución y cobertura GeoJSON comprobadas. Sin
+  commits vacíos ni sustitución por fixtures.
+- Restauración anterior al crawl y recuperación comercial si faltan todas las
+  copias privadas, conservando identidad, fechas, actividad y ausencias. Una
+  corrupción privada sigue abortando; un fallo total no reemplaza la salida.
+- Frescura calculada al leer la web, no congelada en `isStale` durante el build;
+  umbral live de 36 horas y fecha/aviso por tarjeta y detalle.
+- Layout de escritorio que absorbe el aviso sin desplazar la página ni perder
+  el scroll independiente del listado.
+- Triaje diario y una incidencia operativa reutilizable con fallos y candidatos
+  nuevos de prioridad alta pendientes, exclusivamente mediante agregados. La
+  entrega de la alerta no bloquea un dataset válido y sus errores son visibles.
+
+La validación local incluye build sin advertencias, 198 pruebas —25 Core,
+150 Infrastructure, 17 Web y 6 E2E—, recuperación parcial/total desde un
+checkpoint sin caché y pruebas offline de automatización sin credenciales.
+El E2E reproduce un JSON de siete días con `isStale=false`, comprueba el aviso,
+la fecha propia de las tarjetas, el detalle y la recarga con datos recientes;
+una prueba verifica que recargar renueve el token de los cuatro recursos.
+Las regresiones de scroll, mapa,
+móvil y accesibilidad también pasan. El crawl aislado mantiene las cuatro
+fixtures, el formato es válido y el publish/prepare-pages excluye estado
+privado.
+
+Límites observados: Gilmar devuelve actualmente una página intermedia con
+JavaScript incluso en `robots.txt`; no se ejecuta ese desafío ni se amplía el
+selector para aceptar una ficha inexistente. Osnola no aparece en el sitemap
+oficial actual, mientras Essentia sí; no se inventa una URL alternativa ni se
+deduce que esté vendida. Sus últimos datos deben conservarse como no
+verificados. La cola privada histórica caducada no puede recuperarse desde
+datos públicos; la nueva ejecución debe reconstruir señales actuales y su
+backfill, sin prometer recuperación exhaustiva de oportunidades pasadas.
+
+La verificación remota del nuevo flujo y sus recuentos se registrarán después
+del primer despliegue reforzado. La comprobación local no acredita aún ese pase.
 
 ## Próximo trabajo recomendado
 

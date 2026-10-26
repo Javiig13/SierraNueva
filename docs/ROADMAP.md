@@ -639,6 +639,41 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
   baseline offline verde y workflow live observado sin pérdida del último
   dataset válido.
 
+## P9 — Continuidad, frescura y revisión operativa
+
+- **Diagnóstico confirmado (26 de octubre):** GitHub desactivó el cron por
+  inactividad el 27 de septiembre; último dataset `20260927T045523938Z`, 47
+  promociones y 44/46 fuentes. La caché privada había caducado y la web no
+  recalculaba un `isStale=false` antiguo.
+- **Verificado GitHub:** workflow reactivado y dataset anterior de 47
+  promociones conservado en `public-data`, únicamente con los cinco archivos
+  ya públicos. El despacho inicial se canceló antes de arriesgar un crawl sin
+  histórico.
+- **Hecho local:** checkpoint tras despliegue con permisos de escritura en un
+  job separado, sin modificar `main`, publicar estado privado ni crear commits
+  de actividad ficticia. Recuperación anterior al crawl y fallo explícito ante
+  archivos incoherentes, fixtures o corrupción privada.
+- **Hecho local:** recuperación comercial desde el dataset público cuando
+  faltan las copias privadas; pruebas de fallo parcial y total conservan
+  promociones, fechas y último dataset válido.
+- **Hecho local:** antigüedad calculada al leer, umbral live de 36 horas, última
+  comprobación por ficha y tarjeta, y aviso que no rompe el layout de mapa/lista.
+- **Hecho local:** triaje diario e incidencia nativa de GitHub para fallos y
+  candidatos nuevos de prioridad alta; solo agregados públicos, sin títulos,
+  dominios o URLs privados. Un fallo de notificación no bloquea datos válidos.
+- **Verificado local:** 198/198 pruebas .NET, seis E2E reales offline, pruebas
+  PowerShell de checkpoint/privacidad, formato, crawl aislado y publicación
+  estática sin estado privado.
+- **Pendiente de verificación remota:** ejecutar el flujo reforzado completo,
+  comprobar recuperación sin caché, publicación, incidencia agregada y escritura
+  posterior del checkpoint.
+- **Límite real:** recuperar automáticamente la cola privada ya caducada no es
+  posible desde los contratos públicos. Reanudar radar/backfill y revisar
+  candidatos nuevos, sin convertirlos automáticamente en promociones.
+- **Seguimiento:** Quercus Dorf responde con una página intermedia; Osnola ya
+  no aparece en el sitemap oficial. Mantener datos protegidos y advertencia,
+  sin evasión, URLs inventadas ni disponibilidad inferida.
+
 ## Matriz del encargo original
 
 | # | Criterio | Estado | Evidencia o siguiente paso |

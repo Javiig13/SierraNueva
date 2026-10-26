@@ -410,6 +410,26 @@ a {
     background: #fff0ed;
 }
 
+.live-dot.is-stale,
+.overview-update .run-status.run-stale i {
+    background: #ffbd91;
+    box-shadow: none;
+}
+
+.live-dot.is-stale::after {
+    animation: none;
+    border-color: #ffbd91;
+}
+
+.overview-update .run-status.run-stale {
+    color: #ffd1b3;
+}
+
+.verification-stale {
+    color: #9a3c22;
+    font-weight: 700;
+}
+
 .workspace {
     padding: 1.15rem 0 2.5rem;
 }
@@ -2567,6 +2587,30 @@ body {
         overflow: hidden;
     }
 
+    .app-shell {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        min-height: 0;
+    }
+
+    .site-header,
+    .overview-bar,
+    #contenido > .notice,
+    .filter-panel,
+    .results-toolbar {
+        flex-shrink: 0;
+    }
+
+    #contenido,
+    .workspace,
+    .results-area {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-height: 0;
+    }
+
     .workspace {
         min-height: 0;
         padding-bottom: 0.45rem;
@@ -2577,8 +2621,9 @@ body {
     }
 
     .results-layout {
-        height: calc(100dvh - 274px);
-        min-height: 420px;
+        flex: 1;
+        height: auto;
+        min-height: 0;
         overflow: hidden;
     }
 

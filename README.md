@@ -630,12 +630,73 @@ coordenadas, precios y URLs antes de publicar.
 Las fronteras y el flujo completo se describen en
 [docs/architecture.md](docs/architecture.md).
 
+## Vigilancia y continuidad del rastreo
+
+GitHub puede desactivar un workflow programado de un repositorio público tras
+60 días sin actividad. Esto ocurrió el 27 de septiembre de 2026: una ejecución
+anterior correcta no garantiza que el cron siga activo. Si la web avisa de
+datos antiguos, consulta [Crawl and deploy](https://github.com/Javiig13/SierraNueva/actions/workflows/crawl-and-deploy.yml),
+habilítalo si está desactivado y usa **Run workflow** una sola vez. No encadenes
+rastreos: algunas fuentes bloquean las repeticiones rápidas.
+
+El workflow reforzado conserva los cinco archivos ya públicos en la rama
+`public-data`, únicamente después de desplegar correctamente. Son checkpoints
+reales del dataset, no commits vacíos para mantener el cron. `main` conserva la
+baseline de fixtures. La escritura requiere `contents: write` solo en ese job;
+el crawler continúa con lectura del repositorio. Ni la cola privada, ni las
+cachés, ni las propuestas IA se incorporan a esa rama.
+
+Antes de rastrear se restaura el último checkpoint y se valida. Si la caché
+privada ha caducado, el crawler recupera de él las promociones y sus fechas,
+identidades, bajas y ausencias anteriores. No rejuvenece fichas protegidas ni
+puede reconstruir la cola privada perdida. Un estado privado corrupto sigue
+fallando de forma explícita: el checkpoint no oculta esa corrupción. La
+primera migración, si aún no existe la rama, obtiene los mismos cinco archivos
+del último despliegue de Pages y aborta si no son coherentes.
+
+La web calcula la antigüedad con la hora de lectura, no solo con el booleano
+guardado durante el crawl. El perfil live avisa tras **36 horas** y cada tarjeta
+y ficha muestra su propia última comprobación. Una promoción conservada por
+fallo de fuente puede estar antigua aunque el resto del dataset sea reciente.
+**Volver a comprobar** descarga los cuatro recursos con una nueva versión de
+caché, sin exigir cerrar la pestaña.
+
+Cada ejecución clasifica también la cola privada. La incidencia
+**[SierraNueva] Revisar captación y fuentes** reúne fallos comerciales, radar o
+matriz incompletos, recuperación sin caché y candidatos nuevos de prioridad
+alta sin revisar. Solo publica agregados e identificadores de fuentes que ya
+son públicos; nunca títulos, dominios o URLs de candidatos privados. Se asigna
+al propietario, se actualiza sin crear una incidencia diaria y se cierra cuando
+desaparecen los motivos. Solo añade un comentario notificable cuando cambian
+los motivos o agregados, no por repetir el mismo estado otro día. Las
+notificaciones dependen de la configuración de
+GitHub. Un error al entregar la alerta queda advertido en Actions y no impide
+desplegar datos válidos.
+
+Los candidatos siguen requiriendo la revisión y exportación cifrada descritas
+arriba; encontrarlos no equivale a incorporarlos automáticamente a la web.
+Estos controles reducen interrupciones y puntos ciegos, pero no garantizan la
+disponibilidad de terceros ni una cobertura exhaustiva del mercado.
+
+Las pruebas de automatización son offline y no requieren credenciales:
+
+```powershell
+pwsh -NoProfile -File .\scripts\test-automation.ps1
+```
+
+Comprueban recuperación desde un remoto Git temporal, idempotencia, rechazo de
+fixtures y archivos de ejecuciones distintas, aislamiento de `main` y ausencia
+de candidatos privados en las alertas. CI y el script local de PowerShell las
+ejecutan; en Bash pueden lanzarse aparte si se dispone de PowerShell.
+
 ## Recuperar el último dataset válido
 
 La escritura pública se realiza en archivos temporales y solo después se
 reemplazan los destinos. Si todas las fuentes fallan, el pipeline no escribe
 un dataset vacío. Conserva `data/public` y `data/state` de la última ejecución
 válida, corrige la fuente y usa `validate-data` antes de volver a publicar.
+En el workflow live, el checkpoint de `public-data` permite recuperar el
+histórico comercial aunque Actions haya eliminado la caché privada.
 
 Antes de reemplazar `promotions-state.json`, el repositorio rota dos copias
 atómicas. Si el estado principal está corrupto, intenta `backup-1` y después

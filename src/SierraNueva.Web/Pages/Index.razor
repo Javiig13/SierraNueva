@@ -53,7 +53,7 @@
         <section class="overview-bar" aria-labelledby="overview-title">
             <div class="overview-copy">
                 <p>
-                    <span class="live-dot" aria-hidden="true"></span>
+                    <span class="live-dot @(IsStale ? "is-stale" : null)" aria-hidden="true"></span>
                     Radar de obra nueva
                 </p>
                 <h1 id="overview-title">Casas nuevas en la Sierra de Madrid</h1>
@@ -70,25 +70,30 @@
                 </div>
                 <div>
                     <dt>Fuentes</dt>
-                    <dd>@(_data.Run.TotalSources - _data.Run.FailedSources)/@_data.Run.TotalSources</dd>
+                    <dd>@_data.Run.SuccessfulSources/@_data.Run.TotalSources</dd>
                 </div>
             </dl>
 
             <div class="overview-update">
-                <span>Última revisión</span>
+                <span>Último rastreo</span>
                 <strong>@UiFormatting.Date(_data.Promotions.GeneratedAtUtc)</strong>
-                <small class="run-status run-@_data.Run.Status.ToString().ToLowerInvariant()">
+                <small class="run-status @(IsStale ? "run-stale" : $"run-{_data.Run.Status.ToString().ToLowerInvariant()}")">
                     <i aria-hidden="true"></i>
-                    @RunStatusLabel(_data.Run.Status)
+                    @(IsStale ? "Sin actualización reciente" : RunStatusLabel(_data.Run.Status))
                 </small>
             </div>
         </section>
 
-        @if (_data.Run.DataFreshness.IsStale)
+        @if (IsStale)
         {
             <div class="notice notice-stale" role="status">
                 <strong>Datos desactualizados.</strong>
-                La última revisión supera el umbral de @_data.Run.DataFreshness.StaleAfterHours horas.
+                Han pasado más de @_data.Run.DataFreshness.StaleAfterHours horas sin una comprobación reciente.
+                El rastreo puede estar detenido:
+                <a href="https://github.com/Javiig13/SierraNueva/actions/workflows/crawl-and-deploy.yml"
+                   target="_blank" rel="noopener noreferrer">consultar las actualizaciones</a>.
+                Confirma la disponibilidad en la fuente oficial.
+                <button class="text-button" type="button" @onclick="LoadAsync">Volver a comprobar</button>
             </div>
         }
 
@@ -110,7 +115,7 @@
                         {
                             <p class="source-health source-health-protected" role="status">
                                 <i aria-hidden="true"></i>
-                                <strong>@_data.Run.SuccessfulSources verificadas ahora</strong>
+                                <strong>@_data.Run.SuccessfulSources verificadas en el último rastreo</strong>
                                 <span>· @_data.Run.FailedSources con su último dato protegido</span>
                             </p>
                         }
@@ -187,6 +192,7 @@
                             {
                                 <PromotionCard @key="promotion.Id"
                                                Promotion="promotion"
+                                               StaleAfterHours="_data.Run.DataFreshness.StaleAfterHours"
                                                IsNew="_newIds.Contains(promotion.Id)"
                                                IsChanged="_changedIds.Contains(promotion.Id)"
                                                IsHighlighted="_highlightedId == promotion.Id"
@@ -233,6 +239,7 @@
 @if (_selected is not null && _data is not null)
 {
     <PromotionDetail Promotion="_selected"
+                     StaleAfterHours="_data.Run.DataFreshness.StaleAfterHours"
                      Changes="_data.Changes.Changes.Where(change => change.PromotionId == _selected.Id).ToArray()"
                      OnClose="CloseDetail" />
 }
@@ -261,6 +268,8 @@
 
     private string TileAttribution =>
         Configuration["Map:Attribution"] ?? "© OpenStreetMap contributors";
+
+    private bool IsStale => _data?.IsStale(DateTimeOffset.UtcNow) == true;
 
     private IReadOnlyList<Promotion> Filtered =>
         _data is null

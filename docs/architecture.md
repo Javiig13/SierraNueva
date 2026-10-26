@@ -306,9 +306,18 @@ la query para compartir la vista. La ficha detalla las señales de confianza;
 el patrón de tabs móvil admite teclado y el detalle se presenta como diálogo
 con cierre mediante Escape.
 
-Cada arranque de la SPA añade un mismo token de versión a los cuatro recursos
+Cada carga de datos de la SPA añade un mismo token de versión a los cuatro recursos
 públicos. Así se evita combinar respuestas antiguas de la caché del navegador
 con el último despliegue, manteniendo a la vez una instantánea coherente.
+El botón de volver a comprobar genera un token nuevo también en una pestaña
+abierta desde un despliegue anterior.
+
+La frescura se vuelve a calcular con la hora de lectura y las fechas de
+publicación/comprobación, aunque `run.json` conserve `isStale=false` desde un
+despliegue antiguo. El umbral live es de 36 horas. Tarjetas y detalle usan además
+`LastSeenUtc` de cada promoción; un crawl parcial reciente no rejuvenece las
+fichas cuya fuente falló. El layout de escritorio reparte la altura disponible
+con flex, de modo que el aviso no desplace la página ni expulse el mapa.
 
 Leaflet recibe el GeoJSON generado y una lista de identificadores visibles.
 Los popups se construyen con nodos y `textContent`, nunca con HTML de terceros.
@@ -354,6 +363,27 @@ promociones sin coordenada exacta usan el centroide municipal trazable y el
 workflow rechaza el artefacto si GeoJSON no cubre todas las promociones. El
 pipeline aplica también este fallback al estado histórico antes de conservar
 entradas ausentes de una respuesta HTTP 304.
+
+La caché no es almacenamiento duradero. `sync-public-data.ps1` restaura antes del
+crawl un checkpoint coherente de la rama `public-data`, con una allowlist de los
+cinco contratos públicos. En la primera migración sin rama usa el último Pages;
+si no puede recuperar y validar los archivos, aborta. Cuando faltan todas las
+copias privadas comerciales, `JsonPromotionStateRepository` puede reconstruir
+la colección desde `promotions.json` de la salida restaurada. No modifica sus
+fechas ni oculta corrupción de copias privadas existentes.
+
+Solo tras un despliegue correcto, un job separado con `contents: write`
+conserva los cinco archivos en esa rama, sin modificar `main`, copiar estado
+privado ni crear commits si los datos son idénticos. Esto aporta recuperación
+duradera y actividad real del repositorio para evitar la desactivación del cron
+por inactividad. No sustituye la vigilancia de GitHub ni garantiza su servicio.
+
+El triaje privado se genera diariamente. La vigilancia abre o actualiza una
+única incidencia de GitHub con fallos de ejecución/fuentes y recuentos de
+candidatos nuevos de prioridad alta. Nunca publica títulos, dominios o URLs
+privados. Ese paso tiene `issues: write`; su fallo se advierte en el resumen sin
+bloquear un dataset válido. Las propuestas y decisiones humanas continúan solo
+en la caché privada: el checkpoint público no puede recuperarlas si caduca.
 
 `export-private-enrichment.yml` es exclusivamente manual, solo tiene permiso
 de lectura y no publica Pages. Restaura el último estado privado mediante

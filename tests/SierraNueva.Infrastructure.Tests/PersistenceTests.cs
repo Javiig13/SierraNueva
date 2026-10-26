@@ -2,6 +2,7 @@ using System.Text.Json;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Models;
 using SierraNueva.Infrastructure.Persistence;
+using SierraNueva.Infrastructure.Serialization;
 
 namespace SierraNueva.Infrastructure.Tests;
 
@@ -148,6 +149,91 @@ public sealed class PersistenceTests
     }
 
     [Fact]
+    public async Task StateRepository_RecoversExpiredCacheFromPublicDataWithoutChangingItsHistory()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            Promotion previous = CreatePromotion();
+            previous.FirstSeenUtc = previous.LastSeenUtc.AddMonths(-2);
+            previous.LastChangedUtc = previous.LastSeenUtc.AddDays(-7);
+            previous.Active = false;
+            previous.ConsecutiveMisses = 3;
+            string publicPath = await WritePublicRecoveryAsync(directory, previous);
+            string original = await File.ReadAllTextAsync(publicPath);
+            string missingState = Path.Combine(directory, "expired-cache");
+            JsonPromotionStateRepository repository = new(publicDataDirectory: directory);
+
+            Promotion recovered = Assert.Single(
+                await repository.LoadAsync(missingState, CancellationToken.None));
+
+            Assert.Equal(previous.Id, recovered.Id);
+            Assert.Equal(previous.FirstSeenUtc, recovered.FirstSeenUtc);
+            Assert.Equal(previous.LastSeenUtc, recovered.LastSeenUtc);
+            Assert.Equal(previous.LastChangedUtc, recovered.LastChangedUtc);
+            Assert.Equal(3, recovered.ConsecutiveMisses);
+            Assert.False(recovered.Active);
+            Assert.False(Directory.Exists(missingState));
+            Assert.Equal(original, await File.ReadAllTextAsync(publicPath));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task StateRepository_PrefersPrivateStateAndNeverMasksItsCorruptionWithPublicData()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            Promotion snapshot = CreatePromotion();
+            snapshot.Name = "Snapshot público";
+            await WritePublicRecoveryAsync(directory, snapshot);
+            Promotion current = CreatePromotion();
+            current.Name = "Estado privado actual";
+            string state = Path.Combine(directory, "state");
+            JsonPromotionStateRepository repository = new(publicDataDirectory: directory);
+            await repository.SaveAsync(state, [current], CancellationToken.None);
+
+            Promotion recovered = Assert.Single(await repository.LoadAsync(state, CancellationToken.None));
+            Assert.Equal(current.Name, recovered.Name);
+
+            string statePath = Path.Combine(state, "promotions-state.json");
+            await File.WriteAllTextAsync(statePath, "{corrupt");
+            await Assert.ThrowsAsync<InvalidDataException>(() =>
+                repository.LoadAsync(state, CancellationToken.None));
+            Assert.Equal("{corrupt", await File.ReadAllTextAsync(statePath));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Theory]
+    [InlineData("null")]
+    [InlineData("""{"schemaVersion":"2.0","runId":"old","generatedAtUtc":"2026-09-27T05:00:00Z","promotions":[]}""")]
+    [InlineData("""{"schemaVersion":"1.0","runId":"old","generatedAtUtc":"2026-09-27T05:00:00Z","promotions":[]}""")]
+    public async Task StateRepository_RejectsAnInvalidPublicRecoveryInsteadOfStartingEmpty(string json)
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            await File.WriteAllTextAsync(Path.Combine(directory, "promotions.json"), json);
+            JsonPromotionStateRepository repository = new(publicDataDirectory: directory);
+
+            await Assert.ThrowsAsync<InvalidDataException>(() =>
+                repository.LoadAsync(Path.Combine(directory, "state"), CancellationToken.None));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task OpportunityReports_AreWrittenAtomicallyInsidePrivateState()
     {
         string directory = CreateTempDirectory();
@@ -197,6 +283,18 @@ public sealed class PersistenceTests
         {
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    private static async Task<string> WritePublicRecoveryAsync(string directory, Promotion promotion)
+    {
+        string path = Path.Combine(directory, "promotions.json");
+        await File.WriteAllTextAsync(path, JsonSerializer.Serialize(new PromotionDataset
+        {
+            RunId = "previous-run",
+            GeneratedAtUtc = promotion.LastSeenUtc,
+            Promotions = [promotion]
+        }, JsonDefaults.Indented));
+        return path;
     }
 
     private static Promotion CreatePromotion()

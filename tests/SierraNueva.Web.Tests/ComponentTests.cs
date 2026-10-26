@@ -57,4 +57,29 @@ public sealed class ComponentTests
         Assert.Contains("Moralzarzal", component.Markup, StringComparison.Ordinal);
         Assert.Contains("Solo promociones activas", component.Markup, StringComparison.Ordinal);
     }
+
+    [Theory]
+    [InlineData(12, false)]
+    [InlineData(48, true)]
+    public void PromotionCard_ShowsItsOwnCheckDateAndStaleness(int hoursAgo, bool stale)
+    {
+        using BunitContext context = new();
+        DateTimeOffset checkedAt = DateTimeOffset.UtcNow.AddHours(-hoursAgo);
+        IRenderedComponent<PromotionCard> component = context.Render<PromotionCard>(
+            parameters => parameters
+                .Add(item => item.Promotion, new Promotion
+                {
+                    Id = "sn-check-date",
+                    Name = "Residencial Cumbre",
+                    LastSeenUtc = checkedAt
+                })
+                .Add(item => item.StaleAfterHours, 36));
+
+        Assert.Equal(stale, component.FindAll(".verification-stale").Count == 1);
+        Assert.Equal(checkedAt.ToString("O"), component.Find(".verification time").GetAttribute("datetime"));
+        Assert.Contains(
+            stale ? "Sin verificar desde" : "Comprobada",
+            component.Find(".verification").TextContent,
+            StringComparison.Ordinal);
+    }
 }

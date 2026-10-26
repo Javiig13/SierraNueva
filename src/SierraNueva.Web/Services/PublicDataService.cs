@@ -9,24 +9,21 @@ namespace SierraNueva.Web.Services;
 public sealed class PublicDataService(HttpClient httpClient)
 {
     private static readonly JsonSerializerOptions JsonOptions = CreateOptions();
-    private readonly string _cacheToken = DateTimeOffset.UtcNow
-        .ToUnixTimeMilliseconds()
-        .ToString(CultureInfo.InvariantCulture);
-
     public async Task<SiteData> LoadAsync(CancellationToken cancellationToken)
     {
+        string cacheToken = Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture);
         PromotionDataset promotions = await LoadAsync<PromotionDataset>(
-            Versioned("data/promotions.json"),
+            Versioned("data/promotions.json", cacheToken),
             cancellationToken);
         ChangeDataset changes = await LoadAsync<ChangeDataset>(
-            Versioned("data/changes.json"),
+            Versioned("data/changes.json", cacheToken),
             cancellationToken);
         RunReport run = await LoadAsync<RunReport>(
-            Versioned("data/run.json"),
+            Versioned("data/run.json", cacheToken),
             cancellationToken);
         using JsonDocument geoJson = JsonDocument.Parse(
             await httpClient.GetStringAsync(
-                Versioned("data/promotions.geojson"),
+                Versioned("data/promotions.geojson", cacheToken),
                 cancellationToken));
         return new()
         {
@@ -37,9 +34,9 @@ public sealed class PublicDataService(HttpClient httpClient)
         };
     }
 
-    private string Versioned(string path)
+    private static string Versioned(string path, string cacheToken)
     {
-        return $"{path}?v={_cacheToken}";
+        return $"{path}?v={cacheToken}";
     }
 
     private async Task<T> LoadAsync<T>(string path, CancellationToken cancellationToken)
