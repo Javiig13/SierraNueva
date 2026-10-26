@@ -84,6 +84,30 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
 
         foreach (Promotion promotion in promotions)
         {
+            if (promotion.CanonicalUrl == canonicalUri.AbsoluteUri &&
+                UrlNormalizer.Normalize(canonicalUri.AbsoluteUri) !=
+                UrlNormalizer.Normalize(page.Url.AbsoluteUri) &&
+                source.AllowedHosts.Contains(
+                    canonicalUri.IdnHost,
+                    StringComparer.OrdinalIgnoreCase))
+            {
+                promotion.SourceUrls = promotion.SourceUrls
+                    .Append(page.Url.AbsoluteUri)
+                    .Distinct(StringComparer.Ordinal)
+                    .Order(StringComparer.Ordinal)
+                    .ToArray();
+                AddEvidence(
+                    promotion,
+                    "canonicalUrlAlias",
+                    canonicalUri.AbsoluteUri,
+                    page.Url,
+                    page.FetchedAtUtc,
+                    "HtmlCanonicalExtractor",
+                    1m,
+                    FieldQuality.Explicit,
+                    $"Canonical: {canonicalUri.AbsoluteUri}");
+            }
+
             EnrichFromText(promotion, pageText, canonicalUri, page.FetchedAtUtc, "TextPatternExtractor");
             ApplyCustomSelectors(
                 promotion,
@@ -675,7 +699,14 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
                     promotion.Address = TextNormalizer.CleanEvidence(value, 180);
                     break;
                 case "pricefrom":
-                    promotion.PriceFrom = ParseSpanishDecimal(value);
+                    Match selectedPrice = PriceRegex().Match(value);
+                    if (!selectedPrice.Success || !IsMonthlyPrice(value, selectedPrice))
+                    {
+                        promotion.PriceFrom = ParseSpanishDecimal(selectedPrice.Success
+                            ? selectedPrice.Groups["value"].Value
+                            : value);
+                    }
+
                     break;
                 case "totalunits":
                     if (FirstIntegerRegex().Match(value) is { Success: true } totalMatch &&
@@ -1249,7 +1280,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex PromotionTermsRegex();
 
     [GeneratedRegex(
-        @"(?:desde|precio(?:\s+desde)?|a\s+partir\s+de)?\s*(?<value>\d{1,3}(?:\.\d{3})+|\d{2,3}\s\d{3}|\d{5,7})(?:,\d{1,2})?\s*(?:€|EUR|euros?)",
+        @"(?:desde|precio(?:\s+desde)?|a\s+partir\s+de)?\s*(?<value>(?:\d{1,3}(?:\.\d{3})+|\d{2,3}\s\d{3}|\d{5,7})(?:,\d{1,2})?)\s*(?:€|EUR|euros?)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex PriceRegex();
 

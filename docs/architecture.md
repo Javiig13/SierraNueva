@@ -115,7 +115,9 @@ Contracts/Web no conocen candidatos administrativos.
 
 1. La CLI carga y valida ajustes, municipios, procedencia de centroides,
    fuentes y exclusiones. La baseline usa el perfil offline; una ejecución live
-   requiere indicar explícitamente sus dos archivos de configuración.
+   requiere indicar explícitamente sus dos archivos de configuración. Antes de
+   acceder a las fuentes se recupera el estado comercial válido para resolver
+   identidades históricas y enriquecimiento ya revisado.
 2. Cada fuente habilitada aporta URLs configuradas, manuales y de sitemap.
 3. El rastreador valida esquema, host, blocklist y red privada; consulta
    `robots.txt`; aplica espera, tamaño, contenido, reintentos y cancelación.
@@ -271,6 +273,14 @@ contrato público.
 La URL canónica oficial normalizada tiene prioridad. Si falta, la identidad se
 deriva de nombre, municipio, promotora y zona. El valor final es un hash
 determinista y no expone datos adicionales.
+
+Cuando una ficha declara una canónica distinta de la URL solicitada, dentro de
+los hosts aprobados, se registra evidencia explícita `canonicalUrlAlias`.
+Solo esa relación observada, no una página de origen compartida por varios
+elementos JSON-LD, permite conservar el identificador, la primera observación
+y el enriquecimiento revisado tras un cambio de nombre o URL. Las relaciones
+anteriores se mantienen; una identidad histórica ambigua produce un error
+explícito en lugar de fusionar fichas o inventar una alta.
 
 Se rastrean cambios comerciales: precio, disponibilidad, estado, entrega,
 superficies y activación. `changes.json` conserva hasta 5.000 eventos y está

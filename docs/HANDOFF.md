@@ -954,8 +954,8 @@ El refuerzo implementa:
   nuevos de prioridad alta pendientes, exclusivamente mediante agregados. La
   entrega de la alerta no bloquea un dataset válido y sus errores son visibles.
 
-La validación local incluye build sin advertencias, 198 pruebas —25 Core,
-150 Infrastructure, 17 Web y 6 E2E—, recuperación parcial/total desde un
+La validación local incluye build sin advertencias, 208 pruebas —25 Core,
+160 Infrastructure, 17 Web y 6 E2E—, recuperación parcial/total desde un
 checkpoint sin caché y pruebas offline de automatización sin credenciales.
 El E2E reproduce un JSON de siete días con `isStale=false`, comprueba el aviso,
 la fecha propia de las tarjetas, el detalle y la recarga con datos recientes;
@@ -974,8 +974,39 @@ verificados. La cola privada histórica caducada no puede recuperarse desde
 datos públicos; la nueva ejecución debe reconstruir señales actuales y su
 backfill, sin prometer recuperación exhaustiva de oportunidades pasadas.
 
-La verificación remota del nuevo flujo y sus recuentos se registrarán después
-del primer despliegue reforzado. La comprobación local no acredita aún ese pase.
+El refuerzo inicial `2b22bc2` superó el CI Linux
+[`40399726051`](https://github.com/Javiig13/SierraNueva/actions/runs/40399726051).
+La recuperación real
+[`40400108357`](https://github.com/Javiig13/SierraNueva/actions/runs/40400108357)
+completó crawl, despliegue y checkpoint: `runId` `20261026T213557759Z`, 47
+promociones, 46 activas y 42/46 fuentes correctas. La ausencia de caché activó
+la recuperación de las 47 identidades originales; ninguna desapareció. Los
+cinco blobs de `public-data` coinciden byte a byte con Pages y el mapa contiene
+las 47 fichas. Los tres caminos privados comprobados siguen en HTTP 404 y el
+navegador real muestra el nuevo resumen, fechas propias y mapa sin scroll de
+documento en escritorio.
+
+El radar completó la matriz de 716 consultas, con 612 elementos conservados,
+y el backfill BOCM de 31 días. La cobertura registró 179/179 municipios con
+vigilancia sana, 28 canales directos y 65 fuentes sanas. El triaje reconstruido
+contiene 449 pendientes: 35 altos, 139 medios, 269 bajos y 6 duplicados probables.
+La incidencia [#1](https://github.com/Javiig13/SierraNueva/issues/1), asignada al
+propietario, avisa de la caché caducada, los fallos comerciales y 32 altas nuevas
+de prioridad alta sin revisar, sin publicar sus títulos, dominios ni URLs.
+
+Ese pase detectó además dos fallos nuevos: Móstoles Polar devuelve 404 tanto en
+la ruta configurada como en la antigua, y Nuevo Brunete redirige a Albor.
+Antaro ya no muestra Polar en su índice comercial; no se deduce una venta ni se
+inventa un reemplazo. Para Soldit se corrigió la exigencia del antiguo `ul` y se
+lee el precio de cabecera. El smoke live aislado captura Albor con 28 adosados,
+4–5 dormitorios y 566.000 €, manteniendo `sn-90d3952f4dae056cbffa` y la primera
+observación del 27 de julio. La evidencia de alias canónico permite conservar
+identidad y enriquecimiento revisado incluso tras varios cambios de nombre, sin
+confundir una página de origen JSON-LD compartida ni fusionar identidades
+ambiguas. Estas regresiones elevan la suite local a 208 pruebas.
+
+Queda por verificar el siguiente despliegue completo que incorpore esta
+adaptación de Soldit; el smoke aislado no acredita todavía su publicación.
 
 ## Próximo trabajo recomendado
 

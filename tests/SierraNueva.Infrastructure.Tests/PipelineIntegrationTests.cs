@@ -660,6 +660,320 @@ public sealed class PipelineIntegrationTests
         }
     }
 
+    [Fact]
+    public async Task Pipeline_PreservesIdentityHistoryAndReviewedEnrichmentAcrossCanonicalRenames()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            FakeClock clock = new(new DateTimeOffset(2026, 10, 26, 8, 0, 0, TimeSpan.Zero));
+            const string originalUrl = "https://example.com/cumbre";
+            SourceDefinition source = new()
+            {
+                Id = "renamed",
+                Name = "Renamed",
+                BaseUrl = "https://example.com",
+                Enabled = true,
+                SourceKind = SourceKind.OfficialPromoter,
+                AllowedHosts = ["example.com"],
+                StartUrls = [originalUrl]
+            };
+            MutablePageSource pages = new()
+            {
+                Pages =
+                [
+                    new(new(originalUrl),
+                        "<html><body><h1>Cumbre</h1><p>Chalets en Moralzarzal.</p></body></html>",
+                        "text/html", clock.UtcNow, "fixture")
+                ]
+            };
+            JsonEnrichmentStateRepository enrichmentRepository = new();
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                new JsonPromotionStateRepository(),
+                new PublicDataWriter(),
+                clock,
+                enrichmentRepository);
+            CrawlRequest request = CreateRequest(root, source);
+            CrawlResult initial = await pipeline.RunAsync(request, CancellationToken.None);
+            Promotion original = Assert.Single(initial.Dataset.Promotions);
+            await enrichmentRepository.SaveAsync(request.StateDirectory, new()
+            {
+                GeneratedAtUtc = clock.UtcNow,
+                Items =
+                [
+                    new()
+                    {
+                        Id = "enr-renamed",
+                        PromotionId = original.Id,
+                        PromotionName = original.Name,
+                        CanonicalUrl = originalUrl,
+                        Status = EnrichmentReviewStatus.Accepted,
+                        ReviewedAtUtc = clock.UtcNow,
+                        EvidenceFetchedAtUtc = clock.UtcNow,
+                        Fields =
+                        [
+                            new()
+                            {
+                                Field = "priceFrom",
+                                ValueText = "475000",
+                                SourceUrl = originalUrl,
+                                EvidenceText = "Desde 475.000 euros",
+                                Confidence = 0.96m
+                            }
+                        ]
+                    }
+                ]
+            }, CancellationToken.None);
+
+            foreach ((string name, string requestedUrl) in new[]
+                     {
+                         ("cumbre-renamed", originalUrl),
+                         ("cumbre-renamed-again", "https://example.com/cumbre-renamed"),
+                         ("cumbre-renamed-final", originalUrl)
+                     })
+            {
+                clock.Advance(TimeSpan.FromDays(1));
+                string canonicalUrl = $"https://example.com/{name}";
+                pages.Pages =
+                [
+                    new(new(requestedUrl),
+                        $"""
+                        <html><head><link rel="canonical" href="{canonicalUrl}"></head>
+                        <body><h1>{name}</h1><p>Chalets en Moralzarzal.</p></body></html>
+                        """,
+                        "text/html", clock.UtcNow, "fixture")
+                ];
+
+                CrawlResult result = await pipeline.RunAsync(request, CancellationToken.None);
+                Promotion promotion = Assert.Single(result.Dataset.Promotions);
+                Assert.Equal(RunStatus.Success, result.Run.Status);
+                Assert.Equal(original.Id, promotion.Id);
+                Assert.Equal(original.FirstSeenUtc, promotion.FirstSeenUtc);
+                Assert.Equal(clock.UtcNow, promotion.LastSeenUtc);
+                Assert.Equal(canonicalUrl, promotion.CanonicalUrl);
+                Assert.Equal(475_000m, promotion.PriceFrom);
+                Assert.Contains(originalUrl, promotion.SourceUrls);
+                Assert.Contains(
+                    promotion.Evidence,
+                    item => item.Extractor == "reviewed-ai-enrichment");
+                Assert.DoesNotContain(result.Changes.Changes, change => change.Kind == ChangeKind.Added);
+                Assert.Equal(0, result.Run.NewPromotions);
+            }
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_DoesNotTreatSharedJsonLdSourcePageAsAnIdentityAlias()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            FakeClock clock = new(new DateTimeOffset(2026, 10, 26, 8, 0, 0, TimeSpan.Zero));
+            const string indexUrl = "https://example.com/promociones";
+            string[] names = ["one", "two"];
+            Promotion[] previous = names.Select(name => new Promotion
+            {
+                Name = name,
+                Municipality = "Moralzarzal",
+                CanonicalUrl = $"https://example.com/{name}",
+                SourceUrls = [indexUrl],
+                FirstSeenUtc = clock.UtcNow.AddDays(-10),
+                LastSeenUtc = clock.UtcNow.AddDays(-1),
+                Active = true
+            }).ToArray();
+            foreach (Promotion old in previous)
+            {
+                old.Id = PromotionIdentity.Create(old);
+            }
+
+            JsonPromotionStateRepository repository = new();
+            await repository.SaveAsync(Path.Combine(root, "state"), previous, CancellationToken.None);
+            MutablePageSource pages = new()
+            {
+                Pages =
+                [
+                    new(new(indexUrl),
+                        """
+                        <html><body><script type="application/ld+json">
+                        {"@type":"SingleFamilyResidence","name":"Third chalet",
+                         "url":"https://example.com/three",
+                         "address":{"addressLocality":"Moralzarzal"}}
+                        </script></body></html>
+                        """,
+                        "text/html", clock.UtcNow, "fixture")
+                ]
+            };
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                repository,
+                new PublicDataWriter(),
+                clock);
+
+            CrawlResult result = await pipeline.RunAsync(CreateRequest(root), CancellationToken.None);
+
+            Assert.Equal(RunStatus.Success, result.Run.Status);
+            Assert.Equal(3, result.Dataset.Promotions.Count);
+            Assert.Equal(1, result.Run.NewPromotions);
+            Assert.All(previous, old => Assert.Contains(
+                result.Dataset.Promotions, promotion => promotion.Id == old.Id));
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_RejectsAmbiguousCanonicalAliasesWithoutReplacingHistory()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            FakeClock clock = new(new DateTimeOffset(2026, 10, 26, 8, 0, 0, TimeSpan.Zero));
+            const string aliasUrl = "https://example.com/alias";
+            string[] names = ["one", "two"];
+            Promotion[] previous = names.Select(name => new Promotion
+            {
+                Name = name,
+                Municipality = "Moralzarzal",
+                CanonicalUrl = $"https://example.com/{name}",
+                SourceUrls = [$"https://example.com/{name}", aliasUrl],
+                FirstSeenUtc = clock.UtcNow.AddDays(-10),
+                LastSeenUtc = clock.UtcNow.AddDays(-1),
+                Active = true,
+                Evidence =
+                [
+                    new()
+                    {
+                        Field = "canonicalUrlAlias",
+                        SourceUrl = aliasUrl,
+                        ValueText = $"https://example.com/{name}",
+                        CapturedAtUtc = clock.UtcNow.AddDays(-1),
+                        Extractor = "HtmlCanonicalExtractor",
+                        Quality = FieldQuality.Explicit,
+                        Confidence = 1m
+                    }
+                ]
+            }).ToArray();
+            foreach (Promotion old in previous)
+            {
+                old.Id = PromotionIdentity.Create(old);
+            }
+
+            JsonPromotionStateRepository repository = new();
+            await repository.SaveAsync(Path.Combine(root, "state"), previous, CancellationToken.None);
+            MutablePageSource pages = new()
+            {
+                Pages =
+                [
+                    new(new(aliasUrl),
+                        """
+                        <html><head><link rel="canonical" href="https://example.com/new"></head>
+                        <body><h1>New</h1><p>Chalets en Moralzarzal.</p></body></html>
+                        """,
+                        "text/html", clock.UtcNow, "fixture")
+                ]
+            };
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                repository,
+                new PublicDataWriter(),
+                clock);
+            SourceDefinition source = new()
+            {
+                Id = "ambiguous",
+                Name = "Ambiguous",
+                BaseUrl = "https://example.com",
+                Enabled = true,
+                SourceKind = SourceKind.OfficialPromoter,
+                AllowedHosts = ["example.com"],
+                StartUrls = [aliasUrl]
+            };
+
+            CrawlResult result = await pipeline.RunAsync(CreateRequest(root, source), CancellationToken.None);
+
+            Assert.False(result.HasPublishableData);
+            Assert.Equal(RunStatus.Failed, result.Run.Status);
+            Assert.Equal(2, result.Dataset.Promotions.Count);
+            Assert.Contains(
+                Assert.Single(result.Run.SourceResults).Errors,
+                error => error.Contains("ambigua", StringComparison.Ordinal));
+            Assert.False(File.Exists(Path.Combine(root, "public", "promotions.json")));
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task Pipeline_RejectsTwoCanonicalPagesResolvingToOneHistoricalIdentity()
+    {
+        string root = CreateTempDirectory();
+        try
+        {
+            FakeClock clock = new(new DateTimeOffset(2026, 10, 26, 8, 0, 0, TimeSpan.Zero));
+            const string originalUrl = "https://sources.example/old";
+            SourceDefinition source = CreateHttpSource("collision", originalUrl);
+            MutablePageSource pages = new()
+            {
+                Pages =
+                [
+                    new(new(originalUrl),
+                        "<html><body><main><h1>Old</h1><p>Chalets en Moralzarzal.</p></main></body></html>",
+                        "text/html", clock.UtcNow, "fixture")
+                ]
+            };
+            JsonPromotionStateRepository repository = new();
+            CrawlPipeline pipeline = new(
+                pages,
+                new LayeredPromotionExtractor(),
+                new MunicipalityCentroidGeocoder(),
+                repository,
+                new PublicDataWriter(),
+                clock);
+            CrawlRequest request = CreateRequest(root, source);
+            CrawlResult initial = await pipeline.RunAsync(request, CancellationToken.None);
+            string previousJson = await File.ReadAllTextAsync(
+                Path.Combine(root, "public", "promotions.json"));
+            clock.Advance(TimeSpan.FromDays(1));
+            string[] names = ["one", "two"];
+            pages.Pages = names.Select(name => new FetchedPage(
+                new(originalUrl),
+                $"""
+                <html><head><link rel="canonical" href="https://sources.example/{name}"></head>
+                <body><main><h1>{name}</h1><p>Chalets en Moralzarzal.</p></main></body></html>
+                """,
+                "text/html", clock.UtcNow, "fixture")).ToArray();
+
+            await Assert.ThrowsAsync<InvalidDataException>(() =>
+                pipeline.RunAsync(request, CancellationToken.None));
+
+            Assert.Equal(previousJson, await File.ReadAllTextAsync(
+                Path.Combine(root, "public", "promotions.json")));
+            IReadOnlyList<Promotion> saved = await repository.LoadAsync(
+                request.StateDirectory, CancellationToken.None);
+            Assert.Equal(
+                Assert.Single(initial.Dataset.Promotions).Id,
+                Assert.Single(saved).Id);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
     private static CrawlRequest CreateRequest(
         string root,
         SourceDefinition? source = null)

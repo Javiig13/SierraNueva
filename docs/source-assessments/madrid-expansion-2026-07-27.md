@@ -37,6 +37,27 @@ Cada formato tiene fixture reducida, aserciones específicas y un smoke live
 HTTP 200 respetando `robots.txt`. Las cuatro fichas funcionaron sin Playwright,
 geocodificación ni escritura de datos. El estado desconocido permanece nulo.
 
+### Seguimiento de Soldit — 26 de octubre de 2026
+
+La URL oficial de Nuevo Brunete redirige a
+[Albor](https://soldithomes.es/promociones/albor-brunete/), en el mismo host
+aprobado. La ficha actual declara 28 adosados de 4 y 5 dormitorios desde
+566.000 €. Ha desaparecido el antiguo listado `ul`; exigirlo impedía actualizar
+la ficha. Se conserva el primer párrafo, el claim y el precio explícito,
+sin ampliar la captura al formulario ni a las cifras urbanísticas.
+
+Una fixture sintética cubre ambos formatos y la exclusión del total del sector.
+La relación entre la URL solicitada y su canónica se registra como evidencia
+explícita para mantener el identificador y la primera fecha de observación,
+sin duplicar la promoción cuando cambia de nombre o URL. No se habilita una
+fuente adicional ni se infiere disponibilidad o piscina privada.
+
+El smoke live aislado del 26 de octubre procesó 1/1 fuentes y renovó esa ficha
+sin Playwright ni geocodificación. Conservó las 47 identidades del checkpoint,
+`sn-90d3952f4dae056cbffa` y su primera observación del 27 de julio, con el nombre,
+URL, unidades, dormitorios y precio actuales. La salida y el estado del smoke
+son temporales y no se emplean para desplegar el resto de fuentes.
+
 El radar diario añade los sitemaps oficiales de Grupo Insur, Soldit Homes y
 GEMG, más el índice HTML de promociones de Grupo Egido. Los smokes aislados
 procesaron respectivamente 61/4, 10/1, 12/2 y 13/13

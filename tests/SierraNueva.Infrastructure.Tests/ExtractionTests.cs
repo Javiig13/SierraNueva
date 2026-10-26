@@ -23,6 +23,47 @@ public sealed class ExtractionTests
         }
     ];
 
+    public static TheoryData<string, decimal?> SelectedPrices =>
+        new()
+        {
+            { "566000", 566_000m },
+            { "566.000,50 €", 566_000.50m },
+            { "Desde 566.000,50 €", 566_000.50m },
+            { "Precio desde 566.000 €", 566_000m },
+            { "Desde 1.200 € al mes", null }
+        };
+
+    [Theory]
+    [MemberData(nameof(SelectedPrices))]
+    public async Task DomainPriceSelector_RecognizesAmountsWithoutTreatingMonthlyPaymentsAsPrices(
+        string text,
+        decimal? expectedPrice)
+    {
+        SourceDefinition source = new()
+        {
+            Id = "selected-price",
+            ContentSelector = "main",
+            CustomSelectors = new Dictionary<string, string>
+            {
+                ["priceFrom"] = ".selected-price"
+            }
+        };
+        string html = $"""
+            <html><body>
+            <aside class="selected-price">{text}</aside>
+            <main><h1>Cumbre</h1><p>Chalets en Moralzarzal.</p></main>
+            </body></html>
+            """;
+        Promotion promotion = Assert.Single(await new LayeredPromotionExtractor().ExtractAsync(
+            new(new("https://fixtures.sierranueva.test/cumbre"),
+                html, "text/html", DateTimeOffset.UtcNow, "fixture"),
+            source,
+            Municipalities,
+            CancellationToken.None));
+
+        Assert.Equal(expectedPrice, promotion.PriceFrom);
+    }
+
     [Fact]
     public async Task JsonLdExtractor_PrefersStructuredData()
     {

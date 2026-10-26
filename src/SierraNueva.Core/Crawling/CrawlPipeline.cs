@@ -33,6 +33,12 @@ public sealed class CrawlPipeline(
         List<SourceRunResult> sourceResults = [];
         List<Promotion> extracted = [];
         List<string> runWarnings = [];
+        IReadOnlyList<Promotion> previousState = await stateRepository.LoadAsync(
+            request.StateDirectory,
+            cancellationToken);
+        Dictionary<string, Promotion> previousById = previousState.ToDictionary(
+            promotion => promotion.Id,
+            StringComparer.Ordinal);
         IReadOnlyDictionary<string, PromotionEnrichment> acceptedEnrichment =
             await LoadAcceptedEnrichmentAsync(
                 request.StateDirectory,
@@ -79,7 +85,8 @@ public sealed class CrawlPipeline(
                         }
 
                         NormalizePromotion(promotion, source);
-                        string candidateId = PromotionIdentity.Create(promotion);
+                        string candidateId = FindPreviousPromotion(promotion, previousById)?.Id ??
+                                             PromotionIdentity.Create(promotion);
                         if (acceptedEnrichment.TryGetValue(
                                 candidateId,
                                 out PromotionEnrichment? enrichment))
@@ -128,9 +135,6 @@ public sealed class CrawlPipeline(
         }
 
         IReadOnlyList<Promotion> deduplicated = _deduplicator.Deduplicate(extracted);
-        IReadOnlyList<Promotion> previousState = await stateRepository.LoadAsync(
-            request.StateDirectory,
-            cancellationToken);
         List<Promotion> previous = new(previousState.Count);
         foreach (Promotion old in previousState)
         {
@@ -141,19 +145,36 @@ public sealed class CrawlPipeline(
                     request.Municipalities,
                     cancellationToken);
             previous.Add(located);
+            previousById[old.Id] = located;
         }
 
-        Dictionary<string, Promotion> previousById = previous.ToDictionary(
-            promotion => promotion.Id,
-            StringComparer.Ordinal);
         DateTimeOffset now = clock.UtcNow;
         List<PromotionChange> changes = [];
         List<Promotion> merged = [];
+        HashSet<string> seenIds = new(StringComparer.Ordinal);
 
         foreach (Promotion promotion in deduplicated)
         {
-            promotion.Id = PromotionIdentity.Create(promotion);
-            previousById.TryGetValue(promotion.Id, out Promotion? old);
+            Promotion? old = FindPreviousPromotion(promotion, previousById);
+            promotion.Id = old?.Id ?? PromotionIdentity.Create(promotion);
+            if (!seenIds.Add(promotion.Id))
+            {
+                throw new InvalidDataException(
+                    $"Varias fichas canónicas resuelven a la identidad histórica '{promotion.Id}'.");
+            }
+
+            if (old is not null)
+            {
+                promotion.SourceUrls = promotion.SourceUrls.Concat(old.SourceUrls)
+                    .Distinct(StringComparer.Ordinal)
+                    .Order(StringComparer.Ordinal)
+                    .ToArray();
+                promotion.Evidence = promotion.Evidence
+                    .Concat(old.Evidence.Where(IsCanonicalAlias))
+                    .DistinctBy(item => (item.Field, item.SourceUrl, item.ValueText))
+                    .ToArray();
+            }
+
             promotion.FirstSeenUtc = old?.FirstSeenUtc ?? now;
             promotion.LastSeenUtc = now;
             promotion.ConsecutiveMisses = 0;
@@ -174,7 +195,6 @@ public sealed class CrawlPipeline(
         bool canCountMisses = sourceResults.Count > 0 &&
                               sourceResults.All(result => result.Status == SourceRunStatus.Success);
         HashSet<string> notModifiedUrls = GetNotModifiedUrls(sourceResults);
-        HashSet<string> seenIds = merged.Select(promotion => promotion.Id).ToHashSet(StringComparer.Ordinal);
         foreach (Promotion old in previous.Where(promotion => !seenIds.Contains(promotion.Id)))
         {
             if (WasConfirmedNotModified(old, notModifiedUrls))
@@ -328,6 +348,42 @@ public sealed class CrawlPipeline(
                 $"Se ignoró el enriquecimiento privado porque no pudo leerse: {exception.Message}");
             return new Dictionary<string, PromotionEnrichment>(StringComparer.Ordinal);
         }
+    }
+
+    private static Promotion? FindPreviousPromotion(
+        Promotion promotion,
+        IReadOnlyDictionary<string, Promotion> previousById)
+    {
+        if (previousById.TryGetValue(PromotionIdentity.Create(promotion), out Promotion? previous))
+        {
+            return previous;
+        }
+
+        HashSet<string> identityUrls = promotion.Evidence
+            .Where(IsCanonicalAlias)
+            .Select(item => item.SourceUrl)
+            .Append(promotion.CanonicalUrl)
+            .Select(UrlNormalizer.Normalize)
+            .ToHashSet(StringComparer.Ordinal);
+        Promotion[] matches = previousById.Values
+            .Where(old => identityUrls.Contains(UrlNormalizer.Normalize(old.CanonicalUrl)) ||
+                          old.Evidence.Where(IsCanonicalAlias)
+                              .Any(item => identityUrls.Contains(UrlNormalizer.Normalize(item.SourceUrl))))
+            .Take(2)
+            .ToArray();
+        return matches.Length switch
+        {
+            0 => null,
+            1 => matches[0],
+            _ => throw new InvalidDataException(
+                $"La URL canónica de '{promotion.CanonicalUrl}' tiene una identidad histórica ambigua.")
+        };
+    }
+
+    private static bool IsCanonicalAlias(EvidenceItem evidence)
+    {
+        return evidence.Field == "canonicalUrlAlias" &&
+               evidence.Quality == FieldQuality.Explicit;
     }
 
     private static HashSet<string> GetNotModifiedUrls(

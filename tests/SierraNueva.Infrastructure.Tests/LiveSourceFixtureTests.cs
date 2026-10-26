@@ -187,6 +187,44 @@ public sealed class LiveSourceFixtureTests
         string sourceId,
         string fixtureName)
     {
+        (SourceDefinition source, Promotion promotion) =
+            await ExtractFixtureAsync(sourceId, fixtureName);
+
+        Assert.Equal(source.FixedMunicipality, promotion.Municipality);
+        Assert.False(string.IsNullOrWhiteSpace(promotion.Name));
+        Assert.Contains(
+            promotion.Evidence,
+            item => item.Extractor == "ReviewedSourceConfiguration");
+        AssertSourceSpecificFields(sourceId, promotion);
+    }
+
+    [Fact]
+    public async Task SolditAlbor_ExtractsRenamedFormatWithoutOldListOrUnrelatedSectorTotals()
+    {
+        (_, Promotion promotion) = await ExtractFixtureAsync(
+            "soldit-nuevo-brunete",
+            "soldit-albor.html");
+
+        Assert.Equal("Albor", promotion.Name);
+        Assert.Equal("Brunete", promotion.Municipality);
+        Assert.Equal(28, promotion.TotalUnits);
+        Assert.Equal(4, promotion.BedroomsMin);
+        Assert.Equal(5, promotion.BedroomsMax);
+        Assert.Equal(566_000m, promotion.PriceFrom);
+        Assert.Equal(["Adosado"], promotion.PropertyTypes);
+        Assert.Null(promotion.HasPrivatePool);
+        Assert.Equal("https://soldithomes.es/promociones/albor-brunete/", promotion.CanonicalUrl);
+        Assert.Contains("https://soldithomes.es/promociones/nuevo-brunete/", promotion.SourceUrls);
+        Assert.Contains(
+            promotion.Evidence,
+            item => item.Field == "canonicalUrlAlias" &&
+                    item.SourceUrl == "https://soldithomes.es/promociones/nuevo-brunete/");
+    }
+
+    private static async Task<(SourceDefinition Source, Promotion Promotion)> ExtractFixtureAsync(
+        string sourceId,
+        string fixtureName)
+    {
         ConfigurationLoader loader = new();
         IReadOnlyList<SourceDefinition> sources = await loader.LoadSourcesAsync(
             Path.Combine(AppContext.BaseDirectory, "config", "sources.live.json"),
@@ -213,12 +251,7 @@ public sealed class LiveSourceFixtureTests
             municipalities,
             CancellationToken.None));
 
-        Assert.Equal(source.FixedMunicipality, promotion.Municipality);
-        Assert.False(string.IsNullOrWhiteSpace(promotion.Name));
-        Assert.Contains(
-            promotion.Evidence,
-            item => item.Extractor == "ReviewedSourceConfiguration");
-        AssertSourceSpecificFields(sourceId, promotion);
+        return (source, promotion);
     }
 
     private static void AssertSourceSpecificFields(

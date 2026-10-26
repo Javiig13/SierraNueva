@@ -1113,7 +1113,7 @@
     },
     {
       "id": "soldit-nuevo-brunete",
-      "name": "Soldit Homes — Nuevo Brunete",
+      "name": "Soldit Homes — Albor (antes Nuevo Brunete)",
       "baseUrl": "https://soldithomes.es/",
       "enabled": true,
       "sourceKind": "exclusiveMarketer",
@@ -1137,8 +1137,7 @@
       ],
       "contentSelector": ".entry-content.contenedor-contenido > p:first-of-type",
       "additionalContentSelectors": [
-        "h2.claim-promocion",
-        ".entry-content.contenedor-contenido > ul"
+        "h2.claim-promocion"
       ],
       "includePatterns": [
         "/promociones/nuevo-brunete/"
@@ -1151,9 +1150,10 @@
         "wp-admin"
       ],
       "customSelectors": {
-        "name": "h1.wp-block-post-title"
+        "name": "h1.wp-block-post-title",
+        "priceFrom": "h2.importe-desde"
       },
-      "notes": "Comercializadora oficial de Grupo Avintia revisada el 2026-07-27. La ficha anuncia el próximo lanzamiento de viviendas unifamiliares pareadas con jardín y lista de espera. Se excluye expresamente el párrafo urbanístico que menciona 2.700 viviendas del sector, porque no es el total de la promoción. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+      "notes": "Comercializadora oficial de Grupo Avintia revisada el 2026-07-27 y el 2026-10-26. Nuevo Brunete redirige oficialmente a Albor: 28 adosados de 4 y 5 dormitorios desde 566.000 €. Se conserva la URL solicitada como alias observado, sin perder el histórico al cambiar la canónica. Se lee solo el primer párrafo propio, el claim y el precio explícito; no se requiere el antiguo ul ni se incluye la cifra urbanística de 2.700 viviendas. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
     },
     {
       "id": "gemg-cielo-arroyomolinos",

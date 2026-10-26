@@ -661,12 +661,22 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 - **Hecho local:** triaje diario e incidencia nativa de GitHub para fallos y
   candidatos nuevos de prioridad alta; solo agregados públicos, sin títulos,
   dominios o URLs privados. Un fallo de notificación no bloquea datos válidos.
-- **Verificado local:** 198/198 pruebas .NET, seis E2E reales offline, pruebas
+- **Verificado local:** 208/208 pruebas .NET, seis E2E reales offline, pruebas
   PowerShell de checkpoint/privacidad, formato, crawl aislado y publicación
   estática sin estado privado.
-- **Pendiente de verificación remota:** ejecutar el flujo reforzado completo,
-  comprobar recuperación sin caché, publicación, incidencia agregada y escritura
-  posterior del checkpoint.
+- **Verificado remoto:** `40400108357` completó recuperación sin caché, Pages,
+  incidencia agregada y checkpoint. Conserva las 47 identidades, 47 puntos de
+  mapa y 46 activas, con 42/46 fuentes verificadas; los cinco blobs públicos
+  coinciden con Pages. Matriz completa de 716 consultas y 612 elementos; 35
+  candidatos altos y 32 altas nuevas pendientes, solo en la cola privada.
+- **Verificado live aislado:** Nuevo Brunete cambió a Albor. Se adapta el
+  formato sin el antiguo `ul`, se captura el precio explícito y se conserva la
+  identidad y primera fecha mediante alias canónico observado. Pruebas de
+  renombrados sucesivos, enriquecimiento, origen JSON-LD compartido y
+  ambigüedad o colisión evitan perder histórico o duplicar fichas.
+- **Pendiente remoto:** siguiente despliegue completo con la adaptación de
+  Soldit; el smoke aislado verifica 28 adosados, 4–5 dormitorios y 566.000 €,
+  pero aún no su publicación.
 - **Límite real:** recuperar automáticamente la cola privada ya caducada no es
   posible desde los contratos públicos. Reanudar radar/backfill y revisar
   candidatos nuevos, sin convertirlos automáticamente en promociones.
