@@ -15,7 +15,7 @@
         "name": "Villa 2 M\u00F3stoles",
         "municipality": "M\u00F3stoles",
         "priceFrom": 580000,
-        "commercialStatus": "onSale",
+        "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-2-mostoles"
       }
@@ -124,6 +124,7 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
+        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -161,7 +162,7 @@
       "properties": {
         "name": "Viviendas en Villaviciosa de Od\u00F3n",
         "municipality": "Villaviciosa de Od\u00F3n",
-        "commercialStatus": "unknown",
+        "commercialStatus": "lastUnits",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-en-villaviciosa-de-odon"
       }
@@ -271,7 +272,7 @@
       "properties": {
         "name": "Promoci\u00F3n Essentia Galapagar",
         "municipality": "Galapagar",
-        "priceFrom": 875000,
+        "priceFrom": 877500,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://stancehomes.es/promocion-essentia-galapagar"
@@ -435,7 +436,7 @@
       "properties": {
         "name": "VIRIDIANA",
         "municipality": "Boadilla del Monte",
-        "priceFrom": 1232000,
+        "priceFrom": 1346000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://cambrija.es/obra-nueva-viridiana"
@@ -621,7 +622,7 @@
       "properties": {
         "name": "Insur Cal\u00EDope",
         "municipality": "Alcal\u00E1 de Henares",
-        "priceFrom": 568000,
+        "priceFrom": 575000,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://grupoinsur.com/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope"
@@ -863,7 +864,7 @@
       "properties": {
         "name": "Promoci\u00F3n Residencial Cumbres de Navalafuente - NUVARE",
         "municipality": "Navalafuente",
-        "priceFrom": 543000,
+        "priceFrom": 543500,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://nuvare.es/promocion-cumbres-de-navalafuente"

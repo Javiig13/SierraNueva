@@ -1,8 +1,181 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-09-27T04:59:01.83555+00:00",
-  "runId": "20260927T045523938Z",
+  "generatedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+  "runId": "20261026T213557759Z",
   "changes": [
+    {
+      "id": "change-b83e10380eedefd2",
+      "promotionId": "sn-789b45e6824b710b00f0",
+      "promotionName": "VIRIDIANA",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "1232000",
+          "currentValue": "1346000"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "1540000"
+        }
+      ]
+    },
+    {
+      "id": "change-8ed0879cc0141d1f",
+      "promotionId": "sn-9465b90aee10b4e90352",
+      "promotionName": "Insur Cal\u00EDope",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "568000",
+          "currentValue": "575000"
+        }
+      ]
+    },
+    {
+      "id": "change-11b3d2dfaedf721d",
+      "promotionId": "sn-2150a20c3210232d866c",
+      "promotionName": "Viviendas en Villaviciosa de Od\u00F3n",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "commercialStatus",
+          "previousValue": "Unknown",
+          "currentValue": "LastUnits"
+        }
+      ]
+    },
+    {
+      "id": "change-289d684665ce7d4a",
+      "promotionId": "sn-f68a43a6ddb866df06ec",
+      "promotionName": "Promoci\u00F3n Residencial Cumbres de Navalafuente - NUVARE",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "543000",
+          "currentValue": "543500"
+        },
+        {
+          "field": "priceTo",
+          "previousValue": "557000",
+          "currentValue": "557500"
+        },
+        {
+          "field": "deliveryDateText",
+          "previousValue": "Entrega Octubre 2026",
+          "currentValue": "Entrega Noviembre 2026"
+        }
+      ]
+    },
+    {
+      "id": "change-2fcb79dc37110e7f",
+      "promotionId": "sn-1da891935c399b2d99c7",
+      "promotionName": "Residencial Montemilano - Bustarviejo",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "349869"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "358050"
+        }
+      ]
+    },
+    {
+      "id": "change-e3f5bb163f6385e8",
+      "promotionId": "sn-3d9e1e4f7ae4a7c4d68d",
+      "promotionName": "Promoci\u00F3n Essentia Galapagar",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "875000",
+          "currentValue": "877500"
+        },
+        {
+          "field": "priceTo",
+          "previousValue": "985000",
+          "currentValue": "987500"
+        }
+      ]
+    },
+    {
+      "id": "change-9a5d7ee970ed42db",
+      "promotionId": "sn-03f0ba9859441931178b",
+      "promotionName": "Villa 2 M\u00F3stoles",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "commercialStatus",
+          "previousValue": "OnSale",
+          "currentValue": "Unknown"
+        },
+        {
+          "field": "constructionStatus",
+          "previousValue": "UnderConstruction",
+          "currentValue": "Unknown"
+        }
+      ]
+    },
+    {
+      "id": "change-055f676471a0fa09",
+      "promotionId": "sn-7c379964d348a00ddc96",
+      "promotionName": "Villa 6 Navalcarnero | Fase 2",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "constructionStatus",
+          "previousValue": "UnderConstruction",
+          "currentValue": "Licensed"
+        }
+      ]
+    },
+    {
+      "id": "change-2396c9c4f04f5651",
+      "promotionId": "sn-2d41dbff5847f740bc66",
+      "promotionName": "Krest",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "builtAreaMinSqm",
+          "currentValue": "235"
+        },
+        {
+          "field": "builtAreaMaxSqm",
+          "currentValue": "377"
+        }
+      ]
+    },
+    {
+      "id": "change-1572ad077b55c409",
+      "promotionId": "sn-a063e355d43904a5ca6c",
+      "promotionName": "Onix",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-26T21:39:26.9488734+00:00",
+      "fields": [
+        {
+          "field": "builtAreaMinSqm",
+          "currentValue": "215"
+        },
+        {
+          "field": "builtAreaMaxSqm",
+          "currentValue": "271"
+        }
+      ]
+    },
     {
       "id": "change-4bdb5727d90b9797",
       "promotionId": "sn-1da891935c399b2d99c7",
