@@ -605,6 +605,7 @@
       "properties": {
         "name": "Quercus Dorf Guadarrama",
         "municipality": "Guadarrama",
+        "priceFrom": 979700,
         "commercialStatus": "lastUnits",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.gilmar.es/inmueble/quercus-dorf-guadarrama"

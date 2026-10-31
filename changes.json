@@ -1,8 +1,21 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-10-30T05:44:18.1409713+00:00",
-  "runId": "20261030T054055044Z",
+  "generatedAtUtc": "2026-10-31T06:00:12.6005863+00:00",
+  "runId": "20261031T055637407Z",
   "changes": [
+    {
+      "id": "change-c31df27b5b5c24ef",
+      "promotionId": "sn-93f1752f47856556240b",
+      "promotionName": "Quercus Dorf Guadarrama",
+      "kind": "updated",
+      "detectedAtUtc": "2026-10-31T06:00:12.6005863+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "979700"
+        }
+      ]
+    },
     {
       "id": "change-0d9b0b68367968f6",
       "promotionId": "sn-1da891935c399b2d99c7",
