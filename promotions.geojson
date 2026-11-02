@@ -124,7 +124,6 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
-        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
