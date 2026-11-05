@@ -26,6 +26,9 @@ $channels = @($sources | Where-Object enabled | ForEach-Object {
     [pscustomobject]@{ id = $_.id; hostName = Get-HostName $_.urlTemplate; name = $_.name }
 })
 $provenance = 'sierranueva-extraction-catalog'
+if (@($channels | Where-Object { [string]::IsNullOrWhiteSpace($_.hostName) }).Count -gt 0) {
+    throw 'Un canal habilitado carece de dominio: no se puede reconciliar el inventario.'
+}
 if ($catalog.sources.id -notcontains $provenance) {
     $catalog.sources = @($catalog.sources) + [pscustomobject]@{
         id = $provenance; name = 'SierraNueva — extracción comercial revisada'

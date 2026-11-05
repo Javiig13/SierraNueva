@@ -36,6 +36,13 @@ try {
     if (-not $refused -or (Get-FileHash -LiteralPath $catalogPath).Hash -ne $before) {
         throw 'Se sobrescribió una decisión humana o se escribió ante conflicto.'
     }
+    @{ sources = @(@{ id = 'invalid'; name = 'Invalid'; baseUrl = ''; enabled = $true }) } |
+        ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $sourcesPath
+    $invalidRefused = $false
+    try { & $sync -CatalogPath $catalogPath -SourcesPath $sourcesPath -DiscoverySourcesPath $discoveryPath } catch { $invalidRefused = $true }
+    if (-not $invalidRefused -or (Get-FileHash -LiteralPath $catalogPath).Hash -ne $before) {
+        throw 'Un canal sin dominio alteró el inventario.'
+    }
     Write-Output 'Actores: idempotencia, enlace por host y preservación de decisiones correctos, sin red.'
 } finally {
     $resolved = [IO.Path]::GetFullPath($root)
