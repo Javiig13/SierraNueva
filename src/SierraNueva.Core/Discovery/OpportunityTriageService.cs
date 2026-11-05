@@ -211,6 +211,15 @@ public sealed class OpportunityTriageService
             : hasAdministrativeTerms
                 ? OpportunityTriageBand.AdministrativeSignal
                 : OpportunityTriageBand.GeneralSignal;
+        // Procurement uses parcels and urbanization for many non-housing uses.
+        // Keep these signals available without sending them to immediate review.
+        if (candidate.SourceKind == OpportunitySourceKind.PublicProcurement &&
+            !ContainsAny(corpus, ["residencial", "vivienda", "viviendas", "unifamiliar", "unifamiliares", "chalets"]))
+        {
+            score = Math.Min(score, 64);
+            reasons.Add(OpportunityTriageReason.PublicAdministrationWithoutResidentialTerms);
+        }
+
         OpportunityTriagePriority priority = score >= 85
             ? OpportunityTriagePriority.High
             : score >= 65

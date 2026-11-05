@@ -1,5 +1,20 @@
 # Hoja de ruta y criterios de aceptación
 
+- **Hecho local (5 noviembre):** evitar prioridad alta en contratación sin
+  evidencia residencial; 212 pruebas correctas, incluidas tres regresiones.
+- **Hecho live aislado:** Soto del Real pasa al RSS municipal oficial: diez
+  entradas sin fallos. Loeches se incorpora con tres dormitorios, campos
+  desconocidos nulos, fixture y crawl real correcto. Perfil: 49 fuentes,
+  47 automatizadas.
+- **Hecho:** triaje de los 40 nuevos altos: 12 rechazados, uno vendido y 27
+  en seguimiento con reglas exactas. Loeches es la única fuente nueva
+  técnicamente admitida del lote; seguimiento no implica disponibilidad.
+- **Pendiente externo:** Antaro Polar y STANCE Osnola siguen en 404 y ausentes
+  de los sitemaps/índices oficiales comprobados. Conservar su última evidencia
+  y fechas; no declarar vendidas ni recuperadas sin una ficha oficial válida.
+- **Pendiente:** resolver identidad y rutas Brosh antes de incorporar cinco
+  fases potencialmente solapadas; confirmar el conjunto en Actions.
+
 Estados usados: **Hecho** significa comprobado en local; **Parcial** significa
 implementado pero sin toda la verificación exigida; **Pendiente acordado**
 corresponde a la infraestructura que el propietario aplazó; **Pendiente**

@@ -6,6 +6,31 @@ namespace SierraNueva.Core.Tests;
 
 public sealed class OpportunityOperationsTests
 {
+    [Theory]
+    [InlineData("Concesión demanial para estación de lavado de automóviles en parcela de Alcobendas", false)]
+    [InlineData("Obras de urbanización del paseo marítimo de Alcobendas", false)]
+    [InlineData("Enajenación de parcelas de uso residencial en Alcobendas", true)]
+    public void Triage_RequiresHousingEvidenceForHighPriorityProcurement(string title, bool high)
+    {
+        DateTimeOffset now = new(2026, 11, 5, 10, 0, 0, TimeSpan.Zero);
+        OpportunityRadarState state = new()
+        {
+            Candidates =
+            [
+                Candidate("Alcobendas", OpportunitySourceKind.PublicProcurement,
+                    OpportunityCandidateStatus.New, now.AddDays(-1), title,
+                    "https://contrataciondelestado.es/licitacion", 0.65m,
+                    ["parcela", "urbanizacion"])
+            ]
+        };
+        OpportunityTriageItem item = Assert.Single(new OpportunityTriageService().Create(state, now).Items);
+        Assert.Equal(high, item.Priority == OpportunityTriagePriority.High);
+        if (!high)
+        {
+            Assert.Contains(OpportunityTriageReason.PublicAdministrationWithoutResidentialTerms, item.Reasons);
+        }
+    }
+
     [Fact]
     public void BackfillPlanner_SplitsLongRangesWithoutGapsOrOverlaps()
     {

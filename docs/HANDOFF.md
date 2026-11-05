@@ -1,5 +1,36 @@
 # Entrega y continuidad
 
+## Revisión en curso del 5 de noviembre de 2026
+
+Se recuperó el triaje privado mediante `42049846477`, se validó el SHA-256 del
+ZIP y se descifró en `tmp/session-20261105`; la clave efímera fue eliminada.
+Contiene exactamente 40 candidatos `new` de prioridad alta. El triaje humano
+queda codificado en reglas por URL: 12 descartes por geografía, uso ajeno a
+vivienda o producto plurifamiliar, una ficha vendida (`Anavia`) y 27 en
+seguimiento. Seguimiento no acredita comercialización ni evaluación técnica
+completa: incluye planeamiento, fuentes secundarias y fichas ambiguas.
+Larvin Loeches supera además la evaluación técnica: robots permite su ruta,
+HTTP 200 y crawl real con una promoción. Se incorpora como fuente 49 —47
+automatizadas—, con fixture y regresión para tres dormitorios y campos nulos.
+Los cinco enlaces Brosh requieren resolver sus rutas 404 y relación con la
+ficha general existente antes de publicar nuevas promociones.
+
+El registro de `41973231083` confirma que la matriz terminó correctamente
+con 596 resultados. El único canal fallido es `portada-soto-del-real`, que
+termina en HTTP 302. Una comprobación local reproduce una redirección a la
+misma URL. Se sustituye por el RSS oficial del Ayuntamiento, permitido por
+robots y probado mediante el lector real: HTTP 200, diez entradas y cero
+fallos. Se conserva el identificador de canal; cambia de avisos de sede a
+actualidad, sin prometer exhaustividad del tablón. Falta confirmación remota.
+Antaro Móstoles Polar y STANCE Osnola siguen en HTTP 404 y no tienen sustituto
+oficial verificado. No se ha confirmado su disponibilidad actual.
+
+El triaje limita ahora a prioridad baja las licitaciones sin términos
+residenciales, aunque mencionen parcelas u obras de urbanización. Conserva
+los candidatos y sus decisiones. Tres regresiones cubren lavadero, paseo
+marítimo y parcelas residenciales; con Loeches la suite completa pasa 212
+pruebas, build sin advertencias y formato correcto.
+
 Fecha de corte: **26 de octubre de 2026**.
 
 La recuperación operativa de octubre se documenta al final. Los recuentos live

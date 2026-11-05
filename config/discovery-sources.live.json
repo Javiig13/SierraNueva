@@ -102,6 +102,16 @@
         "duckduckgo.com"
       ],
       "reviewRules": [
+        { "urlPattern": "https://www.ayto-arroyomolinos.org/ayuntamiento/concejalias/urbanismo-medio-ambiente-y-transportes/urbanismo/archivos/normativa/sectores/sau-3/normas-edificacion.pdf$", "status": "monitoring" },
+        { "urlPattern": "https://www.ayto-arroyomolinos.org/ayuntamiento/concejalias/urbanismo-medio-ambiente-y-transportes/urbanismo/archivos/normativa/sectores/apd-4/normas-urbanisticas.pdf$", "status": "monitoring" },
+        { "urlPattern": "https://www.carrilloarquitectos.com/arquitecto-boadilla-del-monte$", "status": "rejected" },
+        { "urlPattern": "https://www.prygesa.es/obra-nueva/madrid/alcala-de-henares/las-sedas-de-alcala-de-henares-3$", "status": "rejected" },
+        { "urlPattern": "https://alcaladehenaresvirtual.es/obras-y-reformas/promotora-inmobiliaria/wilcox-residencial$", "status": "monitoring" },
+        { "urlPattern": "https://elinmobiliariomesames.com/noticias-inmobiliarias/aedas-homes-amplia-su-oferta-de-unifamiliares-sostenibles-en-alcala-de-henares$", "status": "monitoring" },
+        { "urlPattern": "https://gemg.es/obra-nueva-alcala-de-henares-cielo$", "status": "monitoring" },
+        { "urlPattern": "https://observatorioinmobiliario.es/noticias/residencial/neinor-homes-lanza-48-viviendas-en-alcala-de-henares-2$", "status": "monitoring" },
+        { "urlPattern": "https://www.aelca.es/es/proyectos/anavia-arroyomolinos$", "status": "stale" },
+        { "urlPattern": "https://www.aelca.es/es/proyectos/proyectos-de-obra-nueva-en-arroyomolinos$", "status": "monitoring" },
         { "urlPattern": "globaliza.com/", "status": "rejected" },
         { "urlPattern": "housage.es/", "status": "rejected" },
         { "urlPattern": "mitula.com/", "status": "rejected" },
@@ -181,6 +191,14 @@
       "urlTemplate": "https://www.bocm.es/search-day-month?field_date%5Bdate%5D={date:dd%2FMM%2Fyyyy}",
       "allowedHosts": [ "www.bocm.es" ],
       "reviewRules": [
+        { "urlPattern": "https://www.bocm.es/bocm-20260929-47$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261013-71$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261104-92$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261019-51$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261005-38$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261021-47$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261021-48$", "status": "monitoring" },
+        { "urlPattern": "https://www.bocm.es/bocm-20261008-33$", "status": "monitoring" },
         { "urlPattern": "/bocm-20260703-36", "status": "rejected" },
         { "urlPattern": "/bocm-20260710-55", "status": "rejected" },
         { "urlPattern": "/bocm-20260717-73", "status": "monitoring" },
@@ -194,6 +212,10 @@
     },
     {
       "id": "boe-sumario",
+      "reviewRules": [
+        { "urlPattern": "https://www.boe.es/diario_boe/txt.php?id=BOE-B-2026-34357$", "status": "rejected" },
+        { "urlPattern": "https://www.boe.es/diario_boe/txt.php?id=BOE-B-2026-34125$", "status": "monitoring" }
+      ],
       "name": "BOE — sumario diario OpenData",
       "enabled": true,
       "sourceKind": "stateGazette",
@@ -213,6 +235,15 @@
       "urlTemplate": "https://contrataciondelsectorpublico.gob.es/sindicacion/sindicacion_643/licitacionesPerfilesContratanteCompleto3_{date:yyyyMM}.zip",
       "allowedHosts": [ "contrataciondelsectorpublico.gob.es" ],
       "reviewRules": [
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=R7b3kRRX%2F8uzz8fXU2i3eQ%3D%3D$", "status": "rejected" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=AjP9gnm%2BsfW5HQrHoP3G5A%3D%3D$", "status": "rejected" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=nDWhdo6wozzpxJFXpLZ%2B2A%3D%3D$", "status": "monitoring" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=hmx%2FHL3PI3q2gkLQ8TeYKA%3D%3D$", "status": "monitoring" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=kSma4r2snmvkY6rls5tG9A%3D%3D$", "status": "monitoring" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=W5InbYnMyv9t5r0ngvMetA%3D%3D$", "status": "monitoring" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=nE11xwsQrAo%2FbjW6njtWLw%3D%3D$", "status": "rejected" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=%2B1WmVuSdDwbXOjazN1Dw9Q%3D%3D$", "status": "rejected" },
+        { "urlPattern": "https://contrataciondelestado.es/wps/poc?uri=deeplink:detalle_licitacion&idEvl=OFFDA8YQssLi0Kd8%2Brcp6w%3D%3D$", "status": "rejected" },
         {
           "urlPattern": "FqoNKeKjykJ9Zh%2FyRJgM8w%3D%3D",
           "status": "rejected"
@@ -524,14 +555,13 @@
     },
     {
       "id": "portada-soto-del-real",
-      "name": "Ayuntamiento de Soto del Real — avisos de sede",
+      "name": "Ayuntamiento de Soto del Real — actualidad oficial RSS",
       "enabled": true,
       "sourceKind": "municipalNoticeBoard",
-      "format": "html",
-      "cadence": "once",
-      "urlTemplate": "https://aytosotodelreal.sedelectronica.es/info.0",
-      "allowedHosts": [ "aytosotodelreal.sedelectronica.es" ],
-      "itemSelectors": [ ".AdvertisementBoardHomeListPanel tr" ],
+      "format": "rss",
+      "cadence": "daily",
+      "urlTemplate": "https://www.ayto-sotodelreal.es/feed/",
+      "allowedHosts": [ "www.ayto-sotodelreal.es", "ayto-sotodelreal.es" ],
       "fixedMunicipality": "Soto del Real",
       "maxItems": 10
     },
@@ -601,6 +631,9 @@
     },
     {
       "id": "noticias-guadalix",
+      "reviewRules": [
+        { "urlPattern": "https://www.guadalixdelasierra.com/index.php/78-ayuntamiento/2219-bando-enajanacion$", "status": "monitoring" }
+      ],
       "name": "Ayuntamiento de Guadalix de la Sierra — actualidad oficial RSS",
       "enabled": true,
       "sourceKind": "municipalNoticeBoard",
@@ -845,6 +878,7 @@
       "maxDetailPages": 20,
       "ignoreExclusionTerms": true,
       "reviewRules": [
+        { "urlPattern": "https://larvin.es/venta-chalets-madrid/chalets-loeches$", "status": "monitoring" },
         { "urlPattern": "/chalets-pozuelo-de-alarcon/", "status": "stale" }
       ],
       "maxItems": 1000
@@ -955,6 +989,11 @@
         "a[href^='/promociones/madrid/']"
       ],
       "reviewRules": [
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-pareados-f1$", "status": "monitoring" },
         { "urlPattern": "/promociones/madrid/oporto-59/", "status": "stale" },
         { "urlPattern": "/promociones/madrid/suite-228/", "status": "stale" },
         { "urlPattern": "/promociones/madrid/suite-43/", "status": "stale" },
@@ -1082,6 +1121,9 @@
         "a[href*='/obra-nueva-madrid/']"
       ],
       "reviewRules": [
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/illescas$", "status": "rejected" },
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola$", "status": "rejected" },
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola/novaontigola$", "status": "rejected" },
         { "urlPattern": "/pinto/7fuster/", "status": "stale" },
         { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" },
         { "urlPattern": "/aranjuez/", "status": "rejected" },
@@ -1343,6 +1385,7 @@
       "maxDetailPages": 200,
       "ignoreExclusionTerms": true,
       "reviewRules": [
+        { "urlPattern": "https://simaexpo.com/oferta/urban-getafe$", "status": "rejected" },
         {
           "urlPattern": "/oferta/quercus-dorf-guadarrama/",
           "status": "rejected"

@@ -10,6 +10,7 @@ public sealed class LiveSourceFixtureTests
     public static TheoryData<string, string> ReviewedSources =>
         new()
         {
+            { "larvin-loeches", "larvin-loeches.html" },
             { "apremya-puerta-villalba", "apremya-puerta-villalba.html" },
             { "altter-navata-nature", "altter-navata-nature.html" },
             { "los-pinarejos-p6", "los-pinarejos-p6.html" },
@@ -585,6 +586,14 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(5, promotion.BedroomsMax);
                 Assert.True(promotion.HasCommunityPool);
                 Assert.Equal(["Adosado", "Pareado"], promotion.PropertyTypes);
+                break;
+            case "larvin-loeches":
+                Assert.Equal("Chalets en Loeches", promotion.Name);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Null(promotion.TotalUnits);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Null(promotion.PlotAreaMinSqm);
                 break;
             case "larvin-hernan-cortes":
                 Assert.Equal("Chalets en Boadilla del Monte", promotion.Name);
