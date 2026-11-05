@@ -12,8 +12,18 @@
 - **Pendiente externo:** Antaro Polar y STANCE Osnola siguen en 404 y ausentes
   de los sitemaps/índices oficiales comprobados. Conservar su última evidencia
   y fechas; no declarar vendidas ni recuperadas sin una ficha oficial válida.
-- **Pendiente:** resolver identidad y rutas Brosh antes de incorporar cinco
-  fases potencialmente solapadas; confirmar el conjunto en Actions.
+- **Pendiente:** resolver identidad Brosh antes de incorporar cinco fases
+  potencialmente solapadas con P-6. La comprobación HTTP estática posterior
+  devuelve 200 en las cinco fichas, no 404.
+- **Verificado remoto (5 noviembre):** CI `42059635778` y despliegue
+  `42059403066` correctos; JSON de Pages con 48 promociones y 45/47 fuentes
+  comerciales correctas. Soto recuperado en remoto, matriz de 716 consultas
+  completada con 604 elementos; sin consumo del piloto IA.
+- **Incidente externo:** sitemap Doce Fresnos devolvió 500 en ese radar;
+  prueba real aislada posterior correcta (una entrada, cero fallos). Falta
+  acreditar continuidad remota en el próximo rastreo. Las diez correcciones
+  de barra final de `5a46911` están comprobadas localmente y se aplicarán en
+  la siguiente ejecución diaria, no en el run previo a ese commit.
 
 Estados usados: **Hecho** significa comprobado en local; **Parcial** significa
 implementado pero sin toda la verificación exigida; **Pendiente acordado**

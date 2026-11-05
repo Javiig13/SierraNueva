@@ -1,6 +1,6 @@
 # Entrega y continuidad
 
-## Revisión en curso del 5 de noviembre de 2026
+## Revisión verificada del 5 de noviembre de 2026
 
 Se recuperó el triaje privado mediante `42049846477`, se validó el SHA-256 del
 ZIP y se descifró en `tmp/session-20261105`; la clave efímera fue eliminada.
@@ -12,8 +12,13 @@ completa: incluye planeamiento, fuentes secundarias y fichas ambiguas.
 Larvin Loeches supera además la evaluación técnica: robots permite su ruta,
 HTTP 200 y crawl real con una promoción. Se incorpora como fuente 49 —47
 automatizadas—, con fixture y regresión para tres dormitorios y campos nulos.
-Los cinco enlaces Brosh requieren resolver sus rutas 404 y relación con la
-ficha general existente antes de publicar nuevas promociones.
+La primera consulta de los cinco enlaces Brosh devolvió 404, pero la
+comprobación posterior con solicitudes HTTP estáticas reproduce HTTP 200 en
+los cinco y contenido residencial real. No deben documentarse como caídos.
+El índice oficial los enlaza y robots permite las fichas padre, no ciertas
+subrutas. Falta resolver su relación con la manzana P-6 ya publicada antes
+de admitir fases potencialmente solapadas; véase la evaluación del 5 de
+noviembre.
 
 El registro de `41973231083` confirma que la matriz terminó correctamente
 con 596 resultados. El único canal fallido es `portada-soto-del-real`, que
@@ -21,7 +26,8 @@ termina en HTTP 302. Una comprobación local reproduce una redirección a la
 misma URL. Se sustituye por el RSS oficial del Ayuntamiento, permitido por
 robots y probado mediante el lector real: HTTP 200, diez entradas y cero
 fallos. Se conserva el identificador de canal; cambia de avisos de sede a
-actualidad, sin prometer exhaustividad del tablón. Falta confirmación remota.
+actualidad, sin prometer exhaustividad del tablón. Confirmado también en
+Actions `42059403066`: diez entradas y cero candidatos, sin errores.
 Antaro Móstoles Polar y STANCE Osnola siguen en HTTP 404 y no tienen sustituto
 oficial verificado. No se ha confirmado su disponibilidad actual.
 
@@ -30,8 +36,35 @@ residenciales, aunque mencionen parcelas u obras de urbanización. Conserva
 los candidatos y sus decisiones. Tres regresiones cubren lavadero, paseo
 marítimo y parcelas residenciales; con Loeches la suite completa pasa 212
 pruebas, build sin advertencias y formato correcto.
+La comprobación directa de las reglas contra las 40 URLs del lote encuentra
+40 coincidencias: 12 `rejected`, una `stale` y 27 `monitoring`. Se corrigieron
+diez terminaciones de URL para respetar las barras finales observadas.
 
-Fecha de corte: **26 de octubre de 2026**.
+### Resultado remoto y límites de cierre
+
+CI `42059635778` correcto para `5a46911`. La ejecución completa
+`42059403066` sobre `b9e4725` completó build, despliegue Pages y preservación
+del checkpoint con éxito. El JSON servido confirma run
+`20261105T163715533Z`, 48 promociones, una nueva (Loeches), 45/47 fuentes
+comerciales correctas y las dos 404 conocidas; estado `partialSuccess`.
+La SPA publicada muestra 47 activas y Loeches con tres dormitorios y precio
+nulo. No se ejecutó el piloto IA.
+
+La matriz terminó sus 716 consultas con 604 elementos; backfill BOCM y triaje
+correctos. El radar registra 64 canales sanos y uno degradado: el sitemap de
+Doce Fresnos devolvió HTTP 500, distinto del canal Soto ya recuperado. Después
+del run, tanto índice como sitemap hijo responden 200 y el comando real
+`discover-opportunities --source sitemap-doce-fresnos --dry-run` devuelve una
+entrada y cero fallos. Es recuperación aislada posterior, no un run remoto
+sin fallos. El lector ya reintenta errores HTTP transitorios de forma acotada.
+No se deshabilita la fuente ni se falsifica su historial por este incidente.
+
+El run completo anterior a `5a46911` no incluye las diez correcciones de barra
+final: se aplicarán en la siguiente ejecución diaria desde `main`; sí están
+validadas localmente contra las 40 URLs. Las 27 decisiones de seguimiento no
+son 27 altas comerciales ni investigaciones concluidas de disponibilidad.
+
+Fecha de corte de esta revisión: **5 de noviembre de 2026**.
 
 La recuperación operativa de octubre se documenta al final. Los recuentos live
 de julio son fotografías históricas, no acreditan continuidad hasta hoy.
@@ -74,8 +107,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 48
-  definiciones revisadas: 46 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 49
+  definiciones revisadas: 47 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.
