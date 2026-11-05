@@ -124,7 +124,6 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
-        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -367,6 +366,24 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://docefresnos.es/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-53c556ae43e12104daff",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.409335111,
+          40.38383529
+        ]
+      },
+      "properties": {
+        "name": "Chalets en Loeches",
+        "municipality": "Loeches",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://larvin.es/venta-chalets-madrid/chalets-loeches"
       }
     },
     {
