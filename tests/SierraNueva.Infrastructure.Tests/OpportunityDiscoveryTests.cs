@@ -16,6 +16,123 @@ public sealed class OpportunityDiscoveryTests
     private static readonly DateOnly FixtureDate = new(2026, 5, 21);
 
     [Fact]
+    public async Task KnownCommercialLocation_OverridesHomonymousDevelopmentAndPreservesHistoricalIdentity()
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            const string url = "https://promotora-fixture.test/proyectos/los-molinos";
+            OpportunityFeedItem[] items = [new()
+            {
+                Title = "Los Molinos", OfficialUrl = url, ExternalId = url,
+                Summary = "Promoción residencial de obra nueva en Getafe"
+            }];
+            JsonOpportunityStateRepository repository = new();
+            DateTimeOffset first = DateTimeOffset.UnixEpoch;
+            await repository.SaveAsync(directory, new()
+            {
+                Candidates = [new() { Id = "lead-historical", SourceId = "promoter", OfficialUrl = url,
+                    Municipality = "Los Molinos", FirstSeenUtc = first, Status = OpportunityCandidateStatus.Monitoring }]
+            }, CancellationToken.None);
+            OpportunityDiscoveryPipeline pipeline = new(new ScriptedFeedReader(items, items), repository,
+                new FixedClock(DateTimeOffset.UtcNow));
+            OpportunityDiscoveryRequest request = new()
+            {
+                Catalog = new()
+                {
+                    Sources = [new() { Id = "promoter", Enabled = true, SourceKind = OpportunitySourceKind.OfficialCommercialWebsite }],
+                    Terms = [new() { Term = "obra nueva", Kind = OpportunityKind.ResidentialDevelopment }],
+                    ContextTerms = ["residencial"]
+                },
+                Municipalities = [new() { OfficialName = "Los Molinos" }, new() { OfficialName = "Getafe" }],
+                KnownPromotionUrls = [url],
+                KnownPromotionMunicipalities = new Dictionary<string, string> { [url] = "Getafe" },
+                StateDirectory = directory,
+                From = FixtureDate,
+                To = FixtureDate
+            };
+            await pipeline.RunAsync(request, CancellationToken.None);
+            OpportunityDiscoveryResult second = await pipeline.RunAsync(request, CancellationToken.None);
+            OpportunityCandidate candidate = Assert.Single(second.State.Candidates);
+            Assert.Equal("lead-historical", candidate.Id);
+            Assert.Equal(first, candidate.FirstSeenUtc);
+            Assert.Equal("Getafe", candidate.Municipality);
+            Assert.Equal(OpportunityCandidateStatus.VerifiedSource, candidate.Status);
+            Assert.Equal(0, second.Run.NewCandidates);
+        }
+        finally { Directory.Delete(directory, recursive: true); }
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task Search_SeparatesLegitimateEmptyResultsFromEngineFailure(bool engineFailure)
+    {
+        string json = await File.ReadAllTextAsync(FixturePath("searxng-empty-failed.json"));
+        if (!engineFailure) { json = json.Replace("[[\"fixture-engine\", \"timeout\"]]", "[]", StringComparison.Ordinal); }
+        using StaticHttpClientFactory factory = new(json, "application/json");
+        OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+        OpportunitySourceDefinition source = SearchSource(null);
+        Assert.Empty(await reader.ReadAsync(source, FixtureDate, FixtureDate,
+            [new() { OfficialName = "Zarzalejo" }], CancellationToken.None));
+        OpportunitySearchDiagnostics diagnostics = Assert.IsType<OpportunitySearchDiagnostics>(reader.GetSearchDiagnostics(source.Id));
+        Assert.Equal(1, diagnostics.QueriesAttempted);
+        Assert.Equal(0, diagnostics.QueriesWithResults);
+        Assert.Equal(engineFailure ? 1 : 0, diagnostics.FailedQueries);
+        Assert.Equal("Zarzalejo", Assert.Single(diagnostics.Municipalities).Municipality);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Search_PartialMatrixRetainsGoodCandidatesAndMarksSourceDegraded(bool httpFailure)
+    {
+        string directory = CreateTempDirectory();
+        try
+        {
+            OpportunitySourceDefinition source = SearchSource(null);
+            string Url(string municipality) => source.UrlTemplate!.Replace("{query}",
+                Uri.EscapeDataString($"\"{municipality}\" obra nueva"), StringComparison.Ordinal);
+            using MappingHttpClientFactory factory = new(new Dictionary<string, byte[]>
+            {
+                [Url("Galapagar")] = await File.ReadAllBytesAsync(FixturePath("searxng-search.json")),
+                [Url("Zarzalejo")] = await File.ReadAllBytesAsync(FixturePath("searxng-empty-failed.json"))
+            });
+            OpportunityFeedReader reader = new(factory, new OpportunityFeedParser());
+            List<MunicipalityDefinition> municipalities = [new() { OfficialName = "Galapagar" }, new() { OfficialName = "Zarzalejo" }];
+            if (httpFailure) { municipalities.Add(new() { OfficialName = "Torrelodones" }); }
+            OpportunityDiscoveryPipeline pipeline = new(reader, new JsonOpportunityStateRepository(),
+                new FixedClock(DateTimeOffset.UtcNow));
+            OpportunityDiscoveryResult result = await pipeline.RunAsync(new()
+            {
+                Catalog = new()
+                {
+                    Sources = [source],
+                    Terms = [new() { Term = "obra nueva", Kind = OpportunityKind.ResidentialDevelopment }],
+                    ContextTerms = ["residencial"]
+                },
+                Municipalities = municipalities,
+                StateDirectory = directory,
+                From = FixtureDate,
+                To = FixtureDate
+            }, CancellationToken.None);
+            OpportunitySourceRun run = Assert.Single(result.Run.Sources);
+            Assert.False(run.Success);
+            Assert.StartsWith("SEARCH_INCOMPLETE:", run.Error);
+            Assert.Equal(1, run.ItemsRead);
+            Assert.Single(result.State.Candidates);
+            Assert.Equal(httpFailure ? 3 : 2, run.SearchDiagnostics!.QueriesAttempted);
+            Assert.Equal(1, run.SearchDiagnostics.QueriesWithResults);
+            Assert.Equal(httpFailure ? 2 : 1, run.SearchDiagnostics.FailedQueries);
+            Assert.Equal(httpFailure ? 3 : 2, factory.Requests.Count);
+            OpportunityRadarState persisted = await new JsonOpportunityStateRepository().LoadAsync(directory, CancellationToken.None);
+            Assert.Single(persisted.Candidates);
+            Assert.False(Assert.Single(persisted.LastRun!.Sources).Success);
+        }
+        finally { Directory.Delete(directory, recursive: true); }
+    }
+
+    [Fact]
     public async Task Reader_ParsesAndFiltersSearxngFixtureWithoutNetwork()
     {
         OpportunitySourceDefinition source = SearchSource(

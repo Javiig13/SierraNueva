@@ -70,6 +70,7 @@ internal static class CrawlerApplication
                 "triage-opportunities" => await TriageOpportunitiesAsync(
                     options,
                     shutdown.Token),
+                "commercial-coverage" => await CommercialCoverageAsync(options, shutdown.Token),
                 "review-opportunity" => await ReviewOpportunityAsync(
                     options,
                     shutdown.Token),
@@ -333,6 +334,14 @@ internal static class CrawlerApplication
                     .SelectMany(source =>
                         source.StartUrls.Concat(source.KnownPromotionUrls))
                     .ToArray(),
+                KnownPromotionMunicipalities = knownSources.Where(source => source.Enabled &&
+                        !string.IsNullOrWhiteSpace(source.FixedMunicipality))
+                    .SelectMany(source => source.StartUrls.Concat(source.KnownPromotionUrls)
+                        .Select(url => new KeyValuePair<string, string>(
+                            SierraNueva.Core.Normalization.UrlNormalizer.Normalize(url), source.FixedMunicipality!)))
+                    .GroupBy(pair => pair.Key, StringComparer.Ordinal)
+                    .Where(group => group.Select(pair => pair.Value).Distinct(StringComparer.OrdinalIgnoreCase).Count() == 1)
+                    .ToDictionary(group => group.Key, group => group.First().Value, StringComparer.Ordinal),
                 DryRun = options.DryRun
             },
             cancellationToken);
@@ -354,6 +363,12 @@ internal static class CrawlerApplication
             Console.WriteLine(
                 $"  {source.SourceId}: {(source.Success ? "ok" : "fallo")}, " +
                 $"{source.ItemsRead} entradas, {source.CandidatesMatched} candidatos.");
+            if (source.SearchDiagnostics is { } diagnostics)
+            {
+                Console.WriteLine($"    Búsquedas: {diagnostics.QueriesAttempted} intentadas, " +
+                    $"{diagnostics.QueriesWithResults} con resultados brutos, {diagnostics.FailedQueries} fallidas; " +
+                    $"{diagnostics.Municipalities.Count(item => item.QueriesWithResults > 0)}/{diagnostics.Municipalities.Count} municipios con resultados.");
+            }
         }
 
         foreach (OpportunitySourceRun source in result.Run.Sources.Where(source => !source.Success))
@@ -599,6 +614,29 @@ internal static class CrawlerApplication
             StringComparison.Ordinal));
     }
 
+    private static async Task<int> CommercialCoverageAsync(
+        CliOptions options,
+        CancellationToken cancellationToken)
+    {
+        if (await ValidateConfigAsync(options, cancellationToken) != 0)
+        {
+            return 2;
+        }
+
+        ConfigurationBundle configuration = await LoadConfigurationAsync(options, cancellationToken);
+        MarketActorCatalog actors = await configuration.Loader.LoadMarketActorCatalogAsync(options.MarketActors, cancellationToken);
+        OpportunityDiscoveryCatalog discovery = await configuration.Loader.LoadOpportunityCatalogAsync(options.DiscoverySources, cancellationToken);
+        CommercialCoverageReport report = new CommercialCoverageService().Create(
+            actors, configuration.Sources, discovery, configuration.Municipalities, DateTimeOffset.UtcNow);
+        await new JsonOpportunityReportWriter().SaveCommercialCoverageAsync(options.State, report, cancellationToken);
+        Console.WriteLine(
+            $"Cobertura comercial CONFIGURADA: {report.MunicipalitiesWithConfiguredExtraction}/{report.EnabledMunicipalities} municipios con extracción; " +
+            $"{report.ActorsWithConfiguredChannel}/{report.RegisteredActors} actores con canal; " +
+            $"{report.DomainsWithoutActor.Count} dominios sin actor; {report.StaleActorDeclarations.Count} declaraciones desfasadas. " +
+            "No mide exhaustividad ni salud live. Detalle solo en commercial-coverage.json dentro de --state.");
+        return 0;
+    }
+
     private static async Task<int> TriageOpportunitiesAsync(
         CliOptions options,
         CancellationToken cancellationToken)
@@ -639,6 +677,8 @@ internal static class CrawlerApplication
             $"Informe privado en '{Path.Combine(
                 options.State,
                 JsonOpportunityReportWriter.TriageFileName)}'.");
+        Console.WriteLine($"Colas separadas: {report.CommercialReviewCandidates} comerciales por revisar; " +
+            $"{report.AdministrativeWatchCandidates} señales administrativas. No son altas verificadas.");
         return 0;
     }
 
@@ -1213,6 +1253,7 @@ internal static class CrawlerApplication
               dotnet run --project src/SierraNueva.Crawler -- backfill-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- audit-opportunities [opciones]
               dotnet run --project src/SierraNueva.Crawler -- triage-opportunities [opciones]
+              dotnet run --project src/SierraNueva.Crawler -- commercial-coverage [opciones]
               dotnet run --project src/SierraNueva.Crawler -- review-opportunity [opciones]
               dotnet run --project src/SierraNueva.Crawler -- coverage-status [opciones]
               dotnet run --project src/SierraNueva.Crawler -- enrich-promotions [opciones]
@@ -1396,6 +1437,7 @@ internal sealed class CliOptions
             "backfill-opportunities" or
             "audit-opportunities" or
             "triage-opportunities" or
+            "commercial-coverage" or
             "review-opportunity" or
             "coverage-status" or
             "enrich-promotions" or

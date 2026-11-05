@@ -94,6 +94,14 @@ public enum OpportunityTriagePriority
     Duplicate
 }
 
+public enum OpportunityReviewTrack
+{
+    Other,
+    Commercial,
+    Administrative,
+    Duplicate
+}
+
 public enum OpportunityTriageReason
 {
     DirectPromotionTerms,
@@ -248,6 +256,8 @@ public sealed class OpportunityCandidate
 
 public sealed class OpportunitySourceRun
 {
+    public OpportunitySearchDiagnostics? SearchDiagnostics { get; init; }
+
     public string SourceId { get; init; } = string.Empty;
 
     public bool Success { get; init; }
@@ -257,6 +267,23 @@ public sealed class OpportunitySourceRun
     public int CandidatesMatched { get; init; }
 
     public string? Error { get; init; }
+}
+
+public sealed class OpportunitySearchDiagnostics
+{
+    public int QueriesAttempted { get; init; }
+    public int QueriesWithResults { get; init; }
+    public int QueriesWithEngineWarnings { get; init; }
+    public int FailedQueries { get; init; }
+    public IReadOnlyList<OpportunityMunicipalitySearchDiagnostics> Municipalities { get; init; } = [];
+}
+
+public sealed class OpportunityMunicipalitySearchDiagnostics
+{
+    public string Municipality { get; init; } = string.Empty;
+    public int QueriesAttempted { get; init; }
+    public int QueriesWithResults { get; init; }
+    public int FailedQueries { get; init; }
 }
 
 public sealed class OpportunityDiscoveryRun
@@ -401,6 +428,8 @@ public sealed class OpportunityRadarState
 
 public sealed class OpportunityTriageItem
 {
+    public OpportunityReviewTrack ReviewQueue { get; init; }
+
     public string CandidateId { get; init; } = string.Empty;
 
     public string SourceId { get; init; } = string.Empty;
@@ -473,6 +502,10 @@ public sealed class OpportunityTriageReport
 
     public int PossibleDuplicates { get; init; }
 
+    public int CommercialReviewCandidates { get; init; }
+
+    public int AdministrativeWatchCandidates { get; init; }
+
     public IReadOnlyList<OpportunityTriageDomain> Domains { get; init; } = [];
 
     public IReadOnlyList<OpportunityTriageItem> Items { get; init; } = [];
@@ -493,6 +526,9 @@ public sealed class OpportunityDiscoveryRequest
     public string? SourceFilter { get; init; }
 
     public IReadOnlyList<string> KnownPromotionUrls { get; init; } = [];
+
+    public IReadOnlyDictionary<string, string> KnownPromotionMunicipalities { get; init; } =
+        new Dictionary<string, string>();
 
     public bool DryRun { get; init; }
 }

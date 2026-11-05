@@ -1,5 +1,27 @@
 # Hoja de ruta y criterios de aceptación
 
+## P10 — Conversión comercial y cobertura observable
+
+- **Hecho local y HTTP real:** cuatro fases Brosh y Montecillos; perfil de
+  54 definiciones/52 automáticas. Cinco fixtures con pruebas negativas para
+  pagos, campos desconocidos y promociones ajenas.
+- **Verificado local:** 228 pruebas .NET, automatización y reconciliación
+  PowerShell, build sin advertencias, formato, radar/crawl offline y publish
+  con estado privado ausente.
+- **Hecho:** inventario de 573 actores, 30 con canal; informe privado
+  `commercial-coverage`, 171 webs por revisar, 372 actores sin web y
+  150 municipios sin extracción configurada. Reconciliación repetible sin red.
+- **Hecho:** separar colas comerciales/administrativas sin alterar decisiones;
+  detalle del sitemap Impulsa acotado y con demora.
+- **Hecho offline:** diagnóstico por consulta y municipio, sin llamar éxito
+  a un 200 vacío con errores de motores ni descartar resultados válidos.
+  Localidad revisada de URL conocida prevalece sobre nombre comercial homónimo.
+- **Pendiente remoto:** desplegar las cinco altas y observar diagnóstico de
+  las 716 consultas. El sesgo A–B del exportado no demuestra una causa específica.
+- **Pendiente de producto:** revisar 171 webs, resolver 372 dominios, Pareados
+  F1/P-6 y Brunete sectorial; ampliar controles independientes en municipios
+  sin extracción. El inventario y la cobertura de mercado NO están completos.
+
 - **Hecho local (5 noviembre):** evitar prioridad alta en contratación sin
   evidencia residencial; 212 pruebas correctas, incluidas tres regresiones.
 - **Hecho live aislado:** Soto del Real pasa al RSS municipal oficial: diez

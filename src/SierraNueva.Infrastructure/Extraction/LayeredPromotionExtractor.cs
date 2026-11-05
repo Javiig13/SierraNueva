@@ -1315,7 +1315,7 @@ public sealed partial class LayeredPromotionExtractor : IPromotionExtractor
     private static partial Regex GarageSpacesRegex();
 
     [GeneratedRegex(
-        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}(?:independientes?|individual(?:es)?)\b",
+        @"\b(?:chalet|vivienda)s?(?:\s+unifamiliares?)?\s+(?:(?:adosad[oa]s?|paread[oa]s?)[,\sye]*){0,2}(?:independientes?|individual(?:es)?|aislad[oa]s?)\b",
         RegexOptions.IgnoreCase)]
     private static partial Regex IndependentRegex();
 

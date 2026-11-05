@@ -161,16 +161,23 @@ jobs:
 
           $matrixOutcome = 'failure'
           $matrixItems = 0
+          $matrixAttempted = 'sin diagnóstico'
+          $matrixResults = 'sin diagnóstico'
+          $matrixFailed = 'sin diagnóstico'
           if (Test-Path -LiteralPath $statePath) {
             $after = Get-Content -Raw -LiteralPath $statePath |
               ConvertFrom-Json
             $matrix = @($after.lastRun.sources |
                 Where-Object sourceId -eq 'zz-web-search-matrix')
             if ($after.lastRun.runId -ne $beforeRunId -and
-                $matrix.Count -eq 1 -and
-                $matrix[0].success) {
-              $matrixOutcome = 'success'
+                $matrix.Count -eq 1) {
+              if ($matrix[0].success) { $matrixOutcome = 'success' }
               $matrixItems = $matrix[0].itemsRead
+              if ($null -ne $matrix[0].searchDiagnostics) {
+                $matrixAttempted = $matrix[0].searchDiagnostics.queriesAttempted
+                $matrixResults = $matrix[0].searchDiagnostics.queriesWithResults
+                $matrixFailed = $matrix[0].searchDiagnostics.failedQueries
+              }
             }
           }
 
@@ -178,6 +185,9 @@ jobs:
             Out-File -FilePath $env:GITHUB_OUTPUT -Append
           "matrix-items=$matrixItems" |
             Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "matrix-attempted=$matrixAttempted" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "matrix-results=$matrixResults" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "matrix-failed=$matrixFailed" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           exit $radarExit
 
       - name: Stop private SearXNG search radar
@@ -228,12 +238,23 @@ jobs:
           --state .runtime/state
           --sample-size 10
 
+      - name: Audit configured commercial coverage privately
+        continue-on-error: true
+        run: >-
+          dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
+          commercial-coverage
+          --config config/appsettings.live.json
+          --sources config/sources.live.json
+          --discovery-sources config/discovery-sources.live.json
+          --state .runtime/state
+
       - name: Classify pending opportunities privately
         id: opportunity-triage
         continue-on-error: true
         run: >-
           dotnet run --project src/SierraNueva.Crawler -c Release --no-build --
           triage-opportunities
+          --discovery-sources config/discovery-sources.live.json
           --state .runtime/state
 
       - name: Crawl reviewed live sources
@@ -351,6 +372,9 @@ jobs:
           SEARCH_START_OUTCOME: ${{ steps.private-search.outcome }}
           SEARCH_OUTCOME: ${{ steps.opportunity-radar.outputs.matrix-outcome }}
           SEARCH_ITEMS: ${{ steps.opportunity-radar.outputs.matrix-items }}
+          SEARCH_ATTEMPTED: ${{ steps.opportunity-radar.outputs.matrix-attempted }}
+          SEARCH_RESULTS: ${{ steps.opportunity-radar.outputs.matrix-results }}
+          SEARCH_FAILED: ${{ steps.opportunity-radar.outputs.matrix-failed }}
           BACKFILL_OUTCOME: ${{ steps.opportunity-backfill.outcome }}
           BACKFILL_SCHEDULE: ${{ steps.opportunity-backfill.outputs.schedule }}
           AUDIT_OUTCOME: ${{ steps.opportunity-audit.outcome }}
@@ -363,10 +387,14 @@ jobs:
             ConvertFrom-Json
           $coveragePath = '.runtime/state/opportunity-candidates.json'
           $triageSummary = '- Triaje privado: no disponible'
+          $searchSummary = "- Matriz web: $env:SEARCH_OUTCOME; $env:SEARCH_ITEMS elementos conservados; sin diagnóstico por consulta"
+          if (-not [string]::IsNullOrWhiteSpace($env:SEARCH_ATTEMPTED)) {
+            $searchSummary = "- Matriz web: $env:SEARCH_OUTCOME; $env:SEARCH_ATTEMPTED consultas intentadas, $env:SEARCH_RESULTS con resultados brutos, $env:SEARCH_FAILED fallidas; $env:SEARCH_ITEMS elementos conservados"
+          }
           $triagePath = '.runtime/state/opportunity-triage.json'
           if (Test-Path -LiteralPath $triagePath) {
             $triage = Get-Content -Raw -LiteralPath $triagePath | ConvertFrom-Json
-            $triageSummary = "- Triaje privado: $($triage.highPriority) alta, $($triage.mediumPriority) media y $($triage.lowPriority) baja; resultado $env:TRIAGE_OUTCOME"
+            $triageSummary = "- Triaje privado: $($triage.highPriority) alta, $($triage.mediumPriority) media y $($triage.lowPriority) baja; $($triage.commercialReviewCandidates) comerciales y $($triage.administrativeWatchCandidates) administrativas; resultado $env:TRIAGE_OUTCOME"
           }
           if (Test-Path -LiteralPath $coveragePath) {
             $radar = Get-Content -Raw -LiteralPath $coveragePath |
@@ -375,7 +403,7 @@ jobs:
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
           - Arranque SearXNG privado: $env:SEARCH_START_OUTCOME
-          - Matriz web (716 consultas): $env:SEARCH_OUTCOME; $env:SEARCH_ITEMS elementos conservados
+          $searchSummary
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME
@@ -388,7 +416,7 @@ jobs:
             $radarSummary = @"
           - Ejecución del radar: $env:RADAR_OUTCOME
           - Arranque SearXNG privado: $env:SEARCH_START_OUTCOME
-          - Matriz web (716 consultas): $env:SEARCH_OUTCOME; $env:SEARCH_ITEMS elementos conservados
+          $searchSummary
           - Backfill BOCM: $env:BACKFILL_OUTCOME ($env:BACKFILL_SCHEDULE)
           - Auditoría muestral privada: $env:AUDIT_OUTCOME
           - Piloto IA privado: $env:ENRICHMENT_OUTCOME

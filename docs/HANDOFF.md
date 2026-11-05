@@ -1,6 +1,42 @@
 # Entrega y continuidad
 
-## Revisión verificada del 5 de noviembre de 2026
+## Segundo lote comercial — 5 noviembre de 2026
+
+Cinco altas comprobadas mediante HTTP real y fixtures: cuatro fases Brosh
+(Adosados F1/F2 e Independientes F1/F2) e Impulsa Montecillos, nueve
+unifamiliares en Rivas. Perfil: 54 definiciones, 52 habilitadas. Se excluyen
+la reserva y superficies contradictorias de Montecillos. Pareados F1 de Brosh
+sigue pendiente de contraste con P-6. Evaluación en
+`docs/source-assessments/commercial-conversion-2026-11-05.md`.
+Este lote todavía no tiene despliegue Pages verificado.
+
+Baseline posterior: build Release sin advertencias, 228/228 pruebas
+(34 Core, 171 Infrastructure, 17 Web y 6 E2E), formato correcto, radar
+offline de 35 candidatos, crawl de cuatro fixtures, validación de datos y
+publish con estado privado ausente. Pruebas PowerShell de automatización y
+reconciliación correctas; sintaxis YAML validada. No se ha ejecutado IA.
+
+Inventario reconciliado sin red: 573 actores, 30 con canal configurado,
+171 con web pendientes y 372 sin web resuelta. `commercial-coverage` calcula
+huecos bajo `--state`: 29/179 municipios con extracción configurada,
+sin confundirlo con salud live o exhaustividad. El script
+`sync-market-actors.ps1` conserva la fecha de evidencia del censo y rechaza
+conflictos con decisiones humanas. El triaje separa comerciales y administrativos.
+
+Los pendientes web del exportado anterior solo abarcan 21 municipios A–B:
+es una asimetría, no prueba de su causa. El lector ya no considera sano un
+200 vacío con errores de motores; aísla fallos HTTP/JSON por consulta,
+conserva resultados parciales y registra diagnóstico por municipio. Falta
+observar esos campos en remoto antes de confirmar una causa o ajustar motores.
+No se cambia el volumen de 716 consultas ni se añade evasión.
+Las URLs comerciales conocidas usan su municipio revisado: Los Molinos I/II
+son de Getafe. Se conserva identidad privada y primera observación al corregirlo.
+
+Impulsa sigue ahora hasta doce artículos con demora; el smoke real procesó
+once y verificó Montecillos. Esa omisión concreta no estima recall del mercado.
+Quedan pendientes 171 webs, 372 dominios y una muestra independiente más amplia.
+
+## Primer lote verificado del 5 de noviembre de 2026
 
 Se recuperó el triaje privado mediante `42049846477`, se validó el SHA-256 del
 ZIP y se descifró en `tmp/session-20261105`; la clave efímera fue eliminada.
@@ -107,8 +143,8 @@ estática, se adapta al subpath `/SierraNueva/` y está publicada en
   `coverage-status`, más `enrich-promotions` y `review-enrichment`, con
   opciones y códigos de salida documentados.
 - Registro JSON de fuentes, 179 municipios editables y blocklist.
-- Perfil predeterminado completamente offline y perfil live explícito con 49
-  definiciones revisadas: 47 automatizadas y Miraflores Villas/Hirimasa
+- Perfil predeterminado completamente offline y perfil live explícito con 54
+  definiciones revisadas: 52 automatizadas y Miraflores Villas/Hirimasa
   retenidas como comprobación manual por bloqueos reiterados.
 - Descubrimiento configurado, manual, sitemap/index y enlaces internos.
 - Fuente de páginas por fixtures para ejecución completamente offline.

@@ -207,7 +207,7 @@ public sealed class ConfigurationTests
 
         Assert.Empty(loader.ValidateMarketActorCatalog(catalog));
         Assert.Equal("1.0", catalog.SchemaVersion);
-        Assert.Equal(569, catalog.Actors.Count);
+        Assert.Equal(573, catalog.Actors.Count);
         Assert.Contains(
             catalog.Sources,
             source => source.Id == "asprima-members");
@@ -223,7 +223,7 @@ public sealed class ConfigurationTests
             catalog.Actors.Count(actor =>
                 actor.SourceIds.Contains("sima-companies", StringComparer.Ordinal)));
         Assert.Equal(
-            24,
+            30,
             catalog.Actors.Count(actor =>
                 actor.ReviewStatus == MarketActorReviewStatus.Monitored));
         Assert.Contains(

@@ -134,7 +134,7 @@ Contracts/Web no conocen candidatos administrativos.
 7. Solo se fusionan duplicados concluyentes. Los ambiguos conservan una
    advertencia.
 8. Se aplican coordenadas explícitas o, como último recurso, un centroide
-   municipal trazable. Los 29 centroides de configuración derivan del NGMEP
+   municipal trazable. Los 179 centroides de configuración derivan del NGMEP
    2026 del IGN en ETRS89, compatible con WGS84 en la península.
 9. Se compara con `promotions-state.json`. Tres ausencias consecutivas en
    ejecuciones completas desactivan una promoción.
@@ -150,6 +150,15 @@ El estado privado conserva dos generaciones atómicas de
 `backup-2`; si todos son inválidos, aborta sin modificar ninguno.
 
 ## Radar de oportunidades
+
+El diagnóstico opcional `IOpportunitySearchDiagnostics` permite al lector
+comunicar resultados por consulta sin llevar HTTP a Core. El pipeline conserva
+candidatos válidos de una matriz parcial pero degrada su fuente si hay fallos
+HTTP/JSON o respuestas vacías con errores de motores. Los agregados por
+municipio permanecen en el estado privado; la SPA no recibe esta información.
+`commercial-coverage` contrasta configuración de actores/canales y municipios,
+no salud ni exhaustividad. El triaje distingue vías de revisión comercial y
+administrativa sin modificar el estado humano ni la política de admisión.
 
 `discover-opportunities` lee un catálogo independiente. La configuración
 predeterminada usa fixtures; el perfil live debe indicarse expresamente. El

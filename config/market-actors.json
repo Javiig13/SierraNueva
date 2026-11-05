@@ -3,6 +3,11 @@
   "checkedAtUtc": "2026-07-27T18:00:00.0000000+00:00",
   "sources": [
     {
+      "id": "sierranueva-extraction-catalog",
+      "name": "SierraNueva — extracción comercial revisada",
+      "url": "https://github.com/Javiig13/SierraNueva/blob/main/config/sources.live.json"
+    },
+    {
       "id": "asprima-members",
       "name": "ASPRIMA — listado de socios",
       "url": "https://asprima.es/listado-de-socios/"
@@ -521,12 +526,14 @@
       "officialWebsite": "https://altter.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://altter.es/"
       ],
       "monitoredSourceIds": [
+        "altter-navata-nature",
         "sitemap-altter"
       ]
     },
@@ -575,12 +582,16 @@
       "officialWebsite": "https://antaro.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://antaro.es/"
       ],
       "monitoredSourceIds": [
+        "antaro-los-trigales",
+        "antaro-mostoles-polar",
+        "antaro-prado-de-noria",
         "sitemap-antaro"
       ]
     },
@@ -694,12 +705,14 @@
       "officialWebsite": "https://apremyahomes.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://apremyahomes.es/"
       ],
       "monitoredSourceIds": [
+        "apremya-puerta-villalba",
         "links-apremya",
         "sitemap-apremya"
       ]
@@ -1131,12 +1144,14 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": [
+        "bimaran-arroyo-homes",
         "links-bimaran"
       ]
     },
@@ -1225,6 +1240,7 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog",
         "sima-companies"
       ],
@@ -1233,6 +1249,13 @@
         "https://simaexpo.com/empresas/brosh/"
       ],
       "monitoredSourceIds": [
+        "brosh-pinarejos-adosados-f1",
+        "brosh-pinarejos-adosados-f2",
+        "brosh-pinarejos-independientes-f1",
+        "brosh-pinarejos-independientes-f2-1",
+        "brosh-villa-2-mostoles",
+        "brosh-villa-6-navalcarnero-f1",
+        "brosh-villa-6-navalcarnero-f2",
         "links-brosh-madrid"
       ]
     },
@@ -2206,12 +2229,14 @@
       "officialWebsite": "https://docefresnos.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://docefresnos.es/"
       ],
       "monitoredSourceIds": [
+        "doce-fresnos-moralzarzal",
         "sitemap-doce-fresnos"
       ]
     },
@@ -2287,12 +2312,14 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": [
+        "grupo-egido-novaciempozuelos",
         "links-grupo-egido"
       ]
     },
@@ -2588,12 +2615,14 @@
       "officialWebsite": "https://exxacon.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://exxacon.es/"
       ],
       "monitoredSourceIds": [
+        "exxacon-living-natura",
         "sitemap-exxacon"
       ]
     },
@@ -2813,12 +2842,15 @@
       "officialWebsite": "https://galivivienda.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://galivivienda.com/"
       ],
       "monitoredSourceIds": [
+        "galivivienda-montelago",
+        "galivivienda-villa-barbara",
         "links-galivivienda",
         "sitemap-galivivienda"
       ]
@@ -2894,12 +2926,14 @@
       "officialWebsite": "https://gemg.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://gemg.es/"
       ],
       "monitoredSourceIds": [
+        "gemg-cielo-arroyomolinos",
         "sitemap-gemg"
       ]
     },
@@ -3050,14 +3084,17 @@
       "id": "gilmar",
       "name": "Gilmar",
       "officialWebsite": "https://gilmar.es/",
-      "reviewStatus": "candidate",
+      "reviewStatus": "monitored",
       "sourceIds": [
-        "asprima-members"
+        "asprima-members",
+        "sierranueva-extraction-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
-      "monitoredSourceIds": []
+      "monitoredSourceIds": [
+        "gilmar-quercus-dorf"
+      ]
     },
     {
       "id": "gilmar-consulting-inmobiliario",
@@ -3221,12 +3258,14 @@
       "officialWebsite": "https://grupoindexmadrid.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://grupoindexmadrid.com/"
       ],
       "monitoredSourceIds": [
+        "grupo-index-sierra-bonita",
         "sitemap-grupo-index"
       ]
     },
@@ -3257,6 +3296,26 @@
         "https://simaexpo.com/empresas/grupo-joseda-2/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "larvin",
+      "name": "Grupo Larvin",
+      "officialWebsite": "https://larvin.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-extraction-catalog"
+      ],
+      "evidenceUrls": [
+        "https://larvin.es/"
+      ],
+      "monitoredSourceIds": [
+        "larvin-hernan-cortes",
+        "larvin-loeches",
+        "larvin-monte-villa",
+        "larvin-residencial-48",
+        "larvin-rivas-zipi-zape",
+        "links-larvin"
+      ]
     },
     {
       "id": "grupo-ortiz",
@@ -3459,6 +3518,7 @@
       "officialWebsite": "https://hirimasa.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
@@ -3774,12 +3834,16 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": [
+        "grupo-impulsa-los-molinos",
+        "grupo-impulsa-los-molinos-ii",
+        "grupo-impulsa-montecillos",
         "sitemap-grupo-impulsa"
       ]
     },
@@ -3789,12 +3853,14 @@
       "officialWebsite": "https://inarahomes.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://inarahomes.com/"
       ],
       "monitoredSourceIds": [
+        "inara-residencial-el-boalo",
         "sitemap-inara"
       ]
     },
@@ -3896,12 +3962,14 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": [
+        "grupo-insur-caliope",
         "sitemap-grupo-insur"
       ]
     },
@@ -4172,12 +4240,16 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": [
+        "kronos-krest",
+        "kronos-mirage",
+        "kronos-onix",
         "sitemap-kronos"
       ]
     },
@@ -4224,14 +4296,18 @@
       "id": "la-cambrija",
       "name": "La Cambrija",
       "officialWebsite": "https://cambrija.es/",
-      "reviewStatus": "candidate",
+      "reviewStatus": "monitored",
       "sourceIds": [
-        "asprima-members"
+        "asprima-members",
+        "sierranueva-extraction-catalog"
       ],
       "evidenceUrls": [
         "https://asprima.es/listado-de-socios/"
       ],
-      "monitoredSourceIds": []
+      "monitoredSourceIds": [
+        "cambrija-viridiana",
+        "sitemap-cambrija"
+      ]
     },
     {
       "id": "la-quinta-de-manzanares",
@@ -4239,12 +4315,14 @@
       "officialWebsite": "https://laquintademanzanares.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://laquintademanzanares.com/"
       ],
       "monitoredSourceIds": [
+        "quinta-manzanares",
         "sitemap-quinta-manzanares"
       ]
     },
@@ -4554,6 +4632,21 @@
         "https://simaexpo.com/empresas/los-cerros/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "los-pinarejos",
+      "name": "Los Pinarejos",
+      "officialWebsite": "https://lospinarejos.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-extraction-catalog"
+      ],
+      "evidenceUrls": [
+        "https://lospinarejos.com/"
+      ],
+      "monitoredSourceIds": [
+        "los-pinarejos-p6"
+      ]
     },
     {
       "id": "lucas-trading-s-l",
@@ -4967,6 +5060,7 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog",
         "sima-companies"
       ],
@@ -4975,7 +5069,9 @@
         "https://simaexpo.com/empresas/naiz-homes/"
       ],
       "monitoredSourceIds": [
-        "links-naiz"
+        "links-naiz",
+        "naiz-aceris-pozuelo",
+        "naiz-pinea-pozuelo"
       ]
     },
     {
@@ -5029,6 +5125,21 @@
         "https://simaexpo.com/empresas/neinor-homes/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "nevola-homes",
+      "name": "Névola Homes",
+      "officialWebsite": "https://nevolahomes.com/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-extraction-catalog"
+      ],
+      "evidenceUrls": [
+        "https://nevolahomes.com/"
+      ],
+      "monitoredSourceIds": [
+        "nevola-homes-guadalix"
+      ]
     },
     {
       "id": "nido-capital",
@@ -5140,12 +5251,15 @@
       "officialWebsite": "https://nuvare.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://nuvare.es/"
       ],
       "monitoredSourceIds": [
+        "nuvare-claveles-zarzalejo",
+        "nuvare-cumbres-navalafuente",
         "sitemap-nuvare"
       ]
     },
@@ -6078,12 +6192,14 @@
       "officialWebsite": "https://residencialalpedrete.com/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://residencialalpedrete.com/"
       ],
       "monitoredSourceIds": [
+        "residencial-alpedrete-la-bellota",
         "sitemap-residencial-alpedrete"
       ]
     },
@@ -6099,6 +6215,21 @@
         "https://asprima.es/listado-de-socios/"
       ],
       "monitoredSourceIds": []
+    },
+    {
+      "id": "residencial-montemilano",
+      "name": "Residencial Montemilano",
+      "officialWebsite": "https://residencialmontemilano.es/",
+      "reviewStatus": "monitored",
+      "sourceIds": [
+        "sierranueva-extraction-catalog"
+      ],
+      "evidenceUrls": [
+        "https://residencialmontemilano.es/"
+      ],
+      "monitoredSourceIds": [
+        "residencial-montemilano-bustarviejo"
+      ]
     },
     {
       "id": "resimo",
@@ -6472,13 +6603,15 @@
       "officialWebsite": "https://soldithomes.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://soldithomes.es/"
       ],
       "monitoredSourceIds": [
-        "sitemap-soldit"
+        "sitemap-soldit",
+        "soldit-nuevo-brunete"
       ]
     },
     {
@@ -6539,13 +6672,16 @@
       "officialWebsite": "https://stancehomes.es/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://stancehomes.es/"
       ],
       "monitoredSourceIds": [
-        "sitemap-stance"
+        "sitemap-stance",
+        "stance-essentia-galapagar",
+        "stance-osnola-zarzalejo"
       ]
     },
     {
@@ -6856,6 +6992,7 @@
       "reviewStatus": "monitored",
       "sourceIds": [
         "asprima-members",
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
@@ -6863,7 +7000,9 @@
       ],
       "monitoredSourceIds": [
         "links-trinosa",
-        "sitemap-trinosa"
+        "sitemap-trinosa",
+        "trinosa-bonart",
+        "trinosa-etria"
       ]
     },
     {
@@ -7214,13 +7353,17 @@
       "officialWebsite": "https://vesari.info/",
       "reviewStatus": "monitored",
       "sourceIds": [
+        "sierranueva-extraction-catalog",
         "sierranueva-live-catalog"
       ],
       "evidenceUrls": [
         "https://vesari.info/"
       ],
       "monitoredSourceIds": [
-        "sitemap-vesari"
+        "sitemap-vesari",
+        "vesari-cuarteto",
+        "vesari-el-tomillar",
+        "vesari-luar-robledo"
       ]
     },
     {

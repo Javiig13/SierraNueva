@@ -7,6 +7,28 @@ namespace SierraNueva.Core.Tests;
 public sealed class OpportunityOperationsTests
 {
     [Theory]
+    [InlineData(OpportunitySourceKind.PublicProcurement, "Promoción residencial de chalets en Loeches", OpportunityReviewTrack.Administrative)]
+    [InlineData(OpportunitySourceKind.WebSearch, "Ayuntamiento de Loeches: plan parcial residencial", OpportunityReviewTrack.Administrative)]
+    [InlineData(OpportunitySourceKind.WebSearch, "Chalets de obra nueva en Loeches", OpportunityReviewTrack.Commercial)]
+    [InlineData(OpportunitySourceKind.OfficialCommercialWebsite, "Nueva fase en Loeches", OpportunityReviewTrack.Commercial)]
+    [InlineData(OpportunitySourceKind.WebSearch, "Guía municipal de Loeches", OpportunityReviewTrack.Other)]
+    public void Triage_SeparatesCommercialReviewFromAdministrativeWatch(
+        OpportunitySourceKind sourceKind, string title, OpportunityReviewTrack queue)
+    {
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        OpportunityRadarState state = new()
+        {
+            Candidates = [Candidate("Loeches", sourceKind, OpportunityCandidateStatus.New, now, title,
+                "https://promotora.test/loeches", 0.5m, [])]
+        };
+        OpportunityTriageReport report = new OpportunityTriageService().Create(state, now);
+        Assert.Equal(queue, Assert.Single(report.Items).ReviewQueue);
+        Assert.Equal(queue == OpportunityReviewTrack.Commercial ? 1 : 0, report.CommercialReviewCandidates);
+        Assert.Equal(queue == OpportunityReviewTrack.Administrative ? 1 : 0, report.AdministrativeWatchCandidates);
+        Assert.Equal(OpportunityCandidateStatus.New, state.Candidates[0].Status);
+    }
+
+    [Theory]
     [InlineData("Concesión demanial para estación de lavado de automóviles en parcela de Alcobendas", false)]
     [InlineData("Obras de urbanización del paseo marítimo de Alcobendas", false)]
     [InlineData("Enajenación de parcelas de uso residencial en Alcobendas", true)]

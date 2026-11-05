@@ -1,4 +1,5 @@
 using System.Text.Json;
+using SierraNueva.Core.Discovery;
 using SierraNueva.Core.Models;
 using SierraNueva.Infrastructure.Serialization;
 
@@ -11,6 +12,14 @@ public sealed class JsonOpportunityReportWriter
     public const string BackfillFileName = "opportunity-backfill.json";
 
     public const string TriageFileName = "opportunity-triage.json";
+
+    public Task SaveCommercialCoverageAsync(
+        string stateDirectory,
+        CommercialCoverageReport report,
+        CancellationToken cancellationToken)
+    {
+        return SaveAsync(Path.Combine(stateDirectory, "commercial-coverage.json"), report, cancellationToken);
+    }
 
     public Task SaveAuditAsync(
         string stateDirectory,

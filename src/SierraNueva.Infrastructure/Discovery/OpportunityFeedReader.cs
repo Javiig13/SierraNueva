@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using SierraNueva.Contracts;
 using SierraNueva.Core.Abstractions;
 using SierraNueva.Core.Models;
@@ -8,8 +9,13 @@ namespace SierraNueva.Infrastructure.Discovery;
 public sealed class OpportunityFeedReader(
     IHttpClientFactory httpClientFactory,
     OpportunityFeedParser parser,
-    CrawlerSettings settings) : IOpportunityFeedReader
+    CrawlerSettings settings) : IOpportunityFeedReader, IOpportunitySearchDiagnostics
 {
+    private readonly Dictionary<string, OpportunitySearchDiagnostics> _searchDiagnostics = new(StringComparer.Ordinal);
+
+    public OpportunitySearchDiagnostics? GetSearchDiagnostics(string sourceId) =>
+        _searchDiagnostics.GetValueOrDefault(sourceId);
+
     private const int MaximumDocumentBytes = 64 * 1024 * 1024;
     private const int MaximumArchiveBytes = 512 * 1024 * 1024;
     private const int MaximumSitemapDocuments = 50;
@@ -35,6 +41,7 @@ public sealed class OpportunityFeedReader(
         IReadOnlyList<MunicipalityDefinition> municipalities,
         CancellationToken cancellationToken)
     {
+        _searchDiagnostics.Remove(source.Id);
         if (!string.IsNullOrWhiteSpace(source.FixturePath))
         {
             byte[] fixture = await File.ReadAllBytesAsync(
@@ -178,36 +185,46 @@ public sealed class OpportunityFeedReader(
         IReadOnlyList<MunicipalityDefinition> municipalities,
         CancellationToken cancellationToken)
     {
-        string[] matrix = municipalities
+        (string Municipality, string Query)[] matrix = municipalities
             .Where(municipality => municipality.Enabled)
             .OrderBy(municipality => municipality.OfficialName, StringComparer.Ordinal)
             .SelectMany(municipality => source.SearchQueryTemplates.Select(template =>
-                template.Replace(
+                (municipality.OfficialName, template.Replace(
                     "{municipality}",
                     municipality.OfficialName,
-                    StringComparison.Ordinal)))
+                    StringComparison.Ordinal))))
             .ToArray();
         List<OpportunityFeedItem> items = [];
+        List<(string Municipality, bool Results, bool EngineWarnings, bool Failed)> observations = [];
         for (int index = 0; index < matrix.Length; index++)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            Uri uri = BuildSearchUri(source, matrix[index]);
+            Uri uri = BuildSearchUri(source, matrix[index].Query);
             ValidateUri(source, uri);
-            byte[]? content = await DownloadAsync(
-                uri,
-                cancellationToken,
-                "opportunity-search");
-            if (content is not null)
+            try
             {
+                byte[]? content = await DownloadAsync(uri, cancellationToken, "opportunity-search");
+                if (content is null) { throw new InvalidDataException("Búsqueda sin cuerpo JSON."); }
                 IReadOnlyList<OpportunityFeedItem> parsed = parser.Parse(
                     source,
                     content,
                     uri,
                     documentDate,
                     municipalities);
+                using JsonDocument document = JsonDocument.Parse(content);
+                JsonElement root = document.RootElement;
+                bool hasResults = root.GetProperty("results").GetArrayLength() > 0;
+                bool engineWarnings = root.TryGetProperty("unresponsive_engines", out JsonElement engines) &&
+                    engines.ValueKind == JsonValueKind.Array && engines.GetArrayLength() > 0;
+                observations.Add((matrix[index].Municipality, hasResults, engineWarnings, !hasResults && engineWarnings));
                 items.AddRange(
                     FilterSearchItems(source, parsed)
                         .Take(source.MaxResultsPerQuery));
+            }
+            catch (Exception exception) when (exception is HttpRequestException or IOException or InvalidDataException or JsonException)
+            {
+                // Keep successful queries and continue the full matrix, never convert an engine error into a healthy empty search.
+                observations.Add((matrix[index].Municipality, false, false, true));
             }
 
             if (index < matrix.Length - 1 &&
@@ -219,6 +236,22 @@ public sealed class OpportunityFeedReader(
             }
         }
 
+        _searchDiagnostics[source.Id] = new()
+        {
+            QueriesAttempted = observations.Count,
+            QueriesWithResults = observations.Count(item => item.Results),
+            QueriesWithEngineWarnings = observations.Count(item => item.EngineWarnings),
+            FailedQueries = observations.Count(item => item.Failed),
+            Municipalities = observations.GroupBy(item => item.Municipality, StringComparer.Ordinal)
+                .OrderBy(group => group.Key, StringComparer.Ordinal)
+                .Select(group => new OpportunityMunicipalitySearchDiagnostics
+                {
+                    Municipality = group.Key,
+                    QueriesAttempted = group.Count(),
+                    QueriesWithResults = group.Count(item => item.Results),
+                    FailedQueries = group.Count(item => item.Failed)
+                }).ToArray()
+        };
         return items
             .DistinctBy(
                 item => item.OfficialUrl,
@@ -280,6 +313,10 @@ public sealed class OpportunityFeedReader(
         {
             Uri detailUri = new(sitemapItem.OfficialUrl);
             ValidateUri(source, detailUri);
+            if (settings.RequestDelayMilliseconds > 0)
+            {
+                await Task.Delay(settings.RequestDelayMilliseconds, cancellationToken);
+            }
             byte[]? content = await DownloadAsync(detailUri, cancellationToken);
             if (content is null)
             {

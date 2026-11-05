@@ -161,6 +161,13 @@ SierraNueva.Crawler review-opportunity
 SierraNueva.Crawler coverage-status
   --state <ruta>
 
+SierraNueva.Crawler commercial-coverage
+  --config <ruta>
+  --sources <ruta>
+  --discovery-sources <ruta>
+  --market-actors <ruta>
+  --state <ruta privada>
+
 SierraNueva.Crawler enrich-promotions
   --config <ruta>
   --sources <ruta>
@@ -205,8 +212,8 @@ Códigos de salida: `0` éxito, `1` éxito parcial, `2` configuración inválida
 
 La configuración predeterminada habilita únicamente `fixtures-locales`. Por
 tanto, el comando básico no realiza solicitudes externas. El perfil explícito
-`config/sources.live.json` contiene 48 definiciones revisadas y limitadas:
-46 están automatizadas; Miraflores Villas e Hirimasa se conservan
+`config/sources.live.json` contiene 54 definiciones revisadas y limitadas:
+52 están automatizadas; Miraflores Villas e Hirimasa se conservan
 deshabilitadas para comprobación manual porque sus fichas bloquean de forma
 reiterada al runner de GitHub. El sitemap de Hirimasa continúa activo en el
 radar. El perfil nunca se usa en la baseline ni en pruebas automáticas.
@@ -339,6 +346,21 @@ dotnet run --project src/SierraNueva.Crawler -c Release --no-build -- `
 
 ## Configurar fuentes
 
+`commercial-coverage` genera `commercial-coverage.json` solo dentro de
+`--state`: contrasta actores y canales habilitados, lista dominios sin actor,
+referencias desfasadas, municipios sin extracción y actores por revisar
+(primero los que tienen web). No hace peticiones ni mide cuota o salud live.
+Para usar el perfil real, indicar `--config config/appsettings.live.json`,
+`--sources config/sources.live.json` y
+`--discovery-sources config/discovery-sources.live.json`.
+
+El triaje añade `reviewQueue` (commercial/administrative/other/duplicate) y
+recuentos por vía sin alterar decisiones. El JSON de búsqueda registra
+consultas intentadas, con resultados brutos, fallidas y advertencias de motores
+por municipio en el estado privado. Un HTTP 200 vacío con motores fallidos
+degrada la fuente; las consultas válidas se conservan. Esto no acredita
+disponibilidad ni exhaustividad.
+
 Las fuentes viven en [config/sources.json](config/sources.json). Cada una
 controla hosts permitidos, URLs iniciales, profundidad, límites, espera entre
 peticiones, sitemaps, Playwright, patrones y selectores específicos. El
@@ -424,6 +446,12 @@ Los tres mantenimientos son repetibles:
 ./scripts/sync-discovery-geography.ps1
 ./scripts/import-market-actors.ps1
 ```
+
+Para reconciliar solo el inventario ya descargado, sin solicitudes externas:
+`./scripts/import-market-actors.ps1 -UseExistingCatalog` o
+`./scripts/sync-market-actors.ps1`. Conserva fecha de evidencia y rechazos;
+un conflicto con un canal habilitado requiere revisión humana. Las pruebas
+`./scripts/test-market-actors.ps1` son offline e idempotentes.
 
 El primero requiere el CSV oficial descargado manualmente del IGN y los dos
 últimos sincronizan el radar live y el inventario sectorial respectivamente.
@@ -744,7 +772,7 @@ sigue funcionando.
   manualmente y está programado cada día a las 06:17, zona
   `Europe/Madrid`; levanta SearXNG, ejecuta las 716 consultas, actualiza después
   el resto del radar y su cobertura privada, usa las
-  46 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
+  52 fuentes live automatizadas, ejecuta un backfill BOCM de 31 días cada lunes,
   genera una auditoría privada diaria y no versiona el estado. Un fallo parcial
   del radar queda visible en el resumen, pero no elimina ni bloquea el último
   dataset comercial válido.

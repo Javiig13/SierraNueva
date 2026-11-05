@@ -21,7 +21,7 @@ La configuración existente de Brosh espera cinco segundos entre solicitudes.
 Esta comprobación no añade autorización jurídica distinta de la evaluación
 previa del mismo operador ni habilita seguimiento de enlaces nuevos.
 
-## Datos observados, no incorporados todavía
+## Datos observados y contraste de fases
 
 Las descripciones diferencian 20 adosados en F1, 20 en F2, 18 independientes
 en F1, 11 independientes en F2 y 20 pareados en F1. Las tablas no publican
@@ -38,8 +38,18 @@ planos ni descargado imágenes para resolver parcelas.
 
 ## Decisión
 
-Mantener los cinco candidatos en seguimiento privado, no descartarlos por
-404 ni contarlos como cinco promociones nuevas verificadas. Antes de alta:
-contrastar parcela/fase con P-6, aplicar selectores de detalle que excluyan
-contacto y promociones sugeridas y añadir fixtures reducidas y regresiones
-por fase. No se modifica el dataset público para simular cobertura.
+Se incorporan Adosados F1/F2 e Independientes F1/F2 (1). Títulos, fases,
+inventarios y tipologías se diferencian de P-6, ocho pareados. Los rangos
+observados son 180,68–218,95; 209,86–231,57; 255,77–266,34 y 305,07 m².
+No se agregan viviendas como stock disponible ni se inventa parcela exacta.
+Adosados F2 conserva las dos tipologías presentes en su tabla.
+
+Los selectores de detalle excluyen contacto y promociones sugeridas. Cuatro
+fixtures reducidas y regresiones cubren nombres, inventario, dormitorios,
+superficies y precio ausente. El crawl HTTP real `20261105T182736073Z`
+produjo cuatro fichas válidas, cuatro fuentes correctas y cero fallos,
+con estado y salida aislados. El extractor reconoce ahora viviendas
+unifamiliares «aisladas» como independientes, bajo ese contexto explícito.
+
+Pareados F1 permanece en seguimiento hasta resolver la relación con P-6;
+no se cuentan cinco altas ni se afirma una parcela exacta comprobada.

@@ -117,6 +117,11 @@ public interface IOpportunityFeedReader
         CancellationToken cancellationToken);
 }
 
+public interface IOpportunitySearchDiagnostics
+{
+    OpportunitySearchDiagnostics? GetSearchDiagnostics(string sourceId);
+}
+
 public interface IOpportunityStateRepository
 {
     Task<OpportunityRadarState> LoadAsync(

@@ -108,7 +108,8 @@
         { "urlPattern": "https://www.prygesa.es/obra-nueva/madrid/alcala-de-henares/las-sedas-de-alcala-de-henares-3$", "status": "rejected" },
         { "urlPattern": "https://alcaladehenaresvirtual.es/obras-y-reformas/promotora-inmobiliaria/wilcox-residencial$", "status": "monitoring" },
         { "urlPattern": "https://elinmobiliariomesames.com/noticias-inmobiliarias/aedas-homes-amplia-su-oferta-de-unifamiliares-sostenibles-en-alcala-de-henares$", "status": "monitoring" },
-        { "urlPattern": "https://gemg.es/obra-nueva-alcala-de-henares-cielo$", "status": "monitoring" },
+        { "urlPattern": "https://gemg.es/obra-nueva-alcala-de-henares-cielo$", "status": "rejected" },
+        { "urlPattern": "https://www.impulsaproyectos.com/proyectos/impulsa-brunete-cooperativa$", "status": "rejected" },
         { "urlPattern": "https://observatorioinmobiliario.es/noticias/residencial/neinor-homes-lanza-48-viviendas-en-alcala-de-henares-2$", "status": "monitoring" },
         { "urlPattern": "https://www.aelca.es/es/proyectos/anavia-arroyomolinos$", "status": "stale" },
         { "urlPattern": "https://www.aelca.es/es/proyectos/proyectos-de-obra-nueva-en-arroyomolinos$", "status": "monitoring" },
@@ -1147,6 +1148,13 @@
       "allowedHosts": [
         "www.impulsaproyectos.com",
         "impulsaproyectos.com"
+      ],
+      "followDetailPages": true,
+      "detailUrlIncludes": [ "/proyectos/" ],
+      "detailContentSelectors": [ ".proyecto-proyecto-activo" ],
+      "maxDetailPages": 12,
+      "reviewRules": [
+        { "urlPattern": "/proyectos/impulsa-brunete-cooperativa", "status": "rejected" }
       ],
       "maxItems": 500
     },

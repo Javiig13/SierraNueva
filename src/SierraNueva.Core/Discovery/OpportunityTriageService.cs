@@ -103,6 +103,10 @@ public sealed class OpportunityTriageService
                 item.Priority == OpportunityTriagePriority.Low),
             PossibleDuplicates = items.Count(item =>
                 item.Priority == OpportunityTriagePriority.Duplicate),
+            CommercialReviewCandidates = items.Count(item =>
+                item.ReviewQueue == OpportunityReviewTrack.Commercial),
+            AdministrativeWatchCandidates = items.Count(item =>
+                item.ReviewQueue == OpportunityReviewTrack.Administrative),
             Domains = domains,
             Items = items
         };
@@ -234,6 +238,7 @@ public sealed class OpportunityTriageService
 
         return new()
         {
+            ReviewQueue = ReviewQueue(candidate, domain, band, reasons),
             CandidateId = candidate.Id,
             SourceId = candidate.SourceId,
             SourceKind = candidate.SourceKind,
@@ -254,6 +259,38 @@ public sealed class OpportunityTriageService
             Reasons = reasons,
             DuplicateOfCandidateId = duplicateOfCandidateId
         };
+    }
+
+    private static OpportunityReviewTrack ReviewQueue(
+        OpportunityCandidate candidate,
+        string domain,
+        OpportunityTriageBand band,
+        IReadOnlyCollection<OpportunityTriageReason> reasons)
+    {
+        if (band == OpportunityTriageBand.PossibleDuplicate)
+        {
+            return OpportunityReviewTrack.Duplicate;
+        }
+
+        if (candidate.SourceKind is OpportunitySourceKind.RegionalGazette or
+            OpportunitySourceKind.StateGazette or OpportunitySourceKind.PublicProcurement or
+            OpportunitySourceKind.PublicLandPortal or OpportunitySourceKind.MunicipalNoticeBoard ||
+            IsPublicAdministrationHost(domain) ||
+            ContainsAny(Normalize(candidate.Title),
+                ["ayuntamiento", "plan parcial", "estudio de detalle", "normas urbanisticas", "reparcelacion"]))
+        {
+            return OpportunityReviewTrack.Administrative;
+        }
+
+        if (!reasons.Contains(OpportunityTriageReason.ExcludedListingHost) &&
+            (candidate.SourceKind is OpportunitySourceKind.OfficialCommercialWebsite or
+                 OpportunitySourceKind.IndustryDirectory ||
+             band == OpportunityTriageBand.DirectPromotion))
+        {
+            return OpportunityReviewTrack.Commercial;
+        }
+
+        return OpportunityReviewTrack.Other;
     }
 
     private static Dictionary<string, string> FindDuplicateMasters(

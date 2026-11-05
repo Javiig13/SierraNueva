@@ -10,6 +10,11 @@ public sealed class LiveSourceFixtureTests
     public static TheoryData<string, string> ReviewedSources =>
         new()
         {
+            { "grupo-impulsa-montecillos", "grupo-impulsa-montecillos.html" },
+            { "brosh-pinarejos-adosados-f1", "brosh-pinarejos-adosados-f1.html" },
+            { "brosh-pinarejos-adosados-f2", "brosh-pinarejos-adosados-f2.html" },
+            { "brosh-pinarejos-independientes-f1", "brosh-pinarejos-independientes-f1.html" },
+            { "brosh-pinarejos-independientes-f2-1", "brosh-pinarejos-independientes-f2-1.html" },
             { "larvin-loeches", "larvin-loeches.html" },
             { "apremya-puerta-villalba", "apremya-puerta-villalba.html" },
             { "altter-navata-nature", "altter-navata-nature.html" },
@@ -621,6 +626,52 @@ public sealed class LiveSourceFixtureTests
                 Assert.True(promotion.HasCommunityPool);
                 Assert.Contains("Independiente", promotion.PropertyTypes);
                 Assert.Null(promotion.TotalUnits);
+                break;
+            case "grupo-impulsa-montecillos":
+                Assert.Equal("Impulsa Montecillos - Grupo Impulsa", promotion.Name);
+                Assert.Equal(9, promotion.TotalUnits);
+                Assert.Contains("Pareado", promotion.PropertyTypes);
+                Assert.Contains("Independiente", promotion.PropertyTypes);
+                Assert.Null(promotion.PriceFrom);
+                Assert.Null(promotion.HasPrivatePool);
+                Assert.Null(promotion.BuiltAreaMinSqm);
+                Assert.Null(promotion.BedroomsMin);
+                Assert.Equal("Concedida", promotion.BuildingLicenceStatus);
+                break;
+            case "brosh-pinarejos-adosados-f1":
+            case "brosh-pinarejos-adosados-f2":
+            case "brosh-pinarejos-independientes-f1":
+            case "brosh-pinarejos-independientes-f2-1":
+                Assert.StartsWith("La Finca de Los Pinarejos | ", promotion.Name);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(3, promotion.BathroomsMin);
+                Assert.Null(promotion.PlotAreaMinSqm);
+                if (sourceId.Contains("independientes", StringComparison.Ordinal))
+                {
+                    Assert.Equal(["Independiente"], promotion.PropertyTypes);
+                }
+
+                if (sourceId == "brosh-pinarejos-independientes-f2-1")
+                {
+                    Assert.Equal(11, promotion.TotalUnits);
+                    Assert.Equal(688_000m, promotion.PriceFrom);
+                    Assert.Equal(305.07m, promotion.BuiltAreaMinSqm);
+                }
+                else
+                {
+                    Assert.Null(promotion.PriceFrom);
+                    Assert.Equal(sourceId.Contains("adosados", StringComparison.Ordinal) ? 20 : 18, promotion.TotalUnits);
+                    Assert.Equal(sourceId == "brosh-pinarejos-adosados-f1" ? 180.68m :
+                        sourceId == "brosh-pinarejos-adosados-f2" ? 209.86m : 255.77m,
+                        promotion.BuiltAreaMinSqm);
+                }
+
+                if (sourceId == "brosh-pinarejos-adosados-f2")
+                {
+                    Assert.Contains("Pareado", promotion.PropertyTypes);
+                    Assert.Contains("Adosado", promotion.PropertyTypes);
+                }
+
                 break;
             case "brosh-villa-2-mostoles":
                 Assert.Equal("Villa 2 Móstoles", promotion.Name);

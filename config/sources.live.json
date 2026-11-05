@@ -2,6 +2,204 @@
   "_comment": "Perfil live explícito. No se usa en la baseline offline ni en pruebas automáticas.",
   "sources": [
     {
+      "id": "grupo-impulsa-montecillos",
+      "name": "Grupo Impulsa — Impulsa Montecillos",
+      "baseUrl": "https://www.impulsaproyectos.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.impulsaproyectos.com",
+        "impulsaproyectos.com"
+      ],
+      "startUrls": [
+        "https://www.impulsaproyectos.com/proyectos/impulsa-montecillos/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Rivas-Vaciamadrid",
+      "municipalityHints": [
+        "Rivas-Vaciamadrid"
+      ],
+      "contentSelector": ".elementor-element-7b188bb2 .elementor-widget-container > p:nth-of-type(1)",
+      "additionalContentSelectors": [
+        ".elementor-element-7b188bb2 .elementor-widget-container > p:nth-of-type(4)",
+        ".elementor-element-7b188bb2 .elementor-widget-container > p:nth-of-type(10)"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Revisada 2026-11-05. Nueve unifamiliares, ocho pareados y uno independiente. Selectores excluyen reserva de 10.000 EUR, personalización opcional y superficie contradictoria 210/220 m². No se infiere número total de dormitorios por planta ni fecha exacta. Evaluación en docs/source-assessments/commercial-conversion-2026-11-05.md."
+    },
+    {
+      "id": "brosh-pinarejos-adosados-f1",
+      "name": "Brosh — La Finca de Los Pinarejos | Adosados F1",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Ficha oficial revisada el 2026-11-05. Fase diferenciada por título, tipología e inventario; distinta del micrositio P-6 de ocho pareados. Robots permite la ficha padre; no seguir subrutas prohibidas. Selectores reutilizados de Brosh excluyen contacto y otras promociones. Evidencia en docs/source-assessments/brosh-pinarejos-2026-11-05.md."
+    },
+    {
+      "id": "brosh-pinarejos-adosados-f2",
+      "name": "Brosh — La Finca de Los Pinarejos | Adosados F2",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Ficha oficial revisada el 2026-11-05. Fase diferenciada por título, tipología e inventario; distinta del micrositio P-6 de ocho pareados. Robots permite la ficha padre; no seguir subrutas prohibidas. Selectores reutilizados de Brosh excluyen contacto y otras promociones. Evidencia en docs/source-assessments/brosh-pinarejos-2026-11-05.md."
+    },
+    {
+      "id": "brosh-pinarejos-independientes-f1",
+      "name": "Brosh — La Finca de Los Pinarejos | Independientes F1",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Ficha oficial revisada el 2026-11-05. Fase diferenciada por título, tipología e inventario; distinta del micrositio P-6 de ocho pareados. Robots permite la ficha padre; no seguir subrutas prohibidas. Selectores reutilizados de Brosh excluyen contacto y otras promociones. Evidencia en docs/source-assessments/brosh-pinarejos-2026-11-05.md."
+    },
+    {
+      "id": "brosh-pinarejos-independientes-f2-1",
+      "name": "Brosh — La Finca de Los Pinarejos | Independientes F2 (1)",
+      "baseUrl": "https://www.brosh.es/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.brosh.es",
+        "brosh.es"
+      ],
+      "startUrls": [
+        "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1/"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Miraflores de la Sierra",
+      "municipalityHints": [
+        "Miraflores de la Sierra"
+      ],
+      "contentSelector": "main > div.d-flex.flex-column.gap-3 > div.container-fluid.bg-black",
+      "additionalContentSelectors": [
+        "main > div.d-flex.flex-column.gap-3 > div.d-flex.flex-column.gap-3 > div.container-fluid:nth-child(2) > .container > .row > .col-xl-8"
+      ],
+      "includePatterns": [
+        "/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1/"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "newsletter"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Ficha oficial revisada el 2026-11-05. Fase diferenciada por título, tipología e inventario; distinta del micrositio P-6 de ocho pareados. Robots permite la ficha padre; no seguir subrutas prohibidas. Selectores reutilizados de Brosh excluyen contacto y otras promociones. Evidencia en docs/source-assessments/brosh-pinarejos-2026-11-05.md."
+    },
+    {
       "id": "exxacon-living-natura",
       "name": "EXXACON — Living Natura",
       "baseUrl": "https://www.exxacon.es/",

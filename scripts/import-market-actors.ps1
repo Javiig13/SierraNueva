@@ -1,4 +1,6 @@
 param(
+    [switch]$UseExistingCatalog,
+
     [string]$OutputPath = "config/market-actors.json",
 
     [string]$DiscoverySourcesPath = "config/discovery-sources.live.json",
@@ -7,6 +9,11 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+if ($UseExistingCatalog) {
+    & (Join-Path $PSScriptRoot 'sync-market-actors.ps1') -CatalogPath $OutputPath -DiscoverySourcesPath $DiscoverySourcesPath
+    return
+}
 
 function Resolve-WorkspacePath {
     param([string]$Path)
@@ -330,3 +337,5 @@ Write-Output (
     "Catálogo creado: $($actors.Count) actores; $monitored monitorizados; " +
     "$withWebsite con web declarada; $($simaCompanies.Count) en SIMA. " +
     "No se han persistido datos de contacto.")
+
+& (Join-Path $PSScriptRoot 'sync-market-actors.ps1') -CatalogPath $OutputPath -DiscoverySourcesPath $DiscoverySourcesPath

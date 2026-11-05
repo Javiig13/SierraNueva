@@ -97,6 +97,7 @@ public sealed class OpportunityDiscoveryPipeline(
                         request.Catalog.ContextTerms,
                         request.Catalog.ExclusionTerms,
                         knownPromotionUrls,
+                        request.KnownPromotionMunicipalities,
                         clock.UtcNow);
                     if (candidate is null)
                     {
@@ -104,9 +105,19 @@ public sealed class OpportunityDiscoveryPipeline(
                     }
 
                     matched++;
-                    if (candidates.TryGetValue(candidate.Id, out OpportunityCandidate? existing))
+                    candidates.TryGetValue(candidate.Id, out OpportunityCandidate? existing);
+                    if (existing is null && request.KnownPromotionMunicipalities.ContainsKey(
+                            UrlNormalizer.Normalize(candidate.OfficialUrl)))
                     {
-                        candidates[candidate.Id] = Merge(existing, candidate);
+                        OpportunityCandidate[] samePage = candidates.Values.Where(previousCandidate =>
+                            previousCandidate.SourceId == candidate.SourceId &&
+                            UrlNormalizer.Normalize(previousCandidate.OfficialUrl) == UrlNormalizer.Normalize(candidate.OfficialUrl)).ToArray();
+                        if (samePage.Length == 1) { existing = samePage[0]; }
+                    }
+
+                    if (existing is not null)
+                    {
+                        candidates[existing.Id] = Merge(existing, candidate);
                         updatedCandidates++;
                     }
                     else
@@ -116,19 +127,26 @@ public sealed class OpportunityDiscoveryPipeline(
                     }
                 }
 
+                OpportunitySearchDiagnostics? diagnostics =
+                    (feedReader as IOpportunitySearchDiagnostics)?.GetSearchDiagnostics(source.Id);
+                bool complete = diagnostics is null || diagnostics.FailedQueries == 0;
+                string? searchError = complete ? null :
+                    $"SEARCH_INCOMPLETE: {diagnostics!.FailedQueries}/{diagnostics.QueriesAttempted} consultas sin resultado verificable por fallo HTTP/JSON o de motores.";
                 sourceRuns.Add(new()
                 {
                     SourceId = source.Id,
-                    Success = true,
+                    Success = complete,
+                    Error = searchError,
+                    SearchDiagnostics = diagnostics,
                     ItemsRead = items.Count,
                     CandidatesMatched = matched
                 });
-                sourceHealth[source.Id] = RecordSuccess(
+                sourceHealth[source.Id] = complete ? RecordSuccess(
                     source,
                     sourceHealth[source.Id],
                     items.Count,
                     matched,
-                    clock.UtcNow);
+                    clock.UtcNow) : RecordFailure(source, sourceHealth[source.Id], searchError!, clock.UtcNow);
             }
             catch (Exception exception) when (
                 exception is HttpRequestException or IOException or InvalidDataException)
@@ -500,6 +518,7 @@ public sealed class OpportunityDiscoveryPipeline(
         IReadOnlyList<string> contextTerms,
         IReadOnlyList<string> exclusionTerms,
         IReadOnlySet<string> knownPromotionUrls,
+        IReadOnlyDictionary<string, string> knownPromotionMunicipalities,
         DateTimeOffset observedAtUtc)
     {
         string searchable = TextNormalizer.NormalizeForComparison(
@@ -523,6 +542,11 @@ public sealed class OpportunityDiscoveryPipeline(
                     candidate.OfficialName,
                     source.FixedMunicipality,
                     StringComparison.OrdinalIgnoreCase));
+        if (knownPromotionMunicipalities.TryGetValue(UrlNormalizer.Normalize(item.OfficialUrl), out string? reviewedMunicipality))
+        {
+            municipality = municipalities.FirstOrDefault(candidate => candidate.Enabled &&
+                string.Equals(candidate.OfficialName, reviewedMunicipality, StringComparison.OrdinalIgnoreCase));
+        }
         OpportunityTermRule[] matchedRules = rules
             .Where(rule => ContainsTerm(searchable, rule.Term))
             .ToArray();

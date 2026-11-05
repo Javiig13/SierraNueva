@@ -45,6 +45,7 @@ if (-not $SkipPlaywrightInstall) {
 
 Invoke-Dotnet @('test', 'SierraNueva.sln', '-c', 'Release', '--no-build')
 & (Join-Path $PSScriptRoot 'test-automation.ps1')
+& (Join-Path $PSScriptRoot 'test-market-actors.ps1')
 Invoke-Dotnet @(
     'format', 'SierraNueva.sln', '--verify-no-changes', '--no-restore'
 )
