@@ -878,7 +878,7 @@
       "maxDetailPages": 20,
       "ignoreExclusionTerms": true,
       "reviewRules": [
-        { "urlPattern": "https://larvin.es/venta-chalets-madrid/chalets-loeches$", "status": "monitoring" },
+        { "urlPattern": "https://larvin.es/venta-chalets-madrid/chalets-loeches/$", "status": "monitoring" },
         { "urlPattern": "/chalets-pozuelo-de-alarcon/", "status": "stale" }
       ],
       "maxItems": 1000
@@ -989,11 +989,11 @@
         "a[href^='/promociones/madrid/']"
       ],
       "reviewRules": [
-        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1$", "status": "monitoring" },
-        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2$", "status": "monitoring" },
-        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1$", "status": "monitoring" },
-        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1$", "status": "monitoring" },
-        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-pareados-f1$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1/$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2/$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1/$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1/$", "status": "monitoring" },
+        { "urlPattern": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-pareados-f1/$", "status": "monitoring" },
         { "urlPattern": "/promociones/madrid/oporto-59/", "status": "stale" },
         { "urlPattern": "/promociones/madrid/suite-228/", "status": "stale" },
         { "urlPattern": "/promociones/madrid/suite-43/", "status": "stale" },
@@ -1121,9 +1121,9 @@
         "a[href*='/obra-nueva-madrid/']"
       ],
       "reviewRules": [
-        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/illescas$", "status": "rejected" },
-        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola$", "status": "rejected" },
-        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola/novaontigola$", "status": "rejected" },
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/illescas/$", "status": "rejected" },
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola/$", "status": "rejected" },
+        { "urlPattern": "https://grupoegido.es/obra-nueva-madrid/ontigola/novaontigola/$", "status": "rejected" },
         { "urlPattern": "/pinto/7fuster/", "status": "stale" },
         { "urlPattern": "/san-martin-de-la-vega/novavega/", "status": "stale" },
         { "urlPattern": "/aranjuez/", "status": "rejected" },
@@ -1385,7 +1385,7 @@
       "maxDetailPages": 200,
       "ignoreExclusionTerms": true,
       "reviewRules": [
-        { "urlPattern": "https://simaexpo.com/oferta/urban-getafe$", "status": "rejected" },
+        { "urlPattern": "https://simaexpo.com/oferta/urban-getafe/$", "status": "rejected" },
         {
           "urlPattern": "/oferta/quercus-dorf-guadarrama/",
           "status": "rejected"
