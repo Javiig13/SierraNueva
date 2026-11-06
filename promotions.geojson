@@ -40,6 +40,24 @@
     },
     {
       "type": "Feature",
+      "id": "sn-07a6799c044622cbe212",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.766720793,
+          40.8138022
+        ]
+      },
+      "properties": {
+        "name": "La Finca de Los Pinarejos | Adosados F1",
+        "municipality": "Miraflores de la Sierra",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1"
+      }
+    },
+    {
+      "type": "Feature",
       "id": "sn-0e6a8db8d6244149edb1",
       "geometry": {
         "type": "Point",
@@ -388,6 +406,24 @@
     },
     {
       "type": "Feature",
+      "id": "sn-5816164ac7b0bd668db7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.547793323,
+          40.35497882
+        ]
+      },
+      "properties": {
+        "name": "Impulsa Montecillos - Grupo Impulsa",
+        "municipality": "Rivas-Vaciamadrid",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.impulsaproyectos.com/proyectos/impulsa-montecillos"
+      }
+    },
+    {
+      "type": "Feature",
       "id": "sn-5c22bf3666df23587ad0",
       "geometry": {
         "type": "Point",
@@ -531,6 +567,24 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-2"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-8000af553726ded2f59c",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.766720793,
+          40.8138022
+        ]
+      },
+      "properties": {
+        "name": "La Finca de Los Pinarejos | Adosados F2",
+        "municipality": "Miraflores de la Sierra",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f2"
       }
     },
     {
@@ -741,6 +795,24 @@
     },
     {
       "type": "Feature",
+      "id": "sn-b59b6b9bed3ac506f665",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.766720793,
+          40.8138022
+        ]
+      },
+      "properties": {
+        "name": "La Finca de Los Pinarejos | Independientes F1",
+        "municipality": "Miraflores de la Sierra",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1"
+      }
+    },
+    {
+      "type": "Feature",
       "id": "sn-c1b6a7022854d96029a0",
       "geometry": {
         "type": "Point",
@@ -887,6 +959,25 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://nuvare.es/promocion-cumbres-de-navalafuente"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-f70c46cabccbd7c6594f",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.766720793,
+          40.8138022
+        ]
+      },
+      "properties": {
+        "name": "La Finca de Los Pinarejos | Independientes F2 (1)",
+        "municipality": "Miraflores de la Sierra",
+        "priceFrom": 688000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1"
       }
     }
   ]

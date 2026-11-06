@@ -1,8 +1,48 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-05T16:40:58.2504561+00:00",
-  "runId": "20261105T163715533Z",
+  "generatedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+  "runId": "20261106T054358110Z",
   "changes": [
+    {
+      "id": "change-f6a855581d522832",
+      "promotionId": "sn-07a6799c044622cbe212",
+      "promotionName": "La Finca de Los Pinarejos | Adosados F1",
+      "kind": "added",
+      "detectedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-ec592340b8085d68",
+      "promotionId": "sn-8000af553726ded2f59c",
+      "promotionName": "La Finca de Los Pinarejos | Adosados F2",
+      "kind": "added",
+      "detectedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-dee8c7141a0e8f5d",
+      "promotionId": "sn-b59b6b9bed3ac506f665",
+      "promotionName": "La Finca de Los Pinarejos | Independientes F1",
+      "kind": "added",
+      "detectedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-1f02176b412b7d29",
+      "promotionId": "sn-f70c46cabccbd7c6594f",
+      "promotionName": "La Finca de Los Pinarejos | Independientes F2 (1)",
+      "kind": "added",
+      "detectedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+      "fields": []
+    },
+    {
+      "id": "change-dbe3fef4cbbea76c",
+      "promotionId": "sn-5816164ac7b0bd668db7",
+      "promotionName": "Impulsa Montecillos - Grupo Impulsa",
+      "kind": "added",
+      "detectedAtUtc": "2026-11-06T05:48:01.4354281+00:00",
+      "fields": []
+    },
     {
       "id": "change-c202dc63e43c3ed7",
       "promotionId": "sn-53c556ae43e12104daff",
