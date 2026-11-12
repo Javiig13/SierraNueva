@@ -1,8 +1,38 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-11T05:46:14.757649+00:00",
-  "runId": "20261111T054216853Z",
+  "generatedAtUtc": "2026-11-12T05:47:18.6267456+00:00",
+  "runId": "20261112T054329502Z",
   "changes": [
+    {
+      "id": "change-08ad20be44689b04",
+      "promotionId": "sn-1da891935c399b2d99c7",
+      "promotionName": "Residencial Montemilano - Bustarviejo",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-12T05:47:18.6267456+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "349869"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "358050"
+        }
+      ]
+    },
+    {
+      "id": "change-692bd076949573dd",
+      "promotionId": "sn-f70c46cabccbd7c6594f",
+      "promotionName": "La Finca de Los Pinarejos | Independientes F2 (1)",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-12T05:47:18.6267456+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "688000"
+        }
+      ]
+    },
     {
       "id": "change-8cf0ea3188533700",
       "promotionId": "sn-1da891935c399b2d99c7",

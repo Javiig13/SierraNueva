@@ -142,6 +142,7 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
+        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -974,7 +975,6 @@
       "properties": {
         "name": "La Finca de Los Pinarejos | Independientes F2 (1)",
         "municipality": "Miraflores de la Sierra",
-        "priceFrom": 688000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f2-1"
