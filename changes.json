@@ -1,8 +1,38 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-13T05:46:38.8471012+00:00",
-  "runId": "20261113T054237621Z",
+  "generatedAtUtc": "2026-11-14T05:46:45.803849+00:00",
+  "runId": "20261114T054255428Z",
   "changes": [
+    {
+      "id": "change-e1dd1b0aede00c3e",
+      "promotionId": "sn-1da891935c399b2d99c7",
+      "promotionName": "Residencial Montemilano - Bustarviejo",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-14T05:46:45.803849+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "349869"
+        },
+        {
+          "field": "priceTo",
+          "previousValue": "358050"
+        }
+      ]
+    },
+    {
+      "id": "change-0e7f81aae932f769",
+      "promotionId": "sn-8000af553726ded2f59c",
+      "promotionName": "El Encinar de Miraflores | Adosados",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-14T05:46:45.803849+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "470000"
+        }
+      ]
+    },
     {
       "id": "change-08ad20be44689b04",
       "promotionId": "sn-1da891935c399b2d99c7",

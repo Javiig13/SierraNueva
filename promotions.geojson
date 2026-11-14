@@ -142,7 +142,6 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
-        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -583,6 +582,7 @@
       "properties": {
         "name": "El Encinar de Miraflores | Adosados",
         "municipality": "Miraflores de la Sierra",
+        "priceFrom": 470000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/el-encinar-de-miraflores-adosados"
