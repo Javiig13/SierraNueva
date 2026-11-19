@@ -1,8 +1,25 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-18T05:50:22.4326159+00:00",
-  "runId": "20261118T054625018Z",
+  "generatedAtUtc": "2026-11-19T05:47:23.6032887+00:00",
+  "runId": "20261119T054339703Z",
   "changes": [
+    {
+      "id": "change-444ebb667236257f",
+      "promotionId": "sn-1da891935c399b2d99c7",
+      "promotionName": "Residencial Montemilano - Bustarviejo",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-19T05:47:23.6032887+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "previousValue": "349869"
+        },
+        {
+          "field": "priceTo",
+          "previousValue": "358050"
+        }
+      ]
+    },
     {
       "id": "change-3a188c3d6550f9bf",
       "promotionId": "sn-1da891935c399b2d99c7",
