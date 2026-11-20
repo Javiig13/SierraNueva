@@ -51,6 +51,7 @@
       "properties": {
         "name": "La Finca de Los Pinarejos | Adosados F1",
         "municipality": "Miraflores de la Sierra",
+        "priceFrom": 595000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-adosados-f1"
@@ -807,6 +808,7 @@
       "properties": {
         "name": "La Finca de Los Pinarejos | Independientes F1",
         "municipality": "Miraflores de la Sierra",
+        "priceFrom": 775000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/la-finca-de-los-pinarejos-independientes-f1"

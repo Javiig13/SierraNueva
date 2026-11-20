@@ -1,8 +1,52 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-19T05:47:23.6032887+00:00",
-  "runId": "20261119T054339703Z",
+  "generatedAtUtc": "2026-11-20T05:51:31.2914835+00:00",
+  "runId": "20261120T054718123Z",
   "changes": [
+    {
+      "id": "change-9a937d94d1806e8d",
+      "promotionId": "sn-07a6799c044622cbe212",
+      "promotionName": "La Finca de Los Pinarejos | Adosados F1",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-20T05:51:31.2914835+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "595000"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "629000"
+        },
+        {
+          "field": "builtAreaMinSqm",
+          "previousValue": "180.68",
+          "currentValue": "180.70"
+        },
+        {
+          "field": "builtAreaMaxSqm",
+          "previousValue": "218.95",
+          "currentValue": "199.35"
+        }
+      ]
+    },
+    {
+      "id": "change-ca5a5b98a9a2faf5",
+      "promotionId": "sn-b59b6b9bed3ac506f665",
+      "promotionName": "La Finca de Los Pinarejos | Independientes F1",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-20T05:51:31.2914835+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "775000"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "829000"
+        }
+      ]
+    },
     {
       "id": "change-444ebb667236257f",
       "promotionId": "sn-1da891935c399b2d99c7",
