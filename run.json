@@ -1,51 +1,27 @@
 {
   "schemaVersion": "1.0",
-  "runId": "20261120T054718123Z",
-  "startedAtUtc": "2026-11-20T05:47:18.1233897+00:00",
-  "finishedAtUtc": "2026-11-20T05:51:31.3357294+00:00",
-  "durationSeconds": 253.212,
+  "runId": "20261121T054159704Z",
+  "startedAtUtc": "2026-11-21T05:41:59.7040059+00:00",
+  "finishedAtUtc": "2026-11-21T05:54:33.8830658+00:00",
+  "durationSeconds": 754.179,
   "status": "partialSuccess",
   "crawlerVersion": "1.0.0.0",
   "totalSources": 52,
-  "successfulSources": 50,
-  "failedSources": 2,
+  "successfulSources": 30,
+  "failedSources": 22,
   "skippedSources": 0,
-  "discoveredUrls": 50,
-  "fetchedUrls": 48,
+  "discoveredUrls": 30,
+  "fetchedUrls": 30,
   "skippedUrls": 0,
-  "extractedPromotions": 51,
+  "extractedPromotions": 33,
   "newPromotions": 0,
-  "changedPromotions": 2,
+  "changedPromotions": 1,
   "warnings": [],
   "sourceResults": [
     {
       "sourceId": "altter-navata-nature",
-      "startedAtUtc": "2026-11-20T05:47:18.1733075+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:21.1850395+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
-      "urlsSkipped": 0,
-      "promotionsExtracted": 1,
-      "warnings": [],
-      "errors": []
-    },
-    {
-      "sourceId": "antaro-los-trigales",
-      "startedAtUtc": "2026-11-20T05:47:21.1851199+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:22.9499545+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
-      "urlsSkipped": 0,
-      "promotionsExtracted": 1,
-      "warnings": [],
-      "errors": []
-    },
-    {
-      "sourceId": "antaro-mostoles-polar",
-      "startedAtUtc": "2026-11-20T05:47:22.9499566+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:28.7120554+00:00",
+      "startedAtUtc": "2026-11-21T05:41:59.7512266+00:00",
+      "finishedAtUtc": "2026-11-21T05:42:40.4164979+00:00",
       "status": "failed",
       "urlsDiscovered": 0,
       "urlsFetched": 0,
@@ -53,25 +29,55 @@
       "promotionsExtracted": 0,
       "warnings": [],
       "errors": [
-        "Response status code does not indicate success: 404 (Not Found)."
+        "Tiempo de espera agotado al descargar \u0027https://www.altter.es/residencial-navata-nature/\u0027."
+      ]
+    },
+    {
+      "sourceId": "antaro-los-trigales",
+      "startedAtUtc": "2026-11-21T05:42:40.4165713+00:00",
+      "finishedAtUtc": "2026-11-21T05:43:21.0247268+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
+      "urlsSkipped": 0,
+      "promotionsExtracted": 0,
+      "warnings": [],
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://antaro.es/promociones/los-trigales/\u0027."
+      ]
+    },
+    {
+      "sourceId": "antaro-mostoles-polar",
+      "startedAtUtc": "2026-11-21T05:43:21.0247318+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:01.6303125+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
+      "urlsSkipped": 0,
+      "promotionsExtracted": 0,
+      "warnings": [],
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://antaro.es/promociones/mostoles-polar-residencial/\u0027."
       ]
     },
     {
       "sourceId": "antaro-prado-de-noria",
-      "startedAtUtc": "2026-11-20T05:47:28.7121412+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:32.7770119+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:44:01.6303175+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:42.2390601+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://antaro.es/promociones/prado-de-noria/\u0027."
+      ]
     },
     {
       "sourceId": "apremya-puerta-villalba",
-      "startedAtUtc": "2026-11-20T05:47:32.7770142+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:36.8967897+00:00",
+      "startedAtUtc": "2026-11-21T05:44:42.2390635+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:46.505153+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -82,8 +88,8 @@
     },
     {
       "sourceId": "bimaran-arroyo-homes",
-      "startedAtUtc": "2026-11-20T05:47:36.896792+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:38.623219+00:00",
+      "startedAtUtc": "2026-11-21T05:44:46.5052286+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:48.1495622+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -94,8 +100,8 @@
     },
     {
       "sourceId": "brosh-pinarejos-adosados-f1",
-      "startedAtUtc": "2026-11-20T05:47:38.6232214+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:40.7250535+00:00",
+      "startedAtUtc": "2026-11-21T05:44:48.1495642+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:49.3860871+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -106,8 +112,8 @@
     },
     {
       "sourceId": "brosh-pinarejos-adosados-f2",
-      "startedAtUtc": "2026-11-20T05:47:40.7250559+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:45.1578339+00:00",
+      "startedAtUtc": "2026-11-21T05:44:49.3860896+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:54.2925594+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -118,8 +124,8 @@
     },
     {
       "sourceId": "brosh-pinarejos-independientes-f1",
-      "startedAtUtc": "2026-11-20T05:47:45.1578351+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:49.961175+00:00",
+      "startedAtUtc": "2026-11-21T05:44:54.2925616+00:00",
+      "finishedAtUtc": "2026-11-21T05:44:59.1464597+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -130,8 +136,8 @@
     },
     {
       "sourceId": "brosh-pinarejos-independientes-f2-1",
-      "startedAtUtc": "2026-11-20T05:47:49.9611775+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:54.9553679+00:00",
+      "startedAtUtc": "2026-11-21T05:44:59.1464626+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:04.1402532+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -142,8 +148,8 @@
     },
     {
       "sourceId": "brosh-villa-2-mostoles",
-      "startedAtUtc": "2026-11-20T05:47:54.95537+00:00",
-      "finishedAtUtc": "2026-11-20T05:47:59.9560247+00:00",
+      "startedAtUtc": "2026-11-21T05:45:04.1402555+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:09.1345751+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -154,8 +160,8 @@
     },
     {
       "sourceId": "brosh-villa-6-navalcarnero-f1",
-      "startedAtUtc": "2026-11-20T05:47:59.9560269+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:04.9782073+00:00",
+      "startedAtUtc": "2026-11-21T05:45:09.134577+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:14.3337343+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -166,8 +172,8 @@
     },
     {
       "sourceId": "brosh-villa-6-navalcarnero-f2",
-      "startedAtUtc": "2026-11-20T05:48:04.9782095+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:09.9619087+00:00",
+      "startedAtUtc": "2026-11-21T05:45:14.3337365+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:19.2477514+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -178,8 +184,8 @@
     },
     {
       "sourceId": "cambrija-viridiana",
-      "startedAtUtc": "2026-11-20T05:48:09.9619098+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:11.843941+00:00",
+      "startedAtUtc": "2026-11-21T05:45:19.2477532+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:20.412603+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -190,32 +196,36 @@
     },
     {
       "sourceId": "doce-fresnos-moralzarzal",
-      "startedAtUtc": "2026-11-20T05:48:11.8439433+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:12.9759373+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:45:20.412604+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:20.8235294+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027main [data-id=\u0027e4f1e29\u0027] [data-id=\u00277390b94\u0027]\u0027 no existe en \u0027https://docefresnos.es/\u0027."
+      ]
     },
     {
       "sourceId": "exxacon-living-natura",
-      "startedAtUtc": "2026-11-20T05:48:12.9759396+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:14.578914+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:45:20.8235325+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:21.4352867+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027main\u0027 no existe en \u0027https://www.exxacon.es/promocion/living-natura/\u0027."
+      ]
     },
     {
       "sourceId": "galivivienda-montelago",
-      "startedAtUtc": "2026-11-20T05:48:14.5789157+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:17.2242589+00:00",
+      "startedAtUtc": "2026-11-21T05:45:21.4352911+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:23.290253+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -226,8 +236,8 @@
     },
     {
       "sourceId": "galivivienda-villa-barbara",
-      "startedAtUtc": "2026-11-20T05:48:17.2242619+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:21.6113103+00:00",
+      "startedAtUtc": "2026-11-21T05:45:23.2902549+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:27.9855058+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -238,8 +248,8 @@
     },
     {
       "sourceId": "gemg-cielo-arroyomolinos",
-      "startedAtUtc": "2026-11-20T05:48:21.6113129+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:24.2351058+00:00",
+      "startedAtUtc": "2026-11-21T05:45:27.9855077+00:00",
+      "finishedAtUtc": "2026-11-21T05:45:30.1753263+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -250,20 +260,22 @@
     },
     {
       "sourceId": "gilmar-quercus-dorf",
-      "startedAtUtc": "2026-11-20T05:48:24.2351065+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:25.4509821+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:45:30.1753273+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:10.7792902+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://www.gilmar.es/inmueble/quercus-dorf-guadarrama/\u0027."
+      ]
     },
     {
       "sourceId": "grupo-egido-novaciempozuelos",
-      "startedAtUtc": "2026-11-20T05:48:25.4509843+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:27.2492657+00:00",
+      "startedAtUtc": "2026-11-21T05:46:10.7792946+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:12.3329051+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -274,44 +286,50 @@
     },
     {
       "sourceId": "grupo-impulsa-los-molinos",
-      "startedAtUtc": "2026-11-20T05:48:27.2492677+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:29.1096269+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:46:12.3329067+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:13.0080989+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027.proyecto-proyecto-activo\u0027 no existe en \u0027https://www.impulsaproyectos.com/proyectos/los-molinos/\u0027."
+      ]
     },
     {
       "sourceId": "grupo-impulsa-los-molinos-ii",
-      "startedAtUtc": "2026-11-20T05:48:29.1096292+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:34.553823+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:46:13.0081034+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:18.0082297+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027.proyecto-proyecto-activo\u0027 no existe en \u0027https://www.impulsaproyectos.com/proyectos/los-molinos-2/\u0027."
+      ]
     },
     {
       "sourceId": "grupo-impulsa-montecillos",
-      "startedAtUtc": "2026-11-20T05:48:34.5538251+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:39.3689682+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:46:18.0082336+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:23.0079854+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027.elementor-element-7b188bb2 .elementor-widget-container \u003E p:nth-of-type(1)\u0027 no existe en \u0027https://www.impulsaproyectos.com/proyectos/impulsa-montecillos/\u0027."
+      ]
     },
     {
       "sourceId": "grupo-index-sierra-bonita",
-      "startedAtUtc": "2026-11-20T05:48:39.3689697+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:45.8141016+00:00",
+      "startedAtUtc": "2026-11-21T05:46:23.0079897+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:26.6576123+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -322,32 +340,36 @@
     },
     {
       "sourceId": "grupo-insur-caliope",
-      "startedAtUtc": "2026-11-20T05:48:45.8141039+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:47.9392713+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:46:26.6576148+00:00",
+      "finishedAtUtc": "2026-11-21T05:46:27.1350811+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "El selector de contenido \u0027#info \u003E .col-md-10.offset-md-1.mt-4.mb-2\u0027 no existe en \u0027https://grupoinsur.com/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope\u0027."
+      ]
     },
     {
       "sourceId": "inara-residencial-el-boalo",
-      "startedAtUtc": "2026-11-20T05:48:47.9392735+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:51.9773015+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:46:27.1350853+00:00",
+      "finishedAtUtc": "2026-11-21T05:47:07.7419654+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://www.inarahomes.com/inara-smart-homes-viviendas-eco-eficientes-e-innovadoras/\u0027."
+      ]
     },
     {
       "sourceId": "kronos-krest",
-      "startedAtUtc": "2026-11-20T05:48:51.9773035+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:53.2077404+00:00",
+      "startedAtUtc": "2026-11-21T05:47:07.7419703+00:00",
+      "finishedAtUtc": "2026-11-21T05:47:09.657467+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -358,8 +380,8 @@
     },
     {
       "sourceId": "kronos-mirage",
-      "startedAtUtc": "2026-11-20T05:48:53.2077426+00:00",
-      "finishedAtUtc": "2026-11-20T05:48:58.1667307+00:00",
+      "startedAtUtc": "2026-11-21T05:47:09.6574691+00:00",
+      "finishedAtUtc": "2026-11-21T05:47:13.6251943+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -370,8 +392,8 @@
     },
     {
       "sourceId": "kronos-onix",
-      "startedAtUtc": "2026-11-20T05:48:58.1667324+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:03.1947816+00:00",
+      "startedAtUtc": "2026-11-21T05:47:13.6251963+00:00",
+      "finishedAtUtc": "2026-11-21T05:47:18.6136185+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -382,120 +404,134 @@
     },
     {
       "sourceId": "larvin-hernan-cortes",
-      "startedAtUtc": "2026-11-20T05:49:03.1947834+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:04.9025336+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:47:18.6136212+00:00",
+      "finishedAtUtc": "2026-11-21T05:47:59.2180039+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://larvin.es/venta-chalets-madrid/chalets-boadilla-del-monte/\u0027."
+      ]
     },
     {
       "sourceId": "larvin-loeches",
-      "startedAtUtc": "2026-11-20T05:49:04.9025376+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:09.6591628+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:47:59.2180118+00:00",
+      "finishedAtUtc": "2026-11-21T05:48:39.8245363+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://larvin.es/venta-chalets-madrid/chalets-loeches/\u0027."
+      ]
     },
     {
       "sourceId": "larvin-monte-villa",
-      "startedAtUtc": "2026-11-20T05:49:09.6591826+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:14.6906175+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:48:39.8245406+00:00",
+      "finishedAtUtc": "2026-11-21T05:49:20.4297755+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://larvin.es/venta-chalets-madrid/chalets-villaviciosa-de-odon/\u0027."
+      ]
     },
     {
       "sourceId": "larvin-residencial-48",
-      "startedAtUtc": "2026-11-20T05:49:14.6906195+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:20.048028+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:49:20.4297807+00:00",
+      "finishedAtUtc": "2026-11-21T05:50:01.0359701+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://larvin.es/venta-chalets-madrid/chalets-en-villaviciosa-de-odon/\u0027."
+      ]
     },
     {
       "sourceId": "larvin-rivas-zipi-zape",
-      "startedAtUtc": "2026-11-20T05:49:20.0480295+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:24.6477356+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
+      "startedAtUtc": "2026-11-21T05:50:01.035974+00:00",
+      "finishedAtUtc": "2026-11-21T05:50:41.6415747+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
       "urlsSkipped": 0,
-      "promotionsExtracted": 1,
+      "promotionsExtracted": 0,
       "warnings": [],
-      "errors": []
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://larvin.es/venta-chalets-madrid/chalets-en-rivas-vaciamadrid/\u0027."
+      ]
     },
     {
       "sourceId": "los-pinarejos-p6",
-      "startedAtUtc": "2026-11-20T05:49:24.6477369+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:25.9632058+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
+      "startedAtUtc": "2026-11-21T05:50:41.6415784+00:00",
+      "finishedAtUtc": "2026-11-21T05:51:22.2469653+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
       "urlsFetched": 0,
       "urlsSkipped": 0,
       "promotionsExtracted": 0,
-      "warnings": [
-        "HTTP_NOT_MODIFIED: https://www.lospinarejos.com/"
-      ],
-      "errors": []
+      "warnings": [],
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://www.lospinarejos.com/\u0027."
+      ]
     },
     {
       "sourceId": "naiz-aceris-pozuelo",
-      "startedAtUtc": "2026-11-20T05:49:25.963209+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:27.76283+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
-      "urlsSkipped": 0,
-      "promotionsExtracted": 1,
-      "warnings": [],
-      "errors": []
-    },
-    {
-      "sourceId": "naiz-pinea-pozuelo",
-      "startedAtUtc": "2026-11-20T05:49:27.7628314+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:32.9555329+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
-      "urlsFetched": 1,
-      "urlsSkipped": 0,
-      "promotionsExtracted": 1,
-      "warnings": [],
-      "errors": []
-    },
-    {
-      "sourceId": "nevola-homes-guadalix",
-      "startedAtUtc": "2026-11-20T05:49:32.9555341+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:45.9035535+00:00",
-      "status": "success",
-      "urlsDiscovered": 1,
+      "startedAtUtc": "2026-11-21T05:51:22.2469694+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:02.8523948+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
       "urlsFetched": 0,
       "urlsSkipped": 0,
       "promotionsExtracted": 0,
-      "warnings": [
-        "HTTP_NOT_MODIFIED: https://nevolahomes.com/"
-      ],
-      "errors": []
+      "warnings": [],
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://naizhomes.com/promociones/acerisdepozuelo/\u0027."
+      ]
+    },
+    {
+      "sourceId": "naiz-pinea-pozuelo",
+      "startedAtUtc": "2026-11-21T05:52:02.852399+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:43.4564445+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
+      "urlsSkipped": 0,
+      "promotionsExtracted": 0,
+      "warnings": [],
+      "errors": [
+        "Tiempo de espera agotado al descargar \u0027https://naizhomes.com/promociones/pineadepozuelo/\u0027."
+      ]
+    },
+    {
+      "sourceId": "nevola-homes-guadalix",
+      "startedAtUtc": "2026-11-21T05:52:43.4564494+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:49.9492851+00:00",
+      "status": "failed",
+      "urlsDiscovered": 0,
+      "urlsFetched": 0,
+      "urlsSkipped": 0,
+      "promotionsExtracted": 0,
+      "warnings": [],
+      "errors": [
+        "El selector de contenido \u0027#promocion\u0027 no existe en \u0027https://nevolahomes.com/\u0027."
+      ]
     },
     {
       "sourceId": "nuvare-claveles-zarzalejo",
-      "startedAtUtc": "2026-11-20T05:49:45.9035566+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:49.6187905+00:00",
+      "startedAtUtc": "2026-11-21T05:52:49.9492896+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:52.7759375+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -506,8 +542,8 @@
     },
     {
       "sourceId": "nuvare-cumbres-navalafuente",
-      "startedAtUtc": "2026-11-20T05:49:49.6187922+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:54.4938371+00:00",
+      "startedAtUtc": "2026-11-21T05:52:52.7759405+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:57.1878813+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -518,8 +554,8 @@
     },
     {
       "sourceId": "quinta-manzanares",
-      "startedAtUtc": "2026-11-20T05:49:54.4938392+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:54.7299367+00:00",
+      "startedAtUtc": "2026-11-21T05:52:57.1878831+00:00",
+      "finishedAtUtc": "2026-11-21T05:52:57.5783412+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -530,8 +566,8 @@
     },
     {
       "sourceId": "residencial-alpedrete-la-bellota",
-      "startedAtUtc": "2026-11-20T05:49:54.7299378+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:58.896402+00:00",
+      "startedAtUtc": "2026-11-21T05:52:57.5783431+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:01.8505805+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -542,8 +578,8 @@
     },
     {
       "sourceId": "residencial-montemilano-bustarviejo",
-      "startedAtUtc": "2026-11-20T05:49:58.8964038+00:00",
-      "finishedAtUtc": "2026-11-20T05:49:59.4342637+00:00",
+      "startedAtUtc": "2026-11-21T05:53:01.850583+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:02.2891907+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -554,8 +590,8 @@
     },
     {
       "sourceId": "soldit-nuevo-brunete",
-      "startedAtUtc": "2026-11-20T05:49:59.4342661+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:01.5930729+00:00",
+      "startedAtUtc": "2026-11-21T05:53:02.2891918+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:04.0155977+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -566,8 +602,8 @@
     },
     {
       "sourceId": "stance-essentia-galapagar",
-      "startedAtUtc": "2026-11-20T05:50:01.5930745+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:10.1019064+00:00",
+      "startedAtUtc": "2026-11-21T05:53:04.0155995+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:10.030996+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -578,8 +614,8 @@
     },
     {
       "sourceId": "stance-osnola-zarzalejo",
-      "startedAtUtc": "2026-11-20T05:50:10.1019073+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:17.4143346+00:00",
+      "startedAtUtc": "2026-11-21T05:53:10.0309982+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:17.8722735+00:00",
       "status": "failed",
       "urlsDiscovered": 0,
       "urlsFetched": 0,
@@ -592,8 +628,8 @@
     },
     {
       "sourceId": "trinosa-bonart",
-      "startedAtUtc": "2026-11-20T05:50:17.4143414+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:26.14729+00:00",
+      "startedAtUtc": "2026-11-21T05:53:17.8722811+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:27.8057631+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -604,8 +640,8 @@
     },
     {
       "sourceId": "trinosa-etria",
-      "startedAtUtc": "2026-11-20T05:50:26.1472918+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:30.381275+00:00",
+      "startedAtUtc": "2026-11-21T05:53:27.8057654+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:33.6890748+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -616,8 +652,8 @@
     },
     {
       "sourceId": "vesari-cuarteto",
-      "startedAtUtc": "2026-11-20T05:50:30.3812768+00:00",
-      "finishedAtUtc": "2026-11-20T05:50:31.1247024+00:00",
+      "startedAtUtc": "2026-11-21T05:53:33.6890767+00:00",
+      "finishedAtUtc": "2026-11-21T05:53:33.8211954+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -628,8 +664,8 @@
     },
     {
       "sourceId": "vesari-el-tomillar",
-      "startedAtUtc": "2026-11-20T05:50:31.1247035+00:00",
-      "finishedAtUtc": "2026-11-20T05:51:01.2350863+00:00",
+      "startedAtUtc": "2026-11-21T05:53:33.8211975+00:00",
+      "finishedAtUtc": "2026-11-21T05:54:03.8263073+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -640,8 +676,8 @@
     },
     {
       "sourceId": "vesari-luar-robledo",
-      "startedAtUtc": "2026-11-20T05:51:01.2350881+00:00",
-      "finishedAtUtc": "2026-11-20T05:51:31.2842467+00:00",
+      "startedAtUtc": "2026-11-21T05:54:03.8263091+00:00",
+      "finishedAtUtc": "2026-11-21T05:54:33.8347926+00:00",
       "status": "success",
       "urlsDiscovered": 1,
       "urlsFetched": 1,
@@ -653,7 +689,7 @@
   ],
   "dataFreshness": {
     "oldestSourceCheckUtc": "2026-07-24T23:20:07.3173777+00:00",
-    "newestSourceCheckUtc": "2026-11-20T05:51:31.2914835+00:00",
+    "newestSourceCheckUtc": "2026-11-21T05:54:33.8390749+00:00",
     "isStale": false,
     "staleAfterHours": 36
   },
