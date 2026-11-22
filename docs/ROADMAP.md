@@ -759,7 +759,7 @@ ejecución diaria, GitHub Pages y el cambio de visibilidad a público.
 | 15 | Ubicación exacta/aproximada | Hecho | contrato, UI y mapa |
 | 16 | Enlaces a webs originales | Hecho | las 46 fichas live automáticas publican su URL oficial y la UI expone el enlace |
 | 17 | Action manual | Hecho | `workflow_dispatch` validado por actionlint |
-| 18 | Action programada | Hecho | diaria 06:17 `Europe/Madrid` |
+| 18 | Action programada | Hecho | lun-vie 06:17 `Europe/Madrid` (antes diaria) |
 | 19 | Deploy Pages | Hecho | ejecución `30054208393` y URL pública verificadas |
 | 20 | Subpath del repositorio | Hecho | `/SierraNueva/` en artefacto |
 | 21 | `.nojekyll` | Hecho | generado y verificado |

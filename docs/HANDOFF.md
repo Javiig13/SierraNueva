@@ -1,5 +1,18 @@
 # Entrega y continuidad
 
+## Reducción del cron — 22 de noviembre de 2026
+
+El workflow `crawl-and-deploy.yml` pasa de ejecución diaria a **lun-vie**
+(`17 6 * * 1-5`, 06:17 `Europe/Madrid`). Motivo: cada run programado duraba
+~31 min (~930 min/mes ≈ $4.61 facturables); al pasar a 20-22 días laborables
+se recorta ~40% del consumo manteniendo el refresco de Pages y el backfill
+BOCM semanal de los lunes. El workflow de producción **no** ejecuta
+`dotnet test` ni `dotnet format` (eso está solo en CI, que corre con push/PR),
+así que no había pasos de validación extra que omitir en schedule. Efecto
+secundario: la web de Pages y la incidencia de vigilancia #1 se actualizan
+solo en días laborables; los fines de semana no hay run automático. Páginas se
+refresca igual tras cada ejecución manual (`workflow_dispatch`).
+
 ## Segundo lote comercial — 5 noviembre de 2026
 
 Cinco altas comprobadas mediante HTTP real y fixtures: cuatro fases Brosh
@@ -585,7 +598,7 @@ porque el estado sintético ya está sembrado.
   `https://github.com/Javiig13/SierraNueva.git`; `main` conserva todo el
   historial y sigue `origin/main`.
 - CI #20 se ejecutó para `ecf8602` y terminó correctamente.
-- El workflow live se ejecuta manualmente o cada día a las 06:17
+- El workflow live se ejecuta manualmente o cada día laborable (lun-vie) a las 06:17
   `Europe/Madrid`. Publica solo tras éxito completo de las 25 fuentes
   revisadas; un fallo conserva el último despliegue válido.
 - El workflow actualizado ejecuta antes `discover-opportunities` con las 52
@@ -1199,6 +1212,6 @@ No hace falta Docker, npm, backend ni servicios externos para la baseline.
 - Los centroides nulos son preferibles a coordenadas inventadas.
 - Playwright y Nominatim son fallbacks, no el camino principal.
 - La lista sigue siendo plenamente útil si el mapa falla.
-- El repositorio remoto, la automatización diaria y GitHub Pages ya están
+- El repositorio remoto, la automatización (ahora lun-vie) y GitHub Pages ya están
   configurados y verificados; cualquier infraestructura adicional requiere una
   decisión operativa explícita.

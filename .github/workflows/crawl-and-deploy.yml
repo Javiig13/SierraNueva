@@ -18,7 +18,9 @@ on:
           - "2"
           - "3"
   schedule:
-    - cron: "17 6 * * *"
+    # Lun-Vie 06:17 Europe/Madrid. Mantener un dia laborable para el backfill
+    # BOCM semanal (los lunes) y un refresco regular de Pages.
+    - cron: "17 6 * * 1-5"
       timezone: "Europe/Madrid"
 
 permissions:
