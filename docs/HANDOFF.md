@@ -1,5 +1,33 @@
 # Entrega y continuidad
 
+## Procesamiento masivo de la cola de triaje — 22 de noviembre de 2026
+
+Tras descifrar y analizar **los 1397 candidatos** de la cola (`export-private-opportunities`),
+se clasificaron y dejaron listos para aplicar sobre el estado real:
+
+- **51 → `verifiedSource`**: candidatos cuyo dominio ya está cubierto por una
+  fuente habilitada (Naiz, Nuvare×8, Soldit, Stance, Bimaran, Brosh, Impulsa).
+- **37 → `monitoring`**: candidatas a incorporar. ~10 dominios de promotores
+  locales con web propia (verificados HTTP 200, no portal): Hercesa (Alcalá×3),
+  Oiko (Alcorcón×2, Aranjuez), Novogar (Brunete×3, Arroyomolinos), Único Homes
+  (Alcorcón×2, Brunete), Asentis, Zoe Home, Prygesa, Inmoglaciar, Premier,
+  La Llave de Oro. Incluye señales `landDisposal`/`surfaceRight` con potencial.
+- **1309 → `rejected`**: ruido real (listados de portales Aelca×239, Aquimicasa,
+  noticias de observatorioinmobiliario, documentos urbanísticos BOCM/planos).
+
+El análisis concluyó que **no hay fuentes oficiales de promotora grandes sin
+cubrir** (las 9 detectadas ya tienen fuente). El valor está en promotores
+locales con web propia.
+
+**Cómo se aplica**: nuevo workflow `review-opportunities.yml` (manual
+`workflow_dispatch`) que lee `config/opportunity-decisions.json` (mapa
+`candidateId → status`) y reescribe `opportunity-candidates.json` en la caché
+en una sola pasada. Se prefirió este método masivo sobre 1397 llamadas a
+`review-opportunity` porque cada invocación de `dotnet` tarda ~1.5 s (≈35 min
+de runner vs <1 s en una pasada JSON). Las 37 en `monitoring` son las únicas
+que, si se confirman, darían de alta como fuentes nuevas (requiere selectores
++ fixtures + tests por formato, proceso manual pendiente).
+
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
 Las dos fuentes comerciales que fallaban de forma crónica en el workflow de

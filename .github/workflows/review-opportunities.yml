@@ -1,0 +1,89 @@
+name: Review opportunity candidates
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-opportunity-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    name: Apply candidate decisions from config/opportunity-decisions.json
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install .NET from global.json
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          global-json-file: global.json
+
+      - name: Restore private crawler state
+        uses: actions/cache/restore@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: opportunity-review-${{ github.run_id }}
+          restore-keys: |
+            crawler-state-
+
+      - name: Verify private opportunity state
+        shell: pwsh
+        run: |
+          $path = '.runtime/state/opportunity-candidates.json'
+          if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw 'La caché no contiene opportunity-candidates.json.'
+          }
+          "Estado privado encontrado." | Write-Output
+
+      - name: Build crawler
+        run: >-
+          dotnet build src/SierraNueva.Crawler/SierraNueva.Crawler.csproj
+          -c Release
+
+      - name: Apply candidate decisions in one pass
+        shell: pwsh
+        run: |
+          $statePath = '.runtime/state/opportunity-candidates.json'
+          $decisions = Get-Content -Raw config/opportunity-decisions.json |
+            ConvertFrom-Json
+          $decisionMap = @{}
+          foreach ($prop in $decisions.PSObject.Properties) {
+            $decisionMap[$prop.Name] = $prop.Value
+          }
+          $state = Get-Content -Raw -LiteralPath $statePath | ConvertFrom-Json
+          $applied = 0; $missing = 0
+          foreach ($candidate in $state.candidates) {
+            if ($decisionMap.ContainsKey($candidate.id)) {
+              $candidate.status = $decisionMap[$candidate.id]
+              $applied++
+            } else { $missing++ }
+          }
+          $state.updatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+          $state | ConvertTo-Json -Depth 10 |
+            Set-Content -LiteralPath $statePath -Encoding UTF8
+          "Aplicados: $applied | Sin decisión: $missing" | Write-Output
+          if ($applied -eq 0) { exit 1 }
+
+      - name: Save updated private crawler state
+        if: always()
+        uses: actions/cache/save@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+        with:
+          path: .runtime/state
+          key: crawler-state-${{ github.run_id }}
+
+      - name: Remove restored plaintext from the runner
+        if: always()
+        shell: pwsh
+        run: |
+          foreach ($path in @('.runtime/state')) {
+            if (Test-Path -LiteralPath $path) {
+              Remove-Item -LiteralPath $path -Recurse -Force
+            }
+          }
