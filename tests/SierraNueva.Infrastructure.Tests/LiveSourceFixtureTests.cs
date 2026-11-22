@@ -172,6 +172,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "unicohomes-quercus-brunete",
                 "unicohomes-quercus-brunete.html"
+            },
+            {
+                "inmoglaciar-glaciar-arkanta",
+                "inmoglaciar-glaciar-arkanta.html"
             }
         };
 
@@ -774,6 +778,19 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(7, promotion.TotalUnits);
                 Assert.Equal(
                     "https://unicohomes.com/promocion/quercus",
+                    promotion.CanonicalUrl);
+                Assert.Null(promotion.PriceFrom);
+                break;
+            case "inmoglaciar-glaciar-arkanta":
+                Assert.Equal(
+                    "Pisos en Arganda del Rey, Madrid - Inmoglaciar | Inmoglaciar",
+                    promotion.Name);
+                Assert.Equal("Arganda del Rey", promotion.Municipality);
+                Assert.Equal(2, promotion.BedroomsMin);
+                Assert.Equal(3, promotion.BedroomsMax);
+                Assert.Equal(40, promotion.TotalUnits);
+                Assert.Equal(
+                    "https://inmoglaciar.com/promocion/glaciar-arkanta/",
                     promotion.CanonicalUrl);
                 Assert.Null(promotion.PriceFrom);
                 break;
