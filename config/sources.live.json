@@ -2238,6 +2238,46 @@
         "name": "title"
       },
       "notes": "Revisada 2026-11-22. Promoción activa en /obra-nueva. El bloque c-product-hero__content concentra nombre, tipología ('Pisos 2, 3 y 4 dormitorios'), precio 'desde', dirección y progreso de obra. La descripción aislada (c-product-hero__description) no sirve porque los dormitorios están en elementos hermanos con SVG. Estructura consistente entre fichas (Nueva Valdeluz, Torres Hercesa). Se excluye el álbum de fotos y promociones relacionadas."
+    },
+    {
+      "id": "unicohomes-quercus-brunete",
+      "name": "Único Homes — Residencial Quercus",
+      "baseUrl": "https://unicohomes.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "unicohomes.com",
+        "www.unicohomes.com"
+      ],
+      "startUrls": [
+        "https://unicohomes.com/promocion/quercus"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Brunete",
+      "municipalityHints": [
+        "Brunete"
+      ],
+      "contentSelector": "section#promocion-ficha-intro",
+      "additionalContentSelectors": [],
+      "includePatterns": [
+        "/promocion/quercus"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "aviso-legal",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Revisada 2026-11-22. Promoción activa. El bloque section#promocion-ficha-intro concentra nombre y descripción con dormitorios ('4 y 5 dormitorios'). El precio (desde 577.000€) está en promocion-ficha-tipologias, no en intro, así que PriceFrom queda nulo."
     }
   ]
 }

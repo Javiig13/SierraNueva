@@ -168,6 +168,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "hercesa-nueva-ciudad-del-aire",
                 "hercesa-nueva-ciudad-del-aire.html"
+            },
+            {
+                "unicohomes-quercus-brunete",
+                "unicohomes-quercus-brunete.html"
             }
         };
 
@@ -761,6 +765,17 @@ public sealed class LiveSourceFixtureTests
                     "https://hercesa.com/promocion/nueva-ciudad-del-aire/",
                     promotion.CanonicalUrl);
                 Assert.Null(promotion.TotalUnits);
+                break;
+            case "unicohomes-quercus-brunete":
+                Assert.Equal("Quercus", promotion.Name);
+                Assert.Equal("Brunete", promotion.Municipality);
+                Assert.Equal(4, promotion.BedroomsMin);
+                Assert.Equal(5, promotion.BedroomsMax);
+                Assert.Equal(7, promotion.TotalUnits);
+                Assert.Equal(
+                    "https://unicohomes.com/promocion/quercus",
+                    promotion.CanonicalUrl);
+                Assert.Null(promotion.PriceFrom);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");
