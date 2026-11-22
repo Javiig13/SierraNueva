@@ -48,9 +48,18 @@ y Alcorcón (Retamar de la Huerta). La ficha usa
 `contentSelector: section#promocion-ficha-intro` (captura nombre y
 descripción con dormitorios). La extracción valida nombre (Quercus),
 municipio (Brunete), 4-5 dormitorios y 7 unidades; `PriceFrom` queda nulo
-porque el precio está en `promocion-ficha-tipologias`, no en intro. Quedan
-por incorporar los otros promotores del lote (Oiko, Novogar, Asentis,
-Zoe Home, Prygesa, Inmoglaciar, Premier, La Llave de Oro).
+porque el precio está en `promocion-ficha-tipologias`, no en intro.
+
+### Incorporación piloto: Inmoglaciar
+
+Se dio de alta `inmoglaciar-glaciar-arkanta` como tercera fuente nueva del
+lote `monitoring` (commit `8c1d86d`). Inmoglaciar es un promotor con 6
+promociones activas en Arganda del Rey y Brunete. La ficha usa
+`contentSelector: .promotion-content` (captura descripción con dormitorios
+y total de viviendas). La extracción valida 40 viviendas, 2-3 dormitorios,
+Arganda del Rey; `PriceFrom` queda nulo porque no hay precio publicado.
+Quedan por incorporar los otros promotores del lote (Oiko, Novogar,
+Asentis, Zoe Home, Prygesa, Premier, La Llave de Oro).
 
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
