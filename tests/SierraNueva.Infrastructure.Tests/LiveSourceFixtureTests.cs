@@ -176,6 +176,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "inmoglaciar-glaciar-arkanta",
                 "inmoglaciar-glaciar-arkanta.html"
+            },
+            {
+                "premier-residencial-ilion",
+                "premier-residencial-ilion.html"
             }
         };
 
@@ -793,6 +797,19 @@ public sealed class LiveSourceFixtureTests
                     "https://inmoglaciar.com/promocion/glaciar-arkanta/",
                     promotion.CanonicalUrl);
                 Assert.Null(promotion.PriceFrom);
+                break;
+            case "premier-residencial-ilion":
+                Assert.Equal(
+                    "Residencial Ilión, pisos en Alcalá de Henares - Premier Inmobiliaria | Premier Inmobiliaria",
+                    promotion.Name);
+                Assert.Equal("Alcalá de Henares", promotion.Municipality);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Equal(325_900m, promotion.PriceFrom);
+                Assert.Equal(
+                    "https://www.premierinmobiliaria.es/promocion/residencial-ilion",
+                    promotion.CanonicalUrl);
+                Assert.Null(promotion.TotalUnits);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");
