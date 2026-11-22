@@ -1,5 +1,44 @@
 # Entrega y continuidad
 
+## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
+
+Las dos fuentes comerciales que fallaban de forma crónica en el workflow de
+producción devuelven **404 Not Found de forma persistente** y ya no aparecen
+en el listado de promociones del promotor. Se marcan como `enabled: false` en
+`config/sources.live.json` manteniendo sus definiciones por si reaparecen:
+
+- `antaro-mostoles-polar`: la ficha
+  `https://antaro.es/promociones/mostoles-polar-residencial/` devuelve 404;
+  el listado `https://antaro.es/promociones/` (HTTP 200) ya no la incluye.
+- `stance-osnola-zarzalejo`: la ficha
+  `https://stancehomes.es/promocion-osnola-zarzalejo` devuelve 404;
+  la home `https://stancehomes.es/` (HTTP 200) ya no enlaza la promoción.
+
+Consecuencias del `enabled: false` (verificado con `validate-config`): el
+perfil pasa a **54 fuentes** (antes 56); los 179 municipios, los 66 orígenes de
+radar y el resto de conteos se mantienen. **No se borra ningún dato ya
+publicado** en `data/public`: las promociones retiradas permanecen en el
+dataset por compatibilidad, pero el siguiente `crawl` ya no las revalidará.
+Los tests con fixtures locales (`LiveSourceFixtureTests`) no se ven afectados
+porque no dependen del flag `enabled` y los fixtures siguen en disco.
+
+**La advertencia de "puntos ciegos" en la incidencia #1 no desaparecerá por
+este cambio**: su causa real es `zz-web-search-matrix`, que termina diariamente
+con `SEARCH_INCOMPLETE: 634/716 consultas sin resultado` (~82/716 con
+resultado en bruto) y por tanto con `RADAR_OUTCOME=failure`. Es crónico y en
+gran parte benigno. Hasta que se mejore la matriz de búsqueda, la vigilancia
+seguirá reportándolo en cada run.
+
+**Cola de triaje (1397 pendientes, 48 prioridad alta): sin tocar.** El estado
+privado que alimenta `OpportunityTriageService` solo existe en la caché de
+GitHub Actions y se sobrescribe en cada run; desde este repositorio local no
+es posible revisarlo ni editarlo de forma persistente (además, la canalización
+recomputa el triaje desde `opportunity-candidates.json` en disco). Para
+revisar la cola hay que usar el flujo manual de exportación cifrada
+(workflow `export-private-enrichment.yml` / job `protect-enrichment-export`,
+clave pública RSA-3072), ejecutarlo desde la pestaña Actions y contrastarlo en
+local.
+
 ## Reducción del cron — 22 de noviembre de 2026
 
 El workflow `crawl-and-deploy.yml` pasa de ejecución diaria a **lun-vie**

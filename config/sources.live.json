@@ -964,7 +964,7 @@
       "id": "stance-osnola-zarzalejo",
       "name": "STANCE Homes — Residencial Osnola",
       "baseUrl": "https://stancehomes.es/",
-      "enabled": true,
+      "enabled": false,
       "sourceKind": "officialPromoter",
       "allowedHosts": [
         "stancehomes.es",
@@ -997,7 +997,7 @@
       "customSelectors": {
         "name": "main h1"
       },
-      "notes": "Promotora oficial revisada el 2026-07-24. La licencia obtenida y la obra en curso se publican porque aparecen en el HTML; precio y número total permanecen desconocidos. Evaluación en docs/source-assessments/coverage-expansion-2026-07-24.md."
+      "notes": "DESHABILITADA el 2026-11-22: la ficha https://stancehomes.es/promocion-osnola-zarzalejo devuelve 404 Not Found de forma persistente y ya no aparece en el listado de promociones del promotor; la promoción parece agotada/retirada. Se mantiene la definición por si reaparece. Revisión previa del 2026-07-24."
     },
     {
       "id": "residencial-montemilano-bustarviejo",
@@ -1568,7 +1568,7 @@
       "id": "antaro-mostoles-polar",
       "name": "Antaro — Móstoles Polar Residencial",
       "baseUrl": "https://antaro.es/",
-      "enabled": true,
+      "enabled": false,
       "sourceKind": "cooperativeManager",
       "allowedHosts": [
         "antaro.es",
@@ -1604,7 +1604,7 @@
       "customSelectors": {
         "name": ".single__promo--header h1"
       },
-      "notes": "Gestora oficial revisada el 2026-07-27. La ficha vigente declara 11 chalets unifamiliares desde 481.000 € en Móstoles. Solo se procesan la cabecera y el contenido propio de la promoción; no se siguen formularios, imágenes ni documentos. Evaluación en docs/source-assessments/madrid-expansion-2026-07-27.md."
+      "notes": "DESHABILITADA el 2026-11-22: la ficha https://antaro.es/promociones/mostoles-polar-residencial/ devuelve 404 Not Found de forma persistente y ya no aparece en el listado de promociones del promotor (https://antaro.es/promociones/); la promoción parece agotada/retirada. Se mantiene la definición por si reaparece. Revisión previa del 2026-07-27."
     },
     {
       "id": "trinosa-bonart",
