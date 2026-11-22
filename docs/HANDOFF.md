@@ -28,6 +28,19 @@ de runner vs <1 s en una pasada JSON). Las 37 en `monitoring` son las únicas
 que, si se confirman, darían de alta como fuentes nuevas (requiere selectores
 + fixtures + tests por formato, proceso manual pendiente).
 
+### Incorporación piloto: Hercesa
+
+Se dio de alta `hercesa-nueva-ciudad-del-aire` como primera fuente nueva del
+lote `monitoring` (commit `6895ba9`). Hercesa es un promotor con 6 promociones
+activas y HTML consistente (WordPress + BEM). La ficha usa
+`contentSelector: .c-product-hero__content` (captura nombre, descripción y
+specs sin el álbum de fotos). La extracción con `LayeredPromotionExtractor`
+valida nombre, municipio (Alcalá de Henares), precio desde 484.900 EUR y
+3-4 dormitorios; `TotalUnits` queda nulo (la página indica última vivienda
+disponible, no total). Quedan por incorporar los otros promotores del lote
+(Oiko, Novogar, Único Homes, Asentis, Zoe Home, Prygesa, Inmoglaciar,
+Premier, La Llave de Oro).
+
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
 Las dos fuentes comerciales que fallaban de forma crónica en el workflow de
