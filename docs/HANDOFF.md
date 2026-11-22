@@ -83,6 +83,21 @@ canónica; `TotalUnits` queda nulo porque el extractor no captura el total
 de viviendas. Quedan por incorporar los otros promotores del lote (Oiko,
 Novogar, Asentis, Zoe Home, Prygesa).
 
+### Descartados del lote monitoring
+
+Tras evaluar las fichas reales, se descartaron los siguientes promotores por
+no cumplir los criterios de extracción:
+
+- **Novogar**: fichas con "promoción vendida" o "comercializada al 100%".
+  Sin datos de obra nueva activa.
+- **Asentis**: estructura Elementor (507KB) con HTML frágil y dependiente
+  de clases dinámicas. Fixture no mantenible.
+- **Zoe Home**: única ficha 100% vendida. Sin promociones activas.
+- **Prygesa**: ficha "Comercializada al 100%". Sin obra nueva activa.
+- **Oiko**: estructura HubSpot (`hs_housing_detail_page`) con 294KB de HTML,
+  sin precio visible y con imágenes marcadas como "entregada". Formato no
+  compatible con el extractor actual.
+
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
 Las dos fuentes comerciales que fallaban de forma crónica en el workflow de
