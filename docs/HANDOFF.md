@@ -71,6 +71,18 @@ canónica; `TotalUnits` queda nulo porque el extractor no captura el total
 de viviendas. Quedan por incorporar los otros promotores del lote (Oiko,
 Novogar, Asentis, Zoe Home, Prygesa, La Llave de Oro).
 
+### Incorporación piloto: La Llave de Oro
+
+Se dio de alta `llavedeoro-residencial-alcala` como quinta fuente nueva del
+lote `monitoring` (commit `86690f8`). La Llave de Oro es un promotor con
+promociones activas en Alcalá de Henares. La ficha usa
+`contentSelector: .info-ficha` + `.promo-datos` + `.mt-5.pt-3` (captura
+nombre, precio y características con dormitorios). La extracción valida
+nombre, Alcalá de Henares, 3-4 dormitorios, precio desde 358.000€ y URL
+canónica; `TotalUnits` queda nulo porque el extractor no captura el total
+de viviendas. Quedan por incorporar los otros promotores del lote (Oiko,
+Novogar, Asentis, Zoe Home, Prygesa).
+
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
 Las dos fuentes comerciales que fallaban de forma crónica en el workflow de
