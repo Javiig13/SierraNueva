@@ -58,8 +58,18 @@ promociones activas en Arganda del Rey y Brunete. La ficha usa
 `contentSelector: .promotion-content` (captura descripción con dormitorios
 y total de viviendas). La extracción valida 40 viviendas, 2-3 dormitorios,
 Arganda del Rey; `PriceFrom` queda nulo porque no hay precio publicado.
-Quedan por incorporar los otros promotores del lote (Oiko, Novogar,
-Asentis, Zoe Home, Prygesa, Premier, La Llave de Oro).
+
+### Incorporación piloto: Premier Inmobiliaria
+
+Se dio de alta `premier-residencial-ilion` como cuarta fuente nueva del
+lote `monitoring` (commit `8f0894c`). Premier Inmobiliaria es un promotor
+con promociones activas en Alcalá de Henares. La ficha usa
+`contentSelector: .ficha-description` + `.ficha-tipologias` (captura
+nombre, descripción con dormitorios y precios). La extracción valida
+nombre, Alcalá de Henares, 3-4 dormitorios, precio desde 325.900€ y URL
+canónica; `TotalUnits` queda nulo porque el extractor no captura el total
+de viviendas. Quedan por incorporar los otros promotores del lote (Oiko,
+Novogar, Asentis, Zoe Home, Prygesa, La Llave de Oro).
 
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
