@@ -2360,6 +2360,49 @@
         "name": "title"
       },
       "notes": "Revisada 2026-11-22. Promoción activa (11 viviendas, 2-4 dormitorios). El bloque .ficha-description concentra nombre y descripción con dormitorios ('2, 3 Y 4 DORMITORIOS'). Las tipologías (.ficha-tipologias) contienen precios desde 325.900€, pero el extractor no los captura porque no están en formato 'desde X€'."
+    },
+    {
+      "id": "llavedeoro-residencial-alcala",
+      "name": "La Llave de Oro — Residencial Alcalá",
+      "baseUrl": "https://www.lallavedeoro.com/",
+      "enabled": true,
+      "sourceKind": "officialPromoter",
+      "allowedHosts": [
+        "www.lallavedeoro.com",
+        "lallavedeoro.com"
+      ],
+      "startUrls": [
+        "https://www.lallavedeoro.com/promocion/residencial-alcala"
+      ],
+      "useRobots": true,
+      "useSitemaps": false,
+      "followInternalLinks": false,
+      "maxDepth": 0,
+      "maxPages": 1,
+      "requestDelayMilliseconds": 5000,
+      "usePlaywright": false,
+      "fixedMunicipality": "Alcalá de Henares",
+      "municipalityHints": [
+        "Alcalá de Henares"
+      ],
+      "contentSelector": ".info-ficha",
+      "additionalContentSelectors": [
+        ".promo-datos",
+        ".mt-5.pt-3"
+      ],
+      "includePatterns": [
+        "/promocion/residencial-alcala"
+      ],
+      "excludePatterns": [
+        "privacidad",
+        "cookies",
+        "aviso-legal",
+        "contacto"
+      ],
+      "customSelectors": {
+        "name": "title"
+      },
+      "notes": "Revisada 2026-11-22. Promoción activa (entrega 2027, desde 358.000€, 2-4 dormitorios). El bloque .info-ficha concentra nombre, municipio y precio 'desde'. Las características (.promo-datos) contienen dormitorios ('2, 3 y 4 dormitorios')."
     }
   ]
 }

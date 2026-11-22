@@ -180,6 +180,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "premier-residencial-ilion",
                 "premier-residencial-ilion.html"
+            },
+            {
+                "llavedeoro-residencial-alcala",
+                "llavedeoro-residencial-alcala.html"
             }
         };
 
@@ -808,6 +812,19 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(325_900m, promotion.PriceFrom);
                 Assert.Equal(
                     "https://www.premierinmobiliaria.es/promocion/residencial-ilion",
+                    promotion.CanonicalUrl);
+                Assert.Null(promotion.TotalUnits);
+                break;
+            case "llavedeoro-residencial-alcala":
+                Assert.Equal(
+                    "Residencial Alcalá - La Llave de Oro, Alcalá de Henares",
+                    promotion.Name);
+                Assert.Equal("Alcalá de Henares", promotion.Municipality);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Equal(358_000m, promotion.PriceFrom);
+                Assert.Equal(
+                    "https://www.lallavedeoro.com/promocion/residencial-alcala/",
                     promotion.CanonicalUrl);
                 Assert.Null(promotion.TotalUnits);
                 break;
