@@ -37,9 +37,20 @@ activas y HTML consistente (WordPress + BEM). La ficha usa
 specs sin el álbum de fotos). La extracción con `LayeredPromotionExtractor`
 valida nombre, municipio (Alcalá de Henares), precio desde 484.900 EUR y
 3-4 dormitorios; `TotalUnits` queda nulo (la página indica última vivienda
-disponible, no total). Quedan por incorporar los otros promotores del lote
-(Oiko, Novogar, Único Homes, Asentis, Zoe Home, Prygesa, Inmoglaciar,
-Premier, La Llave de Oro).
+disponible, no total).
+
+### Incorporación piloto: Único Homes
+
+Se dio de alta `unicohomes-quercus-brunete` como segunda fuente nueva del
+lote `monitoring` (commit `9fd8662`). Único Homes es un promotor cooperativo
+con obra nueva activa en Brunete (Quercus: 7 viviendas de 4-5 dormitorios)
+y Alcorcón (Retamar de la Huerta). La ficha usa
+`contentSelector: section#promocion-ficha-intro` (captura nombre y
+descripción con dormitorios). La extracción valida nombre (Quercus),
+municipio (Brunete), 4-5 dormitorios y 7 unidades; `PriceFrom` queda nulo
+porque el precio está en `promocion-ficha-tipologias`, no en intro. Quedan
+por incorporar los otros promotores del lote (Oiko, Novogar, Asentis,
+Zoe Home, Prygesa, Inmoglaciar, Premier, La Llave de Oro).
 
 ## Fuentes comerciales caídas deshabilitadas — 22 de noviembre de 2026
 
