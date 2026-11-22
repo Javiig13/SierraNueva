@@ -164,6 +164,10 @@ public sealed class LiveSourceFixtureTests
             {
                 "miraflores-villas",
                 "miraflores-villas.html"
+            },
+            {
+                "hercesa-nueva-ciudad-del-aire",
+                "hercesa-nueva-ciudad-del-aire.html"
             }
         };
 
@@ -744,6 +748,19 @@ public sealed class LiveSourceFixtureTests
                 Assert.Equal(4, promotion.BedroomsMax);
                 Assert.Empty(promotion.PropertyTypes);
                 Assert.Null(promotion.HasPrivatePool);
+                break;
+            case "hercesa-nueva-ciudad-del-aire":
+                Assert.Equal(
+                    "Nueva Ciudad del Aire - Pisos de Obra Nueva en Alcalá de Henares",
+                    promotion.Name);
+                Assert.Equal("Alcalá de Henares", promotion.Municipality);
+                Assert.Equal(484_900m, promotion.PriceFrom);
+                Assert.Equal(3, promotion.BedroomsMin);
+                Assert.Equal(4, promotion.BedroomsMax);
+                Assert.Equal(
+                    "https://hercesa.com/promocion/nueva-ciudad-del-aire/",
+                    promotion.CanonicalUrl);
+                Assert.Null(promotion.TotalUnits);
                 break;
             default:
                 throw new InvalidOperationException($"Fuente no cubierta: {sourceId}");
