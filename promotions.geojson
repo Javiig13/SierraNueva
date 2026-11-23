@@ -143,6 +143,7 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
+        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -256,6 +257,25 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialalpedrete.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-39e242a58accafb52816",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.364867022,
+          40.48179286
+        ]
+      },
+      "properties": {
+        "name": "Residencial Alcal\u00E1 - La Llave de Oro, Alcal\u00E1 de Henares",
+        "municipality": "Alcal\u00E1 de Henares",
+        "priceFrom": 358000,
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.lallavedeoro.com/promocion/residencial-alcala"
       }
     },
     {
@@ -439,6 +459,25 @@
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://stancehomes.es/promocion-osnola-zarzalejo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-6de44b8d71d8b1d65280",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.364867022,
+          40.48179286
+        ]
+      },
+      "properties": {
+        "name": "Residencial Ili\u00F3n, pisos en Alcal\u00E1 de Henares - Premier Inmobiliaria | Premier Inmobiliaria",
+        "municipality": "Alcal\u00E1 de Henares",
+        "priceFrom": 325900,
+        "commercialStatus": "onSale",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://www.premierinmobiliaria.es/promocion/residencial-ilion"
       }
     },
     {
@@ -816,6 +855,24 @@
     },
     {
       "type": "Feature",
+      "id": "sn-ba86228ad710e38dec32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.437457474,
+          40.30079363
+        ]
+      },
+      "properties": {
+        "name": "Pisos en Arganda del Rey, Madrid - Inmoglaciar | Inmoglaciar",
+        "municipality": "Arganda del Rey",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://inmoglaciar.com/promocion/glaciar-arkanta"
+      }
+    },
+    {
+      "type": "Feature",
       "id": "sn-c1b6a7022854d96029a0",
       "geometry": {
         "type": "Point",
@@ -887,6 +944,43 @@
         "commercialStatus": "lastUnits",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.vesari.info/cuarteto"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-de02c2b0cc96543c3533",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.364867022,
+          40.48179286
+        ]
+      },
+      "properties": {
+        "name": "Nueva Ciudad del Aire - Pisos de Obra Nueva en Alcal\u00E1 de Henares",
+        "municipality": "Alcal\u00E1 de Henares",
+        "priceFrom": 484900,
+        "commercialStatus": "lastUnits",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://hercesa.com/promocion/nueva-ciudad-del-aire"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "sn-e49fee8a31890384f058",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.9977407,
+          40.40543263
+        ]
+      },
+      "properties": {
+        "name": "Quercus",
+        "municipality": "Brunete",
+        "commercialStatus": "unknown",
+        "locationPrecision": "municipalityCentroid",
+        "canonicalUrl": "https://unicohomes.com/promocion/quercus"
       }
     },
     {
