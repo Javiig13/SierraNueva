@@ -143,7 +143,6 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
-        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -736,7 +735,7 @@
       "properties": {
         "name": "Insur Cal\u00EDope",
         "municipality": "Alcal\u00E1 de Henares",
-        "priceFrom": 575700,
+        "priceFrom": 572000,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://grupoinsur.com/promocion-de-viviendas/chalet-obra-nueva-alcala-henares-insur-caliope"
