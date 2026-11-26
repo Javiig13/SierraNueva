@@ -143,6 +143,7 @@
       "properties": {
         "name": "Residencial Montemilano - Bustarviejo",
         "municipality": "Bustarviejo",
+        "priceFrom": 349869,
         "commercialStatus": "onSale",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://residencialmontemilano.es/registro"
@@ -603,6 +604,7 @@
       "properties": {
         "name": "Villa 6 Navalcarnero | Fase 2",
         "municipality": "Navalcarnero",
+        "priceFrom": 572000,
         "commercialStatus": "unknown",
         "locationPrecision": "municipalityCentroid",
         "canonicalUrl": "https://www.brosh.es/promociones/madrid/villa-6-navalcarnero-fase-2"

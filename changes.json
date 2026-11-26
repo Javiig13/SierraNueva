@@ -1,8 +1,66 @@
 {
   "schemaVersion": "1.0",
-  "generatedAtUtc": "2026-11-25T06:02:30.2461464+00:00",
-  "runId": "20261125T055830431Z",
+  "generatedAtUtc": "2026-11-26T05:52:21.2039711+00:00",
+  "runId": "20261126T054804818Z",
   "changes": [
+    {
+      "id": "change-58c429397ef1a82f",
+      "promotionId": "sn-1da891935c399b2d99c7",
+      "promotionName": "Residencial Montemilano - Bustarviejo",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-26T05:52:21.2039711+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "349869"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "358050"
+        }
+      ]
+    },
+    {
+      "id": "change-d4369a83800e49c0",
+      "promotionId": "sn-3d9e1e4f7ae4a7c4d68d",
+      "promotionName": "Promoci\u00F3n Essentia Galapagar",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-26T05:52:21.2039711+00:00",
+      "fields": [
+        {
+          "field": "priceTo",
+          "previousValue": "987500",
+          "currentValue": "947500"
+        },
+        {
+          "field": "availableUnits",
+          "previousValue": "4",
+          "currentValue": "3"
+        }
+      ]
+    },
+    {
+      "id": "change-649c9c9c6933b947",
+      "promotionId": "sn-7c379964d348a00ddc96",
+      "promotionName": "Villa 6 Navalcarnero | Fase 2",
+      "kind": "updated",
+      "detectedAtUtc": "2026-11-26T05:52:21.2039711+00:00",
+      "fields": [
+        {
+          "field": "priceFrom",
+          "currentValue": "572000"
+        },
+        {
+          "field": "priceTo",
+          "currentValue": "649000"
+        },
+        {
+          "field": "constructionStatus",
+          "previousValue": "Licensed",
+          "currentValue": "Unknown"
+        }
+      ]
+    },
     {
       "id": "change-9b45409041216244",
       "promotionId": "sn-9465b90aee10b4e90352",
